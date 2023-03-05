@@ -36,7 +36,6 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  */
 public class Board extends Subject {
-    private int moveCounter = 0;
 
     public final int width;
 
@@ -62,7 +61,6 @@ public class Board extends Subject {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
-
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -128,10 +126,6 @@ public class Board extends Subject {
             this.current = player;
             notifyChange();
         }
-    }
-    public void nextPlayer(){
-        current = players.get((players.indexOf(current)+1)%players.size());
-        notifyChange();
     }
 
     public Phase getPhase() {
@@ -207,31 +201,15 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // This is actually a view aspect, but for making the first task easy for
+        // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
-        // TODO Assignment V1: this string could eventually be refined
-        //      The status line should show more information based on
-        //      situation; for now, introduce a counter to the Board,
-        //      which is counted up every time a player makes a move; the
-        //      status line should show the current player and the number
-        //      of the current move!
-        return "Player = " + getCurrentPlayer().getName() +"\n Move = "+moveCounter;
+        // XXX: V2 changed the status so that it shows the phase, the player and the step
+        return "Phase: " + getPhase().name() +
+                ", Player = " + getCurrentPlayer().getName() +
+                ", Step: " + getStep();
     }
 
-    // TODO Assignment V1: add a counter along with a getter and a setter, so the
-    //      state the board (game) contains the number of moves, which then can
-    //      be used to extend the status message including the number of
 
-    public int getMoveCounter() {
-        return moveCounter;
-    }
-
-    public void setMoveCounter(int moveCounter) {
-        this.moveCounter = moveCounter;
-    }
-    public void incrementMoveCounter(){
-        this.moveCounter++;
-    }
 }
