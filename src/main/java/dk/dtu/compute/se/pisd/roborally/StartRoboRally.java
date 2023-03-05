@@ -3,7 +3,7 @@
  *  course "Project in Software Development (02362)" held at
  *  DTU Compute at the Technical University of Denmark.
  *
- *  Copyright (C) 2019, 2020: Ekkart Kindler, ekki@dtu.dk
+ *  Copyright (C) 2019, 2020,2021: Ekkart Kindler, ekki@dtu.dk
  *
  *  This software is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,34 +19,21 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.roborally;
 
 /**
- * ...
+ * This is a class for starting up the RoboRally application. This is a
+ * workaround for a strange quirk in the Open JavaFX project launcher,
+ * which prevents starting a JavaFX application in IntelliJ directly:
+ *
+ *   https://stackoverflow.com/questions/52569724/javafx-11-create-a-jar-file-with-gradle/52571719#52571719
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-public enum Heading {
+public class StartRoboRally {
 
-    SOUTH, WEST, NORTH, EAST;
-
-    public static int[] headingToCoords(Heading heading){
-        int[] nextCoords = new int[2];
-        switch(heading){
-            case NORTH -> nextCoords = new int[]{0,-1};
-            case SOUTH -> nextCoords = new int[]{0,1};
-            case EAST -> nextCoords = new int[]{1,0};
-            case WEST -> nextCoords = new int[]{-1,0};
-        }
-        return nextCoords;
+    public static void main(String[] args) {
+        RoboRally.main(args);
     }
 
-    public Heading next() {
-        return values()[(this.ordinal() + 1) % values().length];
-    }
-
-    public Heading prev() {
-        return values()[(this.ordinal() + values().length - 1) % values().length];
-    }
 }

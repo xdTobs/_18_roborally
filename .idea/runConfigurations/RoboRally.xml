@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="RoboRally" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="dk.dtu.compute.se.pisd.roborally.RoboRally" />
-    <module name="roborally" />
-    <option name="VM_PARAMETERS" value="--module-path C:\Users\tobia\IdeaProjects\roborally-1.0.0-java17\roborally-initial\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls,javafx.fxml" />
+    <module name="_18_roborally" />
+    <option name="VM_PARAMETERS" value="--module-path C:\Users\tobia\IdeaProjects\_18_roborally\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls,javafx.fxml" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="dk.dtu.compute.se.pisd.roborally.*" />
