@@ -77,13 +77,13 @@ The game must have the following features:
 
 - 1 - Play on at least one course.
 - 2 - 1 to 3 other players can play the game.
-- 3 - Draw programming cards from all existing cards that are described in the rules
-- 4 - Draw new programming cards.
-- 5 - Play 5 programming cards in a turn to plan the robot's movements.
-- 6 - Robots can move on the board.
+- 3 - Draw cards from all existing cards that are described in the rules
+- 4 - Play 5 programming cards in a turn to plan the robot's movements. 
+- 5 - Choose which programming cards to play.
+- 6 - Draw new programming cards each turn.
 - 7 - Robots should start at starting field.
-- 8 - Shop refreshes cards.
-- 9 - Choose which programming cards to play.
+- 8 - Robots can move on the board.
+- 9 - Shop refreshes cards.
 - 10 - Plan a new turn when the robots have stopped moving, if the game is not finished.
 - 11 - Push other players robots the robot bumps into them, during the moving phase.
 - 12 - The robots moves one programming card at a time, and then it is the next robot's turn to move.
