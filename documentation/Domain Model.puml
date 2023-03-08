@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Board
+class CommandCard
+class CommandCardField
+class RoboRally{
+phase
+}
+class Player{
+heading : Heading
+name : String
+}
+class Space
+
+
+RoboRally "1" -- "4-6"Player : contains
+RoboRally "1" -- "1"Board : contains
+Board "1" -- "40"Space : contains
+Player "1" -- "7"CommandCard : contains
+Player "1" -- "5"CommandCardField : contains
+
+
+
+
+
+
+@enduml
