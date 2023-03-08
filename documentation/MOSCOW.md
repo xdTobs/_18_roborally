@@ -102,7 +102,7 @@ The game should have the following features:
 - 20 - Robots receive damage
 - 21 - Robots shoot a laser forward, after each move, so that other players robots get hit and take damage.
 - 22 - Play a damage card in my programming phase.
-- 23 - be standing on a checkpoint at the end of a register, so that i get a checkpoint to my collection
+- 23 - Robots standing on a checkpoint at the end of a register, so that the player gets a checkpoint to their collection.
 - 24 - Landing on a blue conveyor belt moves the robot two spaces forward of the conveyor belt.
 - 25 - Landing on a green conveyor belt moves the robot one space forward of the conveyor belt.
 - 26 - Landing on a push panel moves the robot to the next space of the direction the panel is facing.
