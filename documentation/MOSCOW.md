@@ -76,7 +76,7 @@ The game should have the following features:
 The game must have the following features:
 
 - 1 - Play on at least one course.
-- 2 - 1 to 3 other players can play the game.
+- 2 - 2 to 6 players can play the game.
 - 3 - Draw cards from all existing cards that are described in the rules
 - 4 - Play 5 programming cards in a turn to plan the robot's movements. 
 - 5 - Choose which programming cards to play.
