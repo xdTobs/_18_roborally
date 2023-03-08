@@ -1,0 +1,96 @@
+@startuml
+hide empty members
+
+
+
+class GameBoard {
+}
+class Timer {
+
+}
+package player {
+	class Player {
+		- int energyCubes
+	}
+	class Robot {
+
+	}
+	
+}
+
+
+
+package deck {
+	class Deck {
+	}
+	abstract class Cards{
+		
+	}
+	class ProgrammingCards{
+		
+	}
+	class UpgradeCards{
+		
+	}
+	class DamageCards{
+		
+	}
+}
+
+
+package field {
+
+	abstract class Field {
+		- int x
+		- int y
+	}
+	class StandardField {
+
+	}
+	class WallField {
+
+	}
+
+
+	class CheckPoint {
+
+	}
+	class PriorityAntenna {
+
+	}
+
+}
+class GameController {
+	- View view
+	- GameBoard gameBoard
+	+ void playGame()
+}
+
+
+
+package view {
+	class GuiView { }
+
+	interface View {
+		~ void update(GameBoard)
+	}
+}
+
+Player <-- Robot
+GameController <-right- Timer
+GameController <-- GameBoard
+GameController <-- View
+GameBoard <-- Player
+GameBoard <-up- Field
+View <|.. GuiView
+Field <|-up- PriorityAntenna
+Field <|-down- CheckPoint
+Field <|-down- StandardField
+Field <|-right- WallField
+GameBoard <-- Deck
+Deck *-- Cards
+Cards <|-- ProgrammingCards
+Cards <|-- UpgradeCards
+Cards <|-- DamageCards
+
+@enduml
