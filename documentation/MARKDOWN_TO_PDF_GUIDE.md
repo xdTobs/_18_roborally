@@ -1,3 +1,7 @@
+---
+geometry: margin=3cm
+---
+
 # Markdown Conversion Guide
 
 ## Sources
@@ -47,6 +51,6 @@ header-includes: |
 
 Start the document with this to add things to the latex preamble.
 
-### Author
+## Author
 
-by Henrik Zenkert
+by Henrik Zenkert - 2023, 9th March
