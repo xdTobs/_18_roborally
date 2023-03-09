@@ -1,4 +1,4 @@
-# MoSCoW Requiremnt List
+# MoSCoW Requirement List
 
 ## Must have
 
@@ -31,7 +31,7 @@ The game must have the following features:
 The game should have the following features:
 
 - 22 - Robots receive damage
-- 23 - Robots shoot a laser forward, after each move, so that other players robots get hit and take damage 
+- 23 - Robots shoot a laser forward, after each move, so that other players robots get hit and take damage
 - 24 - play a damage card in my programming phase, so that i get rid of damage card after the turn
 - 25 - be standing on a checkpoint at the end of a register, so that i get a checkpoint to my collection
 - 26 - land on a blue conveyor belt, so that my robot moves two spaces forward of the conveyor belt
@@ -60,14 +60,13 @@ The game should have the following features:
 - 43 - change upgrading cards, if i have more that the robot can carry
 - 44 - get one of four damage cards, when i take damage
 - 45 - if i fall into a pit, fall of the board or activate a worm card, i must reboot my robot and take the following actions:
-    - take two spam damage cards and place them in my discard pile,
-    - cancel my programming
-    - discard my programming cards (including damage cards) from register and hand
-    - and wait until next turn to program the robot.
-    - i can then place my robot on the reboot token that i started the game on and play temporary upgrading cards during activation phase
+  - take two spam damage cards and place them in my discard pile,
+  - cancel my programming
+  - discard my programming cards (including damage cards) from register and hand
+  - and wait until next turn to program the robot.
+  - i can then place my robot on the reboot token that i started the game on and play temporary upgrading cards during activation phase
 
-
----------------------------------------------------------------------------------------------------------------------------------------------
+---
 
 # MoSCoW Requirement List
 
@@ -78,7 +77,7 @@ The game must have the following features:
 - 1 - Play on at least one course.
 - 2 - 2 to 6 players can play the game.
 - 3 - Draw cards from all existing cards that are described in the rules
-- 4 - Play 5 programming cards in a turn to plan the robot's movements. 
+- 4 - Play 5 programming cards in a turn to plan the robot's movements.
 - 5 - Choose which programming cards to play.
 - 6 - Draw new programming cards each turn.
 - 7 - Robots should start at starting field.
@@ -109,7 +108,7 @@ The game should have the following features:
 - 27 - Landing on a gear, turns the robot 90 degrees in the direction of the arrow on the gear.
 - 28 - Robots can get hit by lasers placed on the map, and take damage if hit, every cycle of the moving phase.
 - 29 - Robots take damage if moving out of bounds.
-- 30 - Robots that land  in a pit takes damage.
+- 30 - Robots that land in a pit takes damage.
 - 31 - Robot re-spawns where it started the game, when the robot goes out of bounds, or it lands in a pit.
 - 32 - Players can visually see what is happening during a round.
 - 33 - Players can change the order of their programming cards during the programming phase, if they make a mistake, or changes their mind.
@@ -117,7 +116,7 @@ The game should have the following features:
 
 ## Could have
 
-- 35 - A timer of 30 seconds starts in the activation phase, when a player is done programming, so that the other players run out of time. 
+- 35 - A timer of 30 seconds starts in the activation phase, when a player is done programming, so that the other players run out of time.
 - 36 - PLayers gets random programming cards on their empty programming fields if they run out of time.
 
 ## Would be nice to have
@@ -135,4 +134,3 @@ The game should have the following features:
   - Discard the programming cards (including damage cards) from register and hand.
   - Wait until next turn to program the robot.
   - Place the robot on the reboot token that the robot started the game on and play temporary upgrading cards during activation phase.
-
