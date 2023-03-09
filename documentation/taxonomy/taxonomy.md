@@ -23,8 +23,7 @@ The game must have the following features:
 
 - 2 - 2 to 6 players can play the game.
 
-- 3 - Draw cards from all existing cards that are described in the
-  rules
+- 3 - Utilize all the cards that are described in the rules
 
 - 4 - Play 5 programming cards in a turn to plan the robot\'s
   movements.
