@@ -3,10 +3,7 @@ hide empty members
 
 
 
-class GameBoard {
-}
-class Timer {
-
+class RoboRally {
 }
 package player {
 	class Player {
@@ -55,42 +52,21 @@ package field {
 	class CheckPoint {
 
 	}
-	class PriorityAntenna {
-
-	}
 
 }
-class GameController {
-	- View view
-	- GameBoard gameBoard
-	+ void playGame()
-}
 
 
-
-package view {
-	class GuiView { }
-
-	interface View {
-		~ void update(GameBoard)
-	}
-}
 
 Player <-- Robot
-GameController <-right- Timer
-GameController <-- GameBoard
-GameController <-- View
-GameBoard <-- Player
-GameBoard <-up- Field
-View <|.. GuiView
-Field <|-up- PriorityAntenna
-Field <|-down- CheckPoint
-Field <|-down- StandardField
+RoboRally <-left- Player
+RoboRally <-down- Deck
+RoboRally <-up- Field
+Field <|-left- CheckPoint
+Field <|-up- StandardField
 Field <|-right- WallField
-GameBoard <-- Deck
 Deck *-- Cards
 Cards <|-- ProgrammingCards
-Cards <|-- UpgradeCards
-Cards <|-- DamageCards
+Cards <|-up- UpgradeCards
+Cards <|-right- DamageCards
 
 @enduml

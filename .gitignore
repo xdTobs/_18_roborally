@@ -42,3 +42,6 @@ build/
 /.idea/*
 /docs/language
 
+### Custom ignores ###
+### Ignore plantuml files ###
+/out/
