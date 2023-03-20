@@ -1,0 +1,152 @@
+@startuml
+class view.CardFieldView {
++ {static} DataFormat ROBO_RALLY_CARD
++ {static} int CARDFIELD_WIDTH
++ {static} int CARDFIELD_HEIGHT
+}
+
+class view.PlayersView {
+- Board board
+}
+class RoboRally {
+- {static} int MIN_APP_WIDTH
++ void init()
++ void start(Stage)
++ void createBoardView(GameController)
++ void stop()
++ {static} void main(String[])
+}
+enum model.Phase {
++  INITIALISATION
++  PROGRAMMING
++  ACTIVATION
++  PLAYER_INTERACTION
+}
+class controller.GameController {
++ Board board
++ void moveCurrentPlayerToSpace(Space)
++ void startProgrammingPhase()
+}
+class controller.AppController {
+- RoboRally roboRally
+- GameController gameController
++ void newGame()
++ void saveGame()
++ void loadGame()
+}
+class model.CommandCard {
++ Command command
++ String getName()
+}
+class view.BoardView {
+- Board board
++ void updateView(Subject)
+}
+class view.SpaceView {
++ Space space
++ void updateView(Subject)
+}
+class StartRoboRally {
++ {static} void main(String[])
+}
+class model.Player {
++ {static} int NO_REGISTERS
++ {static} int NO_CARDS
++ Board board
+- String name
+- String color
+- Space space
+- Heading heading
+- CommandCardField[] program
+- CommandCardField[] cards
++ String getName()
++ void setName(String)
++ Space getSpace()
++ void setSpace(Space)
+}
+class view.PlayerView {
+- Player player
++ void updateView(Subject)
+}
+enum model.Heading {
++  SOUTH
++  WEST
++  NORTH
++  EAST
++ Heading next()
++ Heading prev()
+}
+enum model.Command {
++  FORWARD
++  RIGHT
++  LEFT
++  FAST_FORWARD
++ String displayName
+}
+interface view.ViewObserver {
+~ void updateView(Subject)
+~ void update(Subject)
+}
+class model.Space {
++ Board board
++ int x
++ int y
+- Player player
++ Player getPlayer()
++ void setPlayer(Player)
+~ void playerChanged()
+}
+class view.RoboRallyMenuBar {
+- MenuItem saveGame
+- MenuItem newGame
+- MenuItem loadGame
+- MenuItem stopGame
+- MenuItem exitApp
++ void update()
+}
+class model.Board {
++ int width
++ int height
++ String boardName
+- Integer gameId
+- Space[][] spaces
+- List<Player> players
+- Player current
+- Phase phase
++ Space getSpace(int,int)
++ int getPlayersNumber()
++ void addPlayer(Player)
++ Player getPlayer(int)
++ Player getCurrentPlayer()
+}
+class model.CommandCardField {
++ Player player
+- CommandCard card
+- boolean visible
++ CommandCard getCard()
++ void setCard(CommandCard)
++ boolean isVisible()
++ void setVisible(boolean)
+}
+
+
+view.ViewObserver <|.. view.CardFieldView
+view.ViewObserver <|.. view.PlayersView
+javafx.scene.control.TabPane <|-- view.PlayersView
+javafx.application.Application <|-- .RoboRally
+designpatterns.observer.Observer <|.. .controller.AppController
+designpatterns.observer.Subject <|-- model.CommandCard
+view.ViewObserver <|.. view.BoardView
+javafx.scene.layout.VBox <|-down- view.BoardView
+
+view.ViewObserver <|.. view.SpaceView
+javafx.scene.layout.StackPane <|-right- view.SpaceView
+designpatterns.observer.Subject <|--model.Player
+view.ViewObserver <|.. view.PlayerView
+javafx.scene.control.Tab <|-- view.PlayerView
+designpatterns.observer.Observer <|-- view.ViewObserver
+designpatterns.observer.Subject <|-- model.Space
+javafx.scene.control.MenuBar <|-- view.RoboRallyMenuBar
+designpatterns.observer.Subject <|-up- model.Board
+designpatterns.observer.Subject <|-- model.CommandCardField
+@enduml

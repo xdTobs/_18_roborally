@@ -19,6 +19,7 @@ Use cases are never easy to define for a game, since the major use case is almos
 1. Play the Game: This is always going to be the main use case for any game.
 2. Save the Game: We intend to implement saving the game state in the middle of a game. This is not in itself useful, but will be utilized in another use case.
 3. Load Game: This is the obvious follow-up to the previous use case.
+4. _Maybe add phases as use cases if it makes sense_
 ### UC Chart
 _Insert Use case diagram_
 ## Domain Model
