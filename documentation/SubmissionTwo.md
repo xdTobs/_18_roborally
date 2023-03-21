@@ -42,7 +42,8 @@ The game interface should be intuitive and easy to use, with clear instructions 
 The game should be stable and reliable, with zero errors or crashes.
 ### Compatibility
 The game should be compatible with a range of operating systems, and should run smoothly on different hardware configurations.
-
+### Scalability
+The game should be able to handle large numbers of players and game sessions, without sacrificing performance or usability.
 
 
 
