@@ -33,7 +33,6 @@ _IDK what to do with this yet_
 ### State Diagrams
 _Maybe not necessary_
 # Non-Functional Requirements
-_TODO_
-## Usability
-## Maintainability
-## etc...
+
+### Performance
+The game should be fast and responsive, with minimal lag or delays between player actions. (how fast? 50 ms?)
