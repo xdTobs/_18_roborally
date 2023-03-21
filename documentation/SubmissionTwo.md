@@ -40,7 +40,8 @@ The game should be fast and responsive, with minimal lag or delays between playe
 The game interface should be intuitive and easy to use, with clear instructions and feedback for players.
 ### Reliability
 The game should be stable and reliable, with zero errors or crashes.
-
+### Compatibility
+The game should be compatible with a range of operating systems, and should run smoothly on different hardware configurations.
 
 
 
