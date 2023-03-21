@@ -44,7 +44,8 @@ The game should be stable and reliable, with zero errors or crashes.
 The game should be compatible with a range of operating systems, and should run smoothly on different hardware configurations.
 ### Scalability
 The game should be able to handle large numbers of players and game sessions, without sacrificing performance or usability.
-
+### Maintainability
+The code should be well-structured and modular, with clear documentation and easy-to-understand logic, to make future updates and maintenance easier.
 
 
 
