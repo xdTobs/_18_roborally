@@ -48,5 +48,6 @@ The game should be able to handle large numbers of players and game sessions, wi
 The code should be well-structured and modular, with clear documentation and easy-to-understand logic, to make future updates and maintenance easier.
 ### Accessibility
 The game should be designed to be accessible to a wide range of users.
-
+### Localization
+The game should be designed to support multiple languages and cultural contexts, to make it accessible to a global audience.
 
