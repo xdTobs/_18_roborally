@@ -1,0 +1,56 @@
+@startuml
+
+class model.Space {
++ Board board
++ int x
++ int y
+- Player player
++ {static} boolean isMoveable
++ {static} boolean laserThrough
++ Player getPlayer()
++ void setPlayer(Player)
+~ void playerChanged()
+}
+class model.Board {
++ int width
++ int height
+- Space[][] spaces
+- List<Player> players
+- Player current
+- Phase phase
++ Space getSpace(int,int)
++ int getPlayersNumber()
++ Player getPlayer(int)
++ Player getCurrentPlayer()
++ void setCurrentPlayer(Player)
++ Phase getPhase()
++ void setPhase(Phase)
++ int getPlayerNumber(Player)
++ Space getNeighbour(Space,Heading)
+}
+class model.ObstacleSpace{
++ {static} boolean isMoveable = false
++ {static} boolean laserThrough = false
+}
+class model.ConveyorBelt{
++ {static} boolean isMoveable = true
++ {static} boolean laserThrough = true
++ {static} int distance
++ void modePlayer()
+}
+class model.Wall{
++Heading[] blocked
+}
+class model.Repair{
++ {static} boolean isMoveable = true
++ {static} boolean laserThrough = true
++ void repairPlayer()
+}
+model.Repair <|-up- model.Space
+model.Wall <|-up- model.Space
+model.ConveyorBelt <|-up- model.Space
+model.ObstacleSpace <|-up- model.Space
+designpatterns.observer.Subject <|-- model.Space
+designpatterns.observer.Subject <|-- model.Board
+
+@enduml
