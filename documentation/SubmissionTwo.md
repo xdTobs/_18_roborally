@@ -38,3 +38,11 @@ _Maybe not necessary_
 The game should be fast and responsive, with minimal lag or delays between player actions. (how fast? 50 ms?)
 ### Usability
 The game interface should be intuitive and easy to use, with clear instructions and feedback for players.
+### Reliability
+The game should be stable and reliable, with zero errors or crashes.
+
+
+
+
+
+
