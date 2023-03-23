@@ -15,7 +15,7 @@ header-includes: |
 
 ### Concepts
 
-The game Roborally includes many concepts, that are hard to group accurately.
+The game RoboRally includes many concepts, that are hard to group accurately.
 We will do out best to write out as many as possible, that cover the basic game:
 
 1. **Robots**: The game revolves around the concept of robots moving around a field, to reach their destination as fast as possible
@@ -47,19 +47,34 @@ _Insert Use case diagram_
 
 ## Domain Model
 
-### Class Diagram (s)
+### Class Diagrams
 
-Since the scale of this program is quite large, we do not believe that a single class diagram will fit all of our classes, and still be readable. Therefore, we have decided to split these into more general class diagrams for oversight, and more specific class diagrams, for help with implementation.
+Since the scale of this program is quite large, we do not believe that a single class diagram will fit all of our classes, and still be readable. Therefore, we have decided to split these into one general class diagram, and a few more specific class diagrams, for help with implementation.
 <br>
-To begin with we have decided on a total overview class diagram, and a specific class diagram for our Factory/Board
+
+#### Overview
+
+This is the structure in which our MVC classes interacts with one another. We can only see the way that the different classes related to the Board(GameBoard) interacts here, but most of the other game elements follow a similar pattern.
+
+![MVC interactions with Board](./media/class-diagrams/overview/overview.png)
+
+#### View
+
+![view package in our MVC structure](./media/class-diagrams/view/view.png)
+
+#### Model and Controller
+
+![model and controller package in our MVC structure](./media/class-diagrams/modelAndController/modelAndController.png)
+
+#### Board
+
+Board is a sub-package in the model package. The effects
+
+![board package](./media/class-diagrams/altBoard/altBoard.png)
 
 ### Activity Diagrams
 
-_IDK what to do with this yet_
-
-### State Diagrams
-
-_Maybe not necessary_
+![activity diagram](./media/Must%20have%20req%20activitydiagram/Must%20have%20req%20activitydiagram.png)
 
 # Non-Functional Requirements
 
