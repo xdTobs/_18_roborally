@@ -18,11 +18,15 @@ endif
 - Discard remaining cards;
 
 repeat
-:Move robot;
+repeat
+:Next player moves robot;
 if (Robot moves into other robot?) then (Yes)
 :Push robot;
 else (No)
 endif
+
+repeat while (Have all robots used 1 programming card) is (No)
+-> Yes;
 
 :Activate board;
 if (Robot in line of sigth of laser?) then (Yes)
@@ -32,9 +36,8 @@ if (Robot in line of sigth of laser?) then (Yes)
 else (No);
 endif
 
-repeat while (Have all player used all programming cards to move?) is (No)
+repeat while (Have all robots used all programming cards?) is (No)
 -> Yes;
-
 repeat while (Has game ended?) is (No)
 -> Yes;
 stop
