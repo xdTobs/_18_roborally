@@ -1,0 +1,59 @@
+@startuml
+hide empty members
+
+package model {
+	interface Effect {
+		+ activate
+	}
+	class Position {
+		int x
+		int y
+	}
+
+	class Board {
+	+ int width
+	+ int height
+	- Space[][] spaces
+	- List<Player> players
+	- Player current
+	- Phase phase
+	+ Space getSpace(int,int)
+	+ Player getPlayer(int)
+	+ void nextPhase()
+	+ void setCurrentPlayer(Player)
+	+ Space getNeighbour(Space,Heading)
+	}
+
+	class Space {
+	- Position pos
+	- Player player
+	- List<Effect> effects
+	+ Player getPlayer()
+	+ void setPlayer(Player)
+	+ void activateEffects()
+	~ void playerChanged()
+	}
+	
+	class IMoveable{
+	}
+	class ILaser{
+	}
+	class IRepair{
+	}
+	class IWall{
+	}
+	class IConveyorBelt{
+	}
+}
+Space <-up- Position
+Space <-- Effect
+
+Effect <|.. IMoveable 
+Effect <|.left. ILaser 
+Effect <|.. IRepair 
+Effect <|.right. IWall 
+Effect <|.. IConveyorBelt 
+Board <-- Space 
+observer.Subject <|-- Board
+
+@enduml
