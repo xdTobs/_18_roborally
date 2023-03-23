@@ -17,6 +17,7 @@ endif
 - Place programming cards
 - Discard remaining cards;
 
+repeat
 :Move robot;
 if (Robot moves into other robot?) then (Yes)
 :Push robot;
@@ -24,16 +25,18 @@ else (No)
 endif
 
 :Activate board;
-if (Robot on line of sigth of laser?) then (Yes)
+if (Robot in line of sigth of laser?) then (Yes)
 :- Take damage
 - Draw damage card
 - Shuffle card in programming deck;
 else (No);
 endif
 
-if (Has game ended?) then (Yes)
-stop
-else (No)
-endif
+repeat while (Have all player used all programming cards to move?) is (No)
+-> Yes;
 
-@endumll
+repeat while (Has game ended?) is (No)
+-> Yes;
+stop
+
+@enduml
