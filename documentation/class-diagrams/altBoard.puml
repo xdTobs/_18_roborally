@@ -3,11 +3,12 @@ hide empty members
 
 package model {
 	interface Effect {
-		+ activate
+		+ void activate
 	}
-	class Position {
-		int x
-		int y
+	class Coordinate {
+		- int x
+		- int y
+		- List<Heading> walls
 	}
 
 	class Board {
@@ -25,33 +26,32 @@ package model {
 	}
 
 	class Space {
-	- Position pos
+	- Coordinate pos
 	- Player player
 	- List<Effect> effects
 	+ Player getPlayer()
 	+ void setPlayer(Player)
 	+ void activateEffects()
-	~ void playerChanged()
 	}
 	
-	class IMoveable{
-	}
 	class ILaser{
-	}
-	class IRepair{
-	}
-	class IWall{
 	}
 	class IConveyorBelt{
 	}
+	class IGearRotator{
+	}
 }
-Space <-up- Position
-Space <-- Effect
+class model.Dummy{
 
-Effect <|.. IMoveable 
-Effect <|.left. ILaser 
-Effect <|.. IRepair 
-Effect <|.right. IWall 
+}
+hide model.Dummy 
+Board <-down[hidden]- model.Dummy
+model.Dummy <-down[hidden]- Space
+Space <-right- Coordinate
+Space <-left- Effect
+
+Effect <|.. ILaser 
+Effect <|.up. IGearRotator 
 Effect <|.. IConveyorBelt 
 Board <-- Space 
 observer.Subject <|-- Board
