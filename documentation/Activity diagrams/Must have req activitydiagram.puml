@@ -1,0 +1,39 @@
+@startuml
+
+:Set-up of game (not included);
+
+start
+
+repeat
+
+if (Upgrade shop full?) then (Yes)
+:Replace upgrade cards;
+else (No)
+:Fill missing cards;
+endif
+
+:**Play programming phase**
+- Draw programming cards
+- Place programming cards
+- Discard remaining cards;
+
+:Move robot;
+if (Robot moves into other robot?) then (Yes)
+:Push robot;
+else (No)
+endif
+
+:Activate board;
+if (Robot on line of sigth of laser?) then (Yes)
+:- Take damage
+- Draw damage card
+- Shuffle card in programming deck;
+else (No);
+endif
+
+if (Has game ended?) then (Yes)
+stop
+else (No)
+endif
+
+@endumll
