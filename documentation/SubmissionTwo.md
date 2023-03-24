@@ -13,9 +13,9 @@ header-includes: |
 
 # Functional Requirements
 
-# MoSCoW Requirement List
+## MoSCoW Requirement List
 
-## Must have
+### Must have
 
 The game must have the following features:
 
@@ -39,7 +39,7 @@ The game must have the following features:
 - 18 - Visually distinguishable fields
 - 19 - Draw my programming cards from the shuffled discard pile, when a programming phase begins
 
-## Should have
+### Should have
 
 The game should have the following features:
 
@@ -59,12 +59,12 @@ The game should have the following features:
 - 33 - Players can change the order of their programming cards during the programming phase, if they make a mistake, or changes their mind.
 - 34 - The non-played programming cards, ends in the discard pile when the programming phase is over.
 
-## Could have
+### Could have
 
 - 35 - A timer of 30 seconds starts in the activation phase, when a player is done programming, so that the other players run out of time.
 - 36 - PLayers gets random programming cards on their empty programming fields if they run out of time.
 
-## Would be nice to have
+### Would be nice to have
 
 - 37 - Use energy tokens to upgrade robot.
 - 38 - Purchase upgrade cards to upgrade robot.
@@ -82,7 +82,7 @@ The game should have the following features:
 
 \newpage
 
-# Taxonomy
+## Taxonomy
 
 Substantives will be used as inspiration for our classes and fields on classes, and verbs for methods
 
