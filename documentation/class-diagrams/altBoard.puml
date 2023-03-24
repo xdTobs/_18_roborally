@@ -1,0 +1,59 @@
+@startuml
+hide empty members
+
+package model {
+	interface Effect {
+		+ void activate
+	}
+	class Coordinate {
+		- int x
+		- int y
+		- List<Heading> walls
+	}
+
+	class Board {
+	+ int width
+	+ int height
+	- Space[][] spaces
+	- List<Player> players
+	- Player current
+	- Phase phase
+	+ Space getSpace(int,int)
+	+ Player getPlayer(int)
+	+ void nextPhase()
+	+ void setCurrentPlayer(Player)
+	+ Space getNeighbour(Space,Heading)
+	}
+
+	class Space {
+	- Coordinate pos
+	- Player player
+	- List<Effect> effects
+	+ Player getPlayer()
+	+ void setPlayer(Player)
+	+ void activateEffects()
+	}
+	
+	class ILaser{
+	}
+	class IConveyorBelt{
+	}
+	class IGearRotator{
+	}
+}
+class model.Dummy{
+
+}
+hide model.Dummy 
+Board <-down[hidden]- model.Dummy
+model.Dummy <-down[hidden]- Space
+Space <-right- Coordinate
+Space <-left- Effect
+
+Effect <|.. ILaser 
+Effect <|.up. IGearRotator 
+Effect <|.. IConveyorBelt 
+Board <-- Space 
+observer.Subject <|-- Board
+
+@enduml

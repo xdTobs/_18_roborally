@@ -1,4 +1,8 @@
 @startuml
+hide empty members
+
+left to right direction
+
 class view.CardFieldView {
 + {static} DataFormat ROBO_RALLY_CARD
 + {static} int CARDFIELD_WIDTH
@@ -8,13 +12,11 @@ class view.CardFieldView {
 class view.PlayersView {
 - Board board
 }
+
 class RoboRally {
-- {static} int MIN_APP_WIDTH
-+ void init()
 + void start(Stage)
 + void createBoardView(GameController)
 + void stop()
-+ {static} void main(String[])
 }
 enum model.Phase {
 +  INITIALISATION
@@ -46,16 +48,11 @@ class view.SpaceView {
 + Space space
 + void updateView(Subject)
 }
-class StartRoboRally {
-+ {static} void main(String[])
-}
+
 class model.Player {
 + {static} int NO_REGISTERS
 + {static} int NO_CARDS
 + Board board
-- String name
-- String color
-- Space space
 - Heading heading
 - CommandCardField[] program
 - CommandCardField[] cards
@@ -105,19 +102,6 @@ class view.RoboRallyMenuBar {
 + void update()
 }
 class model.Board {
-+ int width
-+ int height
-+ String boardName
-- Integer gameId
-- Space[][] spaces
-- List<Player> players
-- Player current
-- Phase phase
-+ Space getSpace(int,int)
-+ int getPlayersNumber()
-+ void addPlayer(Player)
-+ Player getPlayer(int)
-+ Player getCurrentPlayer()
 }
 class model.CommandCardField {
 + Player player
