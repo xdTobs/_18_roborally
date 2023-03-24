@@ -70,7 +70,7 @@ The game should have the following features:
 - 38 - Purchase upgrade cards to upgrade robot.
 - 39 - Play temporary upgrade cards before a turn, and get it removed after the turn.
 - 40 - Choose from different upgrade cards to buy.
-- 41 - Players keeps the non-temporary upgrading cards after the turn.
+- 41 - Players keep the non-temporary upgrading cards after the turn.
 - 42 - Change upgrade cards, if a player has more than the robot can carry.
 - 43 - Players get one of four damage cards, when their robot takes damage.
 - 44 - If the robot falls into a pit, fall of the board, or activate a worm card, the robot must reboot and take the following actions:
