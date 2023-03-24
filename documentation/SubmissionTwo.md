@@ -112,7 +112,7 @@ Substantives will be used as inspiration for our classes and fields on classes, 
 ### Concepts
 
 The game RoboRally includes many concepts, that are hard to group accurately.
-We will do out best to write out as many as possible, that cover the basic game:
+We will do our best to write out as many as possible, that cover the basic game:
 
 1. **Robots**: The game revolves around the concept of robots moving around a field, to reach their destination as fast as possible
 2. **Factory**: The game is played in a factory, which includes many sub concepts, such as **Obstacles, Conveyor Belts** and **Lasers**.
