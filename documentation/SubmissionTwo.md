@@ -9,6 +9,8 @@ header-includes: |
   \fancyfoot[LE,RO]{\thepage}
 ---
 
+\newpage
+
 # Functional Requirements
 
 ## Concepts, Features and Use Cases

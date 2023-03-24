@@ -1,11 +1,11 @@
 ---
 title: "RoboRally Taxonomy"
-date: March 9, 2023
+date: March 20, 2023
 geometry: margin=3cm
 header-includes: |
   \usepackage{fancyhdr}
   \pagestyle{fancy}
-  \fancyfoot[CO,CE]{Group 18 - RoboRally Taxonomy - D. 3/8-2023}
+  \fancyfoot[CO,CE]{Group 18}
   \fancyfoot[LE,RO]{\thepage}
 ---
 
@@ -16,7 +16,7 @@ _Group 18_
 Substantives will be used as inspiration for our classes and fields on classes, and verbs for methods
 
 | Substantives         | Verbs       |
-|----------------------|-------------|
+| -------------------- | ----------- |
 | Gameboard            | Upgrade     |
 | Start board          | Programm    |
 | Robot figure         | Activate    |
