@@ -89,7 +89,7 @@ Substantives will be used as inspiration for our classes and fields on classes, 
 | Substantives         | Verbs       |
 | -------------------- | ----------- |
 | Gameboard            | Upgrade     |
-| Start board          | Programm    |
+| Start board          | Program     |
 | Robot figure         | Activate    |
 | priority antenna     | Purchase    |
 | 30-second sand timer | Shuffle     |
