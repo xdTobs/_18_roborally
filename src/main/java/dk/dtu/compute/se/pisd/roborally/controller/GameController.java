@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -44,7 +43,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
         // TODO Assignment V1: method should be implemented by the students:
         //   - the current player should be moved to the given space
         //     (if it is free()
@@ -53,6 +52,10 @@ public class GameController {
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
 
+        Player currentPlayer = board.getCurrentPlayer();
+        currentPlayer.setSpace(space);
+        int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
+        board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
     // XXX: V2
@@ -200,11 +203,11 @@ public class GameController {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
-        if(board.getSpace(x+nextCoords[0],y+nextCoords[1])!=null&&board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer()!=null){
-            push(board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer(),player.getHeading());
+        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
+            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
         }
-        if(board.getSpace(x+nextCoords[0],y+nextCoords[1])!=null&&board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer()==null){
-            player.setSpace(board.getSpace(x+nextCoords[0],y+nextCoords[1]));
+        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
+            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
 
     }
@@ -224,15 +227,16 @@ public class GameController {
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }
-    public void push(@NotNull Player player, Heading direction){
+
+    public void push(@NotNull Player player, Heading direction) {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(direction);
-        if(board.getSpace(x+nextCoords[0],y+nextCoords[1])!=null&&board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer()!=null){
-            push(board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer(),direction);
+        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
+            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), direction);
         }
-        if(board.getSpace(x+nextCoords[0],y+nextCoords[1])!=null&&board.getSpace(x+nextCoords[0],y+nextCoords[1]).getPlayer()==null){
-            player.setSpace(board.getSpace(x+nextCoords[0],y+nextCoords[1]));
+        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
+            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
     }
 
