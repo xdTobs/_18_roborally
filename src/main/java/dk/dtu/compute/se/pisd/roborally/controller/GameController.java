@@ -145,10 +145,15 @@ public class GameController {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+                if (card.command == Command.OPTION_LEFT_RIGHT) {
+                    board.setPhase(Phase.PLAYER_INTERACTION);
+                    return;
+                }
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
+                // We need to change state to get player input if we have a left or right card.
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
@@ -180,20 +185,15 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case FORWARD:
-                    this.moveForward(player);
-                    break;
-                case RIGHT:
-                    this.turnRight(player);
-                    break;
-                case LEFT:
-                    this.turnLeft(player);
-                    break;
-                case FAST_FORWARD:
-                    this.fastForward(player);
-                    break;
-                default:
-                    // DO NOTHING (for now)
+                case FORWARD -> this.moveForward(player);
+                case RIGHT -> this.turnRight(player);
+                case LEFT -> this.turnLeft(player);
+                case FAST_FORWARD -> this.fastForward(player);
+//                case OPTION_LEFT_RIGHT -> this.(player);
+                default -> {
+                    throw new RuntimeException("NOT IMPLEMENTED YET.");
+                }
+                // DO NOTHING (for now)
             }
         }
     }
