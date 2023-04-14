@@ -207,21 +207,14 @@ public class PlayerView extends Tab implements ViewObserver {
                     int step = player.board.getStep();
                     CommandCard card = player.getProgramField(step).getCard();
                     List<Command> options = card.command.getOptions();
+
                     for (Command option : options) {
                         Button optionButton = new Button(option.displayName);
-                        optionButton.setOnAction(e -> gameController.notImplemented());
+                        optionButton.setOnAction(e -> gameController.executeCommandOptionAndContinue(option));
                         optionButton.setDisable(false);
                         playerInteractionPanel.getChildren().add(optionButton);
                     }
-//                    Button optionButton = new Button("Option1");
-//                    optionButton.setOnAction(e -> gameController.notImplemented());
-//                    optionButton.setDisable(false);
-//                    playerInteractionPanel.getChildren().add(optionButton);
-//
-//                    optionButton = new Button("Option 2");
-//                    optionButton.setOnAction(e -> gameController.notImplemented());
-//                    optionButton.setDisable(false);
-//                    playerInteractionPanel.getChildren().add(optionButton);
+
                 }
             }
         }

@@ -138,6 +138,33 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
+    public void executeCommandOptionAndContinue(Command command) {
+        board.setPhase(Phase.ACTIVATION);
+        executeCommand(board.getCurrentPlayer(), command);
+
+        Player currentPlayer = board.getCurrentPlayer();
+
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+
+        int step = board.getStep();
+
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+        } else {
+            step++;
+            if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
+        }
+        if (!board.isStepMode()) {
+            continuePrograms();
+        }
+    }
+
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
@@ -145,13 +172,14 @@ public class GameController {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
-                if (card.command == Command.OPTION_LEFT_RIGHT) {
-                    board.setPhase(Phase.PLAYER_INTERACTION);
-                    return;
-                }
                 if (card != null) {
                     Command command = card.command;
-                    executeCommand(currentPlayer, command);
+                    if (command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return;
+                    } else {
+                        executeCommand(currentPlayer, command);
+                    }
                 }
                 // We need to change state to get player input if we have a left or right card.
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
@@ -189,11 +217,9 @@ public class GameController {
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
                 case FAST_FORWARD -> this.fastForward(player);
-//                case OPTION_LEFT_RIGHT -> this.(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
                 }
-                // DO NOTHING (for now)
             }
         }
     }
@@ -258,6 +284,7 @@ public class GameController {
      */
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented
+        System.out.println("Not implemented yet");
         assert false;
     }
 
