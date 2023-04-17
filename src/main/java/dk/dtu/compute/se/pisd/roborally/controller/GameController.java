@@ -135,14 +135,20 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsInvisible() {
+        // Loop through each player in the game
         for (int i = 0; i < board.getPlayersNumber(); i++) {
+            // Retrieve the player from the game board
             Player player = board.getPlayer(i);
+            // Loop through each program field for this player
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                // Retrieve the program field for this register for this player
                 CommandCardField field = player.getProgramField(j);
+                // Make the program field invisible for this player
                 field.setVisible(false);
             }
         }
     }
+
 
     // XXX: V2
     public void executePrograms() {
