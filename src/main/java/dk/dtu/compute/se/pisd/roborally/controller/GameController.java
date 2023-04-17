@@ -52,9 +52,13 @@ public class GameController {
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
 
+        // Retrieve the current player from the game board
         Player currentPlayer = board.getCurrentPlayer();
+        // Set the current player's space to the specified space
         currentPlayer.setSpace(space);
+        // Calculate the number of the next player
         int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
+        // Set the next player as the current player on the game board
         board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
