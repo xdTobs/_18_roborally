@@ -95,8 +95,11 @@ public class GameController {
 
     // XXX: V2
     private CommandCard generateRandomCommandCard() {
+        // Get all possible command values
         Command[] commands = Command.values();
+        // Generate a random integer between 0 and the number of commands
         int random = (int) (Math.random() * commands.length);
+        // Create a new CommandCard with a randomly selected command
         return new CommandCard(commands[random]);
     }
 
