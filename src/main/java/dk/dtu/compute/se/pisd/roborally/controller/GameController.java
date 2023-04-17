@@ -64,18 +64,26 @@ public class GameController {
 
     // XXX: V2
     public void startProgrammingPhase() {
+        // Set the current phase to programming
         board.setPhase(Phase.PROGRAMMING);
+        // Set the current player to the first player in the game
         board.setCurrentPlayer(board.getPlayer(0));
+        // Set the current step to 0
         board.setStep(0);
-
+        // Loop through each player in the game
         for (int i = 0; i < board.getPlayersNumber(); i++) {
+            // Retrieve the player from the game board
             Player player = board.getPlayer(i);
+            // If the player exists, reset their program and card fields
             if (player != null) {
+                // Reset the command cards in the program field for this player
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
+
+                // Generate new random command cards for the player
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
                     field.setCard(generateRandomCommandCard());
