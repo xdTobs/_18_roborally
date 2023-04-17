@@ -105,19 +105,29 @@ public class GameController {
 
     // XXX: V2
     public void finishProgrammingPhase() {
+        // Hide all program fields for all players
         makeProgramFieldsInvisible();
+        // Make the program field for the first player visible
         makeProgramFieldsVisible(0);
+        // Set the current phase to activation
         board.setPhase(Phase.ACTIVATION);
+        // Set the current player to the first player in the game
         board.setCurrentPlayer(board.getPlayer(0));
+        // Set the current step to 0
         board.setStep(0);
     }
 
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
+        // Check that the specified register is valid
         if (register >= 0 && register < Player.NO_REGISTERS) {
+            // Loop through each player in the game
             for (int i = 0; i < board.getPlayersNumber(); i++) {
+                // Retrieve the player from the game board
                 Player player = board.getPlayer(i);
+                // Retrieve the program field for the specified register for this player
                 CommandCardField field = player.getProgramField(register);
+                // Make the program field visible for this player
                 field.setVisible(true);
             }
         }
