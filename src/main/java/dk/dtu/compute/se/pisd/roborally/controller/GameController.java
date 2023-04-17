@@ -152,22 +152,28 @@ public class GameController {
 
     // XXX: V2
     public void executePrograms() {
+        // Disable step mode
         board.setStepMode(false);
+        // Continue executing programs
         continuePrograms();
     }
-
     // XXX: V2
     public void executeStep() {
+        // Enable step mode
         board.setStepMode(true);
+        // Continue executing programs
         continuePrograms();
     }
 
     // XXX: V2
     private void continuePrograms() {
+        // Loop until the activation phase is over or step mode is enabled
         do {
+            // Execute the next step of the current player's program
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
+
 
     public void executeCommandOptionAndContinue(Command command) {
         board.setPhase(Phase.ACTIVATION);
