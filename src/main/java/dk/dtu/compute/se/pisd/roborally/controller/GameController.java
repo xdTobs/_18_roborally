@@ -213,10 +213,11 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case FORWARD -> this.moveForward(player);
+                case MOVE_1 -> this.moveForward(player);
+                case MOVE_2 -> this.moveForward_2(player);
+                case MOVE_3 -> this.moveForward_3(player);
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
-                case FAST_FORWARD -> this.fastForward(player);
                 case U_TURN -> this.u_turn(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
@@ -240,7 +241,12 @@ public class GameController {
     }
 
     // TODO Assignment V2
-    public void fastForward(@NotNull Player player) {
+    public void moveForward_2(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+    public void moveForward_3(@NotNull Player player) {
+        moveForward(player);
         moveForward(player);
         moveForward(player);
     }
