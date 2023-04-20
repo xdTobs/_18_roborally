@@ -57,6 +57,9 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    // Creates a Board object with a given width, height, and name
+    // and initializes a 2D array of Spaces with coordinates.
+    // The stepMode is set to false.
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -89,6 +92,8 @@ public class Board extends Subject {
         }
     }
 
+    // Returns the Space object at a specified (x,y) position in the spaces array.
+    // If the position is out of bounds, it returns null.
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -102,6 +107,7 @@ public class Board extends Subject {
         return players.size();
     }
 
+    // Adds a new player
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
@@ -109,6 +115,8 @@ public class Board extends Subject {
         }
     }
 
+    // Returns the player at a specified index from the list of players.
+    // If the index is out of bounds, it returns null.
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
             return players.get(i);
@@ -117,10 +125,12 @@ public class Board extends Subject {
         }
     }
 
+    // Returns the current player
     public Player getCurrentPlayer() {
         return current;
     }
 
+    // Set the current player to the specified player.
     public void setCurrentPlayer(Player player) {
         if (player != this.current && players.contains(player)) {
             this.current = player;
@@ -128,10 +138,12 @@ public class Board extends Subject {
         }
     }
 
+    // Returns the current phase
     public Phase getPhase() {
         return phase;
     }
 
+    // Changes the current phase to a specified phase.
     public void setPhase(Phase phase) {
         if (phase != this.phase) {
             this.phase = phase;
