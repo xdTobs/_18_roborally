@@ -217,6 +217,7 @@ public class GameController {
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
                 case FAST_FORWARD -> this.fastForward(player);
+                case U_TURN -> this.u_turn(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
                 }
@@ -251,6 +252,10 @@ public class GameController {
 
     // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
+    }
+    public void u_turn(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
         player.setHeading(player.getHeading().prev());
     }
 
