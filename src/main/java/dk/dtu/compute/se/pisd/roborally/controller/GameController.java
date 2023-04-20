@@ -219,6 +219,7 @@ public class GameController {
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
                 case U_TURN -> this.u_turn(player);
+                case MOVE_BACK -> this.moveBackwards(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
                 }
@@ -236,6 +237,18 @@ public class GameController {
         }
         if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+        }
+
+    }
+    public void moveBackwards(@NotNull Player player) {
+        int x = player.getSpace().x;
+        int y = player.getSpace().y;
+        int[] nextCoords = Heading.headingToCoords(player.getHeading());
+        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() != null) {
+            push(board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer(), player.getHeading());
+        }
+        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() == null) {
+            player.setSpace(board.getSpace(x - nextCoords[0], y - nextCoords[1]));
         }
 
     }
