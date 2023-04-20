@@ -220,6 +220,7 @@ public class GameController {
                 case LEFT -> this.turnLeft(player);
                 case U_TURN -> this.u_turn(player);
                 case MOVE_BACK -> this.moveBackwards(player);
+                case AGAIN -> this.again(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
                 }
@@ -238,7 +239,6 @@ public class GameController {
         if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
-
     }
     public void moveBackwards(@NotNull Player player) {
         int x = player.getSpace().x;
@@ -250,7 +250,6 @@ public class GameController {
         if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() == null) {
             player.setSpace(board.getSpace(x - nextCoords[0], y - nextCoords[1]));
         }
-
     }
 
     // TODO Assignment V2
@@ -287,6 +286,29 @@ public class GameController {
         }
         if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+        }
+    }
+
+    public void again(@NotNull Player player){
+        int step = board.getStep();
+        CommandCard card = player.getProgramField(step).getCard();
+        int i=1;
+        while(card.command==Command.AGAIN){
+            step = board.getStep()-i;
+            card = player.getProgramField(step).getCard();
+            i++;
+        }
+        if (card != null) {
+            Command command = card.command;
+            if(command == Command.AGAIN){
+                again(player);
+            }
+            if (command.isInteractive()) {
+                board.setPhase(Phase.PLAYER_INTERACTION);
+                return;
+            } else {
+                executeCommand(player, command);
+            }
         }
     }
 

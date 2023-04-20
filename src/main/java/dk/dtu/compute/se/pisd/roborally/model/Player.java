@@ -133,4 +133,6 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    // public CommandCardField getPreviousCardField(int i){return cards[i-1];}
+
 }
