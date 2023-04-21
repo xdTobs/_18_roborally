@@ -25,19 +25,17 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
@@ -64,6 +62,31 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else {
             this.setStyle("-fx-background-color: black;");
         }
+        StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
+        List<Heading> walls = space.getWalls();
+        String borderColor = "green";
+        if (walls.contains(Heading.NORTH)) {
+            borderCss.append(borderColor).append(" ");
+        } else {
+            borderCss.append("transparent ");
+        }
+        if (walls.contains(Heading.EAST)) {
+            borderCss.append(borderColor).append(" ");
+        } else {
+            borderCss.append("transparent ");
+        }
+        if (walls.contains(Heading.SOUTH)) {
+            borderCss.append(borderColor).append(" ");
+        } else {
+            borderCss.append("transparent ");
+        }
+        if (walls.contains(Heading.WEST)) {
+            borderCss.append(borderColor).append(" ");
+        } else {
+            borderCss.append("transparent ");
+        }
+
+        this.setStyle(this.getStyle() + borderCss);
 
         // updatePlayer();
 
@@ -79,14 +102,14 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
-                    20.0, 0.0 );
+                    20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
+            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
             this.getChildren().add(arrow);
         }
     }
