@@ -41,3 +41,7 @@ build/
 ### Custom ignores ###
 ### Ignore plantuml files ###
 /out/
+
+
+### Ignore save files ###
+saves/

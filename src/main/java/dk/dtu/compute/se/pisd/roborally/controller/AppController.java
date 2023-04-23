@@ -115,14 +115,10 @@ public class AppController implements Observer {
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
-        try {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(file); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                objectOutputStream.writeObject(gameController.board);
-                objectOutputStream.flush();
-            }
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(gameController.board);
+            objectOutputStream.flush();
             System.out.printf("Saved to %s\n", file.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -135,11 +131,7 @@ public class AppController implements Observer {
         try (FileInputStream fileInputStream = new FileInputStream(file); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             Board board = (Board) objectInputStream.readObject();
             newGame(board, true);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
     }
