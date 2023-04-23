@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 /**
  * ...
  *
@@ -229,12 +231,26 @@ public class GameController {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
+        Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        if (currentOrNextSpaceHasBlockingWall(player, nextSpace)) {
+            return;
+        }
+        if (nextSpace != null && nextSpace.getPlayer() != null) {
             push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
         }
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
+        if (nextSpace != null && nextSpace.getPlayer() == null) {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
+
+    }
+
+    public boolean currentOrNextSpaceHasBlockingWall(Player player, Space nextSpace) {
+        Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
+        Set<Heading> nextSpaceWalls = nextSpace.getWalls();
+        if (nextSpaceWalls.contains(player.getHeading().next().next()) || currentSpaceWalls.contains(player.getHeading())) {
+            return true;
+        }
+        return false;
 
     }
 

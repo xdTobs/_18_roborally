@@ -31,6 +31,7 @@ import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * ...
@@ -63,7 +64,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
         StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
-        List<Heading> walls = space.getWalls();
+        Set<Heading> walls = space.getWalls();
         String borderColor = "green";
         if (walls.contains(Heading.NORTH)) {
             borderCss.append(borderColor).append(" ");

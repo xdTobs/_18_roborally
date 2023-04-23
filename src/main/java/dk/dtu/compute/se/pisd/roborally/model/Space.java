@@ -23,9 +23,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ...
@@ -40,7 +39,7 @@ public class Space extends Subject {
     public final int y;
 
     private Player player = null;
-    private List<Heading> walls = new ArrayList<>();
+    private Set<Heading> walls = new HashSet<>();
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -75,11 +74,13 @@ public class Space extends Subject {
         notifyChange();
     }
 
-    public List<Heading> getWalls() {
+    public Set<Heading> getWalls() {
         return walls;
     }
 
     public void setWalls(Heading... walls) {
-        Collections.addAll(this.walls, walls);
+        for (Heading w : walls) {
+            this.walls.add(w);
+        }
     }
 }
