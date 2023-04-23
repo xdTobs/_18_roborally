@@ -232,22 +232,31 @@ public class GameController {
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
-        if (currentOrNextSpaceHasBlockingWall(player, nextSpace)) {
-            return;
-        }
-        if (nextSpace != null && nextSpace.getPlayer() != null) {
-            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
-        }
-        if (nextSpace != null && nextSpace.getPlayer() == null) {
-            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+        if (!isPlayerIsBlockedByWall(player, nextSpace)) {
+            if (nextSpace != null && nextSpace.getPlayer() != null) {
+                push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
+            }
+            if (nextSpace != null && nextSpace.getPlayer() == null) {
+                player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+            }
         }
 
     }
 
-    public boolean currentOrNextSpaceHasBlockingWall(Player player, Space nextSpace) {
+    /**
+     * If we are moving south and the next space has a north wall or the current space has a south wall
+     * we can't move forward.
+     *
+     * @param player    the player that is moving
+     * @param nextSpace the space the player is moving to
+     * @return true if the player can't move forward
+     */
+    public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
+        Heading playerHeading = player.getHeading();
+        Heading oppositePlayerHeading = playerHeading.next().next();
         Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
         Set<Heading> nextSpaceWalls = nextSpace.getWalls();
-        if (nextSpaceWalls.contains(player.getHeading().next().next()) || currentSpaceWalls.contains(player.getHeading())) {
+        if (nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading)) {
             return true;
         }
         return false;
