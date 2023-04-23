@@ -140,7 +140,7 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveGame(saveName);
+            saveGame("autosave.txt");
 
             gameController = null;
             roboRally.createBoardView(null);
@@ -182,8 +182,7 @@ public class AppController implements Observer {
         // get a file chooser prompt from javafx
         // return the file name
 
-
-
+        return "board.txt";
 
     }
 }
