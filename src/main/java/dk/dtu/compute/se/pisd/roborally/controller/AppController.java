@@ -33,10 +33,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +56,7 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
-    public void newGame() {
+    public void newGame(Board board) {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -74,9 +71,9 @@ public class AppController implements Observer {
                 }
             }
 
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
-            Board board = new Board(8, 8);
+//            // XXX the board should eventually be created programmatically or loaded from a file
+//            //     here we just create an empty board with the required number of players.
+//            Board board = new Board(8, 8);
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -93,15 +90,17 @@ public class AppController implements Observer {
         }
     }
 
-    public void saveGame() {
+    public void saveGame(String saveName) {
         // XXX needs to be implemented eventually
         try {
-            // TODO
-            FileOutputStream fileOutputStream = new FileOutputStream("space.txt");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(gameController.board);
-            objectOutputStream.flush();
-            objectOutputStream.close();
+            File saveFolder = new File("./saves");
+            saveFolder.mkdir();
+            try (FileOutputStream fileOutputStream = new FileOutputStream(saveName);
+                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                objectOutputStream.writeObject(gameController.board);
+                objectOutputStream.flush();
+            }
+            System.out.printf("Saved to %s\n", saveName);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -112,8 +111,19 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
-        if (gameController == null) {
-            newGame();
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream("board.txt");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Board board = (Board) objectInputStream.readObject();
+            objectInputStream.close();
+            newGame(board);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -130,7 +140,7 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveGame();
+            saveGame(saveName);
 
             gameController = null;
             roboRally.createBoardView(null);
@@ -168,4 +178,12 @@ public class AppController implements Observer {
         // XXX do nothing for now
     }
 
+    public String getSaveName() {
+        // get a file chooser prompt from javafx
+        // return the file name
+
+
+
+
+    }
 }

@@ -33,7 +33,7 @@ import java.util.Set;
  */
 public class GameController {
 
-    final public Board board;
+    public Board board;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -46,21 +46,12 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free()
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
-
         Player currentPlayer = board.getCurrentPlayer();
         currentPlayer.setSpace(space);
         int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
         board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
-    // XXX: V2
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -83,14 +74,12 @@ public class GameController {
         }
     }
 
-    // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
 
-    // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -99,7 +88,6 @@ public class GameController {
         board.setStep(0);
     }
 
-    // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -110,7 +98,6 @@ public class GameController {
         }
     }
 
-    // XXX: V2
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);

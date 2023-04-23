@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -30,7 +31,6 @@ import javafx.scene.control.MenuItem;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class RoboRallyMenuBar extends MenuBar {
 
@@ -55,23 +55,26 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction( e -> this.appController.newGame());
+        newGame.setOnAction(e -> this.appController.newGame(new Board(8, 8, "default board")));
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
-        stopGame.setOnAction( e -> this.appController.stopGame());
+        stopGame.setOnAction(e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
 
         saveGame = new MenuItem("Save Game");
-        saveGame.setOnAction( e -> this.appController.saveGame());
+        saveGame.setOnAction(e -> {
+            String saveName = this.appController.getSaveName();
+            this.appController.saveGame(saveName);
+        });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
-        loadGame.setOnAction( e -> this.appController.loadGame());
+        loadGame.setOnAction(e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
         exitApp = new MenuItem("Exit");
-        exitApp.setOnAction( e -> this.appController.exit());
+        exitApp.setOnAction(e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
 
         controlMenu.setOnShowing(e -> update());

@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Space extends Subject {
+public class Space extends Subject implements Serializable {
 
     public final Board board;
 
