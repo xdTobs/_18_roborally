@@ -1,39 +1,22 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-public class ConveyorBelt extends Space {
+public class ConveyorBelt extends Space implements IFieldAction {
 
-    static final Set<String> VALID_TYPES = new HashSet<>(Arrays.asList("GREEN", "BLUE"));
-    String type;
-    char direction;
+    Heading heading;
 
-    public ConveyorBelt(Board board, int x, int y) {
+    public ConveyorBelt(Board board, int x, int y, Heading heading) {
         super(board, x, y);
-
+        this.heading = heading;
     }
 
-    public void setType(String type) {
-        if (VALID_TYPES.contains(type)) {
-            this.type = type;
-        } else {
-            throw new IllegalArgumentException("Type must be either 'BLUE' or 'GREEN'.");
-        }
-    }
 
-    public String getType() {
-        return type;
+    @Override
+    public boolean doAction(GameController gameController) {
+        return false;
     }
-
-    public void setDirection(char direction) {
-        this.direction = direction;
-    }
-
-    public char getDirection() {
-        return direction;
-    }
-
 
 }
+

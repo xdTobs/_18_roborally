@@ -1,21 +1,30 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-public class Checkpoint extends Space {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Checkpoint extends Space implements IFieldAction {
 
     int checkpointNumber;
-    List<Player> playersArrived = new ArrayList<>();
+    Set<Player> playerLanded = new HashSet<>();
 
     public Checkpoint(Board board, int x, int y, int checkpointNumber) {
         super(board, x, y);
         this.checkpointNumber = checkpointNumber;
     }
 
-    //@todo checkpoit created, but not implemented
-    public void playerLandedHere(Player p){
-        playersArrived.add(p);
+    public Set<Player> getPlayersLanded() {
+        return playerLanded;
+    }
+
+    @Override
+    public boolean doAction(GameController gameController) {
+        playerLanded.add(getPlayer());
+        return true;
     }
 }

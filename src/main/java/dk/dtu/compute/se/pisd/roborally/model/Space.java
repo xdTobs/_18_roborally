@@ -22,8 +22,9 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ import java.util.Set;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Space extends Subject implements Serializable {
+public class Space extends Subject implements IFieldAction {
 
     public final Board board;
 
@@ -75,6 +76,7 @@ public class Space extends Subject implements Serializable {
         notifyChange();
     }
 
+
     public Set<Heading> getWalls() {
         return walls;
     }
@@ -83,5 +85,11 @@ public class Space extends Subject implements Serializable {
         for (Heading w : walls) {
             this.walls.add(w);
         }
+    }
+
+    // Do nothing
+    @Override
+    public boolean doAction(GameController gameController) {
+        return true;
     }
 }

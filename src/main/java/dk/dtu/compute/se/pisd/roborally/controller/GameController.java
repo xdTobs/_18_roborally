@@ -24,6 +24,9 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -157,7 +160,7 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
@@ -175,8 +178,15 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+                    // New register
+                    for (Player p : board.getPlayers()) {
+                        IFieldAction iFieldAction = p.getSpace();
+                        iFieldAction.doAction(this);
+                    }
                     step++;
-                    if (step < Player.NO_REGISTERS) {
+                    if (board.isGameover()) {
+                        board.setPhase(Phase.GAMEOVER);
+                    } else if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
@@ -192,6 +202,30 @@ public class GameController {
             // this should not happen
             assert false;
         }
+    }
+
+    private Optional<Player> findWinner() {
+        List<Checkpoint> checkpoints = board.getCheckpoints();
+        HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
+        for (Checkpoint c : checkpoints) {
+            Set<Player> players = c.getPlayersLanded();
+            for (Player p : players) {
+                if (timesLandedPerPlayer.containsKey(p)) {
+                    int val = timesLandedPerPlayer.get(p);
+                    timesLandedPerPlayer.put(p, val + 1);
+                } else {
+                    timesLandedPerPlayer.put(p, 1);
+                }
+            }
+        }
+        for (Player p : timesLandedPerPlayer.keySet()) {
+            int val = timesLandedPerPlayer.get(p);
+            if (val == checkpoints.size()) {
+                return Optional.of(p);
+            }
+        }
+        return Optional.empty();
+
     }
 
     // XXX: V2

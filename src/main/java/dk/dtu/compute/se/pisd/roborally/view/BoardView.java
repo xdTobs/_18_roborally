@@ -31,9 +31,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * ...
  *
@@ -70,7 +67,16 @@ public class BoardView extends VBox implements ViewObserver {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
-                SpaceView spaceView = new SpaceView(space);
+                SpaceView spaceView;
+                if (space instanceof FastConveyorBelt conveyorBelt) {
+                    spaceView = new FastConveyorBeltView(conveyorBelt);
+                } else if (space instanceof ConveyorBelt conveyorBelt) {
+                    spaceView = new ConveyorBeltView(conveyorBelt);
+                } else if (space instanceof Checkpoint checkpoint) {
+                    spaceView = new CheckpointView(checkpoint);
+                } else {
+                    spaceView = new SpaceView(space);
+                }
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
@@ -84,7 +90,6 @@ public class BoardView extends VBox implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
         }
     }

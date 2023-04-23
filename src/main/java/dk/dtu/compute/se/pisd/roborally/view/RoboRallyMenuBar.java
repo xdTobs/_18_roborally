@@ -23,12 +23,13 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * ...
@@ -61,9 +62,16 @@ public class RoboRallyMenuBar extends MenuBar {
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
-            Board boardFromFile;
-            boardFromFile = appController.getBoardFromFile();
-            this.appController.newGame((boardFromFile), false);
+            Optional<Board> boardOptional = appController.getBoardFromFile();
+            boardOptional.ifPresent(board -> appController.newGame(board, false));
+            if (boardOptional.isEmpty()) {
+                Alert noBoardLoadedAlert = new Alert(Alert.AlertType.INFORMATION);
+                noBoardLoadedAlert.setTitle("Board not loaded.");
+                noBoardLoadedAlert.setHeaderText("Board could not be loaded.");
+                noBoardLoadedAlert.setContentText("Please try again with a different board.");
+                noBoardLoadedAlert.showAndWait();
+            }
+
         });
         controlMenu.getItems().add(newGame);
 

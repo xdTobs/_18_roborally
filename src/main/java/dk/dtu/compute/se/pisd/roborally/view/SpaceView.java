@@ -22,13 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -70,54 +71,22 @@ public class SpaceView extends StackPane implements ViewObserver {
          */
         //TODO: Add correct visuals
         //Add the different spacetypes here in the switch statement
-        switch (space.getClass().getSimpleName()) {
 
-            case "Checkpoint":
-                this.setStyle("-fx-background-color: yellow;");
-                break;
-
-            case "ConveyorBelt":
-                ConveyorBelt conveyorBelt = (ConveyorBelt) space;
-                if (conveyorBelt.getType().equals("GREEN")) {
-                    this.setStyle("-fx-background-color: green;");
-                } else if (conveyorBelt.getType().equals("BLUE")) {
-                    this.setStyle("-fx-background-color: blue;");
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
         Set<Heading> walls = space.getWalls();
-        String borderColor = "green";
-
-        if (walls.contains(Heading.NORTH)) {
-            borderCss.append(borderColor).append(" ");
-        } else {
-            borderCss.append("transparent ");
+        if (!walls.isEmpty()) {
+            StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
+            String borderColor = "green";
+            for (Heading heading : Heading.values()) {
+                if (walls.contains(heading)) {
+                    borderCss.append(borderColor).append(" ");
+                } else {
+                    borderCss.append("transparent ");
+                }
+            }
+            borderCss.append("; ");
+            appendStyle(borderCss.toString());
         }
 
-        if (walls.contains(Heading.EAST)) {
-            borderCss.append(borderColor).append(" ");
-        } else {
-            borderCss.append("transparent ");
-        }
-
-        if (walls.contains(Heading.SOUTH)) {
-            borderCss.append(borderColor).append(" ");
-        } else {
-            borderCss.append("transparent ");
-        }
-
-        if (walls.contains(Heading.WEST)) {
-            borderCss.append(borderColor).append(" ");
-        } else {
-            borderCss.append("transparent ");
-        }
-
-        this.setStyle(this.getStyle() + borderCss);
 
         // updatePlayer();
 
@@ -125,6 +94,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         space.attach(this);
         update(space);
     }
+
+    void appendStyle(String style) {
+        this.setStyle(this.getStyle() + style);
+    }
+
 
     private void updatePlayer() {
         this.getChildren().clear();

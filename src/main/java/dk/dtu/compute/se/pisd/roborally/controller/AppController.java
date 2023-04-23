@@ -21,16 +21,10 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.sun.glass.ui.CommonDialogs;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -41,10 +35,7 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +60,6 @@ public class AppController implements Observer {
 
     public void newGame(Board board, boolean isLoaded) {
         if (isLoaded) {
-            System.out.println("testing");
             gameController = new GameController(board);
             roboRally.createBoardView(gameController);
             switch (gameController.board.getPhase()) {
@@ -237,9 +227,7 @@ public class AppController implements Observer {
         return fileChooser;
     }
 
-    public Board getBoardFromFile() {
-        Board board = null;
-
+    public Optional<Board> getBoardFromFile() {
         Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
         gameboardSelectorAlert.setTitle("Gameboard Selection");
         gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
@@ -249,32 +237,10 @@ public class AppController implements Observer {
 
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
-            File selectedBoard = fileChooser.showOpenDialog(null);
-
-            try (Reader reader = new FileReader(selectedBoard)) {
-                Gson gson = new Gson();
-                JsonObject jsonBoard = gson.fromJson(reader, JsonObject.class);
-
-                String boardName = jsonBoard.get("boardName").getAsString();
-                int width = jsonBoard.get("width").getAsInt();
-                int height = jsonBoard.get("height").getAsInt();
-                JsonArray boardRows = jsonBoard.getAsJsonArray("board");
-
-                ArrayList<String> boardFromFile = new ArrayList<>();
-                for (JsonElement row : boardRows) {
-                    JsonArray rowArray = row.getAsJsonArray();
-                    for (JsonElement cell : rowArray) {
-                        boardFromFile.add(cell.getAsString());
-                    }
-                }
-
-                board = new Board(width, height, boardName, boardFromFile);
-            } catch (IOException e) {
-                System.out.println("Incorrect file type.");
-                e.printStackTrace();
-            }
+            File boardFile = fileChooser.showOpenDialog(null);
+            return Board.createBoardFromFile(boardFile);
         }
 
-        return board;
+        return Optional.empty();
     }
 }
