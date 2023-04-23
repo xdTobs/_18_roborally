@@ -35,13 +35,16 @@ import java.util.Set;
  */
 public class Space extends Subject implements IFieldAction {
 
+    public final Board board;
+
     public final int x;
     public final int y;
 
     private Player player = null;
     private Set<Heading> walls = new HashSet<>();
 
-    public Space(int x, int y) {
+    public Space(Board board, int x, int y) {
+        this.board = board;
         this.x = x;
         this.y = y;
     }
@@ -52,15 +55,18 @@ public class Space extends Subject implements IFieldAction {
 
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
-        this.player = player;
-        if (oldPlayer != null) {
-            // this should actually not happen
-            oldPlayer.setSpace(null);
+        if (player != oldPlayer &&
+                (player == null || board == player.board)) {
+            this.player = player;
+            if (oldPlayer != null) {
+                // this should actually not happen
+                oldPlayer.setSpace(null);
+            }
+            if (player != null) {
+                player.setSpace(this);
+            }
+            notifyChange();
         }
-        if (player != null) {
-            player.setSpace(this);
-        }
-        notifyChange();
     }
 
     void playerChanged() {

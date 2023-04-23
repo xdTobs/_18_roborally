@@ -28,10 +28,7 @@ import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
