@@ -27,6 +27,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import java.io.File;
+
 /**
  * ...
  *
@@ -55,7 +57,7 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction(e -> this.appController.newGame(new Board(8, 8, "default board")));
+        newGame.setOnAction(e -> this.appController.newGame(new Board(8, 8, "default board"), false));
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
@@ -64,13 +66,20 @@ public class RoboRallyMenuBar extends MenuBar {
 
         saveGame = new MenuItem("Save Game");
         saveGame.setOnAction(e -> {
-            String saveName = this.appController.getSaveName();
-            this.appController.saveGame(saveName);
+            File file = this.appController.createFile();
+            if (file != null) {
+                this.appController.saveGame(file);
+            }
         });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
-        loadGame.setOnAction(e -> this.appController.loadGame());
+        loadGame.setOnAction(e -> {
+            File file = this.appController.getFile();
+            if (file != null) {
+                this.appController.loadGame(file);
+            }
+        });
         controlMenu.getItems().add(loadGame);
 
         exitApp = new MenuItem("Exit");
