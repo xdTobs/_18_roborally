@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.sun.glass.ui.CommonDialogs;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
@@ -83,8 +84,8 @@ public class AppController implements Observer {
             }
         } else {
             ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-            dialog.setTitle("Player number");
-            dialog.setHeaderText("Select number of players");
+            dialog.setTitle("Player number.");
+            dialog.setHeaderText("Select number of players.");
             Optional<Integer> result = dialog.showAndWait();
             if (result.isPresent()) {
                 if (gameController != null) {
@@ -98,6 +99,24 @@ public class AppController implements Observer {
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
+
+                //Creating an alert that prompts you to click 'OK'
+                Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
+                gameboardSelectorAlert.setTitle("Gameboard Selection");
+                gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
+                gameboardSelectorAlert.setContentText("Click 'OK' to continue.");
+
+                Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
+                if(buttonClick.isPresent()) {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("File Explorer");
+                    fileChooser.getExtensionFilters().add(
+                            new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+                    File selectedBoard = fileChooser.showOpenDialog(null);
+                }
+
+
+
                 gameController = new GameController(board);
                 int no = result.get();
                 for (int i = 0; i < no; i++) {
