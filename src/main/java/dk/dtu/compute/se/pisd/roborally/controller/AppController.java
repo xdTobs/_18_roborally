@@ -101,6 +101,7 @@ public class AppController implements Observer {
 //            Board board = new Board(8, 8);
 
                 //Creating an alert that prompts you to click 'OK'
+
                 Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
                 gameboardSelectorAlert.setTitle("Gameboard Selection");
                 gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
@@ -108,14 +109,9 @@ public class AppController implements Observer {
 
                 Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
                 if(buttonClick.isPresent()) {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("File Explorer");
-                    fileChooser.getExtensionFilters().add(
-                            new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+                    FileChooser fileChooser = createFileChooser("File Explorer");
                     File selectedBoard = fileChooser.showOpenDialog(null);
                 }
-
-
 
                 gameController = new GameController(board);
                 int no = result.get();
