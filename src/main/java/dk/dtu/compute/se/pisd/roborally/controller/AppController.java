@@ -108,9 +108,18 @@ public class AppController implements Observer {
                 gameboardSelectorAlert.setContentText("Click 'OK' to continue.");
 
                 Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
+                String line;
                 if(buttonClick.isPresent()) {
                     FileChooser fileChooser = createFileChooser("File Explorer");
                     File selectedBoard = fileChooser.showOpenDialog(null);
+                  try {
+                      BufferedReader br = new BufferedReader(new FileReader(selectedBoard));
+                      while((line = br.readLine()) != null) {
+                          System.out.println(line);
+                      }
+                  } catch(IOException e) {
+                      e.printStackTrace();
+                  }
                 }
 
                 gameController = new GameController(board);
