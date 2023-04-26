@@ -28,6 +28,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * ...
@@ -50,16 +51,21 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
-    private MenuItem loadGameBoard;
+    //private MenuItem loadGameBoard;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
+
 
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction(e -> this.appController.newGame(new Board(8, 8, "default board"), false));
+        newGame.setOnAction(e -> {
+            ArrayList boardFromFile;
+            boardFromFile = appController.getBoardFromFile();
+            this.appController.newGame(new Board(10, 10, "default board", boardFromFile), false);
+        });
         controlMenu.getItems().add(newGame);
 
         //loadGameBoard = new MenuItem("Load Gameboard");

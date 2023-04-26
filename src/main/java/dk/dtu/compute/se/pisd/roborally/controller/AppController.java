@@ -37,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -99,29 +100,6 @@ public class AppController implements Observer {
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
-
-                //Creating an alert that prompts you to click 'OK'
-
-                Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
-                gameboardSelectorAlert.setTitle("Gameboard Selection");
-                gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
-                gameboardSelectorAlert.setContentText("Click 'OK' to continue.");
-
-                Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
-                String input;
-                if(buttonClick.isPresent()) {
-                    FileChooser fileChooser = createFileChooser("File Explorer");
-                    File selectedBoard = fileChooser.showOpenDialog(null);
-                  try {
-                      BufferedReader br = new BufferedReader(new FileReader(selectedBoard));
-                      while ((input = br.readLine()) != null) {
-                          String[] inputArray = input.split(",");
-                      }
-                  } catch(IOException e) {
-                      e.printStackTrace();
-                  }
-                }
-
 
                 gameController = new GameController(board);
                 int no = result.get();
@@ -250,5 +228,36 @@ public class AppController implements Observer {
 
 
         return fileChooser;
+    }
+
+    public ArrayList<String> getBoardFromFile() {
+
+        ArrayList<String> fromFileArrayList = new ArrayList<>();
+
+        Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
+        gameboardSelectorAlert.setTitle("Gameboard Selection");
+        gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
+        gameboardSelectorAlert.setContentText("Click 'OK' to continue.");
+
+        Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
+
+
+        if (buttonClick.isPresent()) {
+            FileChooser fileChooser = createFileChooser("File Explorer");
+            File selectedBoard = fileChooser.showOpenDialog(null);
+            try {
+                String fromFile;
+                BufferedReader br = new BufferedReader(new FileReader(selectedBoard));
+                while ((fromFile = br.readLine()) != null) {
+                    String[] fromFileSplit = fromFile.split(",");
+                    for (String s : fromFileSplit) {
+                        fromFileArrayList.add(s);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fromFileArrayList;
     }
 }

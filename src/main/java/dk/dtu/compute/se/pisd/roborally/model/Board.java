@@ -56,7 +56,9 @@ public class Board extends Subject implements Serializable {
     // Creates a Board object with a given width, height, and name
     // and initializes a 2D array of Spaces with coordinates.
     // The stepMode is set to false.
-    public Board(int width, int height, @NotNull String boardName) {
+
+    //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
+    public Board(int width, int height, @NotNull String boardName, ArrayList boardFromFile) {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
@@ -77,9 +79,9 @@ public class Board extends Subject implements Serializable {
         this.stepMode = false;
     }
 
-    public Board(int width, int height) {
-        this(width, height, "defaultboard");
-    }
+    //public Board(int width, int height) {
+        //this(width, height, "default board");
+    //}
 
     public Integer getGameId() {
         return gameId;
