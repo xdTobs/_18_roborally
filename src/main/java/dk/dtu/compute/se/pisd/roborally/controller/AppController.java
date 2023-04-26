@@ -253,7 +253,6 @@ public class AppController implements Observer {
                         fromFileArrayList.add(s);
                     }
                 }
-                System.out.println(fromFileArrayList);
             } catch (IOException e) {
                 e.printStackTrace();
             }
