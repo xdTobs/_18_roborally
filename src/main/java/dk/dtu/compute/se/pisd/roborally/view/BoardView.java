@@ -69,8 +69,8 @@ public class BoardView extends VBox implements ViewObserver {
 
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
-                Space space = board.getSpace(x, y);
-                if (x == 1 && y == 2) {
+                Space space = board.getSpace(x, y);         
+                if (x == 1 && y == 3) {
                     space.setWalls(Heading.NORTH, Heading.EAST, Heading.SOUTH);
                 }
                 SpaceView spaceView = new SpaceView(space);

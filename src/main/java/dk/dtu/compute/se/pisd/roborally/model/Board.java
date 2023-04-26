@@ -63,9 +63,16 @@ public class Board extends Subject implements Serializable {
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Space space = new Space(this, x, y);
-                spaces[x][y] = space;
+                if (x == 2 && y == 1) {
+                    Space space = new Space(this, x, y);
+                    space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
+                    spaces[x][y] = space;
+                } else {
+                    Space space = new Space(this, x, y);
+                    spaces[x][y] = space;
+                }
             }
+
         }
         this.stepMode = false;
     }
