@@ -58,14 +58,16 @@ public class Board extends Subject implements Serializable {
     // The stepMode is set to false.
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
+    //TODO: Fix test board constructor
     public Board(int width, int height, @NotNull String boardName, ArrayList boardFromFile) {
+        System.out.println(boardFromFile);
         this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (x == 2 && y == 1) {
+                if (x == 1 && y == 2) {
                     Space space = new Space(this, x, y);
                     space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
                     spaces[x][y] = space;
