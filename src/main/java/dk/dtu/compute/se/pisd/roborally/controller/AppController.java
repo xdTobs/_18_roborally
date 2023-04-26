@@ -241,7 +241,6 @@ public class AppController implements Observer {
 
         Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
 
-
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
             File selectedBoard = fileChooser.showOpenDialog(null);
@@ -254,6 +253,7 @@ public class AppController implements Observer {
                         fromFileArrayList.add(s);
                     }
                 }
+                System.out.println(fromFileArrayList);
             } catch (IOException e) {
                 e.printStackTrace();
             }

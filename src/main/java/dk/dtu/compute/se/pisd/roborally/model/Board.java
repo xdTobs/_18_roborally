@@ -59,31 +59,41 @@ public class Board extends Subject implements Serializable {
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
     //TODO: Fix test board constructor
-    public Board(int width, int height, @NotNull String boardName, ArrayList boardFromFile) {
-        System.out.println(boardFromFile);
+    public Board(int width, int height, @NotNull String boardName, ArrayList<String> boardFromFile) {
+
         this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                String valueAtSpace = (String) boardFromFile.get(y);
-                if (valueAtSpace.equals("w")) {
-                    Space space = new Space(this, x, y);
-                    space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
-                    spaces[x][y] = space;
-                } else {
-                    Space space = new Space(this, x, y);
-                    spaces[x][y] = space;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                String valueAtSpace = boardFromFile.get(y * width + x);
+                Space space = null;
+
+                //When more spacetypes have been implemented, they can be put here.
+                switch (valueAtSpace) {
+                    case "w":
+                        space = new Space(this, x, y);
+                        space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
+                        spaces[x][y] = space;
+                        break;
+
+                    case "e":
+                        space = new Space(this, x, y);
+                        spaces[x][y] = space;
+                        break;
+
+                    default:
+                        break;
                 }
             }
-
         }
         this.stepMode = false;
     }
 
     //public Board(int width, int height) {
-        //this(width, height, "default board");
+    //  this(width, height, "default board");
     //}
 
     public Integer getGameId() {
