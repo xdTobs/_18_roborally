@@ -67,7 +67,8 @@ public class Board extends Subject implements Serializable {
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (x == 1 && y == 2) {
+                String valueAtSpace = (String) boardFromFile.get(y);
+                if (valueAtSpace.equals("w")) {
                     Space space = new Space(this, x, y);
                     space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
                     spaces[x][y] = space;
