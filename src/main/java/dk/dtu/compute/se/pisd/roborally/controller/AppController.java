@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -59,6 +60,11 @@ public class AppController implements Observer {
     }
 
     public void newGame(Board board, boolean isLoaded) {
+        Checkpoint c = new Checkpoint(board,3,3);
+
+        Checkpoint c2 = new Checkpoint(board,3,3);
+        board.setSpace(3,3, c);
+        board.setSpace(3,5, c2);
         if (isLoaded) {
             System.out.println("testing");
             gameController = new GameController(board);

@@ -55,6 +55,7 @@ public class Board extends Subject implements Serializable {
 
     // Creates a Board object with a given width, height, and name
     // and initializes a 2D array of Spaces with coordinates.
+    //add checkpoint
     // The stepMode is set to false.
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -97,6 +98,10 @@ public class Board extends Subject implements Serializable {
         } else {
             return null;
         }
+    }
+
+    public void setSpace(int x, int y, Space space) {
+        spaces[x][y] = space;
     }
 
     public int getPlayersNumber() {

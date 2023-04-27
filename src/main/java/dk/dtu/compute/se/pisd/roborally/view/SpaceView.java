@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -62,6 +63,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
+        }
+        if (space instanceof Checkpoint ){
+            this.setStyle("-fx-background-color: blue;");
         }
         StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
         Set<Heading> walls = space.getWalls();
