@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.sun.glass.ui.CommonDialogs;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
@@ -37,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -89,8 +91,8 @@ public class AppController implements Observer {
             }
         } else {
             ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-            dialog.setTitle("Player number");
-            dialog.setHeaderText("Select number of players");
+            dialog.setTitle("Player number.");
+            dialog.setHeaderText("Select number of players.");
             Optional<Integer> result = dialog.showAndWait();
             if (result.isPresent()) {
                 if (gameController != null) {
@@ -104,6 +106,7 @@ public class AppController implements Observer {
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
+
                 gameController = new GameController(board);
                 int no = result.get();
                 for (int i = 0; i < no; i++) {
@@ -231,5 +234,35 @@ public class AppController implements Observer {
 
 
         return fileChooser;
+    }
+
+    public ArrayList<String> getBoardFromFile() {
+
+        ArrayList<String> fromFileArrayList = new ArrayList<>();
+
+        Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
+        gameboardSelectorAlert.setTitle("Gameboard Selection");
+        gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
+        gameboardSelectorAlert.setContentText("Click 'OK' to continue.");
+
+        Optional<ButtonType> buttonClick = gameboardSelectorAlert.showAndWait();
+
+        if (buttonClick.isPresent()) {
+            FileChooser fileChooser = createFileChooser("File Explorer");
+            File selectedBoard = fileChooser.showOpenDialog(null);
+            try {
+                String fromFile;
+                BufferedReader br = new BufferedReader(new FileReader(selectedBoard));
+                while ((fromFile = br.readLine()) != null) {
+                    String[] fromFileSplit = fromFile.split(",");
+                    for (String s : fromFileSplit) {
+                        fromFileArrayList.add(s);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fromFileArrayList;
     }
 }

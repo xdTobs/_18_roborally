@@ -57,23 +57,45 @@ public class Board extends Subject implements Serializable {
     // and initializes a 2D array of Spaces with coordinates.
     //add checkpoint
     // The stepMode is set to false.
-    public Board(int width, int height, @NotNull String boardName) {
+
+    //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
+    //TODO: Fix test board constructor
+    public Board(int width, int height, @NotNull String boardName, ArrayList<String> boardFromFile) {
+
         this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                Space space = new Space(this, x, y);
-                spaces[x][y] = space;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                String valueAtSpace = boardFromFile.get(y * width + x);
+                Space space = null;
+
+                //When more spacetypes have been implemented, they can be put here.
+                switch (valueAtSpace) {
+                    case "w":
+                        space = new Space(this, x, y);
+                        space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
+                        spaces[x][y] = space;
+                        break;
+
+                    case "e":
+                        space = new Space(this, x, y);
+                        spaces[x][y] = space;
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
         this.stepMode = false;
     }
 
-    public Board(int width, int height) {
-        this(width, height, "defaultboard");
-    }
+    //public Board(int width, int height) {
+    //  this(width, height, "default board");
+    //}
 
     public Integer getGameId() {
         return gameId;
