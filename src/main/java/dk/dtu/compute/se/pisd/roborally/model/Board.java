@@ -73,19 +73,30 @@ public class Board extends Subject implements Serializable {
                 Space space = null;
 
                 //When more spacetypes have been implemented, they can be put here.
-                switch (valueAtSpace) {
-                    case "w":
+                switch (valueAtSpace.charAt(0)) {
+
+                    case 'w':
                         space = new Space(this, x, y);
-                        space.setWalls(Heading.SOUTH, Heading.EAST, Heading.WEST, Heading.NORTH);
+                        for (int i = 1; i < valueAtSpace.length(); i++) {
+                            if (valueAtSpace.charAt(i) == 's') {
+                                space.setWalls(Heading.SOUTH);
+                            } else if (valueAtSpace.charAt(i) == 'w') {
+                                space.setWalls(Heading.WEST);
+                            } else if (valueAtSpace.charAt(i) == 'n') {
+                                space.setWalls(Heading.NORTH);
+                            } else if (valueAtSpace.charAt(i) == 'e') {
+                                space.setWalls(Heading.EAST);
+                            }
+                        }
                         spaces[x][y] = space;
                         break;
 
-                    case "c":
+                    case 'c':
                         space = new Checkpoint(this, x, y);
                         spaces[x][y] = space;
                         break;
 
-                    case "e":
+                    case 'e':
                         space = new Space(this, x, y);
                         spaces[x][y] = space;
                         break;
