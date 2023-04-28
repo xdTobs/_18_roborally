@@ -56,34 +56,40 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-        if ((space.x + space.y) % 2 == 0) {
+       if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
-            this.setStyle("-fx-background-color: black;");
+            this.setStyle("-fx-background-color: black; -fx-border-color: blue;");
         }
+
         if (space instanceof Checkpoint) {
             this.setStyle("-fx-background-color: yellow;");
         } else if (space instanceof ConveyorBelt) {
             this.setStyle("-fx-background-color: blue;");
         }
+
         StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
         Set<Heading> walls = space.getWalls();
         String borderColor = "green";
+
         if (walls.contains(Heading.NORTH)) {
             borderCss.append(borderColor).append(" ");
         } else {
             borderCss.append("transparent ");
         }
+
         if (walls.contains(Heading.EAST)) {
             borderCss.append(borderColor).append(" ");
         } else {
             borderCss.append("transparent ");
         }
+
         if (walls.contains(Heading.SOUTH)) {
             borderCss.append(borderColor).append(" ");
         } else {
             borderCss.append("transparent ");
         }
+
         if (walls.contains(Heading.WEST)) {
             borderCss.append(borderColor).append(" ");
         } else {
