@@ -80,6 +80,11 @@ public class Board extends Subject implements Serializable {
                         spaces[x][y] = space;
                         break;
 
+                    case "c":
+                        space = new Checkpoint(this, x, y);
+                        spaces[x][y] = space;
+                        break;
+
                     case "e":
                         space = new Space(this, x, y);
                         spaces[x][y] = space;

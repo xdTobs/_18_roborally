@@ -10,7 +10,8 @@ public class Checkpoint extends Space {
     public Checkpoint(Board board, int x, int y) {
         super(board, x, y);
     }
-//@todo checkpoit created, but not implemented
+
+    //@todo checkpoit created, but not implemented
     public void playerLandedHere(Player p){
         playersArrived.add(p);
     }

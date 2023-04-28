@@ -62,11 +62,6 @@ public class AppController implements Observer {
     }
 
     public void newGame(Board board, boolean isLoaded) {
-        Checkpoint c = new Checkpoint(board,3,3);
-
-        Checkpoint c2 = new Checkpoint(board,3,3);
-        board.setSpace(3,3, c);
-        board.setSpace(3,5, c2);
         if (isLoaded) {
             System.out.println("testing");
             gameController = new GameController(board);
