@@ -96,6 +96,11 @@ public class Board extends Subject implements Serializable {
                         spaces[x][y] = space;
                         break;
 
+                    case 'b':
+                        space = new ConveyorBelt(this, x, y);
+                        spaces[x][y] = space;
+                        break;
+
                     case 'e':
                         space = new Space(this, x, y);
                         spaces[x][y] = space;
