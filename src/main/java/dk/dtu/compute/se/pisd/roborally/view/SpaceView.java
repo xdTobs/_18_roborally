@@ -56,16 +56,37 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-       if ((space.x + space.y) % 2 == 0) {
+        //TODO: make board grey with black borders
+
+        if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
-            this.setStyle("-fx-background-color: black; -fx-border-color: blue;");
+            this.setStyle("-fx-background-color: black;");
         }
 
-        if (space instanceof Checkpoint) {
-            this.setStyle("-fx-background-color: yellow;");
-        } else if (space instanceof ConveyorBelt) {
-            this.setStyle("-fx-background-color: blue;");
+        /**
+         * This switch statement checks which type of space is given,
+         * and adds the appropriate visuals
+         */
+        //TODO: Add correct visuals
+        //Add the different spacetypes here in the switch statement
+        switch (space.getClass().getSimpleName()) {
+
+            case "Checkpoint":
+                this.setStyle("-fx-background-color: yellow;");
+                break;
+
+            case "ConveyorBelt":
+                ConveyorBelt conveyorBelt = (ConveyorBelt) space;
+                if (conveyorBelt.getType().equals("GREEN")) {
+                    this.setStyle("-fx-background-color: green;");
+                } else if (conveyorBelt.getType().equals("BLUE")) {
+                    this.setStyle("-fx-background-color: blue;");
+                }
+                break;
+
+            default:
+                break;
         }
 
         StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");

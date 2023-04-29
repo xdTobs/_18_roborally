@@ -5,7 +5,7 @@ e,e,e,e,e,e,e,e,e,e,
 e,e,c,e,e,wws,e,e,e,e,
 e,e,e,e,e,e,e,e,e,e,
 e,e,e,e,e,e,e,e,e,e,
-e,e,e,b,b,b,e,e,e,e,
+e,e,e,bgn,bbs,bge,e,e,e,e,
 e,e,e,e,e,e,e,e,e,e,
 e,e,e,e,e,e,e,e,e,e,
 e,e,e,e,e,e,e,e,e,e
