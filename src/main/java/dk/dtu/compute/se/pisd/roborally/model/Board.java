@@ -98,6 +98,28 @@ public class Board extends Subject implements Serializable {
 
                     case 'b':
                         space = new ConveyorBelt(this, x, y);
+                        if (valueAtSpace.charAt(1) == 'g') {
+                            ((ConveyorBelt) space).setType("GREEN");
+                        } else if (valueAtSpace.charAt(1) == 'b') {
+                            ((ConveyorBelt) space).setType("BLUE");
+                        }
+
+                        switch (valueAtSpace.charAt(2)) {
+                            case 'n':
+                                ((ConveyorBelt) space).setDirection('n');
+                                break;
+                            case 'e':
+                                ((ConveyorBelt) space).setDirection('e');
+                                break;
+                            case 's':
+                                ((ConveyorBelt) space).setDirection('s');
+                                break;
+                            case 'w':
+                                ((ConveyorBelt) space).setDirection('w');
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
+                        }
                         spaces[x][y] = space;
                         break;
 
