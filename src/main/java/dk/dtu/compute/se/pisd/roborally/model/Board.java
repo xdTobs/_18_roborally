@@ -90,14 +90,14 @@ public class Board extends Subject implements Serializable {
                         }
                         spaces[x][y] = space;
                         break;
-
+                    //TODO: Create way of adding different checkpoints
                     case 'c':
-                        space = new Checkpoint(this, x, y);
+                        space = new Checkpoint(this, x, y, 1);
                         spaces[x][y] = space;
                         break;
 
                     case 'b':
-                        space = new ConveyorBelt(this, x, y, 1);
+                        space = new ConveyorBelt(this, x, y);
                         spaces[x][y] = space;
                         break;
 
