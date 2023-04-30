@@ -237,8 +237,8 @@ public class AppController implements Observer {
         return fileChooser;
     }
 
-    public ArrayList<String> getBoardFromFile() {
-        ArrayList<String> fromFileArrayList = new ArrayList<>();
+    public Board getBoardFromFile() {
+        Board board = null;
 
         Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
         gameboardSelectorAlert.setTitle("Gameboard Selection");
@@ -255,20 +255,26 @@ public class AppController implements Observer {
                 Gson gson = new Gson();
                 JsonObject jsonBoard = gson.fromJson(reader, JsonObject.class);
 
+                String boardName = jsonBoard.get("boardName").getAsString();
+                int width = jsonBoard.get("width").getAsInt();
+                int height = jsonBoard.get("height").getAsInt();
                 JsonArray boardRows = jsonBoard.getAsJsonArray("board");
 
+                ArrayList<String> boardFromFile = new ArrayList<>();
                 for (JsonElement row : boardRows) {
                     JsonArray rowArray = row.getAsJsonArray();
                     for (JsonElement cell : rowArray) {
-                        fromFileArrayList.add(cell.getAsString());
+                        boardFromFile.add(cell.getAsString());
                     }
                 }
+
+                board = new Board(width, height, boardName, boardFromFile);
             } catch (IOException e) {
                 System.out.println("Incorrect file type.");
                 e.printStackTrace();
             }
         }
 
-        return fromFileArrayList;
+        return board;
     }
 }
