@@ -35,6 +35,7 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +102,7 @@ public class AppController implements Observer {
                 gameController = new GameController(board);
                 int no = result.get();
                 for (int i = 0; i < no; i++) {
-                    Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                    Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
                     board.addPlayer(player);
                     player.setSpace(board.getSpace(i % board.width, i));
                 }
@@ -238,7 +239,12 @@ public class AppController implements Observer {
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
             File boardFile = fileChooser.showOpenDialog(null);
-            return Board.createBoardFromFile(boardFile);
+            try {
+                InputStream stream = Files.newInputStream(boardFile.toPath());
+                return Board.createBoardFromInputStream(stream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return Optional.empty();

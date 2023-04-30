@@ -4,7 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,15 +17,16 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = Board.createBoardFromFile(new File(getClass().getResource("/TestBoardCheckpoint.json").getFile())).get();
+        InputStream in = BoardTest.class.getResourceAsStream("/TestBoardCheckpoint.json");
+        board = Board.createBoardFromInputStream(in).get();
         gameController = new GameController(board);
 
-        Player p1 = new Player(board, null, "Player 1");
+        Player p1 = new Player(null, "Player 1");
         board.addPlayer(p1);
         p1.setSpace(board.getSpace(0, 0));
         p1.setHeading(Heading.SOUTH);
 
-        Player p2 = new Player(board, null, "Player 1");
+        Player p2 = new Player(null, "Player 2");
         board.addPlayer(p2);
         p2.setSpace(board.getSpace(1, 0));
         p2.setHeading(Heading.SOUTH);

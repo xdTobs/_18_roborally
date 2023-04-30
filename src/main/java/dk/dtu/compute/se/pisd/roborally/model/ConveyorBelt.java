@@ -8,7 +8,7 @@ public class ConveyorBelt extends Space implements IFieldAction {
     Heading heading;
 
     public ConveyorBelt(Board board, int x, int y, Heading heading) {
-        super(board, x, y);
+        super(x, y);
         this.heading = heading;
     }
 

@@ -29,11 +29,10 @@ import java.io.Serializable;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CommandCardField extends Subject implements Serializable {
 
-    final public Player player;
+    public transient Player player;
 
     private CommandCard card;
 
@@ -41,7 +40,7 @@ public class CommandCardField extends Subject implements Serializable {
 
     public CommandCardField(Player player) {
         this.player = player;
-        this. card = null;
+        this.card = null;
         this.visible = true;
     }
 

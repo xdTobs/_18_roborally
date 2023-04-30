@@ -32,26 +32,25 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-public class Player extends Subject  implements Serializable {
+public class Player extends Subject implements Serializable {
+    // TODO Manually load and update the fields everywhere in the project that are marked transient when loading the game from file.
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    final public Board board;
 
     private String name;
     private String color;
 
-    private Space space;
+    // The space where the player is currently located; this is transient, to avoid circular dependency when loading json
+    private transient Space space;
     private Heading heading = SOUTH;
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
-        this.board = board;
+    public Player(String color, @NotNull String name) {
         this.name = name;
         this.color = color;
 
@@ -100,8 +99,7 @@ public class Player extends Subject  implements Serializable {
 
     public void setSpace(Space space) {
         Space oldSpace = this.space;
-        if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
+        if (space != oldSpace) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);

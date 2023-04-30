@@ -43,6 +43,4 @@ public class CommandCard extends Subject implements Serializable {
     public String getName() {
         return command.displayName;
     }
-
-
 }

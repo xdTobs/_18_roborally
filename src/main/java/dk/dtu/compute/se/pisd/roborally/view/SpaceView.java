@@ -100,6 +100,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 
+
     private void updatePlayer() {
         this.getChildren().clear();
 
