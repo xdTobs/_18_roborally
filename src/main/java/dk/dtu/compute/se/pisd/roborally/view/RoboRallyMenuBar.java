@@ -63,7 +63,7 @@ public class RoboRallyMenuBar extends MenuBar {
         newGame.setOnAction(e -> {
             ArrayList boardFromFile;
             boardFromFile = appController.getBoardFromFile();
-            this.appController.newGame(new Board(10, 10, "default board", boardFromFile), false);
+            this.appController.newGame(new Board(3, 3, "default board", boardFromFile), false);
         });
         controlMenu.getItems().add(newGame);
 

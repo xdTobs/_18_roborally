@@ -21,6 +21,10 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.sun.glass.ui.CommonDialogs;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
@@ -37,6 +41,8 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -222,7 +228,7 @@ public class AppController implements Observer {
         fileChooser.setInitialDirectory(initialDirectory);
 
         // Add extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files (*.txt)", "*.txt");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files (*.txt), JSON Files (*.json)", "*.txt", "*.json");
         FileChooser.ExtensionFilter showAllFilter = new FileChooser.ExtensionFilter("All (*)", "*");
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.getExtensionFilters().add(showAllFilter);
@@ -232,7 +238,6 @@ public class AppController implements Observer {
     }
 
     public ArrayList<String> getBoardFromFile() {
-
         ArrayList<String> fromFileArrayList = new ArrayList<>();
 
         Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
@@ -245,19 +250,25 @@ public class AppController implements Observer {
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
             File selectedBoard = fileChooser.showOpenDialog(null);
-            try {
-                String fromFile;
-                BufferedReader br = new BufferedReader(new FileReader(selectedBoard));
-                while ((fromFile = br.readLine()) != null) {
-                    String[] fromFileSplit = fromFile.split(",");
-                    for (String s : fromFileSplit) {
-                        fromFileArrayList.add(s);
+
+            try (Reader reader = new FileReader(selectedBoard)) {
+                Gson gson = new Gson();
+                JsonObject jsonBoard = gson.fromJson(reader, JsonObject.class);
+
+                JsonArray boardRows = jsonBoard.getAsJsonArray("board");
+
+                for (JsonElement row : boardRows) {
+                    JsonArray rowArray = row.getAsJsonArray();
+                    for (JsonElement cell : rowArray) {
+                        fromFileArrayList.add(cell.getAsString());
                     }
                 }
             } catch (IOException e) {
+                System.out.println("Incorrect file type.");
                 e.printStackTrace();
             }
         }
+
         return fromFileArrayList;
     }
 }
