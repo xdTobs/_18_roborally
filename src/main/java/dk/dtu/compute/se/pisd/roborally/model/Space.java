@@ -22,9 +22,12 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +44,7 @@ public class Space extends Subject implements Serializable {
 
     private Player player = null;
     private Set<Heading> walls = new HashSet<>();
+    private List<FieldAction> actions = new ArrayList<>();
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -73,6 +77,10 @@ public class Space extends Subject implements Serializable {
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
         notifyChange();
+    }
+
+    public List<FieldAction> getActions() {
+        return actions;
     }
 
     public Set<Heading> getWalls() {
