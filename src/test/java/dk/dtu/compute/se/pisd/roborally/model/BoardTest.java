@@ -42,8 +42,8 @@ class BoardTest {
         GameController gc = new GameController(board);
         Player p1 = board.getPlayer(0);
         Player p2 = board.getPlayer(1);
-        CommandCard c1 = new CommandCard(Command.FORWARD);
-        CommandCard c2 = new CommandCard(Command.FORWARD);
+        CommandCard c1 = new CommandCard(Command.MOVE_1);
+        CommandCard c2 = new CommandCard(Command.MOVE_1);
         p2.getProgramField(0).setCard(c1);
         p2.getProgramField(1).setCard(c2);
         gameController.finishProgrammingPhase();
