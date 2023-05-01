@@ -24,8 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
-
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -33,24 +31,24 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Player extends Subject implements Serializable {
-    // TODO Manually load and update the fields everywhere in the project that are marked transient when loading the game from file.
+public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
+    final public Board board;
 
     private String name;
     private String color;
 
-    // The space where the player is currently located; this is transient, to avoid circular dependency when loading json
-    private transient Space space;
+    private Space space;
     private Heading heading = SOUTH;
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(String color, @NotNull String name) {
+    public Player(@NotNull Board board, String color, @NotNull String name) {
+        this.board = board;
         this.name = name;
         this.color = color;
 
@@ -99,7 +97,8 @@ public class Player extends Subject implements Serializable {
 
     public void setSpace(Space space) {
         Space oldSpace = this.space;
-        if (space != oldSpace) {
+        if (space != oldSpace &&
+                (space == null || space.board == this.board)) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);

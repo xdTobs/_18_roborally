@@ -28,10 +28,10 @@ import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.Reader;
-import java.io.Serializable;
 import java.util.*;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
@@ -42,8 +42,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-// TODO add load and save from/to json
-public class Board extends Subject implements Serializable {
+public class Board extends Subject {
 
     public final int height;
     public final String boardName;
@@ -74,12 +73,11 @@ public class Board extends Subject implements Serializable {
         this.spaces = new Space[width][height];
     }
 
-    public static Optional<Board> createBoardFromInputStream(InputStream stream) {
-//    public static Optional<Board> createBoardFromFile(File boardFile) {
+    public static Optional<Board> createBoardFromFile(File boardFile) {
         Reader reader = null;
         try {
-            reader = new InputStreamReader(stream);
-        } catch (NullPointerException e) {
+            reader = new FileReader(boardFile);
+        } catch (FileNotFoundException | NullPointerException e) {
             return Optional.empty();
         }
         Gson gson = new Gson();
@@ -108,7 +106,7 @@ public class Board extends Subject implements Serializable {
                 //When more spacetypes have been implemented, they can be put here.
                 switch (valueAtSpace.charAt(0)) {
                     case 'w' -> {
-                        space = new Space(x, y);
+                        space = new Space(board, x, y);
                         for (int i = 1; i < valueAtSpace.length(); i++) {
                             char c = valueAtSpace.charAt(i);
                             if (valueAtSpace.charAt(i) == 's') {
@@ -142,7 +140,7 @@ public class Board extends Subject implements Serializable {
                         }
                     }
                     case 'e' -> {
-                        space = new Space(x, y);
+                        space = new Space(board, x, y);
                     }
                     default -> {
                         throw new RuntimeException("This kind of square does not exists.");
@@ -160,40 +158,10 @@ public class Board extends Subject implements Serializable {
     //add checkpoint
     // The stepMode is set to false.
 
-    public static String toJson(Board board) {
-        return new Gson().toJson(board);
-    }
-
-    public static Board fromJson(String str) {
-        Board b = new Gson().fromJson(str, Board.class);
-
-        // We mark some fields as transient to avoid circular references when serializing to json.
-        // When deserializing we need to recreate the avoided references.
-        for (Space[] row : b.spaces) {
-            for (Space space : row) {
-                space.getPlayer().setSpace(space);
-            }
-        }
-        for (Player player : b.getPlayers()) {
-            for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CommandCardField cf = player.getProgramField(i);
-                cf.setPlayer(player);
-            }
-
-            for (int i = 0; i < Player.NO_CARDS; i++) {
-                CommandCardField cf = player.getCardField(i);
-                cf.setPlayer(player);
-            }
-        }
-        return b;
-
-    }
-
     public boolean isGameover() {
         return findWinner().isPresent();
     }
 
-    // If there are no checkpoints game over is never reached.
     public Optional<Player> findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
         HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
@@ -257,8 +225,10 @@ public class Board extends Subject implements Serializable {
 
     // Adds a new player
     public void addPlayer(@NotNull Player player) {
-        players.add(player);
-        notifyChange();
+        if (player.board == this && !players.contains(player)) {
+            players.add(player);
+            notifyChange();
+        }
     }
 
     // Returns the player at a specified index from the list of players.
@@ -319,7 +289,11 @@ public class Board extends Subject implements Serializable {
     }
 
     public int getPlayerNumber(@NotNull Player player) {
-        return players.indexOf(player);
+        if (player.board == this) {
+            return players.indexOf(player);
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -377,5 +351,6 @@ public class Board extends Subject implements Serializable {
         return checkpoints;
 
     }
+
 
 }

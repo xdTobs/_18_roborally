@@ -32,7 +32,7 @@ import java.io.Serializable;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class CommandCard extends Subject implements Serializable {
+public class CommandCard extends Subject  {
 
     final public Command command;
 

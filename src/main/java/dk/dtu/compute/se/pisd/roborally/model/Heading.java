@@ -29,7 +29,7 @@ import java.io.Serializable;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public enum Heading  implements Serializable {
+public enum Heading  {
 
     SOUTH, WEST, NORTH, EAST;
 

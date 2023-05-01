@@ -30,7 +30,7 @@ import java.io.Serializable;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject implements Serializable {
+public class CommandCardField extends Subject  {
 
     public transient Player player;
 

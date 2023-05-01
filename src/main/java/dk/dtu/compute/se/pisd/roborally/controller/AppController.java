@@ -35,7 +35,6 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -102,7 +101,7 @@ public class AppController implements Observer {
                 gameController = new GameController(board);
                 int no = result.get();
                 for (int i = 0; i < no; i++) {
-                    Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
+                    Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
                     board.addPlayer(player);
                     player.setSpace(board.getSpace(i % board.width, i));
                 }
@@ -116,26 +115,25 @@ public class AppController implements Observer {
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
-        String jsonSaveData = Board.toJson(gameController.board);
-        try (FileOutputStream f = new FileOutputStream(file)) {
-            f.write(jsonSaveData.getBytes());
-            f.flush();
-            System.out.printf("Saved to %s\n", file.getAbsolutePath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try (FileOutputStream fileOutputStream = new FileOutputStream(file); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+//            objectOutputStream.writeObject(gameController.board);
+//            objectOutputStream.flush();
+//            System.out.printf("Saved to %s\n", file.getAbsolutePath());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void loadGame(File file) {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
 
-        try (FileInputStream fileInputStream = new FileInputStream(file); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-            Board board = (Board) objectInputStream.readObject();
-            newGame(board, true);
-        } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try (FileInputStream fileInputStream = new FileInputStream(file); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+//            Board board = (Board) objectInputStream.readObject();
+//            newGame(board, true);
+//        } catch (ClassNotFoundException | IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     /**
@@ -240,12 +238,7 @@ public class AppController implements Observer {
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
             File boardFile = fileChooser.showOpenDialog(null);
-            try {
-                InputStream stream = Files.newInputStream(boardFile.toPath());
-                return Board.createBoardFromInputStream(stream);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            return Board.createBoardFromFile(boardFile);
         }
 
         return Optional.empty();
