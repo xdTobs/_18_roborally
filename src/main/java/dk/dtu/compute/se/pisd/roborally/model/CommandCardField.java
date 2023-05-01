@@ -65,4 +65,8 @@ public class CommandCardField extends Subject implements Serializable {
             notifyChange();
         }
     }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

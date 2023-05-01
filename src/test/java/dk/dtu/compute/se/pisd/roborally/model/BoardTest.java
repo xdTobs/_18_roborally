@@ -51,4 +51,12 @@ class BoardTest {
         gc.executePrograms();
         assertTrue(board.getPhase() == Phase.GAMEOVER);
     }
+
+    @Test
+    void saveTest() {
+        String s = Board.toJson(board);
+        System.out.println(s);
+        Board b = Board.fromJson(s);
+        System.out.println("done");
+    }
 }

@@ -160,12 +160,32 @@ public class Board extends Subject implements Serializable {
     //add checkpoint
     // The stepMode is set to false.
 
-    static String toJson(Board board) {
+    public static String toJson(Board board) {
         return new Gson().toJson(board);
     }
 
-    static Board fromJson(String str) {
-        return new Gson().fromJson(str, Board.class);
+    public static Board fromJson(String str) {
+        Board b = new Gson().fromJson(str, Board.class);
+
+        // We mark some fields as transient to avoid circular references when serializing to json.
+        // When deserializing we need to recreate the avoided references.
+        for (Space[] row : b.spaces) {
+            for (Space space : row) {
+                space.getPlayer().setSpace(space);
+            }
+        }
+        for (Player player : b.getPlayers()) {
+            for (int i = 0; i < Player.NO_REGISTERS; i++) {
+                CommandCardField cf = player.getProgramField(i);
+                cf.setPlayer(player);
+            }
+
+            for (int i = 0; i < Player.NO_CARDS; i++) {
+                CommandCardField cf = player.getCardField(i);
+                cf.setPlayer(player);
+            }
+        }
+        return b;
 
     }
 

@@ -116,9 +116,10 @@ public class AppController implements Observer {
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-            objectOutputStream.writeObject(gameController.board);
-            objectOutputStream.flush();
+        String jsonSaveData = Board.toJson(gameController.board);
+        try (FileOutputStream f = new FileOutputStream(file)) {
+            f.write(jsonSaveData.getBytes());
+            f.flush();
             System.out.printf("Saved to %s\n", file.getAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException(e);
