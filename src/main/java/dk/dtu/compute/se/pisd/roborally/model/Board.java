@@ -28,7 +28,10 @@ import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.*;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
@@ -39,7 +42,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Board extends Subject implements Serializable {
+public class Board extends Subject {
 
     public final int height;
     public final String boardName;

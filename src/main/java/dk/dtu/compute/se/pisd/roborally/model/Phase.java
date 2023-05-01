@@ -28,6 +28,6 @@ import java.io.Serializable;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public enum Phase implements Serializable {
+public enum Phase  {
     INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION, GAMEOVER
 }

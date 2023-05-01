@@ -31,7 +31,7 @@ import java.io.Serializable;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class CommandCardField extends Subject implements Serializable {
+public class CommandCardField extends Subject  {
 
     final public Player player;
 
