@@ -28,7 +28,10 @@ import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.*;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
@@ -55,7 +58,6 @@ public class Board extends Subject {
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
     //TODO: Fix test board constructor
     public Board(int width, int height, @NotNull String boardName, Space[][] spaces) {
-
         this.boardName = boardName;
         this.width = width;
         this.height = height;
