@@ -22,27 +22,31 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-public class Space extends Subject {
+public class Space extends Subject implements IFieldAction {
 
     public final Board board;
 
     public final int x;
     public final int y;
 
-    private Player player;
+    private Player player = null;
+    private Set<Heading> walls = new HashSet<>();
 
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
-        player = null;
     }
 
     public Player getPlayer() {
@@ -72,4 +76,20 @@ public class Space extends Subject {
         notifyChange();
     }
 
+
+    public Set<Heading> getWalls() {
+        return walls;
+    }
+
+    public void setWalls(Heading... walls) {
+        for (Heading w : walls) {
+            this.walls.add(w);
+        }
+    }
+
+    // Do nothing
+    @Override
+    public boolean doAction(GameController gameController) {
+        return true;
+    }
 }

@@ -22,15 +22,19 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import java.io.File;
+import java.util.Optional;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class RoboRallyMenuBar extends MenuBar {
 
@@ -48,6 +52,8 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
+    //private MenuItem loadGameBoard;
+
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
@@ -55,23 +61,44 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction( e -> this.appController.newGame());
+        newGame.setOnAction(e -> {
+            Optional<Board> boardOptional = appController.getBoardFromFile();
+            boardOptional.ifPresent(board -> appController.newGame(board, false));
+            if (boardOptional.isEmpty()) {
+                Alert noBoardLoadedAlert = new Alert(Alert.AlertType.INFORMATION);
+                noBoardLoadedAlert.setTitle("Board not loaded.");
+                noBoardLoadedAlert.setHeaderText("Board could not be loaded.");
+                noBoardLoadedAlert.setContentText("Please try again with a different board.");
+                noBoardLoadedAlert.showAndWait();
+            }
+
+        });
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
-        stopGame.setOnAction( e -> this.appController.stopGame());
+        stopGame.setOnAction(e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
 
         saveGame = new MenuItem("Save Game");
-        saveGame.setOnAction( e -> this.appController.saveGame());
+        saveGame.setOnAction(e -> {
+            File file = this.appController.createFile();
+            if (file != null) {
+                this.appController.saveGame(file);
+            }
+        });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
-        loadGame.setOnAction( e -> this.appController.loadGame());
+        loadGame.setOnAction(e -> {
+            File file = this.appController.getFile();
+            if (file != null) {
+                this.appController.loadGame(file);
+            }
+        });
         controlMenu.getItems().add(loadGame);
 
         exitApp = new MenuItem("Exit");
-        exitApp.setOnAction( e -> this.appController.exit());
+        exitApp.setOnAction(e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
 
         controlMenu.setOnShowing(e -> update());

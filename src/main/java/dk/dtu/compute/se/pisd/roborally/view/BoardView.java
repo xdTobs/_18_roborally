@@ -23,10 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class BoardView extends VBox implements ViewObserver {
 
@@ -71,7 +67,16 @@ public class BoardView extends VBox implements ViewObserver {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
-                SpaceView spaceView = new SpaceView(space);
+                SpaceView spaceView;
+                if (space instanceof FastConveyorBelt conveyorBelt) {
+                    spaceView = new FastConveyorBeltView(conveyorBelt);
+                } else if (space instanceof ConveyorBelt conveyorBelt) {
+                    spaceView = new ConveyorBeltView(conveyorBelt);
+                } else if (space instanceof Checkpoint checkpoint) {
+                    spaceView = new CheckpointView(checkpoint);
+                } else {
+                    spaceView = new SpaceView(space);
+                }
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
@@ -85,7 +90,6 @@ public class BoardView extends VBox implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
         }
     }
@@ -106,7 +110,7 @@ public class BoardView extends VBox implements ViewObserver {
             if (source instanceof SpaceView) {
                 SpaceView spaceView = (SpaceView) source;
                 Space space = spaceView.space;
-                Board board = space.board;
+                Board board = gameController.board;
 
                 if (board == gameController.board) {
                     gameController.moveCurrentPlayerToSpace(space);

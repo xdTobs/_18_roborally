@@ -25,19 +25,17 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
@@ -59,11 +57,36 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
+        //TODO: make board grey with black borders
+
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
         }
+
+        /**
+         * This switch statement checks which type of space is given,
+         * and adds the appropriate visuals
+         */
+        //TODO: Add correct visuals
+        //Add the different spacetypes here in the switch statement
+
+        Set<Heading> walls = space.getWalls();
+        if (!walls.isEmpty()) {
+            StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
+            String borderColor = "green";
+            for (Heading heading : Heading.values()) {
+                if (walls.contains(heading)) {
+                    borderCss.append(borderColor).append(" ");
+                } else {
+                    borderCss.append("transparent ");
+                }
+            }
+            borderCss.append("; ");
+            appendStyle(borderCss.toString());
+        }
+
 
         // updatePlayer();
 
@@ -72,6 +95,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         update(space);
     }
 
+    void appendStyle(String style) {
+        this.setStyle(this.getStyle() + style);
+    }
+
+
     private void updatePlayer() {
         this.getChildren().clear();
 
@@ -79,14 +107,14 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
-                    20.0, 0.0 );
+                    20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
+            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
             this.getChildren().add(arrow);
         }
     }

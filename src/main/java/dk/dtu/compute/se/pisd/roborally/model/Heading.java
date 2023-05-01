@@ -21,17 +21,20 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public enum Heading {
+public enum Heading  {
 
     SOUTH, WEST, NORTH, EAST;
 
     public static int[] headingToCoords(Heading heading){
+
         int[] nextCoords = new int[2];
         switch(heading){
             case NORTH -> nextCoords = new int[]{0,-1};

@@ -24,6 +24,11 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 /**
  * ...
  *
@@ -31,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GameController {
 
-    final public Board board;
+    public Board board;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -44,46 +49,25 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
-        // TODO Assignment V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free()
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if the player is moved
-
-        // Retrieve the current player from the game board
         Player currentPlayer = board.getCurrentPlayer();
-        // Set the current player's space to the specified space
         currentPlayer.setSpace(space);
-        // Calculate the number of the next player
         int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
-        // Set the next player as the current player on the game board
         board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
-    // XXX: V2
     public void startProgrammingPhase() {
-        // Set the current phase to programming
         board.setPhase(Phase.PROGRAMMING);
-        // Set the current player to the first player in the game
         board.setCurrentPlayer(board.getPlayer(0));
-        // Set the current step to 0
         board.setStep(0);
-        // Loop through each player in the game
+
         for (int i = 0; i < board.getPlayersNumber(); i++) {
-            // Retrieve the player from the game board
             Player player = board.getPlayer(i);
-            // If the player exists, reset their program and card fields
             if (player != null) {
-                // Reset the command cards in the program field for this player
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
-
-                // Generate new random command cards for the player
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
                     field.setCard(generateRandomCommandCard());
@@ -93,87 +77,58 @@ public class GameController {
         }
     }
 
-    // XXX: V2
     private CommandCard generateRandomCommandCard() {
-        // Get all possible command values
         Command[] commands = Command.values();
-        // Generate a random integer between 0 and the number of commands
         int random = (int) (Math.random() * commands.length);
-        // Create a new CommandCard with a randomly selected command
         return new CommandCard(commands[random]);
     }
 
-    // XXX: V2
     public void finishProgrammingPhase() {
-        // Hide all program fields for all players
         makeProgramFieldsInvisible();
-        // Make the program field for the first player visible
         makeProgramFieldsVisible(0);
-        // Set the current phase to activation
         board.setPhase(Phase.ACTIVATION);
-        // Set the current player to the first player in the game
         board.setCurrentPlayer(board.getPlayer(0));
-        // Set the current step to 0
         board.setStep(0);
     }
 
-    // XXX: V2
     private void makeProgramFieldsVisible(int register) {
-        // Check that the specified register is valid
         if (register >= 0 && register < Player.NO_REGISTERS) {
-            // Loop through each player in the game
             for (int i = 0; i < board.getPlayersNumber(); i++) {
-                // Retrieve the player from the game board
                 Player player = board.getPlayer(i);
-                // Retrieve the program field for the specified register for this player
                 CommandCardField field = player.getProgramField(register);
-                // Make the program field visible for this player
                 field.setVisible(true);
             }
         }
     }
 
-    // XXX: V2
     private void makeProgramFieldsInvisible() {
-        // Loop through each player in the game
         for (int i = 0; i < board.getPlayersNumber(); i++) {
-            // Retrieve the player from the game board
             Player player = board.getPlayer(i);
-            // Loop through each program field for this player
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                // Retrieve the program field for this register for this player
                 CommandCardField field = player.getProgramField(j);
-                // Make the program field invisible for this player
                 field.setVisible(false);
             }
         }
     }
 
-
     // XXX: V2
     public void executePrograms() {
-        // Disable step mode
         board.setStepMode(false);
-        // Continue executing programs
         continuePrograms();
     }
+
     // XXX: V2
     public void executeStep() {
-        // Enable step mode
         board.setStepMode(true);
-        // Continue executing programs
         continuePrograms();
     }
 
     // XXX: V2
     private void continuePrograms() {
-        // Loop until the activation phase is over or step mode is enabled
         do {
-            // Execute the next step of the current player's program
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
-
 
     public void executeCommandOptionAndContinue(Command command) {
         board.setPhase(Phase.ACTIVATION);
@@ -205,7 +160,7 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
@@ -223,8 +178,15 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+                    // New register
+                    for (Player p : board.getPlayers()) {
+                        IFieldAction iFieldAction = p.getSpace();
+                        iFieldAction.doAction(this);
+                    }
                     step++;
-                    if (step < Player.NO_REGISTERS) {
+                    if (board.isGameover()) {
+                        board.setPhase(Phase.GAMEOVER);
+                    } else if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
@@ -242,9 +204,33 @@ public class GameController {
         }
     }
 
+    private Optional<Player> findWinner() {
+        List<Checkpoint> checkpoints = board.getCheckpoints();
+        HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
+        for (Checkpoint c : checkpoints) {
+            Set<Player> players = c.getPlayersLanded();
+            for (Player p : players) {
+                if (timesLandedPerPlayer.containsKey(p)) {
+                    int val = timesLandedPerPlayer.get(p);
+                    timesLandedPerPlayer.put(p, val + 1);
+                } else {
+                    timesLandedPerPlayer.put(p, 1);
+                }
+            }
+        }
+        for (Player p : timesLandedPerPlayer.keySet()) {
+            int val = timesLandedPerPlayer.get(p);
+            if (val == checkpoints.size()) {
+                return Optional.of(p);
+            }
+        }
+        return Optional.empty();
+
+    }
+
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player != null && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -266,12 +252,35 @@ public class GameController {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
-            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
+        Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        if (!isPlayerIsBlockedByWall(player, nextSpace)) {
+            if (nextSpace != null && nextSpace.getPlayer() != null) {
+                push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
+            }
+            if (nextSpace != null && nextSpace.getPlayer() == null) {
+                player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+            }
         }
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
-            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+
+    }
+
+    /**
+     * If we are moving south and the next space has a north wall or the current space has a south wall
+     * we can't move forward.
+     *
+     * @param player    the player that is moving
+     * @param nextSpace the space the player is moving to
+     * @return true if the player can't move forward
+     */
+    public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
+        Heading playerHeading = player.getHeading();
+        Heading oppositePlayerHeading = playerHeading.next().next();
+        Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
+        Set<Heading> nextSpaceWalls = nextSpace.getWalls();
+        if (nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading)) {
+            return true;
         }
+        return false;
 
     }
 
