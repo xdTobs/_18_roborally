@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,5 +51,35 @@ class BoardTest {
         gameController.finishProgrammingPhase();
         gc.executePrograms();
         assertTrue(board.getPhase() == Phase.GAMEOVER);
+    }
+
+    @Test
+    void serializeBoard() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String jsonString = gson.toJson(board);
+        System.out.println(jsonString);
+        Board board2 = gson.fromJson(jsonString, Board.class);
+//        assertEquals();
+    }
+
+    @Test
+    void serializeSpace() {
+        Space[][] spaces = board.getSpaces();
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String jsonString = gson.toJson(spaces);
+        Space[][] spaces2 = gson.fromJson(jsonString, Space[][].class);
+        assertEquals(spaces[0][0].getWalls().size(), spaces2[0][0].getWalls().size());
+    }
+
+    @Test
+    void serializePlayer() {
+        Player player = board.getPlayer(0);
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String jsonString = gson.toJson(player);
+        Player player2 = new Gson().fromJson(jsonString, Player.class);
+        assertEquals(player.getName(), player2.getName());
     }
 }

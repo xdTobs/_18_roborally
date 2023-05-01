@@ -34,13 +34,10 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class Space extends Subject implements IFieldAction {
-
-    public final Board board;
-
+    public final transient Board board;
     public final int x;
     public final int y;
-
-    private Player player = null;
+    private transient Player player = null;
     private Set<Heading> walls = new HashSet<>();
 
     public Space(Board board, int x, int y) {
@@ -48,6 +45,7 @@ public class Space extends Subject implements IFieldAction {
         this.x = x;
         this.y = y;
     }
+
 
     public Player getPlayer() {
         return player;
@@ -92,4 +90,5 @@ public class Space extends Subject implements IFieldAction {
     public boolean doAction(GameController gameController) {
         return true;
     }
+
 }

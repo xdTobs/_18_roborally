@@ -162,6 +162,7 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER) {
             int step = board.getStep();
+            System.out.println(Board.toJson(board));
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
@@ -267,6 +268,7 @@ public class GameController {
         }
 
     }
+
     public void moveBackwards(@NotNull Player player) {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
@@ -284,6 +286,7 @@ public class GameController {
         moveForward(player);
         moveForward(player);
     }
+
     public void moveForward_3(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
@@ -337,18 +340,19 @@ public class GameController {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
     }
-    public void again(@NotNull Player player){
+
+    public void again(@NotNull Player player) {
         int step = board.getStep();
         CommandCard card = player.getProgramField(step).getCard();
-        int i=1;
-        while(card.command==Command.AGAIN){
-            step = board.getStep()-i;
+        int i = 1;
+        while (card.command == Command.AGAIN) {
+            step = board.getStep() - i;
             card = player.getProgramField(step).getCard();
             i++;
         }
         if (card != null) {
             Command command = card.command;
-            if(command == Command.AGAIN){
+            if (command == Command.AGAIN) {
                 again(player);
             }
             if (command.isInteractive()) {
