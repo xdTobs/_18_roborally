@@ -54,7 +54,12 @@ public class RoboRallyMenuBar extends MenuBar {
 
     //private MenuItem loadGameBoard;
 
-    public RoboRallyMenuBar(AppController appController) {
+    public RoboRallyMenuBar(AppController appController, boolean debug) {
+        if(debug) {
+            Board b = appController.getStandardBoard().get();
+            appController.startDebugGame(b);
+            return;
+        }
         this.appController = appController;
 
         controlMenu = new Menu("File");

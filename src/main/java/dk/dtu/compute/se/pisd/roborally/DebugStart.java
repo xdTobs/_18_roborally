@@ -36,7 +36,7 @@ import javafx.stage.Stage;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class DebugStart extends Application {
+public class DebugStart extends RoboRally {
 
     private static final int MIN_APP_WIDTH = 600;
     private Stage stage;
@@ -67,8 +67,9 @@ public class DebugStart extends Application {
         // create the primary scene with the a menu bar and a pane for
         // the board view (which initially is empty); it will be filled
         // when the user creates a new game or loads a game
-        RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
+
         boardRoot = new BorderPane();
+        RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController, true);
         VBox vbox = new VBox(menuBar, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
         Scene primaryScene = new Scene(vbox);
