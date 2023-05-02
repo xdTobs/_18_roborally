@@ -34,7 +34,9 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -115,13 +117,11 @@ public class AppController implements Observer {
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
-//        try (FileOutputStream fileOutputStream = new FileOutputStream(file); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-//            objectOutputStream.writeObject(gameController.board);
-//            objectOutputStream.flush();
-//            System.out.printf("Saved to %s\n", file.getAbsolutePath());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            fileOutputStream.write(Board.toJson(gameController.board).getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadGame(File file) {
@@ -203,7 +203,7 @@ public class AppController implements Observer {
         FileChooser fileChooser = createFileChooser("Create Save File");
 
         // Show file chooser dialog
-        fileChooser.setInitialFileName("roborally-game.txt");
+        fileChooser.setInitialFileName("roborally-game.json");
         File selectedFile = fileChooser.showSaveDialog(roboRally.getStage());
         if (selectedFile != null) System.out.println(selectedFile.getName());
         return selectedFile;

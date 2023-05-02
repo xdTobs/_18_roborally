@@ -162,6 +162,7 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER) {
             int step = board.getStep();
+            System.out.println(Board.toJson(board));
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
@@ -236,10 +237,14 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case FORWARD -> this.moveForward(player);
+                case MOVE_1 -> this.moveForward(player);
+                case MOVE_2 -> this.moveForward_2(player);
+                case MOVE_3 -> this.moveForward_3(player);
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
-                case FAST_FORWARD -> this.fastForward(player);
+                case U_TURN -> this.u_turn(player);
+                case MOVE_BACK -> this.moveBackwards(player);
+                case AGAIN -> this.again(player);
                 default -> {
                     throw new RuntimeException("NOT IMPLEMENTED YET.");
                 }
@@ -264,6 +269,30 @@ public class GameController {
 
     }
 
+    public void moveBackwards(@NotNull Player player) {
+        int x = player.getSpace().x;
+        int y = player.getSpace().y;
+        int[] nextCoords = Heading.headingToCoords(player.getHeading());
+        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() != null) {
+            push(board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer(), player.getHeading());
+        }
+        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() == null) {
+            player.setSpace(board.getSpace(x - nextCoords[0], y - nextCoords[1]));
+        }
+    }
+
+    // TODO Assignment V2
+    public void moveForward_2(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+
+    public void moveForward_3(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+        moveForward(player);
+    }
+
     /**
      * If we are moving south and the next space has a north wall or the current space has a south wall
      * we can't move forward.
@@ -284,11 +313,6 @@ public class GameController {
 
     }
 
-    // TODO Assignment V2
-    public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-    }
 
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
@@ -297,6 +321,11 @@ public class GameController {
 
     // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
+    }
+
+    public void u_turn(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
         player.setHeading(player.getHeading().prev());
     }
 
@@ -309,6 +338,29 @@ public class GameController {
         }
         if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+        }
+    }
+
+    public void again(@NotNull Player player) {
+        int step = board.getStep();
+        CommandCard card = player.getProgramField(step).getCard();
+        int i = 1;
+        while (card.command == Command.AGAIN) {
+            step = board.getStep() - i;
+            card = player.getProgramField(step).getCard();
+            i++;
+        }
+        if (card != null) {
+            Command command = card.command;
+            if (command == Command.AGAIN) {
+                again(player);
+            }
+            if (command.isInteractive()) {
+                board.setPhase(Phase.PLAYER_INTERACTION);
+                return;
+            } else {
+                executeCommand(player, command);
+            }
         }
     }
 

@@ -21,10 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,13 +54,13 @@ public class Board extends Subject {
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
     //TODO: Fix test board constructor
-    public Board(int width, int height, @NotNull String boardName, Space[][] spaces) {
-        this.boardName = boardName;
-        this.width = width;
-        this.height = height;
-        this.spaces = spaces;
-        this.stepMode = false;
-    }
+//    public Board(int width, int height, @NotNull String boardName, Space[][] spaces) {
+//        this.boardName = boardName;
+//        this.width = width;
+//        this.height = height;
+//        this.spaces = spaces;
+//        this.stepMode = false;
+//    }
 
     public Board(int width, int height, String boardName) {
         this.width = width;
@@ -157,6 +154,12 @@ public class Board extends Subject {
     //add checkpoint
     // The stepMode is set to false.
 
+    public static String toJson(Board board) {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(board);
+    }
+
     public boolean isGameover() {
         return findWinner().isPresent();
     }
@@ -206,8 +209,7 @@ public class Board extends Subject {
     // Returns the Space object at a specified (x,y) position in the spaces array.
     // If the position is out of bounds, it returns null.
     public Space getSpace(int x, int y) {
-        if (x >= 0 && x < width &&
-                y >= 0 && y < height) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -332,9 +334,7 @@ public class Board extends Subject {
         // status of the game
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep();
+        return "Phase: " + getPhase().name() + ", Player = " + getCurrentPlayer().getName() + ", Step: " + getStep();
     }
 
     public List<Checkpoint> getCheckpoints() {
@@ -351,5 +351,7 @@ public class Board extends Subject {
 
     }
 
-
+    public Space[][] getSpaces() {
+        return spaces;
+    }
 }
