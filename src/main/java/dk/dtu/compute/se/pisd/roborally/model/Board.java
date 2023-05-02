@@ -168,7 +168,7 @@ public class Board extends Subject {
     public Optional<Player> findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
         for (Player p : players)
-            if (p.getCheckpointCounter() + 1== checkpoints.size()) {
+            if (p.getCheckpointCounter()== checkpoints.size()) {
                 return Optional.of(p);
             }
 
