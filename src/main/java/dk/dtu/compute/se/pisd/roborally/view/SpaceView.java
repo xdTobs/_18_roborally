@@ -69,7 +69,7 @@ public class SpaceView extends StackPane implements ViewObserver {
          * This switch statement checks which type of space is given,
          * and adds the appropriate visuals
          */
-        //TODO: Add correct visuals
+
         //Add the different spacetypes here in the switch statement
 
         Set<Heading> walls = space.getWalls();

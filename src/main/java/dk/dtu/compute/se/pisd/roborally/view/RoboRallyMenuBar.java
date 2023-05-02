@@ -63,6 +63,7 @@ public class RoboRallyMenuBar extends MenuBar {
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
             Optional<Board> boardOptional = appController.getBoardFromFile();
+
             boardOptional.ifPresent(board -> appController.newGame(board, false));
             if (boardOptional.isEmpty()) {
                 Alert noBoardLoadedAlert = new Alert(Alert.AlertType.INFORMATION);

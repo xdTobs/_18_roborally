@@ -31,7 +31,7 @@ import java.io.Serializable;
  */
 public enum Heading  {
 
-    SOUTH, WEST, NORTH, EAST;
+     NORTH, EAST, SOUTH, WEST;
 
     public static int[] headingToCoords(Heading heading){
 

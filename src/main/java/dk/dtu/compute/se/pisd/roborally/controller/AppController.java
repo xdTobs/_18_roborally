@@ -60,7 +60,11 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+
+
     public void newGame(Board board, boolean isLoaded) {
+
+
         if (isLoaded) {
             gameController = new GameController(board);
             roboRally.createBoardView(gameController);
@@ -83,37 +87,46 @@ public class AppController implements Observer {
                 }
             }
         } else {
+
             ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
             dialog.setTitle("Player number.");
             dialog.setHeaderText("Select number of players.");
             Optional<Integer> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                if (gameController != null) {
-                    // The UI should not allow this, but in case this happens anyway.
-                    // give the user the option to save the game or abort this operation!
-                    if (!stopGame()) {
-                        return;
-                    }
+            if(result.isPresent())
+                initGame(board, result.get());
+        }
+    }
+
+    private void initGame(Board board, Integer players) {
+            if (gameController != null) {
+                // The UI should not allow this, but in case this happens anyway.
+                // give the user the option to save the game or abort this operation!
+                if (!stopGame()) {
+                    return;
                 }
+            }
 
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
 
-                gameController = new GameController(board);
-                int no = result.get();
-                for (int i = 0; i < no; i++) {
-                    Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                    board.addPlayer(player);
-                    player.setSpace(board.getSpace(i % board.width, i));
-                }
-                // XXX: V2
-                // board.setCurrentPlayer(board.getPlayer(0));
-                gameController.startProgrammingPhase();
-                roboRally.createBoardView(gameController);
+            gameController = new GameController(board);
+            int no = players;
+            for (int i = 0; i < no; i++) {
+                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                board.addPlayer(player);
+                player.setSpace(board.getSpace(i % board.width, i));
             }
+            // XXX: V2
+            // board.setCurrentPlayer(board.getPlayer(0));
+            gameController.startProgrammingPhase();
+            roboRally.createBoardView(gameController);
         }
+
+    public void startDebugGame(Board board){
+        initGame(board,2);
     }
+
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
@@ -242,5 +255,8 @@ public class AppController implements Observer {
         }
 
         return Optional.empty();
+    }
+    public Optional<Board> getStandardBoard(){
+        return Board.createBoardFromFile(new File("Boards/Board1.json"));
     }
 }
