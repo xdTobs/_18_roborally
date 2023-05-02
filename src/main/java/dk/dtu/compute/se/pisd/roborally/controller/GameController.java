@@ -296,6 +296,7 @@ public class GameController {
      * @return true if the player can't move forward
      */
     public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
+        if(nextSpace==null)return true;
         Heading playerHeading = player.getHeading();
         Heading oppositePlayerHeading = playerHeading.next().next();
         Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
