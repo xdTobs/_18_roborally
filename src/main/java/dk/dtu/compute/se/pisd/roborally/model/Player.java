@@ -42,6 +42,16 @@ public class Player extends Subject {
     private String color;
 
     private Space space;
+
+    public int getCheckpointCounter() {
+        return checkpointCounter;
+    }
+
+    public void incrementCheckpointCounter() {
+        this.checkpointCounter++;
+    }
+
+    private int checkpointCounter;
     private Heading heading = SOUTH;
 
     //private boolean hasMovedThisTurn = false;

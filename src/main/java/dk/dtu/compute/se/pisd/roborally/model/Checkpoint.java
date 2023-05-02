@@ -11,20 +11,20 @@ import java.util.Set;
 public class Checkpoint extends Space implements IFieldAction {
 
     int checkpointNumber;
-    Set<Player> playerLanded = new HashSet<>();
 
     public Checkpoint(Board board, int x, int y, int checkpointNumber) {
         super(board, x, y);
         this.checkpointNumber = checkpointNumber;
     }
 
-    public Set<Player> getPlayersLanded() {
-        return playerLanded;
-    }
 
     @Override
     public boolean doAction(GameController gameController) {
-        playerLanded.add(getPlayer());
-        return true;
+
+        if(this.getPlayer().getCheckpointCounter()+1==checkpointNumber){
+            this.getPlayer().incrementCheckpointCounter();
+            return true;
+        }
+        return false;
     }
 }

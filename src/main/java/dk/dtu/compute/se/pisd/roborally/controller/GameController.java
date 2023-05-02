@@ -205,29 +205,6 @@ public class GameController {
         }
     }
 
-    private Optional<Player> findWinner() {
-        List<Checkpoint> checkpoints = board.getCheckpoints();
-        HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
-        for (Checkpoint c : checkpoints) {
-            Set<Player> players = c.getPlayersLanded();
-            for (Player p : players) {
-                if (timesLandedPerPlayer.containsKey(p)) {
-                    int val = timesLandedPerPlayer.get(p);
-                    timesLandedPerPlayer.put(p, val + 1);
-                } else {
-                    timesLandedPerPlayer.put(p, 1);
-                }
-            }
-        }
-        for (Player p : timesLandedPerPlayer.keySet()) {
-            int val = timesLandedPerPlayer.get(p);
-            if (val == checkpoints.size()) {
-                return Optional.of(p);
-            }
-        }
-        return Optional.empty();
-
-    }
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
@@ -347,7 +324,7 @@ public class GameController {
         int step = board.getStep();
         CommandCard card = player.getProgramField(step).getCard();
         int i = 1;
-        while (card.command == Command.AGAIN) {
+        while (card.command == Command.AGAIN&&step>=0) {
             step = board.getStep() - i;
             card = player.getProgramField(step).getCard();
             i++;
