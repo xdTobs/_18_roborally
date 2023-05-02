@@ -92,9 +92,9 @@ public class DebugStart extends RoboRally {
         boardRoot.getChildren().clear();
 
         if (gameController != null) {
-            CommandCard again = new CommandCard(Command.AGAIN);
-            gameController.board.getPlayer(0).getAvailableCardSlot(0).setCard(again);
-            gameController.board.getPlayer(0).getAvailableCardSlot(1).setCard(again);
+//            CommandCard again = new CommandCard(Command.AGAIN);
+//            gameController.board.getPlayer(0).getAvailableCardSlot(0).setCard(again);
+//            gameController.board.getPlayer(0).getAvailableCardSlot(1).setCard(again);
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);

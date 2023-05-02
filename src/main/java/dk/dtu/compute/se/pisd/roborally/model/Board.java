@@ -26,7 +26,9 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
@@ -68,7 +70,7 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-    public static Optional<Board> createBoardFromFile(File boardFile) {
+    public static Optional<Board> createBoardFromBoardFile(File boardFile) {
         Reader reader = null;
         try {
             reader = new FileReader(boardFile);
@@ -164,17 +166,26 @@ public class Board extends Subject {
 
         String json = bufferedReader.lines().collect(Collectors.joining("\n"));
         Board board = new Gson().fromJson(json, Board.class);
-        List<Player> players = board.getPlayers();
-        for (Player player : players) {
+        for (Player player : board.getPlayers()) {
             player.board = board;
-            player.getSpace().setPlayer(player);
+            // Make the two references one.
+            int x = player.getSpace().x;
+            int y = player.getSpace().y;
+            Space space = board.getSpace(x, y);
+            player.setSpace(space);
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CommandCardField commandCardField = player.getRegisterSlot(i);
                 commandCardField.player = player;
+                CommandCard commandCard = commandCardField.getCard();
+                if (commandCard != null) {
+                }
             }
             for (int i = 0; i < Player.NO_CARDS; i++) {
                 CommandCardField commandCardField = player.getAvailableCardSlot(i);
                 commandCardField.player = player;
+                CommandCard commandCard = commandCardField.getCard();
+                if (commandCard != null) {
+                }
             }
         }
         for (Space[] row : board.getSpaces()) {
@@ -194,7 +205,7 @@ public class Board extends Subject {
     public Optional<Player> findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
         for (Player p : players)
-            if (p.getCheckpointCounter()== checkpoints.size()) {
+            if (p.getCheckpointCounter() == checkpoints.size()) {
                 return Optional.of(p);
             }
 

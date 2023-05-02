@@ -28,7 +28,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-import java.io.File;
+import java.io.*;
 import java.util.Optional;
 
 /**
@@ -55,8 +55,10 @@ public class RoboRallyMenuBar extends MenuBar {
     //private MenuItem loadGameBoard;
 
     public RoboRallyMenuBar(AppController appController, boolean debug) {
-        if(debug) {
-            Board b = appController.getStandardBoard().get();
+        if (debug) {
+            InputStreamReader inputStreamReader = new InputStreamReader(RoboRallyMenuBar.class.getResourceAsStream("/saves/save.json"));
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            Board b = Board.fromJson(bufferedReader);
             appController.startDebugGame(b);
             return;
         }
@@ -69,7 +71,7 @@ public class RoboRallyMenuBar extends MenuBar {
         newGame.setOnAction(e -> {
             Optional<Board> boardOptional = appController.getBoardFromFile();
 
-            boardOptional.ifPresent(board -> appController.newGame(board, false));
+            boardOptional.ifPresent(board -> appController.newGame(board));
             if (boardOptional.isEmpty()) {
                 Alert noBoardLoadedAlert = new Alert(Alert.AlertType.INFORMATION);
                 noBoardLoadedAlert.setTitle("Board not loaded.");
@@ -96,9 +98,11 @@ public class RoboRallyMenuBar extends MenuBar {
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction(e -> {
-            File file = this.appController.getFile();
-            if (file != null) {
-                this.appController.loadGame(file);
+            try (FileReader fileReader = new FileReader(this.appController.getFile()); BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+                Board board = Board.fromJson(bufferedReader);
+                this.appController.loadGame(board);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         });
         controlMenu.getItems().add(loadGame);

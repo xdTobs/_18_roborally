@@ -61,69 +61,60 @@ public class AppController implements Observer {
     }
 
 
-
-    public void newGame(Board board, boolean isLoaded) {
-        if (isLoaded) {
-            gameController = new GameController(board);
-            roboRally.createBoardView(gameController);
-            switch (gameController.board.getPhase()) {
-
-                case INITIALISATION -> {
-                    // TODO Look up how to load if in this phase, or disable saving in these phases.
-                    // I don't know if it is okay to save and load here, so I only make it possible in programming phase.
-
-                }
-                case PROGRAMMING -> {
-                    // TODO make sure which part of the programming phase it is in is synced or only make saving possible at start of phase.
-                    roboRally.createBoardView(gameController);
-                }
-                case ACTIVATION -> {
-                    // TODO Look up how to load if in this phase, or disable saving in these phases.
-                }
-                case PLAYER_INTERACTION -> {
-                    // TODO Look up how to load if in this phase, or disable saving in these phases.
-                }
-            }
-        } else {
-
-            ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-            dialog.setTitle("Player number.");
-            dialog.setHeaderText("Select number of players.");
-            Optional<Integer> result = dialog.showAndWait();
-            if(result.isPresent())
-                initGame(board, result.get());
+    public void newGame(Board board) {
+        gameController = new GameController(board);
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
+        dialog.setTitle("Player number.");
+        dialog.setHeaderText("Select number of players.");
+        Optional<Integer> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            newGameFromBoardfile(board, result.get());
         }
+        roboRally.createBoardView(gameController);
+
     }
 
-    private void initGame(Board board, Integer players) {
-            if (gameController != null) {
-                // The UI should not allow this, but in case this happens anyway.
-                // give the user the option to save the game or abort this operation!
-                if (!stopGame()) {
-                    return;
-                }
+    private void newGameFromBoardfile(Board board, Integer players) {
+        if (gameController != null) {
+            // The UI should not allow this, but in case this happens anyway.
+            // give the user the option to save the game or abort this operation!
+            if (!stopGame()) {
+                return;
             }
+        }
 
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
 
-            gameController = new GameController(board);
-            int no = players;
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
-            // XXX: V2
-            // board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
+        gameController = new GameController(board);
+        int no = players;
+        for (int i = 0; i < no; i++) {
+            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i));
         }
+        // XXX: V2
+        // board.setCurrentPlayer(board.getPlayer(0));
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
+    }
 
-    public void startDebugGame(Board board){
+    public void loadGame(Board board) {
+        gameController = new GameController(board);
+        switch (gameController.board.getPhase()) {
+            case PROGRAMMING -> {
+                gameController.startProgrammingPhase();
+            }
+            default -> {
+                throw new RuntimeException("Invalid save state.");
+            }
+        }
+        roboRally.createBoardView(gameController);
+    }
 
-        initGame(board,2);
+    public void startDebugGame(Board board) {
+        loadGame(board);
     }
 
 
@@ -134,18 +125,6 @@ public class AppController implements Observer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void loadGame(File file) {
-        // XXX needs to be implemented eventually
-        // for now, we just create a new game
-
-//        try (FileInputStream fileInputStream = new FileInputStream(file); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-//            Board board = (Board) objectInputStream.readObject();
-//            newGame(board, true);
-//        } catch (ClassNotFoundException | IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     /**
@@ -250,12 +229,13 @@ public class AppController implements Observer {
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
             File boardFile = fileChooser.showOpenDialog(null);
-            return Board.createBoardFromFile(boardFile);
+            return Board.createBoardFromBoardFile(boardFile);
         }
 
         return Optional.empty();
     }
-    public Optional<Board> getStandardBoard(){
-        return Board.createBoardFromFile(new File("Boards/DIZZY_HIGHWAY.json"));
+
+    public Optional<Board> getStandardBoard() {
+        return Board.createBoardFromBoardFile(new File("Boards/DIZZY_HIGHWAY.json"));
     }
 }
