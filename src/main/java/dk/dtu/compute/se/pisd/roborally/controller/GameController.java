@@ -259,10 +259,10 @@ public class GameController {
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
-            if (nextSpace != null && nextSpace.getPlayer() != null) {
+            if (nextSpace.getPlayer() != null) {
                 push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
             }
-            if (nextSpace != null && nextSpace.getPlayer() == null) {
+            else {
                 player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
             }
         }
@@ -270,15 +270,9 @@ public class GameController {
     }
 
     public void moveBackwards(@NotNull Player player) {
-        int x = player.getSpace().x;
-        int y = player.getSpace().y;
-        int[] nextCoords = Heading.headingToCoords(player.getHeading());
-        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() != null) {
-            push(board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer(), player.getHeading());
-        }
-        if (board.getSpace(x - nextCoords[0], y - nextCoords[1]) != null && board.getSpace(x - nextCoords[0], y - nextCoords[1]).getPlayer() == null) {
-            player.setSpace(board.getSpace(x - nextCoords[0], y - nextCoords[1]));
-        }
+        u_turn(player);
+        moveForward(player);
+        u_turn(player);
     }
 
     // TODO Assignment V2
