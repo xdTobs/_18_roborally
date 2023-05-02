@@ -59,11 +59,9 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         //TODO: make board grey with black borders
 
-        if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
-        } else {
-            this.setStyle("-fx-background-color: black;");
-        }
+
+        this.setStyle("-fx-background-color: #cbc5c5;-fx-border-color: black; -fx-border-width: 0.2px;");
+
 
         /**
          * This switch statement checks which type of space is given,
@@ -74,8 +72,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Set<Heading> walls = space.getWalls();
         if (!walls.isEmpty()) {
-            StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
-            String borderColor = "green";
+            StringBuilder borderCss = new StringBuilder("-fx-border-width: 6; -fx-border-color: ");
+            String borderColor = "#FFD700";
             for (Heading heading : Heading.values()) {
                 if (walls.contains(heading)) {
                     borderCss.append(borderColor).append(" ");
