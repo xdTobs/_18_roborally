@@ -254,6 +254,10 @@ public class GameController {
 
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
+        push(player,player.getHeading());
+
+        //Only commented in case i missed a difference between move and push -Tobs
+        /*
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
@@ -266,7 +270,7 @@ public class GameController {
                 player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
             }
         }
-
+*/
     }
 
     public void moveBackwards(@NotNull Player player) {
@@ -328,11 +332,14 @@ public class GameController {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(direction);
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
-            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), direction);
+        Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        if (isPlayerIsBlockedByWall(player, nextSpace)||nextSpace==null) return;
+
+        if (nextSpace.getPlayer() == null) {
+            player.setSpace(nextSpace);
         }
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
-            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
+        else {
+            push(nextSpace.getPlayer(), direction);
         }
     }
 
