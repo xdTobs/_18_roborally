@@ -15,6 +15,7 @@ public class ConveyorBelt extends Space implements IFieldAction {
 
     @Override
     public boolean doAction(GameController gameController) {
+        this.getPlayer().setHeading(heading);
         gameController.moveForward(this.getPlayer());
         return true;
     }

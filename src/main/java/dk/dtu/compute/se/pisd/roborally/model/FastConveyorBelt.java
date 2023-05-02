@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 public class FastConveyorBelt extends ConveyorBelt {
@@ -10,8 +11,13 @@ public class FastConveyorBelt extends ConveyorBelt {
 
     @Override
     public boolean doAction(GameController gameController) {
-
+        this.getPlayer().setHeading(heading);
         gameController.moveForward_2(this.getPlayer());
+
+        /*Space space = this.getPlayer().getSpace();
+        if(space instanceof ConveyorBelt) {
+            this
+        }*/
 
         return true;
     }
