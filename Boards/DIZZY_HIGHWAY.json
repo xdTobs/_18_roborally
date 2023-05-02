@@ -1,17 +1,17 @@
 {
-  "boardName": "Board1",
+  "boardName": "DIZZY HIGHWAY",
   "width": 13,
   "height": 10,
   "board": [
-    ["we", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "bbe", "wse", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "c1", "e", "e", "e", "e", "e", "bbs", "e", "e", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "e", "bbs", "e", "c2", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "c3", "e", "e", "e", "e", "bgn", "e"],
-    ["e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
-    ["e", "e", "e", "e", "e", "e", "bbs", "e", "e", "e", "e", "e", "e"]
+    ["e", "e", "bge", "e", "bbs", "bbs", "e", "e", "e", "e", "e", "e", "e"],
+    ["e", "e", "e", "e", "bbs", "bbw", "bbw", "bbw", "bbw", "bbw", "bbw", "bbw", "bbw"],
+    ["e", "wn", "e", "e", "bbs", "e", "e", "e", "e", "e", "e", "bbn", "bbw"],
+    ["e", "e", "e", "e", "bbs", "e", "wn", "e", "ww", "we", "e", "bbn", "c"],
+    ["e", "e", "we", "e", "bbs", "e", "ws", "e", "e", "e", "e", "bbn", "e"],
+    ["e", "e", "we", "e", "bbs", "e", "e", "e", "e", "wn", "e", "bbn", "e"],
+    ["e", "e", "e", "e", "bbs", "e", "ww", "we", "e", "ws", "e", "bbn", "e"],
+    ["e", "ws", "e", "e", "bbs", "e", "e", "e", "e", "e", "e", "bbn", "e"],
+    ["e", "e", "e", "e", "bbe", "bbe", "bbe", "bbe", "bbe", "bbe", "bbe", "bbn", "e"],
+    ["e", "e", "bge", "e", "e", "e", "e", "e", "e", "e", "bbn", "bbn", "e"]
   ]
 }
