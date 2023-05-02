@@ -44,7 +44,7 @@ public class Player extends Subject {
     private Space space;
     private Heading heading = SOUTH;
 
-    private boolean hasMovedThisTurn = false;
+    //private boolean hasMovedThisTurn = false;
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
@@ -126,13 +126,13 @@ public class Player extends Subject {
         }
     }
 
-    public boolean hasMovedThisTurn() {
+    /*public boolean hasMovedThisTurn() {
         return hasMovedThisTurn;
     }
 
     public void setHasMovedThisTurn(boolean hasMovedThisTurn) {
         this.hasMovedThisTurn = hasMovedThisTurn;
-    }
+    }*/
 
     public CommandCardField getProgramField(int i) {
         return program[i];
