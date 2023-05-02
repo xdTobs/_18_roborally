@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Set;
 
 /**
@@ -60,7 +61,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         //TODO: make board grey with black borders
 
 
-        this.setStyle("-fx-background-color: #cbc5c5;-fx-border-color: black; -fx-border-width: 0.2px;");
+        String filePath = new File("Board_Element_Pictures/Empty_Space.png").toURI().toString();
+        this.setStyle("-fx-background-image: url(" + filePath + ");" +
+                "-fx-background-size: 100% 100%;" +
+                "-fx-background-repeat: no-repeat;" +
+                "-fx-background-position: center;");
 
 
         /**
