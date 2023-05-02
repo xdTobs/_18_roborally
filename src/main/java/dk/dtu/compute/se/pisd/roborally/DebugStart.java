@@ -23,9 +23,10 @@ package dk.dtu.compute.se.pisd.roborally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Command;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -91,6 +92,9 @@ public class DebugStart extends RoboRally {
         boardRoot.getChildren().clear();
 
         if (gameController != null) {
+            CommandCard again = new CommandCard(Command.AGAIN);
+            gameController.board.getPlayer(0).getAvailableCardSlot(0).setCard(again);
+            gameController.board.getPlayer(0).getAvailableCardSlot(1).setCard(again);
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);

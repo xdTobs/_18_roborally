@@ -36,7 +36,7 @@ public class Player extends Subject {
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    final public transient Board board;
+    public transient Board board;
 
     private String name;
     private String color;
@@ -46,8 +46,8 @@ public class Player extends Subject {
 
     //private boolean hasMovedThisTurn = false;
 
-    private CommandCardField[] program;
-    private CommandCardField[] cards;
+    private CommandCardField[] registerSlots;
+    private CommandCardField[] availableCardSlots;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -56,14 +56,14 @@ public class Player extends Subject {
 
         this.space = null;
 
-        program = new CommandCardField[NO_REGISTERS];
-        for (int i = 0; i < program.length; i++) {
-            program[i] = new CommandCardField(this);
+        registerSlots = new CommandCardField[NO_REGISTERS];
+        for (int i = 0; i < registerSlots.length; i++) {
+            registerSlots[i] = new CommandCardField(this);
         }
 
-        cards = new CommandCardField[NO_CARDS];
-        for (int i = 0; i < cards.length; i++) {
-            cards[i] = new CommandCardField(this);
+        availableCardSlots = new CommandCardField[NO_CARDS];
+        for (int i = 0; i < availableCardSlots.length; i++) {
+            availableCardSlots[i] = new CommandCardField(this);
         }
     }
 
@@ -134,12 +134,12 @@ public class Player extends Subject {
         this.hasMovedThisTurn = hasMovedThisTurn;
     }*/
 
-    public CommandCardField getProgramField(int i) {
-        return program[i];
+    public CommandCardField getRegisterSlot(int i) {
+        return registerSlots[i];
     }
 
-    public CommandCardField getCardField(int i) {
-        return cards[i];
+    public CommandCardField getAvailableCardSlot(int i) {
+        return availableCardSlots[i];
     }
 
 }

@@ -80,7 +80,7 @@ public class PlayerView extends Tab implements ViewObserver {
         programPane.setHgap(2.0);
         programCardViews = new CardFieldView[Player.NO_REGISTERS];
         for (int i = 0; i < Player.NO_REGISTERS; i++) {
-            CommandCardField cardField = player.getProgramField(i);
+            CommandCardField cardField = player.getRegisterSlot(i);
             if (cardField != null) {
                 programCardViews[i] = new CardFieldView(gameController, cardField);
                 programPane.add(programCardViews[i], i, 0);
@@ -115,7 +115,7 @@ public class PlayerView extends Tab implements ViewObserver {
         cardsPane.setHgap(2.0);
         cardViews = new CardFieldView[Player.NO_CARDS];
         for (int i = 0; i < Player.NO_CARDS; i++) {
-            CommandCardField cardField = player.getCardField(i);
+            CommandCardField cardField = player.getAvailableCardSlot(i);
             if (cardField != null) {
                 cardViews[i] = new CardFieldView(gameController, cardField);
                 cardsPane.add(cardViews[i], i, 0);
@@ -205,7 +205,7 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
                     int step = gameController.board.getStep();
-                    CommandCard card = player.getProgramField(step).getCard();
+                    CommandCard card = player.getRegisterSlot(step).getCard();
                     List<Command> options = card.command.getOptions();
 
                     for (Command option : options) {

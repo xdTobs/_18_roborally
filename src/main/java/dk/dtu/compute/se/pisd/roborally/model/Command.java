@@ -49,13 +49,6 @@ public enum Command   {
 
     final public String displayName;
 
-    // XXX Assignment P3
-    // Command(String displayName) {
-    //     this.displayName = displayName;
-    // }
-    //
-    // replaced by the code below:
-
     final private List<Command> options;
 
     Command(String displayName, Command... options) {

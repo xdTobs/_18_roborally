@@ -64,12 +64,12 @@ public class GameController {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
+                    CommandCardField field = player.getRegisterSlot(j);
                     field.setCard(null);
                     field.setVisible(true);
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
-                    CommandCardField field = player.getCardField(j);
+                    CommandCardField field = player.getAvailableCardSlot(j);
                     field.setCard(generateRandomCommandCard());
                     field.setVisible(true);
                 }
@@ -95,7 +95,7 @@ public class GameController {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
-                CommandCardField field = player.getProgramField(register);
+                CommandCardField field = player.getRegisterSlot(register);
                 field.setVisible(true);
             }
         }
@@ -105,7 +105,7 @@ public class GameController {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                CommandCardField field = player.getProgramField(j);
+                CommandCardField field = player.getRegisterSlot(j);
                 field.setVisible(false);
             }
         }
@@ -164,7 +164,7 @@ public class GameController {
             int step = board.getStep();
             System.out.println(Board.toJson(board));
             if (step >= 0 && step < Player.NO_REGISTERS) {
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
+                CommandCard card = currentPlayer.getRegisterSlot(step).getCard();
                 if (card != null) {
                     Command command = card.command;
                     if (command.isInteractive()) {
@@ -338,11 +338,11 @@ public class GameController {
 
     public void again(@NotNull Player player) {
         int step = board.getStep();
-        CommandCard card = player.getProgramField(step).getCard();
+        CommandCard card = player.getRegisterSlot(step).getCard();
         int i = 1;
         while (card.command == Command.AGAIN) {
             step = board.getStep() - i;
-            card = player.getProgramField(step).getCard();
+            card = player.getRegisterSlot(step).getCard();
             i++;
         }
         if (card != null) {

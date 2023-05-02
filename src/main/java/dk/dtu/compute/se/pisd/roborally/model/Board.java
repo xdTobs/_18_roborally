@@ -25,11 +25,9 @@ import com.google.gson.*;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
@@ -47,7 +45,8 @@ public class Board extends Subject {
     private final List<Player> players = new ArrayList<>();
     public int width;
     private Integer gameId;
-    private Player current;
+    //    private Player current;
+    private int currentPlayerIndex = 0;
     private Phase phase = INITIALISATION;
     private int step = 0;
     private boolean stepMode;
@@ -160,6 +159,33 @@ public class Board extends Subject {
         return gson.toJson(board);
     }
 
+    public static Board fromJson(BufferedReader bufferedReader) {
+
+        String json = bufferedReader.lines().collect(Collectors.joining("\n"));
+        Board board = new Gson().fromJson(json, Board.class);
+        List<Player> players = board.getPlayers();
+        for (Player player : players) {
+            player.board = board;
+            player.getSpace().setPlayer(player);
+            for (int i = 0; i < Player.NO_REGISTERS; i++) {
+                CommandCardField commandCardField = player.getRegisterSlot(i);
+                commandCardField.player = player;
+            }
+            for (int i = 0; i < Player.NO_CARDS; i++) {
+                CommandCardField commandCardField = player.getAvailableCardSlot(i);
+                commandCardField.player = player;
+            }
+        }
+        for (Space[] row : board.getSpaces()) {
+            for (Space space : row) {
+                space.board = board;
+            }
+        }
+
+        return board;
+
+    }
+
     public boolean isGameover() {
         return findWinner().isPresent();
     }
@@ -244,13 +270,14 @@ public class Board extends Subject {
 
     // Returns the current player
     public Player getCurrentPlayer() {
-        return current;
+        return getPlayer(currentPlayerIndex);
     }
 
     // Set the current player to the specified player.
     public void setCurrentPlayer(Player player) {
-        if (player != this.current && players.contains(player)) {
-            this.current = player;
+        Player current = getCurrentPlayer();
+        if (player != current && players.contains(player)) {
+            currentPlayerIndex = players.indexOf(player);
             notifyChange();
         }
     }

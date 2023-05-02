@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class Space extends Subject implements IFieldAction {
-    public final transient Board board;
+    public transient Board board;
     public final int x;
     public final int y;
     private transient Player player = null;

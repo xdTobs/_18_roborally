@@ -103,14 +103,14 @@ public class CardFieldView extends GridPane implements ViewObserver {
         if (cardField.player != null) {
 
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CommandCardField other = cardField.player.getProgramField(i);
+                CommandCardField other = cardField.player.getRegisterSlot(i);
                 if (other == cardField) {
                     return "P," + i;
                 }
             }
 
             for (int i = 0; i < Player.NO_CARDS; i++) {
-                CommandCardField other = cardField.player.getCardField(i);
+                CommandCardField other = cardField.player.getAvailableCardSlot(i);
                 if (other == cardField) {
                     return "C," + i;
                 }
@@ -127,11 +127,11 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 int i = Integer.parseInt(strings[1]);
                 if ("P".equals(strings[0])) {
                     if (i < Player.NO_REGISTERS) {
-                        return field.player.getProgramField(i);
+                        return field.player.getRegisterSlot(i);
                     }
                 } else if ("C".equals(strings[0])) {
                     if (i < Player.NO_CARDS) {
-                        return field.player.getCardField(i);
+                        return field.player.getAvailableCardSlot(i);
                     }
                 }
             }

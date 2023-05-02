@@ -6,7 +6,10 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,8 +49,8 @@ class BoardTest {
         Player p2 = board.getPlayer(1);
         CommandCard c1 = new CommandCard(Command.MOVE_1);
         CommandCard c2 = new CommandCard(Command.MOVE_1);
-        p2.getProgramField(0).setCard(c1);
-        p2.getProgramField(1).setCard(c2);
+        p2.getRegisterSlot(0).setCard(c1);
+        p2.getRegisterSlot(1).setCard(c2);
         gameController.finishProgrammingPhase();
         gc.executePrograms();
         assertTrue(board.getPhase() == Phase.GAMEOVER);
@@ -81,5 +84,20 @@ class BoardTest {
         String jsonString = gson.toJson(player);
         Player player2 = new Gson().fromJson(jsonString, Player.class);
         assertEquals(player.getName(), player2.getName());
+    }
+
+    @Test
+    void boardFromJsonSaveGameState() {
+        InputStream in = BoardTest.class.getResourceAsStream("/saveGame.json");
+        InputStreamReader inputStreamReader = new InputStreamReader(in);
+        BufferedReader bufferedReader = null;
+        if (in != null) {
+            bufferedReader = new BufferedReader(inputStreamReader);
+        }
+        Board board = Board.fromJson(bufferedReader);
+        System.out.println(board);
+
+//        Board board = Board.fromJson()
+//        assertEquals(board.getCheckpoints().size(), 2);
     }
 }
