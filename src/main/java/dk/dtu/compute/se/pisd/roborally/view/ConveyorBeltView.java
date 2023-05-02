@@ -19,18 +19,31 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 public class ConveyorBeltView extends SpaceView {
     public ConveyorBeltView(@NotNull ConveyorBelt conveyorBelt) {
         super(conveyorBelt);
+        String filePath = new File("Board_Element_Pictures/Green_Arrow.png").toURI().toString();
 
-        String filePath = new File("Board_Element_Pictures/Green_Arrow.PNG").getAbsolutePath();
-        ImageView greenArrow = new ImageView(new Image(filePath));
-        greenArrow.setFitHeight(SPACE_HEIGHT);
-        greenArrow.setFitWidth(SPACE_WIDTH - 20);
         if (conveyorBelt.getHeading() == EAST) {
-            greenArrow.setRotate(90);
+            appendStyle("-fx-background-image: url('" + filePath + "');" +
+                    "-fx-background-size: 75% 100%;" +
+                    "-fx-background-repeat: no-repeat;" +
+                    "-fx-background-position: center;" +
+                    "-fx-rotate: 90;");
         } else if (conveyorBelt.getHeading() == SOUTH) {
-            greenArrow.setRotate(180);
+            appendStyle("-fx-background-image: url('" + filePath + "');" +
+                    "-fx-background-size: 75% 100%;" +
+                    "-fx-background-repeat: no-repeat;" +
+                    "-fx-background-position: center;" +
+                    "-fx-rotate: 180;");
         } else if (conveyorBelt.getHeading() == WEST) {
-            greenArrow.setRotate(270);
+            appendStyle("-fx-background-image: url('" + filePath + "');" +
+                    "-fx-background-size: 75% 100%;" +
+                    "-fx-background-repeat: no-repeat;" +
+                    "-fx-background-position: center;" +
+                    "-fx-rotate: 270;");
+        } else if (conveyorBelt.getHeading() == NORTH) {
+            appendStyle("-fx-background-image: url('" + filePath + "');" +
+                    "-fx-background-size: 75% 100%;" +
+                    "-fx-background-repeat: no-repeat;" +
+                    "-fx-background-position: center;");
         }
-        this.getChildren().add(greenArrow);
     }
 }
