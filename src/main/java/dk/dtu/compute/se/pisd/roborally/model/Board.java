@@ -115,9 +115,10 @@ public class Board extends Subject {
                             }
                         }
                     }
-                    //TODO: Create way of adding different checkpoints
+
                     case 'c' -> {
-                        space = new Checkpoint(board, x, y, 1);
+                        int checkpointnr = Integer.parseInt(valueAtSpace.substring(1));
+                        space = new Checkpoint(board, x, y, checkpointnr);
                     }
                     case 'b' -> {
                         Heading heading = switch (valueAtSpace.charAt(2)) {
@@ -192,24 +193,11 @@ public class Board extends Subject {
 
     public Optional<Player> findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
-        HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
-        for (Checkpoint c : checkpoints) {
-            Set<Player> players = c.getPlayersLanded();
-            for (Player p : players) {
-                if (timesLandedPerPlayer.containsKey(p)) {
-                    int val = timesLandedPerPlayer.get(p);
-                    timesLandedPerPlayer.put(p, val + 1);
-                } else {
-                    timesLandedPerPlayer.put(p, 1);
-                }
-            }
-        }
-        for (Player p : timesLandedPerPlayer.keySet()) {
-            int val = timesLandedPerPlayer.get(p);
-            if (val == checkpoints.size()) {
+        for (Player p : players)
+            if (p.getCheckpointCounter()== checkpoints.size()) {
                 return Optional.of(p);
             }
-        }
+
         return Optional.empty();
 
     }

@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Set;
 
 /**
@@ -59,11 +60,13 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         //TODO: make board grey with black borders
 
-        if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
-        } else {
-            this.setStyle("-fx-background-color: black;");
-        }
+
+        String filePath = new File("Board_Element_Pictures/Empty_Space.png").toURI().toString();
+        this.setStyle("-fx-background-image: url(" + filePath + ");" +
+                "-fx-background-size: 100% 100%;" +
+                "-fx-background-repeat: no-repeat;" +
+                "-fx-background-position: center;");
+
 
         /**
          * This switch statement checks which type of space is given,
@@ -74,8 +77,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Set<Heading> walls = space.getWalls();
         if (!walls.isEmpty()) {
-            StringBuilder borderCss = new StringBuilder("-fx-border-width: 4; -fx-border-color: ");
-            String borderColor = "green";
+            StringBuilder borderCss = new StringBuilder("-fx-border-width: 6; -fx-border-color: ");
+            String borderColor = "#FFD700";
             for (Heading heading : Heading.values()) {
                 if (walls.contains(heading)) {
                     borderCss.append(borderColor).append(" ");
