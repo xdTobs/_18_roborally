@@ -63,8 +63,6 @@ public class AppController implements Observer {
 
 
     public void newGame(Board board, boolean isLoaded) {
-
-
         if (isLoaded) {
             gameController = new GameController(board);
             roboRally.createBoardView(gameController);
@@ -124,6 +122,7 @@ public class AppController implements Observer {
         }
 
     public void startDebugGame(Board board){
+
         initGame(board,2);
     }
 

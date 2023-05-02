@@ -114,7 +114,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
+            arrow.setRotate((90 * (player.getHeading().ordinal()-2)) % 360);
             this.getChildren().add(arrow);
         }
     }
