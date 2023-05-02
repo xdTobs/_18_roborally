@@ -11,13 +11,13 @@ public class FastConveyorBelt extends ConveyorBelt {
 
     @Override
     public boolean doAction(GameController gameController) {
+
+        if (this.getPlayer().hasMovedThisTurn()) {
+            return true;
+        }
+
         this.getPlayer().setHeading(heading);
         gameController.moveForward_2(this.getPlayer());
-
-        /*Space space = this.getPlayer().getSpace();
-        if(space instanceof ConveyorBelt) {
-            this
-        }*/
 
         return true;
     }
