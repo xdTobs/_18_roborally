@@ -256,6 +256,6 @@ public class AppController implements Observer {
         return Optional.empty();
     }
     public Optional<Board> getStandardBoard(){
-        return Board.createBoardFromFile(new File("Boards/Board1.json"));
+        return Board.createBoardFromFile(new File("Boards/DIZZY_HIGHWAY.json"));
     }
 }
