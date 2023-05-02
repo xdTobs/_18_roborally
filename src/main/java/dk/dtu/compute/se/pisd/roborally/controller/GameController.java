@@ -242,7 +242,7 @@ public class GameController {
                 case MOVE_3 -> this.moveForward_3(player);
                 case RIGHT -> this.turnRight(player);
                 case LEFT -> this.turnLeft(player);
-                case U_TURN -> this.u_turn(player);
+                case U_TURN -> this.uTurn(player);
                 case MOVE_BACK -> this.moveBackwards(player);
                 case AGAIN -> this.again(player);
                 default -> {
@@ -261,8 +261,7 @@ public class GameController {
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
             if (nextSpace.getPlayer() != null) {
                 push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
-            }
-            else {
+            } else {
                 player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
             }
         }
@@ -270,9 +269,9 @@ public class GameController {
     }
 
     public void moveBackwards(@NotNull Player player) {
-        u_turn(player);
+        uTurn(player);
         moveForward(player);
-        u_turn(player);
+        uTurn(player);
     }
 
     // TODO Assignment V2
@@ -296,7 +295,7 @@ public class GameController {
      * @return true if the player can't move forward
      */
     public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
-        if(nextSpace==null)return true;
+        if (nextSpace == null) return true;
         Heading playerHeading = player.getHeading();
         Heading oppositePlayerHeading = playerHeading.next().next();
         Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
@@ -319,7 +318,7 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
     }
 
-    public void u_turn(@NotNull Player player) {
+    public void uTurn(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
         player.setHeading(player.getHeading().prev());
     }
@@ -336,27 +335,21 @@ public class GameController {
         }
     }
 
-    public void again(@NotNull Player player) {
-        int step = board.getStep();
+    public void again(Player player, int step) {
+        if (step < 0) {
+            return;
+        }
         CommandCard card = player.getRegisterSlot(step).getCard();
-        int i = 1;
-        while (card.command == Command.AGAIN) {
-            step = board.getStep() - i;
-            card = player.getRegisterSlot(step).getCard();
-            i++;
+        if (card.command == Command.AGAIN) {
+            again(player, step - 1);
+            return;
+        } else {
+            executeCommand(player, card.command);
         }
-        if (card != null) {
-            Command command = card.command;
-            if (command == Command.AGAIN) {
-                again(player);
-            }
-            if (command.isInteractive()) {
-                board.setPhase(Phase.PLAYER_INTERACTION);
-                return;
-            } else {
-                executeCommand(player, command);
-            }
-        }
+    }
+
+    public void again(@NotNull Player player) {
+        again(player, board.getStep());
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
