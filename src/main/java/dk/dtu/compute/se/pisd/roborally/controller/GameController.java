@@ -324,7 +324,7 @@ public class GameController {
         int step = board.getStep();
         CommandCard card = player.getProgramField(step).getCard();
         int i = 1;
-        while (card.command == Command.AGAIN) {
+        while (card.command == Command.AGAIN&&step>=0) {
             step = board.getStep() - i;
             card = player.getProgramField(step).getCard();
             i++;
