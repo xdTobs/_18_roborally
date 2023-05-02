@@ -12,6 +12,14 @@ public class ConveyorBelt extends Space implements IFieldAction {
         this.heading = heading;
     }
 
+    public Heading getHeading() {
+        return this.heading;
+    }
+
+    public void setHeading(Heading heading) {
+        this.heading = heading;
+    }
+
 
     @Override
     public boolean doAction(GameController gameController) {
