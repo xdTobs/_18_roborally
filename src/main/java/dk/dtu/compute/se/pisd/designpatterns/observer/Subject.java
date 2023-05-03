@@ -50,7 +50,7 @@ public abstract class Subject {
      * @param observer the observer who registers
      */
     final public void attach(Observer observer) {
-        if (observers == null) reloadObservers();
+        reloadObserversIfNull();
         observers.add(observer);
     }
 
@@ -64,8 +64,11 @@ public abstract class Subject {
         observers.remove(observer);
     }
 
-    public void reloadObservers() {
-        this.observers = Collections.newSetFromMap(new WeakHashMap<>());
+    public void reloadObserversIfNull() {
+        // This "hack" makes sure that when we load from json file the observers are not null.
+        if (observers == null) {
+            this.observers = Collections.newSetFromMap(new WeakHashMap<>());
+        }
     }
 
     /**
@@ -74,7 +77,7 @@ public abstract class Subject {
      * relevant for the observer).
      */
     final protected void notifyChange() {
-        if (observers == null) reloadObservers();
+        reloadObserversIfNull();
         for (Observer observer : observers) {
             observer.update(this);
         }
