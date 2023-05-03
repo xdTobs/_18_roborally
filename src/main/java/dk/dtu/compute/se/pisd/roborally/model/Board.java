@@ -173,6 +173,7 @@ public class Board extends Subject {
             int y = player.getSpace().y;
             Space space = board.getSpace(x, y);
             player.setSpace(space);
+            space.setPlayer(player);
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CommandCardField commandCardField = player.getRegisterSlot(i);
                 commandCardField.player = player;
@@ -199,17 +200,17 @@ public class Board extends Subject {
     }
 
     public boolean isGameover() {
-        return findWinner().isPresent();
+        return findWinner() != null;
     }
 
-    public Optional<Player> findWinner() {
+    public Player findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
-        for (Player p : players)
-            if (p.getCheckpointCounter() == checkpoints.size()) {
-                return Optional.of(p);
+        for (Player player : players)
+            if (player.getCheckpointCounter() == checkpoints.size()) {
+                return player;
             }
 
-        return Optional.empty();
+        return null;
 
     }
 

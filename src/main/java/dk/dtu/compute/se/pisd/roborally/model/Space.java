@@ -52,19 +52,22 @@ public class Space extends Subject implements IFieldAction {
     }
 
     public void setPlayer(Player player) {
-        Player oldPlayer = this.player;
-        if (player != oldPlayer &&
-                (player == null || board == player.board)) {
-            this.player = player;
-            if (oldPlayer != null) {
-                // this should actually not happen
-                oldPlayer.setSpace(null);
-            }
-            if (player != null) {
-                player.setSpace(this);
-            }
-            notifyChange();
-        }
+        this.player = player;
+        notifyChange();
+
+//        Player oldPlayer = this.player;
+//        if (player != oldPlayer &&
+//                (player == null || board == player.board)) {
+//            this.player = player;
+//            if (oldPlayer != null) {
+//                // this should actually not happen
+//                oldPlayer.setSpace(null);
+//            }
+//            if (player != null) {
+//                player.setSpace(this);
+//            }
+//            notifyChange();
+//        }
     }
 
     void playerChanged() {

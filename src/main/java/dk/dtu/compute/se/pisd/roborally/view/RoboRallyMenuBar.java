@@ -56,7 +56,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
     public RoboRallyMenuBar(AppController appController, boolean debug) {
         if (debug) {
-            InputStreamReader inputStreamReader = new InputStreamReader(RoboRallyMenuBar.class.getResourceAsStream("/saves/save.json"));
+            InputStreamReader inputStreamReader = new InputStreamReader(RoboRallyMenuBar.class.getResourceAsStream("/saves/minimal-save-with-cards.json"));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             Board b = Board.fromJson(bufferedReader);
             appController.startDebugGame(b);
@@ -98,11 +98,17 @@ public class RoboRallyMenuBar extends MenuBar {
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction(e -> {
-            try (FileReader fileReader = new FileReader(this.appController.getFile()); BufferedReader bufferedReader = new BufferedReader(fileReader);) {
-                Board board = Board.fromJson(bufferedReader);
-                this.appController.loadGame(board);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            File file = this.appController.getFile();
+            if (file == null) {
+                System.out.println("No file selected.");
+            } else {
+                try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+                    Board board = Board.fromJson(bufferedReader);
+                    this.appController.loadGame(board);
+                    System.out.println("Loaded file: " + file.getName());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         controlMenu.getItems().add(loadGame);

@@ -104,7 +104,6 @@ public class AppController implements Observer {
         gameController = new GameController(board);
         switch (gameController.board.getPhase()) {
             case PROGRAMMING -> {
-                gameController.startProgrammingPhase();
             }
             default -> {
                 throw new RuntimeException("Invalid save state.");
@@ -142,7 +141,7 @@ public class AppController implements Observer {
             // here we save the game (without asking the user).
             File f = new File("./saves");
             f.mkdir();
-            f = new File("./saves/autosave.txt");
+            f = new File("./saves/autosave.json");
             saveGame(f);
 
             gameController = null;
@@ -184,15 +183,16 @@ public class AppController implements Observer {
     public File getFile() {
         FileChooser fileChooser = createFileChooser("Open Save File");
 
+        fileChooser.setInitialDirectory(new File("./saves"));
         // Show file chooser dialog
         File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
+
         if (selectedFile != null) System.out.println(selectedFile.getName());
         return selectedFile;
     }
 
     public File createFile() {
         FileChooser fileChooser = createFileChooser("Create Save File");
-
         // Show file chooser dialog
         fileChooser.setInitialFileName("roborally-game.json");
         File selectedFile = fileChooser.showSaveDialog(roboRally.getStage());
@@ -209,7 +209,7 @@ public class AppController implements Observer {
         fileChooser.setInitialDirectory(initialDirectory);
 
         // Add extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files (*.txt), JSON Files (*.json)", "*.txt", "*.json");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON Files (*.json)", "*.json");
         FileChooser.ExtensionFilter showAllFilter = new FileChooser.ExtensionFilter("All (*)", "*");
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.getExtensionFilters().add(showAllFilter);

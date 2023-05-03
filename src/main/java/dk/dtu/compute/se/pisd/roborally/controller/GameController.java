@@ -77,6 +77,24 @@ public class GameController {
         }
     }
 
+    public void resumeProgrammingPhase() {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getRegisterSlot(j);
+                    field.setCard(null);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    CommandCardField field = player.getAvailableCardSlot(j);
+                    field.setCard(generateRandomCommandCard());
+                    field.setVisible(true);
+                }
+            }
+        }
+    }
+
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
