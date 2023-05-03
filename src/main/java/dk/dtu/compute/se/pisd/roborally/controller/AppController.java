@@ -43,10 +43,29 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * Class AppController implements the observer interface.
+ * It has the core attributes of players playing the game.
+ * Method: newGame takes an instance of the board class as a parameter.
+ * Creates a new instance of the GameController class with the specified
+ * board object and assigns it to the gameController field of
+ * the AppController object. The rest is for the user interface to fill in information,
+ * about what the game should include. Then it creates the boardview.
+
+ * Methods:
+ * newGame
+ * newGameFromBoardfile
+ * loadGame
+ * startDebugGame?
+ * isGameRunning
+ * update
+ * getFile
+ * createFile
+ * createFileChooser
+ * getBoardFromFile
+
+ * @author Frederik R, Frederik A, Henrik & Tobias.
  */
+
 public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
@@ -60,6 +79,16 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+    /**
+     * Method: newGame
+     * takes an instance of the board class as a parameter.
+     * Creates a new instance of the GameController class with the specified
+     * board object and assigns it to the gameController field of
+     * the AppController object. The rest is for the user interface to fill in information,
+     * about what the game should include, so that the class can create the boardView later.
+     *
+     * @param board
+     */
 
     public void newGame(Board board) {
         gameController = new GameController(board);
@@ -74,10 +103,14 @@ public class AppController implements Observer {
 
     }
 
+    /**
+     * Method: newGameFromBoardFile: The UI should not allow this, but in case this happens anyway.
+     * give the user the option to save the game or abort this operation!
+     * @param board
+     * @param players
+     */
     private void newGameFromBoardfile(Board board, Integer players) {
         if (gameController != null) {
-            // The UI should not allow this, but in case this happens anyway.
-            // give the user the option to save the game or abort this operation!
             if (!stopGame()) {
                 return;
             }
@@ -100,6 +133,17 @@ public class AppController implements Observer {
         roboRally.createBoardView(gameController);
     }
 
+    /**
+     * Method loadGame: creates a new instance of the gameController with
+     * the specified board object and assigns it to the gamecontroller field of the AppController object.
+     * Switch begins a switch statement that switches on the current phase of the game.
+     * In the case of PROGRAMMING, nothing happens in that state yet.
+     * roboRally.createBoardView(gameController) creates a new boardView object and adds it to RoboRally.
+     * The BoardView object is created with the gameController object that was previous created with
+     * the gameController that was previously created, so that it can interact with the game
+     * and display the game state to the user.
+     * @param board
+     */
     public void loadGame(Board board) {
         gameController = new GameController(board);
         switch (gameController.board.getPhase()) {
@@ -112,10 +156,18 @@ public class AppController implements Observer {
         roboRally.createBoardView(gameController);
     }
 
+    /**
+     * Method: startDebugGame?
+     * @param board
+     */
     public void startDebugGame(Board board) {
         loadGame(board);
     }
 
+    /**
+     * Method: saveGame try to output the Board-state to a Json file, so that the game-state can be saved.
+     * @param file
+     */
 
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
@@ -151,6 +203,9 @@ public class AppController implements Observer {
         return false;
     }
 
+    /**
+     * Method exit: checks if user has pressed the button 'exit' and ask the user if they are sure.
+     */
     public void exit() {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -170,16 +225,28 @@ public class AppController implements Observer {
         }
     }
 
+    /**
+     * Method isGameRunning:  is not null if game is running.
+     * @return
+     */
     public boolean isGameRunning() {
         return gameController != null;
     }
 
-
+    /**
+     * Method update: @todo make it update after every turn (new board-state) or move?
+     * @param subject the subject which changed
+     */
     @Override
     public void update(Subject subject) {
         // XXX do nothing for now
     }
 
+    /**
+     * Method getFile: creates a fileschooser and specify the pathname to the Json files.
+     * makes it possible for the user to select a saved file.
+     * @return
+     */
     public File getFile() {
         FileChooser fileChooser = createFileChooser("Open Save File");
 
@@ -191,6 +258,10 @@ public class AppController implements Observer {
         return selectedFile;
     }
 
+    /**
+     * Method createFile:
+     * @return
+     */
     public File createFile() {
         FileChooser fileChooser = createFileChooser("Create Save File");
         // Show file chooser dialog
