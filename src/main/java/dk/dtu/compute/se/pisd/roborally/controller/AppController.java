@@ -179,7 +179,7 @@ public class AppController implements Observer {
     }
 
     /**
-     * Stop playing the current game, giving the user the option to save
+     * Method stopGame: Stop playing the current game, giving the user the option to save
      * the game or to cancel stopping the game. The method returns true
      * if the game was successfully stopped (with or without saving the
      * game); returns false, if the current game was not stopped. In case
@@ -289,6 +289,13 @@ public class AppController implements Observer {
         return fileChooser;
     }
 
+    /**
+     * Method getBoardFromFile: Board is the return type.
+     * creates text for the user when selecting a saved file.
+     * creates a button and checks if it gets pressed.
+     * Do not return anything if the user isn't selecting anything.
+     * @return
+     */
     public Board getBoardFromFile() {
         Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
         gameboardSelectorAlert.setTitle("Gameboard Selection");
@@ -307,6 +314,11 @@ public class AppController implements Observer {
         return null;
     }
 
+    /**
+     * Method getStandardBoard: Board is the return type
+     * gets the standard board-files.
+     * @return
+     */
     public Board getStandardBoard() {
         return Board.createBoardFromBoardFile(new File("Boards/DIZZY_HIGHWAY.json"));
     }
