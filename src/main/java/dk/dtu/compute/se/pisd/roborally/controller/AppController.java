@@ -218,7 +218,7 @@ public class AppController implements Observer {
         return fileChooser;
     }
 
-    public Optional<Board> getBoardFromFile() {
+    public Board getBoardFromFile() {
         Alert gameboardSelectorAlert = new Alert(AlertType.INFORMATION);
         gameboardSelectorAlert.setTitle("Gameboard Selection");
         gameboardSelectorAlert.setHeaderText("Please select a gameboard file.");
@@ -228,14 +228,15 @@ public class AppController implements Observer {
 
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
+            fileChooser.initialDirectoryProperty().set(new File("./Boards"));
             File boardFile = fileChooser.showOpenDialog(null);
             return Board.createBoardFromBoardFile(boardFile);
         }
 
-        return Optional.empty();
+        return null;
     }
 
-    public Optional<Board> getStandardBoard() {
+    public Board getStandardBoard() {
         return Board.createBoardFromBoardFile(new File("Boards/DIZZY_HIGHWAY.json"));
     }
 }

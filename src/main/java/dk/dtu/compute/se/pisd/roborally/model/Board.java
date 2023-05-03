@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.GAMEOVER;
@@ -70,12 +69,12 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-    public static Optional<Board> createBoardFromBoardFile(File boardFile) {
+    public static Board createBoardFromBoardFile(File boardFile) {
         Reader reader = null;
         try {
             reader = new FileReader(boardFile);
         } catch (FileNotFoundException | NullPointerException e) {
-            return Optional.empty();
+            throw new RuntimeException("File not found");
         }
         Gson gson = new Gson();
         JsonObject jsonBoard = gson.fromJson(reader, JsonObject.class);
@@ -147,7 +146,7 @@ public class Board extends Subject {
                 board.spaces[x][y] = space;
             }
         }
-        return Optional.of(board);
+        return board;
 
     }
 

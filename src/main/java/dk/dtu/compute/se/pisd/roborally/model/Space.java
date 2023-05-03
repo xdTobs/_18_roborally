@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
@@ -34,9 +36,9 @@ import java.util.Set;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class Space extends Subject implements IFieldAction {
-    public transient Board board;
     public final int x;
     public final int y;
+    public transient Board board;
     private transient Player player = null;
     private Set<Heading> walls = new HashSet<>();
 
@@ -46,6 +48,11 @@ public class Space extends Subject implements IFieldAction {
         this.y = y;
     }
 
+    public String toJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
+    }
 
     public Player getPlayer() {
         return player;
@@ -76,7 +83,6 @@ public class Space extends Subject implements IFieldAction {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
-
 
     public Set<Heading> getWalls() {
         return walls;

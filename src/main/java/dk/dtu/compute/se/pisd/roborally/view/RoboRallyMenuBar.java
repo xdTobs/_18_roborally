@@ -29,7 +29,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 import java.io.*;
-import java.util.Optional;
 
 /**
  * ...
@@ -69,17 +68,18 @@ public class RoboRallyMenuBar extends MenuBar {
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
-            Optional<Board> boardOptional = appController.getBoardFromFile();
+            Board board = appController.getBoardFromFile();
 
-            boardOptional.ifPresent(board -> appController.newGame(board));
-            if (boardOptional.isEmpty()) {
+            if (board != null) {
+                appController.newGame(board);
+            } else {
                 Alert noBoardLoadedAlert = new Alert(Alert.AlertType.INFORMATION);
                 noBoardLoadedAlert.setTitle("Board not loaded.");
                 noBoardLoadedAlert.setHeaderText("Board could not be loaded.");
                 noBoardLoadedAlert.setContentText("Please try again with a different board.");
                 noBoardLoadedAlert.showAndWait();
-            }
 
+            }
         });
         controlMenu.getItems().add(newGame);
 
