@@ -37,27 +37,15 @@ public class Player extends Subject {
     final public static int NO_CARDS = 8;
 
     public transient Board board;
-
+    Space space;
     private String name;
     private String color;
-
-    private Space space;
-
-    public int getCheckpointCounter() {
-        return checkpointCounter;
-    }
-
-    public void incrementCheckpointCounter() {
-        this.checkpointCounter++;
-    }
-
     private int checkpointCounter;
     private Heading heading = SOUTH;
-
-    //private boolean hasMovedThisTurn = false;
-
     private CommandCardField[] registerSlots;
     private CommandCardField[] availableCardSlots;
+
+    //private boolean hasMovedThisTurn = false;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -75,6 +63,14 @@ public class Player extends Subject {
         for (int i = 0; i < availableCardSlots.length; i++) {
             availableCardSlots[i] = new CommandCardField(this);
         }
+    }
+
+    public int getCheckpointCounter() {
+        return checkpointCounter;
+    }
+
+    public void incrementCheckpointCounter() {
+        this.checkpointCounter++;
     }
 
     public String getName() {
@@ -109,17 +105,18 @@ public class Player extends Subject {
 
     public void setSpace(Space space) {
         Space oldSpace = this.space;
-        if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
-            this.space = space;
-            if (oldSpace != null) {
-                oldSpace.setPlayer(null);
-            }
-            if (space != null) {
-                space.setPlayer(this);
-            }
-            notifyChange();
+//        if (space != oldSpace &&
+//                (space == null || space.board == this.board)) {
+        this.space = space;
+        if (oldSpace != null) {
+            oldSpace.setPlayer(null);
         }
+        if (space != null) {
+            space.setPlayer(this);
+        }
+        notifyChange();
+//    }
+
     }
 
     public Heading getHeading() {
