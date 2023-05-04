@@ -24,15 +24,39 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
- * ...
+ * The GameController controls everything inside the game. Contain the methods for the game-flow.
+ * (AppController controls everything around the game)
+ * Has a constructor - 'board'. Assigns value of the argument 'board' to the variable 'this.board'
+ * Methods:
+ * moveCurrentPlayerToSpace
+ * startProgrammingPhase
+ * resumeProgrammingPhase
+ * generateRandomCommandCard
+ * finishProgrammingPhase
+ * makeProgramFieldsVisible
+ * makeProgramFieldsInvisible
+ * executePrograms
+ * executeSteps
+ * continueProgram
+ * executeCommandOptionAndContinue
+ * executeNextStep
+ * executeCommand
+ * moveForwards
+ * moveBackwards
+ * moveForwards_2
+ * moveForwards_3
+ * isPlayerBlockedByWall
+ * turnRight
+ * turnLeft
+ * push
+ * again
+ * moveCard
+ * getBoard
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author all
  */
 public class GameController {
 
@@ -55,6 +79,12 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
+    /**
+     * Method startProgrammingPhase. Prepare board object and all players for the programming phase.
+     * Sets the Phase of the board object to programming. 'Board' class has a variable that keeps track of phases.
+     * In loop: iterates over every player. resets commandCardField in playerRegisterSlot and sets visibility.
+     * Sets all CommandCardField's in players AvailableCardSlot to a random command card, and sets visibility.
+     */
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -77,6 +107,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Method resumeProgrammingPhase:
+     * ?
+     */
     public void resumeProgrammingPhase() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -95,12 +129,17 @@ public class GameController {
         }
     }
 
+
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
 
+    /**
+     * Method finishProgrammingPhase:
+     * Hides programmingField when called.
+     */
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -108,6 +147,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
+
 
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
@@ -129,12 +169,18 @@ public class GameController {
         }
     }
 
+    /**
+     * Method executeProgram: turning off stepMode, so that the player can't type while program is running.
+     */
     // XXX: V2
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
     }
 
+    /**
+     * Method executeStep is turning stepmode on, for the player(s) to interact.
+     */
     // XXX: V2
     public void executeStep() {
         board.setStepMode(true);
@@ -148,6 +194,12 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
+    /**
+     *Method executeCommandOptionAndContinue: Sets the phase of board to 'ACTIVATION'.
+     * execute commands on current player and iterate to next player. After last player 'step' variable advances.
+     * Sets current player to the "first player" again. Goes out of stepmode and continue program.
+     * @param command
+     */
     public void executeCommandOptionAndContinue(Command command) {
         board.setPhase(Phase.ACTIVATION);
         executeCommand(board.getCurrentPlayer(), command);
@@ -270,22 +322,30 @@ public class GameController {
         }
     }
 
+    /**
+     * Takes a player object. Gets the position, and the way the player is facing and calculates the next space forward.
+     * Checks if player is blocked by a wall. If not, nextSpace is called.
+     * @param player
+     */
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
-        if (!isPlayerIsBlockedByWall(player, nextSpace)) {
+        if (!isPlayerBlockedByWall(player, nextSpace)) {
             if (nextSpace.getPlayer() != null) {
                 push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
             } else {
                 player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
             }
         }
-
     }
 
+    /**
+     *
+     * @param player
+     */
     public void moveBackwards(@NotNull Player player) {
         uTurn(player);
         moveForward(player);
@@ -312,7 +372,7 @@ public class GameController {
      * @param nextSpace the space the player is moving to
      * @return true if the player can't move forward
      */
-    public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
+    public boolean isPlayerBlockedByWall(Player player, Space nextSpace) {
         if (nextSpace == null) return true;
         Heading playerHeading = player.getHeading();
         Heading oppositePlayerHeading = playerHeading.next().next();
@@ -325,7 +385,10 @@ public class GameController {
 
     }
 
-
+    /**
+     *
+     * @param player
+     */
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
@@ -341,6 +404,13 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
     }
 
+    /**
+     * Method push:
+     * Pushes a player in the same direction till they reach an empty space or edge.
+     *
+     * @param player
+     * @param direction
+     */
     public void push(@NotNull Player player, Heading direction) {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
@@ -353,6 +423,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Method again: Check for commandCard 'AGAIN'.
+     * Takes the action of the previous played step.
+     * @param player
+     * @param step
+     */
     public void again(Player player, int step) {
         if (step < 0) {
             return;
@@ -366,6 +442,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Method again:
+     * @param player
+     */
     public void again(@NotNull Player player) {
         again(player, board.getStep());
     }
@@ -392,6 +472,10 @@ public class GameController {
         assert false;
     }
 
+    /**
+     * returns the value of the board.
+     * @return
+     */
     public Board getBoard() {
         return this.board;
     }
