@@ -9,7 +9,7 @@ To play Roborally... (Open in Intellij?). When the game launches, select "File" 
 Our Roborally game includes several key features:
 - Loading a gameboard from a JSON file. There's a full gameboard called Dizzy Highway, containing all of the spacetypes that have been implemented up to this date. Furthermore, there's an empty gameboard and a testboard.
 - Saving a game as a JSON file
-- Partly loading a gameboard from a JSON file. To see our thoughts on the implementation, see "Thoughts on load feature", later in this document.
+- Partly loading a saved from a JSON file. To see our thoughts on the implementation, see "Thoughts on load feature", later in this document.
 - Several spacetypes, such as checkpoints, both types of conveyorbelts and walls.
 - Playing and drawing new cards to play on your turn.
 - Finding a winner when all checkpoints have been reached by a player.
