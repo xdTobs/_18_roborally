@@ -58,6 +58,7 @@ public class RoboRallyMenuBar extends MenuBar {
             InputStreamReader inputStreamReader = new InputStreamReader(RoboRallyMenuBar.class.getResourceAsStream("/saves/minimal-save-with-cards.json"));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             Board b = Board.fromJson(bufferedReader);
+            //Board b = appController.getStandardBoard();
             appController.startDebugGame(b);
             return;
         }
