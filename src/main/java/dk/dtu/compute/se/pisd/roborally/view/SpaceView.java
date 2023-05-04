@@ -24,7 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.AbstractSpace;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -43,10 +43,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static int SPACE_HEIGHT = 60; // 60; // 75;
     final public static int SPACE_WIDTH = 60;  // 60; // 75;
 
-    public final Space space;
+    public final AbstractSpace space;
 
 
-    public SpaceView(@NotNull Space space) {
+    public SpaceView(@NotNull AbstractSpace space) {
         this.space = space;
 
         // XXX the following styling should better be done with styles

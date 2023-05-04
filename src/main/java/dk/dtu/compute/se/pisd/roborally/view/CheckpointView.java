@@ -1,12 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.AbstractSpace;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 public class CheckpointView extends SpaceView{
-    public CheckpointView(@NotNull Space space) {
+    public CheckpointView(@NotNull AbstractSpace space) {
         super(space);
         String filePath = new File("Board_Element_Pictures/Checkpoint1.png").toURI().toString();
         appendStyle("-fx-background-image: url('" + filePath + "');" +

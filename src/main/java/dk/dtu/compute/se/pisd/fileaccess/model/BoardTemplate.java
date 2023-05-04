@@ -19,26 +19,40 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.fileaccess.model;
 
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Space extends AbstractSpace {
+public class BoardTemplate {
+    public int width;
+    public int height;
+    public List<SpaceTemplate> spaces = new ArrayList<>();
 
-    public Space(Board board, int x, int y) {
-        super(board, x, y);
-    }
+    public static void main(String[] args) {
+        Board board = new Board(3, 3);
+        board.setSpace(1, 1, new ConveyorBelt(board, 1, 1, Heading.SOUTH));
+        Player p1 = new Player(board, "RED", "p1");
+        Player p2 = new Player(board, "GREEN", "p2");
+        board.addPlayer(p1);
+        board.addPlayer(p2);
 
+        LoadBoard.saveBoard(board, "testBoard");
 
-    // Do nothing
-    @Override
-    public boolean doAction(GameController gameController) {
-        return true;
+        System.out.println("aaa");
+
     }
 
 }

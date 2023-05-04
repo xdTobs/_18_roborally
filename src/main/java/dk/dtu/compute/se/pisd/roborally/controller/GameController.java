@@ -24,9 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -48,7 +45,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space) {
+    public void moveCurrentPlayerToSpace(@NotNull AbstractSpace space) {
         Player currentPlayer = board.getCurrentPlayer();
         currentPlayer.setSpace(space);
         int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
@@ -275,7 +272,7 @@ public class GameController {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
-        Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        AbstractSpace nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
             if (nextSpace.getPlayer() != null) {
                 push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
@@ -312,7 +309,7 @@ public class GameController {
      * @param nextSpace the space the player is moving to
      * @return true if the player can't move forward
      */
-    public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
+    public boolean isPlayerIsBlockedByWall(Player player, AbstractSpace nextSpace) {
         if (nextSpace == null) return true;
         Heading playerHeading = player.getHeading();
         Heading oppositePlayerHeading = playerHeading.next().next();

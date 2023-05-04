@@ -42,7 +42,7 @@ public class Board extends Subject {
 
     public final int height;
     public final String boardName;
-    private final Space[][] spaces;
+    private final AbstractSpace[][] spaces;
     private final List<Player> players = new ArrayList<>();
     public int width;
     private Integer gameId;
@@ -61,6 +61,20 @@ public class Board extends Subject {
 //        this.spaces = spaces;
 //        this.stepMode = false;
 //    }
+
+    public Board(int width, int height) {
+        this.width = width;
+        this.height = height;
+        spaces = new AbstractSpace[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                AbstractSpace space = new Space(this, x, y);
+                spaces[x][y] = space;
+            }
+        }
+        this.stepMode = false;
+        this.boardName = "no-name-board";
+    }
 
     public Board(int width, int height, String boardName) {
         this.width = width;
@@ -97,7 +111,7 @@ public class Board extends Subject {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 String valueAtSpace = boardFromFile.get(y * width + x);
-                Space space = null;
+                AbstractSpace space = null;
 
                 //When more spacetypes have been implemented, they can be put here.
                 switch (valueAtSpace.charAt(0)) {
@@ -170,7 +184,7 @@ public class Board extends Subject {
             // Make the two references one.
             int x = player.getSpace().x;
             int y = player.getSpace().y;
-            Space space = board.getSpace(x, y);
+            AbstractSpace space = board.getSpace(x, y);
             player.setSpace(space);
             space.setPlayer(player);
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
@@ -188,8 +202,8 @@ public class Board extends Subject {
                 }
             }
         }
-        for (Space[] row : board.getSpaces()) {
-            for (Space space : row) {
+        for (AbstractSpace[] row : board.getSpaces()) {
+            for (AbstractSpace space : row) {
                 space.board = board;
             }
         }
@@ -233,7 +247,7 @@ public class Board extends Subject {
 
     // Returns the Space object at a specified (x,y) position in the spaces array.
     // If the position is out of bounds, it returns null.
-    public Space getSpace(int x, int y) {
+    public AbstractSpace getSpace(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return spaces[x][y];
         } else {
@@ -241,7 +255,7 @@ public class Board extends Subject {
         }
     }
 
-    public void setSpace(int x, int y, Space space) {
+    public void setSpace(int x, int y, AbstractSpace space) {
         spaces[x][y] = space;
     }
 
@@ -333,7 +347,7 @@ public class Board extends Subject {
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
-    public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
+    public AbstractSpace getNeighbour(@NotNull AbstractSpace space, @NotNull Heading heading) {
         int x = space.x;
         int y = space.y;
         switch (heading) {
@@ -366,8 +380,8 @@ public class Board extends Subject {
     public List<Checkpoint> getCheckpoints() {
         List<Checkpoint> checkpoints = new ArrayList<>();
 
-        for (Space[] row : spaces) {
-            for (Space space : row) {
+        for (AbstractSpace[] row : spaces) {
+            for (AbstractSpace space : row) {
                 if (space instanceof Checkpoint checkpoint) {
                     checkpoints.add(checkpoint);
                 }
@@ -377,7 +391,7 @@ public class Board extends Subject {
 
     }
 
-    public Space[][] getSpaces() {
+    public AbstractSpace[][] getSpaces() {
         return spaces;
     }
 }

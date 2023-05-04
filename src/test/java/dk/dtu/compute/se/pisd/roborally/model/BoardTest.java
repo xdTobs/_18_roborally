@@ -22,7 +22,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = Board.createBoardFromBoardFile(new File(getClass().getResource("/TestBoardCheckpoint.json").getFile())).get();
+        board = Board.createBoardFromBoardFile(new File(getClass().getResource("/TestBoardCheckpoint.json").getFile()));
         gameController = new GameController(board);
 
         Player p1 = new Player(board, null, "Player 1");

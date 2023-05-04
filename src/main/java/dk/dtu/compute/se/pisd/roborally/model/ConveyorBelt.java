@@ -1,9 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-public class ConveyorBelt extends Space implements IFieldAction {
+public class ConveyorBelt extends AbstractSpace {
 
     Heading heading;
 
@@ -34,5 +33,9 @@ public class ConveyorBelt extends Space implements IFieldAction {
         return true;
     }
 
+    @Override
+    void playerChanged() {
+
+    }
 }
 

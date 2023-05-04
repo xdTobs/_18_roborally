@@ -37,7 +37,7 @@ public class Player extends Subject {
     final public static int NO_CARDS = 8;
 
     public transient Board board;
-    Space space;
+    AbstractSpace space;
     private String name;
     private String color;
     private int checkpointCounter;
@@ -99,12 +99,12 @@ public class Player extends Subject {
         }
     }
 
-    public Space getSpace() {
+    public AbstractSpace getSpace() {
         return space;
     }
 
-    public void setSpace(Space space) {
-        Space oldSpace = this.space;
+    public void setSpace(AbstractSpace space) {
+        AbstractSpace oldSpace = this.space;
 //        if (space != oldSpace &&
 //                (space == null || space.board == this.board)) {
         this.space = space;

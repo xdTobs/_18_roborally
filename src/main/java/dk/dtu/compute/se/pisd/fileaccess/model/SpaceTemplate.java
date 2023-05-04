@@ -19,26 +19,24 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.model;
+package dk.dtu.compute.se.pisd.fileaccess.model;
 
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
+ *
  */
-public class Space extends AbstractSpace {
+public class SpaceTemplate {
 
-    public Space(Board board, int x, int y) {
-        super(board, x, y);
-    }
+    public List<Heading> walls = new ArrayList<>();
 
-
-    // Do nothing
-    @Override
-    public boolean doAction(GameController gameController) {
-        return true;
-    }
+    public int x;
+    public int y;
 
 }

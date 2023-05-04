@@ -66,7 +66,7 @@ public class BoardView extends VBox implements ViewObserver {
 
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
-                Space space = board.getSpace(x, y);
+                AbstractSpace space = board.getSpace(x, y);
                 SpaceView spaceView;
                 if (space instanceof FastConveyorBelt conveyorBelt) {
                     spaceView = new FastConveyorBeltView(conveyorBelt);
@@ -109,7 +109,7 @@ public class BoardView extends VBox implements ViewObserver {
             Object source = event.getSource();
             if (source instanceof SpaceView) {
                 SpaceView spaceView = (SpaceView) source;
-                Space space = spaceView.space;
+                AbstractSpace space = spaceView.space;
                 Board board = gameController.board;
 
                 if (board == gameController.board) {
