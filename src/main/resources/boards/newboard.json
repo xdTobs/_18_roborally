@@ -1,0 +1,73 @@
+{
+  "width": 3,
+  "height": 3,
+  "spaces": [
+    {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "players": [
+    {
+      "x": 0,
+      "y": 0,
+      "name": "Player 1",
+      "color": "red",
+      "checkpointCounter": 0,
+      "heading": "SOUTH",
+      "registerSlots": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "availableCardSlots": [
+        "AGAIN",
+        "AGAIN",
+        "OPTION_LEFT_RIGHT",
+        "RIGHT",
+        "MOVE_1",
+        "MOVE_1",
+        "MOVE_BACK",
+        "OPTION_LEFT_RIGHT"
+      ]
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "name": "Player 2",
+      "color": "green",
+      "checkpointCounter": 0,
+      "heading": "SOUTH",
+      "registerSlots": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "availableCardSlots": [
+        "LEFT",
+        "MOVE_3",
+        "U_TURN",
+        "MOVE_3",
+        "U_TURN",
+        "MOVE_2",
+        "U_TURN",
+        "MOVE_3"
+      ]
+    }
+  ]
+}

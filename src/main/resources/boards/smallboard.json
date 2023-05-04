@@ -1,0 +1,21 @@
+{
+  "width": 3,
+  "height": 3,
+  "spaces": [
+    {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 0,
+      "y": 0
+    }
+  ]
+}
