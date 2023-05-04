@@ -24,23 +24,25 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Space extends Subject implements IFieldAction {
+public class Space extends Subject {
     public final int x;
     public final int y;
     public transient Board board;
     private transient Player player = null;
     private Set<Heading> walls = new HashSet<>();
+    private List<FieldAction> actions = new ArrayList<>();
+
+
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -88,16 +90,15 @@ public class Space extends Subject implements IFieldAction {
         return walls;
     }
 
-    public void setWalls(Heading... walls) {
-        for (Heading w : walls) {
-            this.walls.add(w);
-        }
+    public void addWalls(Heading... walls) {
+        this.walls.addAll(Arrays.asList(walls));
     }
 
-    // Do nothing
-    @Override
-    public boolean doAction(GameController gameController) {
-        return true;
+    public List<FieldAction> getActions() {
+        return actions;
+    }
+    public void addActions(FieldAction... actions) {
+        this.actions.addAll(Arrays.asList(actions));
     }
 
 }

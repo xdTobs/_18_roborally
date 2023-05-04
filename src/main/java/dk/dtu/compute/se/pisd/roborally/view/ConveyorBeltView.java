@@ -1,6 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
-import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

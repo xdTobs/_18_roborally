@@ -23,6 +23,10 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import com.google.gson.*;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -68,6 +72,9 @@ public class Board extends Subject {
         this.boardName = boardName;
         this.spaces = new Space[width][height];
     }
+    public Board(int width, int height){
+        this(width,height,"Default");
+    }
 
     public static Board createBoardFromBoardFile(File boardFile) {
         Reader reader = null;
@@ -97,29 +104,30 @@ public class Board extends Subject {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 String valueAtSpace = boardFromFile.get(y * width + x);
-                Space space = null;
+                Space space = new Space(board,x,y);
 
                 //When more spacetypes have been implemented, they can be put here.
+
                 switch (valueAtSpace.charAt(0)) {
                     case 'w' -> {
-                        space = new Space(board, x, y);
                         for (int i = 1; i < valueAtSpace.length(); i++) {
                             char c = valueAtSpace.charAt(i);
                             if (valueAtSpace.charAt(i) == 's') {
-                                space.setWalls(Heading.SOUTH);
+                                space.addWalls(Heading.SOUTH);
                             } else if (valueAtSpace.charAt(i) == 'w') {
-                                space.setWalls(Heading.WEST);
+                                space.addWalls(Heading.WEST);
                             } else if (valueAtSpace.charAt(i) == 'n') {
-                                space.setWalls(Heading.NORTH);
+                                space.addWalls(Heading.NORTH);
                             } else if (valueAtSpace.charAt(i) == 'e') {
-                                space.setWalls(Heading.EAST);
+                                space.addWalls(Heading.EAST);
                             }
                         }
                     }
 
                     case 'c' -> {
                         int checkpointnr = Integer.parseInt(valueAtSpace.substring(1));
-                        space = new Checkpoint(board, x, y, checkpointnr);
+
+                        space.addActions(new Checkpoint(checkpointnr));
                     }
                     case 'b' -> {
                         Heading heading = switch (valueAtSpace.charAt(2)) {
@@ -131,13 +139,13 @@ public class Board extends Subject {
                                     throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
                         };
                         if (valueAtSpace.charAt(1) == 'g') {
-                            space = new ConveyorBelt(board, x, y, heading);
+                            space.addActions(new ConveyorBelt(heading));
                         } else if (valueAtSpace.charAt(1) == 'b') {
-                            space = new FastConveyorBelt(board, x, y, heading);
+                            space.addActions(new FastConveyorBelt(heading));
                         }
                     }
                     case 'e' -> {
-                        space = new Space(board, x, y);
+                        //nothing
                     }
                     default -> {
                         throw new RuntimeException("This kind of square does not exists.");
@@ -368,8 +376,9 @@ public class Board extends Subject {
 
         for (Space[] row : spaces) {
             for (Space space : row) {
-                if (space instanceof Checkpoint checkpoint) {
-                    checkpoints.add(checkpoint);
+                for(FieldAction actions : space.getActions()) {
+                    if(actions instanceof Checkpoint checkpoint)
+                        checkpoints.add(checkpoint);
                 }
             }
         }

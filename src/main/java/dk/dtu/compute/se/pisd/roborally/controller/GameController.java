@@ -199,8 +199,10 @@ public class GameController {
                 } else {
                     // New register
                     for (Player p : board.getPlayers()) {
-                        IFieldAction iFieldAction = p.getSpace();
-                        iFieldAction.doAction(this);
+                        List<FieldAction> actions = p.getSpace().getActions();
+                        for(FieldAction fieldAction : actions){
+                            fieldAction.doAction(this,p.getSpace());
+                        }
                     }
                     step++;
                     if (board.isGameover()) {
