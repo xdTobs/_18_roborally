@@ -67,7 +67,7 @@ class GameControllerTest {
         Player current = board.getCurrentPlayer();
 
         Space space = board.getSpace(0, 0);
-        space.setWalls(Heading.SOUTH);
+        space.addWalls(Heading.SOUTH);
 
         gameController.moveForward(current);
 
@@ -82,7 +82,7 @@ class GameControllerTest {
         Player current = board.getCurrentPlayer();
 
         Space space = board.getSpace(0, 1);
-        space.setWalls(Heading.NORTH);
+        space.addWalls(Heading.NORTH);
 
         gameController.moveForward(current);
 
@@ -96,7 +96,7 @@ class GameControllerTest {
         Player current = board.getCurrentPlayer();
 
         Space space = board.getSpace(0, 1);
-        space.setWalls(Heading.SOUTH);
+        space.addWalls(Heading.SOUTH);
 
 //        gameController.fastForward(current);
 
