@@ -69,6 +69,21 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
+    public Board(int width, int height) {
+        this.width = width;
+        this.height = height;
+        spaces = new Space[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Space space = new Space(this, x, y);
+                spaces[x][y] = space;
+            }
+        }
+        this.stepMode = false;
+        this.boardName = "";
+    }
+
+
     public static Board createBoardFromBoardFile(File boardFile) {
         Reader reader = null;
         try {
@@ -119,7 +134,7 @@ public class Board extends Subject {
 
                     case 'c' -> {
                         int checkpointnr = Integer.parseInt(valueAtSpace.substring(1));
-                        space = new Checkpoint(board, x, y, checkpointnr);
+//                        space = new Checkpoint(board, x, y, checkpointnr);
                     }
                     case 'b' -> {
                         Heading heading = switch (valueAtSpace.charAt(2)) {
@@ -131,9 +146,9 @@ public class Board extends Subject {
                                     throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
                         };
                         if (valueAtSpace.charAt(1) == 'g') {
-                            space = new ConveyorBelt(board, x, y, heading);
+//                            space = new ConveyorBelt(board, x, y, heading);
                         } else if (valueAtSpace.charAt(1) == 'b') {
-                            space = new FastConveyorBelt(board, x, y, heading);
+//                            space = new FastConveyorBelt(board, x, y, heading);
                         }
                     }
                     case 'e' -> {
@@ -143,6 +158,7 @@ public class Board extends Subject {
                         throw new RuntimeException("This kind of square does not exists.");
                     }
                 }
+                space = new Space(board, x, y);
                 board.spaces[x][y] = space;
             }
         }
@@ -203,11 +219,11 @@ public class Board extends Subject {
     }
 
     public Player findWinner() {
-        List<Checkpoint> checkpoints = this.getCheckpoints();
-        for (Player player : players)
-            if (player.getCheckpointCounter() == checkpoints.size()) {
-                return player;
-            }
+//        List<Checkpoint> checkpoints = this.getCheckpoints();
+//        for (Player player : players)
+//            if (player.getCheckpointCounter() == checkpoints.size()) {
+//                return player;
+//            }
 
         return null;
 
@@ -363,19 +379,19 @@ public class Board extends Subject {
         return "Phase: " + getPhase().name() + ", Player = " + getCurrentPlayer().getName() + ", Step: " + getStep();
     }
 
-    public List<Checkpoint> getCheckpoints() {
-        List<Checkpoint> checkpoints = new ArrayList<>();
-
-        for (Space[] row : spaces) {
-            for (Space space : row) {
-                if (space instanceof Checkpoint checkpoint) {
-                    checkpoints.add(checkpoint);
-                }
-            }
-        }
-        return checkpoints;
-
-    }
+//    public List<Checkpoint> getCheckpoints() {
+//        List<Checkpoint> checkpoints = new ArrayList<>();
+//
+//        for (Space[] row : spaces) {
+//            for (Space space : row) {
+//                if (space instanceof Checkpoint checkpoint) {
+//                    checkpoints.add(checkpoint);
+//                }
+//            }
+//        }
+//        return checkpoints;
+//
+//    }
 
     public Space[][] getSpaces() {
         return spaces;

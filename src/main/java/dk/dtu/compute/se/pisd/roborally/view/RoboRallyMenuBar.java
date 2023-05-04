@@ -22,13 +22,17 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * ...
@@ -55,10 +59,9 @@ public class RoboRallyMenuBar extends MenuBar {
 
     public RoboRallyMenuBar(AppController appController, boolean debug) {
         if (debug) {
-            InputStreamReader inputStreamReader = new InputStreamReader(RoboRallyMenuBar.class.getResourceAsStream("/saves/minimal-save-with-cards.json"));
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            Board b = Board.fromJson(bufferedReader);
-            appController.startDebugGame(b);
+//            Board b = LoadBoard.loadBoard("testboard");
+            Board board = LoadBoard.loadBoard("testboard");
+            appController.startDebugGame(board);
             return;
         }
         this.appController = appController;
@@ -90,6 +93,7 @@ public class RoboRallyMenuBar extends MenuBar {
         saveGame = new MenuItem("Save Game");
         saveGame.setOnAction(e -> {
             File file = this.appController.createFile();
+            System.out.printf("save click");
             if (file != null) {
                 this.appController.saveGame(file);
             }
@@ -103,7 +107,9 @@ public class RoboRallyMenuBar extends MenuBar {
                 System.out.println("No file selected.");
             } else {
                 try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader);) {
-                    Board board = Board.fromJson(bufferedReader);
+                    Board board = LoadBoard.loadBoard("smallboard");
+//                    Board board = Board.fromJson(bufferedReader);
+                    // TODO if no players init state and start new game from this board.
                     this.appController.loadGame(board);
                     System.out.println("Loaded file: " + file.getName());
                 } catch (IOException ex) {

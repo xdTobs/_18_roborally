@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
@@ -103,11 +104,11 @@ public class AppController implements Observer {
     public void loadGame(Board board) {
         gameController = new GameController(board);
         switch (gameController.board.getPhase()) {
-            case PROGRAMMING -> {
-            }
-            default -> {
-                throw new RuntimeException("Invalid save state.");
-            }
+//            case PROGRAMMING -> {
+//            }
+//            default -> {
+//                throw new RuntimeException("Invalid save state.");
+//            }
         }
         roboRally.createBoardView(gameController);
     }
@@ -120,7 +121,8 @@ public class AppController implements Observer {
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            fileOutputStream.write(Board.toJson(gameController.board).getBytes());
+//            Board.toJson(gameController.board).getBytes()
+            LoadBoard.saveBoard(gameController.board, "newboard");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

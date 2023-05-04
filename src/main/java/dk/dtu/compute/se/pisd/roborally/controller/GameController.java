@@ -24,9 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -198,9 +195,11 @@ public class GameController {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
                     // New register
-                    for (Player p : board.getPlayers()) {
-                        IFieldAction iFieldAction = p.getSpace();
-                        iFieldAction.doAction(this);
+                    for (Player player : board.getPlayers()) {
+                        Space space = player.getSpace();
+                        for (FieldAction a : space.getActions()) {
+                            a.doAction(this, space);
+                        }
                     }
                     step++;
                     if (board.isGameover()) {
