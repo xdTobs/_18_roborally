@@ -185,7 +185,7 @@ public class AppController implements Observer {
     public File getFile() {
         FileChooser fileChooser = createFileChooser("Open Save File");
 
-        fileChooser.setInitialDirectory(new File("./saves"));
+        fileChooser.setInitialDirectory(new File("./src/main/resources/boards"));
         // Show file chooser dialog
         File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
 
@@ -230,9 +230,11 @@ public class AppController implements Observer {
 
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
-            fileChooser.initialDirectoryProperty().set(new File("./Boards"));
+            fileChooser.initialDirectoryProperty().set(new File("src/main/resources/boards"));
             File boardFile = fileChooser.showOpenDialog(null);
-            return Board.createBoardFromBoardFile(boardFile);
+            String boardName = boardFile.getName();
+            return LoadBoard.loadBoard(boardName);
+//            return Board.createBoardFromBoardFile(boardFile);
         }
 
         return null;

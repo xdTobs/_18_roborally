@@ -3,7 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
