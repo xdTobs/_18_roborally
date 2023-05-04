@@ -23,14 +23,16 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject {
+public class CommandCardField extends Subject  {
 
-    public Player player;
+    public transient Player player;
 
     private CommandCard card;
 

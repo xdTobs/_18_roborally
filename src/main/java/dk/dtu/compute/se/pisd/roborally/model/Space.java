@@ -24,11 +24,10 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,22 +35,17 @@ import java.util.Set;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class Space extends Subject {
+public class Space extends Subject implements IFieldAction {
     public final int x;
     public final int y;
-    public  Board board;
-    private  Player player = null;
+    public transient Board board;
+    private transient Player player = null;
     private Set<Heading> walls = new HashSet<>();
-    private List<FieldAction> actions = new ArrayList<>();
 
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
-    }
-
-    public List<FieldAction> getActions() {
-        return actions;
     }
 
     public String toJson() {
@@ -101,9 +95,9 @@ public class Space extends Subject {
     }
 
     // Do nothing
-//    @Override
-//    public boolean doAction(GameController gameController) {
-//        return true;
-//    }
+    @Override
+    public boolean doAction(GameController gameController) {
+        return true;
+    }
 
 }

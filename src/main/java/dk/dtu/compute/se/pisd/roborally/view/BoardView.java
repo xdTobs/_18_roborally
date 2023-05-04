@@ -23,8 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -69,16 +68,15 @@ public class BoardView extends VBox implements ViewObserver {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
                 SpaceView spaceView;
-                spaceView = new SpaceView(space);
-//                if (space instanceof FastConveyorBelt conveyorBelt) {
-//                    spaceView = new FastConveyorBeltView(conveyorBelt);
-//                } else if (space instanceof ConveyorBelt conveyorBelt) {
-//                    spaceView = new ConveyorBeltView(conveyorBelt);
-//                } else if (space instanceof Checkpoint checkpoint) {
-//                    spaceView = new CheckpointView(checkpoint);
-//                } else {
-//                    spaceView = new SpaceView(space);
-//                }
+                if (space instanceof FastConveyorBelt conveyorBelt) {
+                    spaceView = new FastConveyorBeltView(conveyorBelt);
+                } else if (space instanceof ConveyorBelt conveyorBelt) {
+                    spaceView = new ConveyorBeltView(conveyorBelt);
+                } else if (space instanceof Checkpoint checkpoint) {
+                    spaceView = new CheckpointView(checkpoint);
+                } else {
+                    spaceView = new SpaceView(space);
+                }
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);

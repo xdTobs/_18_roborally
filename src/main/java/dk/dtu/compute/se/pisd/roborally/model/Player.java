@@ -36,7 +36,7 @@ public class Player extends Subject {
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    public Board board;
+    public transient Board board;
     Space space;
     private String name;
     private String color;
@@ -67,10 +67,6 @@ public class Player extends Subject {
 
     public int getCheckpointCounter() {
         return checkpointCounter;
-    }
-
-    public void setCheckpointCounter(int checkpointCounter) {
-        this.checkpointCounter = checkpointCounter;
     }
 
     public void incrementCheckpointCounter() {

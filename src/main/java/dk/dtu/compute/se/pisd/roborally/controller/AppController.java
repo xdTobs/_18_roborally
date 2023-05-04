@@ -24,7 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
@@ -104,11 +103,11 @@ public class AppController implements Observer {
     public void loadGame(Board board) {
         gameController = new GameController(board);
         switch (gameController.board.getPhase()) {
-//            case PROGRAMMING -> {
-//            }
-//            default -> {
-//                throw new RuntimeException("Invalid save state.");
-//            }
+            case PROGRAMMING -> {
+            }
+            default -> {
+                throw new RuntimeException("Invalid save state.");
+            }
         }
         roboRally.createBoardView(gameController);
     }
@@ -121,8 +120,7 @@ public class AppController implements Observer {
     public void saveGame(File file) {
         // TODO make it possible to save in all phases or disable saving when not in programming phase.
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-//            Board.toJson(gameController.board).getBytes()
-            LoadBoard.saveBoard(gameController.board, "newboard");
+            fileOutputStream.write(Board.toJson(gameController.board).getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -185,7 +183,7 @@ public class AppController implements Observer {
     public File getFile() {
         FileChooser fileChooser = createFileChooser("Open Save File");
 
-        fileChooser.setInitialDirectory(new File("./src/main/resources/boards"));
+        fileChooser.setInitialDirectory(new File("./saves"));
         // Show file chooser dialog
         File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
 
@@ -230,11 +228,9 @@ public class AppController implements Observer {
 
         if (buttonClick.isPresent()) {
             FileChooser fileChooser = createFileChooser("File Explorer");
-            fileChooser.initialDirectoryProperty().set(new File("src/main/resources/boards"));
+            fileChooser.initialDirectoryProperty().set(new File("./Boards"));
             File boardFile = fileChooser.showOpenDialog(null);
-            String boardName = boardFile.getName();
-            return LoadBoard.loadBoard(boardName);
-//            return Board.createBoardFromBoardFile(boardFile);
+            return Board.createBoardFromBoardFile(boardFile);
         }
 
         return null;

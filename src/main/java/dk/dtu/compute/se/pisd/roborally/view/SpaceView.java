@@ -22,8 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -91,34 +89,13 @@ public class SpaceView extends StackPane implements ViewObserver {
             borderCss.append("; ");
             appendStyle(borderCss.toString());
         }
-        for (FieldAction fa : space.getActions()) {
-            if (fa instanceof ConveyorBelt cb) {
-                paintConveyorBelt(cb.getHeading());
-                break;
-            }
-        }
+
 
         // updatePlayer();
 
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
-    }
-
-    void paintConveyorBelt(Heading heading) {
-        String filePath = new File("Board_Element_Pictures/Green_Arrow.png").toURI().toString();
-        int rotation = switch (heading) {
-            case NORTH -> 0;
-            case EAST -> 90;
-            case SOUTH -> 180;
-            case WEST -> 270;
-        };
-        appendStyle("-fx-background-image: url('" + filePath + "');" +
-                "-fx-background-size: 100% 100%;" +
-                "-fx-background-repeat: no-repeat;" +
-                "-fx-background-position: center;" +
-                "-fx-rotate: " + rotation + ";");
-
     }
 
     void appendStyle(String style) {
