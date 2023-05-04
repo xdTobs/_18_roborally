@@ -4,12 +4,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * ...
@@ -91,6 +93,30 @@ public class LoadBoard {
                 }
             }
         }
+        List<Player> players = board.getPlayers();
+        for (Player p : players) {
+            CommandCardFieldTemplate[] registerSlots = new CommandCardFieldTemplate[p.getRegisterSlots().length];
+            CommandCardFieldTemplate[] availableCards = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
+
+            for (int i = 0; i < registerSlots.length; i++) {
+                registerSlots[i] = new CommandCardFieldTemplate(p.getRegisterSlot(i).getCard(),p.getRegisterSlot(i).isVisible());
+            }
+            for (int i = 0; i < availableCards.length; i++) {
+                availableCards[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i).getCard(),p.getRegisterSlot(i).isVisible());
+            }
+
+            template.players.add(new PlayerTemplate(
+                    p.getSpace().x,
+                    p.getSpace().y,
+                    p.getName(),
+                    p.getColor(),
+                    p.getCheckpointCounter(),
+                    p.getHeading(),
+                    registerSlots,
+                    availableCards
+            ));
+
+        }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
@@ -117,6 +143,7 @@ public class LoadBoard {
             fileWriter = new FileWriter(filename);
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
+
             writer.close();
         } catch (IOException e1) {
             if (writer != null) {
