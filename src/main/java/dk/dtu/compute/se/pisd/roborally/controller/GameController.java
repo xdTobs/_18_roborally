@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -205,6 +206,12 @@ public class GameController {
                     step++;
                     if (board.isGameover()) {
                         board.setPhase(Phase.GAMEOVER);
+                        currentPlayer = board.findWinner();
+                        Alert gameover = new Alert(Alert.AlertType.INFORMATION);
+                        gameover.setTitle("Winner found!");
+                        gameover.setHeaderText(null);
+                        gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'New Game' to play again.");
+                        gameover.showAndWait();
                     } else if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
@@ -245,7 +252,7 @@ public class GameController {
 //        }
 //        return Optional.empty();
 //
-//    }
+//  }
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
