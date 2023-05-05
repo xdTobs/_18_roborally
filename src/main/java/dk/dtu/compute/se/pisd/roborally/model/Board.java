@@ -130,10 +130,27 @@ public class Board extends Subject {
                             default ->
                                     throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
                         };
+                        //Color of arrow
                         if (valueAtSpace.charAt(1) == 'g') {
-                            space = new ConveyorBelt(board, x, y, heading);
+                            if (valueAtSpace.length()==4){
+                                if (valueAtSpace.charAt(3)=='p') { // positive rotation
+                                    //space = new TripleConveyorBeltPositive(board, x, y, heading);
+                                } else if (valueAtSpace.charAt(3)=='n') { //negative rotation
+                                    //space = new TripleConveyorBeltNegative(board, x, y, heading);
+                                }
+                            }else {
+                                space = new ConveyorBelt(board, x, y, heading);
+                            }
                         } else if (valueAtSpace.charAt(1) == 'b') {
-                            space = new FastConveyorBelt(board, x, y, heading);
+                            if (valueAtSpace.length()==4){
+                                if (valueAtSpace.charAt(3)=='p') { // positive rotation
+                                    space = new FastTripleConveyorBeltPositive(board, x, y, heading);
+                                } else if (valueAtSpace.charAt(3)=='n') { //negative rotation
+                                    space = new FastTripleConveyorBeltNegative(board, x, y, heading);
+                                }
+                            }else {
+                                space = new FastConveyorBelt(board, x, y, heading);
+                            }
                         }
                     }
                     case 'e' -> {
