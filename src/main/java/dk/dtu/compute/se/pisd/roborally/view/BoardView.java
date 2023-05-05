@@ -70,6 +70,10 @@ public class BoardView extends VBox implements ViewObserver {
                 SpaceView spaceView;
                 if (space instanceof FastConveyorBelt conveyorBelt) {
                     spaceView = new FastConveyorBeltView(conveyorBelt);
+                }  else if (space instanceof FastTripleConveyorBeltPositive conveyorBelt) {
+                    spaceView = new FastTripleConveyorBeltPositiveView(conveyorBelt);
+                } else if (space instanceof FastTripleConveyorBeltNegative conveyorBelt) {
+                    spaceView = new FastTripleConveyorBeltNegativeView(conveyorBelt);
                 } else if (space instanceof ConveyorBelt conveyorBelt) {
                     spaceView = new ConveyorBeltView(conveyorBelt);
                 } else if (space instanceof Checkpoint checkpoint) {
