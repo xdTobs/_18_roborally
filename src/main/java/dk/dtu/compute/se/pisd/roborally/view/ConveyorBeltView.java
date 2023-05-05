@@ -8,7 +8,7 @@ import java.io.File;
 public class ConveyorBeltView extends SpaceView {
     public ConveyorBeltView(@NotNull ConveyorBelt conveyorBelt) {
         super(conveyorBelt);
-        String filePath = new File("images/green-arrow.png").toURI().toString();
+        String filePath = new File("Board_Element_Pictures/Green_Arrow.png").toURI().toString();
         int rotation = switch (conveyorBelt.getHeading()) {
             case EAST -> 90;
             case SOUTH -> 180;
