@@ -24,9 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -40,7 +39,7 @@ public class Space extends Subject {
     public transient Board board;
     private transient Player player = null;
     private Set<Heading> walls = new HashSet<>();
-    private List<FieldAction> actions = new ArrayList<>();
+    private List<IFieldAction> actions = new ArrayList<>();
 
 
 
@@ -94,10 +93,10 @@ public class Space extends Subject {
         this.walls.addAll(Arrays.asList(walls));
     }
 
-    public List<FieldAction> getActions() {
+    public List<IFieldAction> getActions() {
         return actions;
     }
-    public void addActions(FieldAction... actions) {
+    public void addActions(IFieldAction... actions) {
         this.actions.addAll(Arrays.asList(actions));
     }
 

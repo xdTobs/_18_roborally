@@ -4,10 +4,12 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 public class FastTripleConveyorBeltPositive extends ConveyorBelt {
 
-    public FastTripleConveyorBeltPositive(Board board, int x, int y, Heading heading) {super(board, x, y, heading);}
+    public FastTripleConveyorBeltPositive(Board board, int x, int y, Heading heading) {
+        super(board, x, y, heading);
+    }
 
     @Override
-    public boolean doAction(GameController gameController) {
+    public boolean doAction(GameController gameController, Space space) {
 
         /*if (this.getPlayer().hasMovedThisTurn()) {
             return true;

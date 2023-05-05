@@ -3,8 +3,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -38,7 +37,7 @@ public class LoadBoard {
 
         // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
         Gson gson = simpleBuilder.create();
 
         Board result;
@@ -133,7 +132,7 @@ public class LoadBoard {
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
+                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 

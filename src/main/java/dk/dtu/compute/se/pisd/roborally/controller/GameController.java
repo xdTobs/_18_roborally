@@ -25,9 +25,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -200,9 +198,9 @@ public class GameController {
                 } else {
                     // New register
                     for (Player p : board.getPlayers()) {
-                        List<FieldAction> actions = p.getSpace().getActions();
-                        for(FieldAction fieldAction : actions){
-                            fieldAction.doAction(this,p.getSpace());
+                        List<IFieldAction> actions = p.getSpace().getActions();
+                        for(IFieldAction IFieldAction : actions){
+                            IFieldAction.doAction(this,p.getSpace());
                         }
                     }
                     step++;

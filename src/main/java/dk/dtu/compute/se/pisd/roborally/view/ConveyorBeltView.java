@@ -1,6 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;

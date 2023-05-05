@@ -22,7 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
@@ -35,7 +35,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,9 +74,9 @@ public class BoardView extends VBox implements ViewObserver {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
                 SpaceView spaceView = null;
-                List<FieldAction> actions = space.getActions();
+                List<IFieldAction> actions = space.getActions();
                 if(actions.size()>0){
-                    FieldAction definingAction = actions.get(0);
+                    IFieldAction definingAction = actions.get(0);
                     if(definingAction instanceof FastConveyorBelt)
                         spaceView = new FastConveyorBeltView(space);
                     else if (definingAction instanceof ConveyorBelt)

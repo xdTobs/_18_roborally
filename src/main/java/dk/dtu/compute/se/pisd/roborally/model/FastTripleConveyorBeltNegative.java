@@ -7,7 +7,7 @@ public class FastTripleConveyorBeltNegative extends ConveyorBelt {
     public FastTripleConveyorBeltNegative(Board board, int x, int y, Heading heading) {super(board, x, y, heading);}
 
     @Override
-    public boolean doAction(GameController gameController) {
+    public boolean doAction(GameController gameController, Space space) {
 
         /*if (this.getPlayer().hasMovedThisTurn()) {
             return true;

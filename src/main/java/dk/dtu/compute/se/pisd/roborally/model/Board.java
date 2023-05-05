@@ -23,7 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import com.google.gson.*;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt;
@@ -376,7 +376,7 @@ public class Board extends Subject {
 
         for (Space[] row : spaces) {
             for (Space space : row) {
-                for(FieldAction actions : space.getActions()) {
+                for(IFieldAction actions : space.getActions()) {
                     if(actions instanceof Checkpoint checkpoint)
                         checkpoints.add(checkpoint);
                 }
