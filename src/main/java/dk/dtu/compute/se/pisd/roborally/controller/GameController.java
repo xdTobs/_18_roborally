@@ -210,7 +210,7 @@ public class GameController {
                         Alert gameover = new Alert(Alert.AlertType.INFORMATION);
                         gameover.setTitle("Winner found!");
                         gameover.setHeaderText(null);
-                        gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'New Game' to play again.");
+                        gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'Stop Game' and then 'New Game' to play again.");
                         gameover.showAndWait();
                     } else if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
