@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,52 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Roborally</title>
     <style>
-        .myBtn {
-            background-color: green;
+        .hidden {
+            display: none;
         }
+
     </style>
 </head>
+
 <body>
 <h1 id="ourTitle">Roborally</h1>
-<div id="gameboard">
-</div>
+<main id="main-container">
+</main>
 
-<button id="newGameBtn" onclick="newGame()">New Game</button>
-<button id="loadGameBtn" onclick="loadGame()">Load Game</button>
+<button id="new-game-btn" onclick="roborally.newGame()">New Game</button>
 
+<script src="scripts.js"></script>
 </body>
 
-<script>
-    const title = document.getElementById("ourTitle");
-    let i = 1;
 
-    function setup() {
-
-    }
-
-    function titleFn() {
-        i++;
-        title.textContent = "Group " + i + " is the best";
-    }
-
-    setInterval(titleFn, 1000)
-
-
-    function loadGame() {
-        console.log("loading game")
-    }
-
-    let gameboard = document.getElementById("gameboard")
-    function newGame() {
-        console.log("starting new game")
-        const gameboard = debugGetBoards()
-
-
-    }
-
-    function debugGetBoards() {
-        return {
-        }
-    }
-</script>
 </html>
