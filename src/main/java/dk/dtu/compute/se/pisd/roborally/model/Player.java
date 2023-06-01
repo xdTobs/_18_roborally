@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.CommandCardFieldTemplate;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.PlayerTemplate;
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -65,6 +66,20 @@ public class Player extends Subject {
             availableCardSlots[i] = new CommandCardField(this);
         }
     }
+    public Player(PlayerTemplate template){
+        this.name = template.name;
+        this.color = template.color;
+        registerSlots = new CommandCardField[NO_REGISTERS];
+        for (int i = 0; i < registerSlots.length; i++) {
+            registerSlots[i] = new CommandCardField(template.registerSlots[i]);
+        }
+
+        availableCardSlots = new CommandCardField[NO_CARDS];
+        for (int i = 0; i < availableCardSlots.length; i++) {
+            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i]);
+        }
+    }
+
 
     public int getCheckpointCounter() {
         return checkpointCounter;

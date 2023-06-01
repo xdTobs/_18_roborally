@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.CommandCardFieldTemplate;
 
 import java.io.Serializable;
 
@@ -42,6 +43,11 @@ public class CommandCardField extends Subject  {
         this.player = player;
         this.card = null;
         this.visible = true;
+    }
+
+    public CommandCardField(CommandCardFieldTemplate template) {
+        this.card = new CommandCard(template.card);
+        this.visible = template.visible;
     }
 
     public CommandCard getCard() {

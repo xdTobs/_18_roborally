@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.CommandCardTemplate;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -38,6 +39,10 @@ public class CommandCard extends Subject  {
 
     public CommandCard(@NotNull Command command) {
         this.command = command;
+    }
+
+    public CommandCard(CommandCardTemplate template) {
+        this.command = template.command;
     }
 
     public String getName() {

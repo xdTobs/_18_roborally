@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 
 import java.util.*;
 
@@ -47,6 +48,16 @@ public class Space extends Subject {
         this.board = board;
         this.x = x;
         this.y = y;
+    }
+
+    public Space(SpaceTemplate template, Board board, Player player) {
+        this.x = template.x;
+        this.y = template.y;
+        this.walls = template.walls;
+        this.actions = template.actions;
+        this.player = player;
+        this.board = board;
+
     }
 
     public String toJson() {
