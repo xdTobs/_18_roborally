@@ -21,28 +21,35 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-public enum Heading  {
+public enum Heading {
 
-     NORTH, EAST, SOUTH, WEST;
+    NORTH, EAST, SOUTH, WEST;
 
-    public static int[] headingToCoords(Heading heading){
+    public static int[] headingToCoords(Heading heading) {
 
         int[] nextCoords = new int[2];
-        switch(heading){
-            case NORTH -> nextCoords = new int[]{0,-1};
-            case SOUTH -> nextCoords = new int[]{0,1};
-            case EAST -> nextCoords = new int[]{1,0};
-            case WEST -> nextCoords = new int[]{-1,0};
+        switch (heading) {
+            case NORTH -> nextCoords = new int[]{0, -1};
+            case SOUTH -> nextCoords = new int[]{0, 1};
+            case EAST -> nextCoords = new int[]{1, 0};
+            case WEST -> nextCoords = new int[]{-1, 0};
         }
         return nextCoords;
+    }
+
+    public static void main(String[] args) {
+        Set<Heading> walls = new HashSet<>();
+        walls.add(Heading.NORTH);
+        walls.add(Heading.NORTH);
+        System.out.println(walls.size());
     }
 
     public Heading next() {
