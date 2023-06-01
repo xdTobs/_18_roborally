@@ -71,6 +71,7 @@ public class Player extends Subject {
         this.color = template.color;
         this.board = board;
         this.space = board.getSpace(template.x,template.y);
+        this.heading = template.heading;
         registerSlots = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < registerSlots.length; i++) {
             registerSlots[i] = new CommandCardField(template.registerSlots[i],this);
