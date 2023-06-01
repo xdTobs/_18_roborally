@@ -31,7 +31,7 @@ public class PlayerTemplate {
 
         CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
         for (int i = 0; i < p.getAvailableCardSlots().length; i++) {
-            registerSlotsTemplate[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i));
+            availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i));
         }
         this.availableCardSlots = availableSlotsTemplate;
     }

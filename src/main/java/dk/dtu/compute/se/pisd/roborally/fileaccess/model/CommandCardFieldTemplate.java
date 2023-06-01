@@ -7,11 +7,12 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 public class CommandCardFieldTemplate {
 
     public CommandCardFieldTemplate(CommandCardField commandCardField) {
-        this.card = new CommandCardTemplate(commandCardField.getCard());
+        if(!(commandCardField.getCard()==null))
+            this.card = new CommandCardTemplate(commandCardField.getCard());
         this.visible = commandCardField.isVisible();
     }
 
-    public CommandCardTemplate card;
+    public CommandCardTemplate card = null;
 
     public boolean visible;
 }

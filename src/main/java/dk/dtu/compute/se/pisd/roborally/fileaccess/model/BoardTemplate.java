@@ -26,7 +26,7 @@ public class BoardTemplate {
     public int width;
     public int height;
     public SpaceTemplate[][]spaces;
-    public List<PlayerTemplate> players;
+    public List<PlayerTemplate> players = new ArrayList<>();
 
 
 
