@@ -142,10 +142,7 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            File f = new File("./saves");
-            f.mkdir();
-            f = new File("./saves/autosave.json");
-            saveGame(f);
+            saveState("autosave");
 
             gameController = null;
             roboRally.createBoardView(null);
