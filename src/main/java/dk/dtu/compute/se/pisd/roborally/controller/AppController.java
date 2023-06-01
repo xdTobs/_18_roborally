@@ -105,6 +105,8 @@ public class AppController implements Observer {
         switch (gameController.board.getPhase()) {
             case PROGRAMMING -> {
             }
+            case INITIALISATION ->{
+            }
             default -> {
                 throw new RuntimeException("Invalid save state.");
             }

@@ -1,6 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-public interface IFieldAction {
+import dk.dtu.compute.se.pisd.roborally.model.Space;
+
+public abstract class FieldAction {
     /**
      * Executes the field action for a given space. In order to be able to do
      * that the GameController associated with the game is passed to this method.
@@ -8,5 +10,5 @@ public interface IFieldAction {
      * @param gameController the gameController of the respective game
      * @return whether the action was successfully executed
      */
-    boolean doAction(GameController gameController);
+    public abstract boolean doAction(GameController gameController, Space space);
 }

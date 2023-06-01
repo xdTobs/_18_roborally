@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.CommandCardFieldTemplate;
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -147,6 +148,13 @@ public class Player extends Subject {
 
     public CommandCardField getAvailableCardSlot(int i) {
         return availableCardSlots[i];
+    }
+
+    public CommandCardField[] getRegisterSlots() {
+        return registerSlots;
+    }
+    public CommandCardField[] getAvailableCardSlots(){
+        return availableCardSlots;
     }
 
 }
