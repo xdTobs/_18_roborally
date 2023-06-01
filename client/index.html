@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Roborally</title>
+    <style>
+        .myBtn {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<h1 id="ourTitle">Roborally</h1>
+<div id="gameboard">
+</div>
+
+<button id="newGameBtn" onclick="newGame()">New Game</button>
+<button id="loadGameBtn" onclick="loadGame()">Load Game</button>
+
+
+<p style="font-family: monospace" class="myBtn">Load Game</p>
+<p style="color:red" class="myBtn">Load Game</p>
+<p class="myBtn">Load Game</p>
+
+</body>
+
+<script>
+    const title = document.getElementById("ourTitle");
+    let i = 1;
+
+    function setup() {
+
+    }
+
+    function titleFn() {
+        i++;
+        title.textContent = "Group " + i + " is the best";
+    }
+
+    setInterval(titleFn, 1000)
+
+
+    function loadGame() {
+        console.log("loading game")
+    }
+
+    let gameboard = document.getElementById("gameboard")
+    function newGame() {
+        console.log("starting new game")
+        const gameboard = debugGetBoards()
+
+
+    }
+
+    function debugGetBoards() {
+        return {
+            "boardName": "Example Board",
+            "width": 3,
+            "height": 3,
+            "board": [["we", "e", "e"],
+                ["e", "bbe", "wse"],
+                ["e", "c1", "e"]]
+        }
+    }
+</script>
+</html>
