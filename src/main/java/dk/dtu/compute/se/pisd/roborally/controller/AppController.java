@@ -248,6 +248,8 @@ public class AppController implements Observer {
     }
 
     public void loadSaveState(String name) {
-        LoadBoard.loadSaveState(name);
+        Board board = LoadBoard.loadSaveState(name);
+        newGameFromBoardfile(board,board.getPlayers().size());
+
     }
 }

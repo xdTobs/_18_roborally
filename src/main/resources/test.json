@@ -135,7 +135,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 2,
@@ -197,7 +200,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 2,
@@ -251,7 +257,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 3,
@@ -261,7 +270,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 3,
@@ -279,7 +291,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -289,7 +304,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -299,7 +317,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -309,7 +330,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -319,7 +343,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -329,7 +356,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -339,7 +369,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -349,7 +382,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 4,
@@ -359,7 +395,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 4,
@@ -377,7 +416,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "SOUTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
           }
         ],
         "x": 5,
@@ -387,7 +429,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 5,
@@ -433,7 +478,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 5,
@@ -457,7 +505,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 6,
@@ -509,7 +560,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 6,
@@ -533,7 +587,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 7,
@@ -581,7 +638,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 7,
@@ -605,7 +665,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 8,
@@ -653,7 +716,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 8,
@@ -677,7 +743,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 9,
@@ -729,7 +798,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 9,
@@ -753,7 +825,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 10,
@@ -799,7 +874,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "EAST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
           }
         ],
         "x": 10,
@@ -809,7 +887,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 10,
@@ -827,7 +908,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 11,
@@ -837,7 +921,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -847,7 +934,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -857,7 +947,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -867,7 +960,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -877,7 +973,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -887,7 +986,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -897,7 +999,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -907,7 +1012,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "NORTH"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
           }
         ],
         "x": 11,
@@ -925,7 +1033,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 12,
@@ -935,7 +1046,10 @@
         "walls": [],
         "actions": [
           {
-            "heading": "WEST"
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
           }
         ],
         "x": 12,
@@ -945,7 +1059,10 @@
         "walls": [],
         "actions": [
           {
-            "checkpointNumber": 1
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint",
+            "INSTANCE": {
+              "checkpointNumber": 1
+            }
           }
         ],
         "x": 12,
@@ -1017,19 +1134,25 @@
       "availableCardSlots": [
         {
           "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "MOVE_3"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "AGAIN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
           },
           "visible": true
         },
@@ -1041,25 +1164,19 @@
         },
         {
           "card": {
-            "command": "MOVE_3"
+            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "U_TURN"
+            "command": "MOVE_BACK"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
+            "command": "AGAIN"
           },
           "visible": true
         }
@@ -1092,37 +1209,7 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "AGAIN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
             "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_3"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
           },
           "visible": true
         },
@@ -1134,7 +1221,37 @@
         },
         {
           "card": {
+            "command": "OPTION_LEFT_RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_1"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_BACK"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
           },
           "visible": true
         }
@@ -1173,7 +1290,31 @@
         },
         {
           "card": {
-            "command": "AGAIN"
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_BACK"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
           },
           "visible": true
         },
@@ -1186,30 +1327,6 @@
         {
           "card": {
             "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         }
@@ -1242,49 +1359,49 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
+            "command": "U_TURN"
           },
           "visible": true
         },
         {
           "card": {
             "command": "MOVE_BACK"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_1"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "OPTION_LEFT_RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         }
@@ -1317,13 +1434,7 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
+            "command": "RIGHT"
           },
           "visible": true
         },
@@ -1347,19 +1458,25 @@
         },
         {
           "card": {
+            "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "MOVE_BACK"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "AGAIN"
+            "command": "MOVE_1"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "AGAIN"
+            "command": "MOVE_2"
           },
           "visible": true
         }

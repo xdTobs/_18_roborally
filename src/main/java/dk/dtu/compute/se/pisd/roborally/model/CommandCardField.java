@@ -46,7 +46,8 @@ public class CommandCardField extends Subject  {
     }
 
     public CommandCardField(CommandCardFieldTemplate template) {
-        this.card = new CommandCard(template.card);
+        if(template.card!=null)
+            this.card = new CommandCard(template.card);
         this.visible = template.visible;
     }
 

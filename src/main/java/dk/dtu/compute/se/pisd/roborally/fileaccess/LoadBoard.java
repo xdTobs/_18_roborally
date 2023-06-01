@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -24,79 +25,30 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String boardname) {
-        if (boardname == null) {
-            boardname = DEFAULTBOARD;
-        }
-
-        ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
-        if (inputStream == null) {
-            // TODO these constants should be defined somewhere
-            return new Board(8,8);
-        }
-
-        // In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder();
-        Gson gson = simpleBuilder.create();
-
-        Board result;
-        // FileReader fileReader = null;
-        JsonReader reader = null;
-        try {
-            // fileReader = new FileReader(filename);
-            reader = gson.newJsonReader(new InputStreamReader(inputStream));
-            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-
-            result = new Board(template.width, template.height);
-            List<Player> players = new ArrayList<>();
-            for(PlayerTemplate pt : template.players){
-                players.add(new Player(pt,result));
-            }
-
-            for (int i = 0; i < template.spaces.length; i++) {
-                for (int j = 0; j < template.spaces[0].length; j++) {
-                    Space space = new Space(template.spaces[i][j],result);
-                    result.setSpace(i,j,space);
-                }
-            }
-            for (Player player : players){
-                player.getSpace().setPlayer(player);
-            }
-
-            reader.close();
-            return result;
-        } catch (IOException e1) {
-            if (reader != null) {
-                try {
-                    reader.close();
-                    inputStream = null;
-                } catch (IOException e2) {}
-            }
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e2) {}
-            }
-        }
-        return null;
-    }
 
     public static Board loadSaveState(String boardname) {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
-        ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = classLoader.getResource(BOARDSFOLDER).getPath() + "/" + boardname + "." + JSON_EXT;
-        InputStream inputStream = classLoader.getResourceAsStream(filename);
+        //TODO Generalize
+        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
+        String filename = "src/main/resources/test.json";
+        File file = new File(filename);
+        InputStream inputStream = null;
+        try{
+            inputStream = new FileInputStream(file);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
             return new Board(8,8);
         }
 
         // In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder();
+        GsonBuilder simpleBuilder = new GsonBuilder()
+                .registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
         Gson gson = simpleBuilder.create();
 
         Board result;
@@ -107,10 +59,10 @@ public class LoadBoard {
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
             result = new Board(template.width, template.height);
-            List<Player> players = new ArrayList<>();
             for(PlayerTemplate pt : template.players){
-                players.add(new Player(pt,result));
+                result.addPlayer(new Player(pt, result));
             }
+
 
             for (int i = 0; i < template.spaces.length; i++) {
                 for (int j = 0; j < template.spaces[0].length; j++) {
@@ -118,7 +70,7 @@ public class LoadBoard {
                     result.setSpace(i,j,space);
                 }
             }
-            for (Player player : players){
+            for (Player player : result.getPlayers()){
                 player.getSpace().setPlayer(player);
             }
             reader.close();
@@ -156,6 +108,7 @@ public class LoadBoard {
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
+                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
