@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
@@ -90,16 +91,15 @@ public class RoboRallyMenuBar extends MenuBar {
 
         saveGame = new MenuItem("Save Game");
         saveGame.setOnAction(e -> {
-            File file = this.appController.createFile();
-            if (file != null) {
-                this.appController.saveGame(file);
-            }
+            //TODO take input from player for name and make sure unique somehow
+            String name = "test";
+            this.appController.saveState(name);
         });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction(e -> {
-            File file = this.appController.getFile();
+           /* File file = this.appController.getFile();
             if (file == null) {
                 System.out.println("No file selected.");
             } else {
@@ -110,7 +110,10 @@ public class RoboRallyMenuBar extends MenuBar {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            }
+            }*/
+            //TODO take input
+            String name = "test";
+            this.appController.loadSaveState(name);
         });
         controlMenu.getItems().add(loadGame);
 

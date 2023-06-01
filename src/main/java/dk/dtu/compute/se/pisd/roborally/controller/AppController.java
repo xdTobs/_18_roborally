@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
@@ -240,5 +241,13 @@ public class AppController implements Observer {
 
     public Board getStandardBoard() {
         return Board.createBoardFromBoardFile(new File("Boards/DIZZY_HIGHWAY.json"));
+    }
+
+    public void saveState(String name) {
+        LoadBoard.saveBoard(gameController.board,name);
+    }
+
+    public void loadSaveState(String name) {
+        LoadBoard.loadSaveState(name);
     }
 }
