@@ -50,12 +50,11 @@ public class Space extends Subject {
         this.y = y;
     }
 
-    public Space(SpaceTemplate template, Board board, Player player) {
+    public Space(SpaceTemplate template, Board board) {
         this.x = template.x;
         this.y = template.y;
         this.walls = template.walls;
         this.actions = template.actions;
-        this.player = player;
         this.board = board;
 
     }

@@ -3,7 +3,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
@@ -11,6 +10,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,20 +49,21 @@ public class LoadBoard {
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
             result = new Board(template.width, template.height);
+            List<Player> players = new ArrayList<>();
+            for(PlayerTemplate pt : template.players){
+                players.add(new Player(pt,result));
+            }
+
             for (int i = 0; i < template.spaces.length; i++) {
                 for (int j = 0; j < template.spaces[0].length; j++) {
-                    Space space = new Space()
+                    Space space = new Space(template.spaces[i][j],result);
+                    result.setSpace(i,j,space);
                 }
             }
-
-
-            for (SpaceTemplate spaceTemplate: template.spaces) {
-                Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-                if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
-                    space.getWalls().addAll(spaceTemplate.walls);
-                }
+            for (Player player : players){
+                player.getSpace().setPlayer(player);
             }
+
             reader.close();
             return result;
         } catch (IOException e1) {
@@ -102,17 +103,23 @@ public class LoadBoard {
         // FileReader fileReader = null;
         JsonReader reader = null;
         try {
-            // fileReader = new FileReader(filename);
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
             result = new Board(template.width, template.height);
-            for (SpaceTemplate spaceTemplate: template.spaces[]) {
-                Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-                if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
-                    space.getWalls().addAll(spaceTemplate.walls);
+            List<Player> players = new ArrayList<>();
+            for(PlayerTemplate pt : template.players){
+                players.add(new Player(pt,result));
+            }
+
+            for (int i = 0; i < template.spaces.length; i++) {
+                for (int j = 0; j < template.spaces[0].length; j++) {
+                    Space space = new Space(template.spaces[i][j],result);
+                    result.setSpace(i,j,space);
                 }
+            }
+            for (Player player : players){
+                player.getSpace().setPlayer(player);
             }
             reader.close();
             return result;

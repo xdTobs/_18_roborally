@@ -38,7 +38,7 @@ public class Player extends Subject {
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    public transient Board board;
+    public Board board;
     Space space;
     private String name;
     private String color;
@@ -66,9 +66,11 @@ public class Player extends Subject {
             availableCardSlots[i] = new CommandCardField(this);
         }
     }
-    public Player(PlayerTemplate template){
+    public Player(PlayerTemplate template,Board board){
         this.name = template.name;
         this.color = template.color;
+        this.board = board;
+        this.space = board.getSpace(template.x,template.y);
         registerSlots = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < registerSlots.length; i++) {
             registerSlots[i] = new CommandCardField(template.registerSlots[i]);

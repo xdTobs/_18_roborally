@@ -1,6 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
