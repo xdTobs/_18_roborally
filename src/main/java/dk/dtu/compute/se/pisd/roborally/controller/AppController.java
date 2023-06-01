@@ -247,7 +247,7 @@ public class AppController implements Observer {
     public void loadSaveState(String name) {
         Board board = LoadBoard.loadSaveState(name);
         gameController = new GameController(board);
-        gameController.startProgrammingPhase();
+        gameController.loadProgrammingPhase();
         roboRally.createBoardView(gameController);
 
     }

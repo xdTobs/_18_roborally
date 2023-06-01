@@ -75,6 +75,24 @@ public class GameController {
             }
         }
     }
+    public void loadProgrammingPhase(){
+        //TODO currently only load in step 0, should be easy to make able to load in all steps
+        board.setPhase(Phase.PROGRAMMING);
+        board.setStep(0);
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getRegisterSlot(j);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    CommandCardField field = player.getAvailableCardSlot(j);
+                    field.setVisible(true);
+                }
+            }
+        }
+    }
 
     public void resumeProgrammingPhase() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
