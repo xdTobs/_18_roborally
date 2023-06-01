@@ -3,7 +3,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -37,7 +38,7 @@ public class LoadBoard {
 
         // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
         Gson gson = simpleBuilder.create();
 
         Board result;
@@ -82,14 +83,28 @@ public class LoadBoard {
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
-                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()||space.getPlayer()!=null) {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
                     template.spaces.add(spaceTemplate);
+                    if(space.getPlayer()!=null){
+                        Player p = space.getPlayer();
+                        spaceTemplate.playerOnField = (new PlayerTemplate(
+                                p.getSpace().x,
+                                p.getSpace().y,
+                                p.getName(),
+                                p.getColor(),
+                                p.getCheckpointCounter(),
+                                p.getHeading(),
+                                p.getRegisterSlots(),
+                                p.getAvailableCardSlots()
+                        ));
+                    }
                 }
+
             }
         }
         List<Player> players = board.getPlayers();
@@ -104,16 +119,7 @@ public class LoadBoard {
                 availableCards[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i).getCard(),p.getRegisterSlot(i).isVisible());
             }
 
-            template.players.add(new PlayerTemplate(
-                    p.getSpace().x,
-                    p.getSpace().y,
-                    p.getName(),
-                    p.getColor(),
-                    p.getCheckpointCounter(),
-                    p.getHeading(),
-                    registerSlots,
-                    availableCards
-            ));
+
 
         }
 
@@ -132,7 +138,7 @@ public class LoadBoard {
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
