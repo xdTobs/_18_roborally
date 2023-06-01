@@ -59,10 +59,6 @@ public class LoadBoard {
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
             result = new Board(template.width, template.height);
-            for(PlayerTemplate pt : template.players){
-                result.addPlayer(new Player(pt, result));
-            }
-
 
             for (int i = 0; i < template.spaces.length; i++) {
                 for (int j = 0; j < template.spaces[0].length; j++) {
@@ -70,6 +66,12 @@ public class LoadBoard {
                     result.setSpace(i,j,space);
                 }
             }
+
+            for(PlayerTemplate pt : template.players){
+                result.addPlayer(new Player(pt, result));
+            }
+
+
             for (Player player : result.getPlayers()){
                 player.getSpace().setPlayer(player);
             }
