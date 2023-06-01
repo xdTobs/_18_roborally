@@ -1109,11 +1109,11 @@
   "players": [
     {
       "x": 0,
-      "y": 0,
+      "y": 8,
       "name": "Player 1",
       "color": "red",
       "checkpointCounter": 0,
-      "heading": "SOUTH",
+      "heading": "EAST",
       "registerSlots": [
         {
           "visible": true
@@ -1134,37 +1134,13 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_3"
+            "command": "MOVE_BACK"
           },
           "visible": true
         },
         {
           "card": {
             "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         },
@@ -1177,6 +1153,30 @@
         {
           "card": {
             "command": "AGAIN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_3"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "OPTION_LEFT_RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_1"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_1"
           },
           "visible": true
         }
@@ -1209,25 +1209,19 @@
       "availableCardSlots": [
         {
           "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
           },
           "visible": true
         },
@@ -1239,19 +1233,25 @@
         },
         {
           "card": {
+            "command": "RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_2"
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
           },
           "visible": true
         }
@@ -1284,37 +1284,25 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "MOVE_1"
+            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "U_TURN"
+            "command": "MOVE_2"
           },
           "visible": true
         },
         {
           "card": {
-            "command": "RIGHT"
+            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         },
         {
           "card": {
             "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
           },
           "visible": true
         },
@@ -1326,7 +1314,19 @@
         },
         {
           "card": {
-            "command": "MOVE_BACK"
+            "command": "RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
         }
@@ -1359,25 +1359,7 @@
       "availableCardSlots": [
         {
           "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_1"
+            "command": "MOVE_3"
           },
           "visible": true
         },
@@ -1389,13 +1371,7 @@
         },
         {
           "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
+            "command": "MOVE_3"
           },
           "visible": true
         },
@@ -1404,34 +1380,7 @@
             "command": "OPTION_LEFT_RIGHT"
           },
           "visible": true
-        }
-      ]
-    },
-    {
-      "x": 4,
-      "y": 4,
-      "name": "Player 5",
-      "color": "grey",
-      "checkpointCounter": 0,
-      "heading": "SOUTH",
-      "registerSlots": [
-        {
-          "visible": true
         },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        }
-      ],
-      "availableCardSlots": [
         {
           "card": {
             "command": "RIGHT"
@@ -1440,13 +1389,7 @@
         },
         {
           "card": {
-            "command": "MOVE_3"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
+            "command": "U_TURN"
           },
           "visible": true
         },
@@ -1458,25 +1401,7 @@
         },
         {
           "card": {
-            "command": "MOVE_2"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_1"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
+            "command": "U_TURN"
           },
           "visible": true
         }

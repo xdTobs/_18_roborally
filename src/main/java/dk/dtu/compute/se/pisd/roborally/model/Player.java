@@ -73,12 +73,12 @@ public class Player extends Subject {
         this.space = board.getSpace(template.x,template.y);
         registerSlots = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < registerSlots.length; i++) {
-            registerSlots[i] = new CommandCardField(template.registerSlots[i]);
+            registerSlots[i] = new CommandCardField(template.registerSlots[i],this);
         }
 
         availableCardSlots = new CommandCardField[NO_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
-            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i]);
+            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i],this);
         }
     }
 

@@ -7,6 +7,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
@@ -75,6 +76,8 @@ public class LoadBoard {
             for (Player player : result.getPlayers()){
                 player.getSpace().setPlayer(player);
             }
+
+
             reader.close();
             return result;
         } catch (IOException e1) {

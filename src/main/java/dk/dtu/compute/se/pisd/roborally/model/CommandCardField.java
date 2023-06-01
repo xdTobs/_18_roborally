@@ -33,7 +33,7 @@ import java.io.Serializable;
  */
 public class CommandCardField extends Subject  {
 
-    public transient Player player;
+    public Player player;
 
     private CommandCard card;
 
@@ -45,10 +45,11 @@ public class CommandCardField extends Subject  {
         this.visible = true;
     }
 
-    public CommandCardField(CommandCardFieldTemplate template) {
+    public CommandCardField(CommandCardFieldTemplate template, Player player) {
         if(template.card!=null)
             this.card = new CommandCard(template.card);
         this.visible = template.visible;
+        this.player = player;
     }
 
     public CommandCard getCard() {
