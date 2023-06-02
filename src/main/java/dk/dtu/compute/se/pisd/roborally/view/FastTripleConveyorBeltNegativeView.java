@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
-import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -8,8 +9,9 @@ import java.io.File;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 
 public class FastTripleConveyorBeltNegativeView extends SpaceView {
-    public FastTripleConveyorBeltNegativeView(@NotNull ConveyorBelt conveyorBelt) {
-        super(conveyorBelt);
+    public FastTripleConveyorBeltNegativeView(@NotNull Space space) {
+        super(space);
+        ConveyorBelt conveyorBelt = (ConveyorBelt) space.getActions().get(0);
         //String filePath = new File("Board_Element_Pictures/Blue_Arrow.png").toURI().toString();
 
         if (conveyorBelt.getHeading() == EAST) {

@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally.model;
+/*package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
@@ -25,7 +25,7 @@ public class ConveyorBelt extends Space implements IFieldAction {
     public boolean doAction(GameController gameController, Space space) {
         /*if (this.getPlayer().hasMovedThisTurn()) {
             return true;
-        }*/
+        }
 
         this.getPlayer().setHeading(heading);
         gameController.moveForward(this.getPlayer());
@@ -35,3 +35,4 @@ public class ConveyorBelt extends Space implements IFieldAction {
     }
 }
 
+*/

@@ -304,7 +304,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
             "INSTANCE": {
               "heading": "SOUTH"
             }
@@ -382,7 +382,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "SOUTH"
             }
@@ -395,7 +395,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -429,7 +429,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "WEST"
             }
@@ -874,7 +874,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -908,7 +908,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
             "INSTANCE": {
               "heading": "WEST"
             }
@@ -921,7 +921,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "NORTH"
             }
@@ -999,7 +999,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
             "INSTANCE": {
               "heading": "NORTH"
             }
@@ -1106,156 +1106,5 @@
       }
     ]
   ],
-  "players": [
-    {
-      "x": 0,
-      "y": 0,
-      "name": "Player 1",
-      "color": "red",
-      "checkpointCounter": 0,
-      "heading": "SOUTH",
-      "registerSlots": [
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        }
-      ],
-      "availableCardSlots": [
-        {
-          "card": {
-            "command": "MOVE_1"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "AGAIN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        }
-      ]
-    },
-    {
-      "x": 1,
-      "y": 1,
-      "name": "Player 2",
-      "color": "green",
-      "checkpointCounter": 0,
-      "heading": "SOUTH",
-      "registerSlots": [
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        },
-        {
-          "visible": true
-        }
-      ],
-      "availableCardSlots": [
-        {
-          "card": {
-            "command": "MOVE_2"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "U_TURN"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_2"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "MOVE_BACK"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "OPTION_LEFT_RIGHT"
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "LEFT"
-          },
-          "visible": true
-        }
-      ]
-    }
-  ]
+  "players": []
 }

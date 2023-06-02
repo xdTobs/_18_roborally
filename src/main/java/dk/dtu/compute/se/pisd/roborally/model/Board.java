@@ -24,9 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.google.gson.*;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
-import dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.*;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -138,10 +137,27 @@ public class Board extends Subject {
                             default ->
                                     throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
                         };
+                        //Color of arrow
                         if (valueAtSpace.charAt(1) == 'g') {
-                            space.addActions(new ConveyorBelt(heading));
+                            if (valueAtSpace.length()==4){
+                                if (valueAtSpace.charAt(3)=='p') { // positive rotation
+                                    //space = new TripleConveyorBeltPositive(board, x, y, heading);
+                                } else if (valueAtSpace.charAt(3)=='n') { //negative rotation
+                                    //space = new TripleConveyorBeltNegative(board, x, y, heading);
+                                }
+                            }else {
+                                space.addActions(new ConveyorBelt(heading)); //What is this???!!
+                            }
                         } else if (valueAtSpace.charAt(1) == 'b') {
-                            space.addActions(new FastConveyorBelt(heading));
+                            if (valueAtSpace.length()==4){
+                                if (valueAtSpace.charAt(3)=='p') { // positive rotation
+                                    space.addActions(new FastTripleConveyorBeltPositive(heading));
+                                } else if (valueAtSpace.charAt(3)=='n') { //negative rotation
+                                    space.addActions(new FastTripleConveyorBeltNegative(heading));
+                                }
+                            }else {
+                                space.addActions(new FastConveyorBelt(heading));
+                            }
                         }
                     }
                     case 'e' -> {

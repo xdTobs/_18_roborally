@@ -24,9 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.IFieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.spaces.*;
 import dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -37,11 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- */
+
 public class BoardView extends VBox implements ViewObserver {
 
     private Board board;
@@ -79,6 +74,10 @@ public class BoardView extends VBox implements ViewObserver {
                     IFieldAction definingAction = actions.get(0);
                     if(definingAction instanceof FastConveyorBelt)
                         spaceView = new FastConveyorBeltView(space);
+                    else if (definingAction instanceof FastTripleConveyorBeltPositive)
+                        spaceView = new FastTripleConveyorBeltPositiveView(space);
+                    else if (definingAction instanceof FastTripleConveyorBeltNegative)
+                        spaceView = new FastTripleConveyorBeltNegativeView(space);
                     else if (definingAction instanceof ConveyorBelt)
                         spaceView = new ConveyorBeltView(space);
                     else if (definingAction instanceof Checkpoint)
