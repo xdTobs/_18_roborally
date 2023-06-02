@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally;
+package dk.dtu.compute.se.pisd.roborally.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
