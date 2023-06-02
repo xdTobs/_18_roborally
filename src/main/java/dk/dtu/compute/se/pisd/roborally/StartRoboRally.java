@@ -21,6 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally;
 
+import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+
+import java.io.File;
+
 /**
  * This is a class for starting up the RoboRally application. This is a
  * workaround for a strange quirk in the Open JavaFX project launcher,
@@ -33,7 +39,13 @@ package dk.dtu.compute.se.pisd.roborally;
 public class StartRoboRally {
 
     public static void main(String[] args) {
-        RoboRally.main(args);
+        AppController appController = new AppController();
+        appController.newGame(getStandardBoard());
     }
+
+    public static Board getStandardBoard() {
+        return Board.createBoardFromBoardFile(new File("Boards/DIZZY_HIGHWAY.json"));
+    }
+
 
 }

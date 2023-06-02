@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
@@ -53,25 +54,22 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
 
-    final private RoboRally roboRally;
+
 
     private GameController gameController;
 
-    public AppController(@NotNull RoboRally roboRally) {
-        this.roboRally = roboRally;
+    public AppController() {
+
     }
 
 
     public void newGame(Board board) {
         gameController = new GameController(board);
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-        dialog.setTitle("Player number.");
-        dialog.setHeaderText("Select number of players.");
-        Optional<Integer> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            newGameFromBoardfile(board, result.get());
-        }
-        roboRally.createBoardView(gameController);
+        //player count is always 4
+        //TODO change playercount somehow
+        newGameFromBoardfile(board, 4);
+
+
 
     }
 
@@ -98,7 +96,7 @@ public class AppController implements Observer {
         // XXX: V2
         // board.setCurrentPlayer(board.getPlayer(0));
         gameController.resumeProgrammingPhase();
-        roboRally.createBoardView(gameController);
+
     }
 
     public void loadGame(Board board) {
@@ -112,7 +110,7 @@ public class AppController implements Observer {
                 throw new RuntimeException("Invalid save state.");
             }
         }
-        roboRally.createBoardView(gameController);
+
     }
 
     public void startDebugGame(Board board) {
@@ -127,6 +125,10 @@ public class AppController implements Observer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public BoardTemplate getBoardTemplate(){
+        return new BoardTemplate(gameController.board);
     }
 
     /**
@@ -145,7 +147,7 @@ public class AppController implements Observer {
             saveState("autosave");
 
             gameController = null;
-            roboRally.createBoardView(null);
+
             return true;
         }
         return false;
@@ -185,8 +187,10 @@ public class AppController implements Observer {
 
         fileChooser.setInitialDirectory(new File("./saves"));
         // Show file chooser dialog
-        File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
 
+        //TODO board selector without javafx
+        //File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
+        File selectedFile = null;
         if (selectedFile != null) System.out.println(selectedFile.getName());
         return selectedFile;
     }
@@ -195,7 +199,8 @@ public class AppController implements Observer {
         FileChooser fileChooser = createFileChooser("Create Save File");
         // Show file chooser dialog
         fileChooser.setInitialFileName("roborally-game.json");
-        File selectedFile = fileChooser.showSaveDialog(roboRally.getStage());
+        File selectedFile = null;
+        // File selectedFile = fileChooser.showSaveDialog(roboRally.getStage());
         if (selectedFile != null) System.out.println(selectedFile.getName());
         return selectedFile;
     }
@@ -248,7 +253,7 @@ public class AppController implements Observer {
         Board board = LoadBoard.loadSaveState(name);
         gameController = new GameController(board);
         gameController.loadProgrammingPhase();
-        roboRally.createBoardView(gameController);
+
 
     }
 }
