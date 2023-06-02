@@ -1,5 +1,5 @@
 # Project exclude paths
-target/
+target
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -9,7 +9,7 @@ target/
 *.iws
 *.iml
 *.ipr
-.idea/workspace.xml
+../.idea/workspace.xml
 
 ### Eclipse ###
 .apt_generated
