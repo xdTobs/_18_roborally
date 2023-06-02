@@ -1,0 +1,17 @@
+{
+  "boardName": "PASSING LANE",
+  "width": 23,
+  "height": 10,
+  "board": [
+    ["e", "e", "we", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "bbs", "bbs", "e", "e", "e", "e", "e", "e", "e"],
+    ["e", "wn", "e", "bbw", "bbwn", "bbw", "bbw", "bbw", "bbw", "e", "e", "e", "ww", "e", "bbsn", "bbwp", "bbw", "bbw", "bbw", "bbw", "bbw", "bbwn", "bbw"],
+    ["e", "e", "wse", "e", "bbn", "e", "e", "e", "e", "e", "e", "e", "ww", "e", "bbs", "e", "e", "e", "e", "e", "e", "bbnp", "bbw"],
+    ["e", "e", "e", "e", "bbn", "e", "wwn", "e", "e", "wne", "e", "bbs", "ww", "e", "bbs", "e", "wn", "c1", "ww", "we", "e", "bbn", "e"],
+    ["e", "e", "we", "e", "bbn", "e", "e", "e", "e", "e", "e", "bbs", "e", "e", "bbs", "e", "ws", "e", "e", "e", "e", "bbn", "e"],
+    ["e", "e", "we", "e", "bbn", "e", "e", "e", "e", "e", "e", "bbs", "e", "e", "bbs", "e", "e", "e", "e", "wn", "e", "bbn", "e"],
+    ["e", "e", "e", "we", "bbn", "e", "c2", "e", "e", "wse", "e", "bbs", "e", "e", "bbs", "e", "ww", "we", "e", "ws", "e", "bbn", "e"],
+    ["e", "e", "wne", "we", "bbn", "e", "e", "e", "e", "e", "e", "bbs", "e", "bbe", "bbsp", "e", "e", "e", "e", "e", "e", "bbn", "c3"],
+    ["e", "ws", "e", "we", "e", "e", "e", "bbe", "bbe", "bbe", "bbe", "bben", "bbe", "bbe", "bben", "bbe","bbe", "bbe", "bbe", "bbe", "bbep", "bbnn", "e"],
+    ["e", "e", "we", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "bbn", "bbn", "e" ]
+  ]
+}

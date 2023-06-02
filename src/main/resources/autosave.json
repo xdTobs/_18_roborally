@@ -1,5 +1,5 @@
 {
-  "width": 13,
+  "width": 23,
   "height": 10,
   "spaces": [
     [
@@ -72,15 +72,15 @@
         "y": 0
       },
       {
-        "walls": [],
+        "walls": [
+          "NORTH"
+        ],
         "actions": [],
         "x": 1,
         "y": 1
       },
       {
-        "walls": [
-          "NORTH"
-        ],
+        "walls": [],
         "actions": [],
         "x": 1,
         "y": 2
@@ -108,6 +108,12 @@
         "actions": [],
         "x": 1,
         "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 7
       },
       {
         "walls": [
@@ -115,12 +121,6 @@
         ],
         "actions": [],
         "x": 1,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 1,
         "y": 8
       },
       {
@@ -132,15 +132,10 @@
     ],
     [
       {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
+        "walls": [
+          "EAST"
         ],
+        "actions": [],
         "x": 2,
         "y": 0
       },
@@ -151,7 +146,10 @@
         "y": 1
       },
       {
-        "walls": [],
+        "walls": [
+          "EAST",
+          "SOUTH"
+        ],
         "actions": [],
         "x": 2,
         "y": 2
@@ -185,7 +183,10 @@
         "y": 6
       },
       {
-        "walls": [],
+        "walls": [
+          "EAST",
+          "NORTH"
+        ],
         "actions": [],
         "x": 2,
         "y": 7
@@ -197,15 +198,10 @@
         "y": 8
       },
       {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
+        "walls": [
+          "EAST"
         ],
+        "actions": [],
         "x": 2,
         "y": 9
       }
@@ -219,7 +215,14 @@
       },
       {
         "walls": [],
-        "actions": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
         "x": 3,
         "y": 1
       },
@@ -248,34 +251,26 @@
         "y": 5
       },
       {
-        "walls": [],
+        "walls": [
+          "EAST"
+        ],
         "actions": [],
         "x": 3,
         "y": 6
       },
       {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
+        "walls": [
+          "EAST"
         ],
+        "actions": [],
         "x": 3,
         "y": 7
       },
       {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
+        "walls": [
+          "EAST"
         ],
+        "actions": [],
         "x": 3,
         "y": 8
       },
@@ -289,14 +284,7 @@
     [
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "SOUTH"
-            }
-          }
-        ],
+        "actions": [],
         "x": 4,
         "y": 0
       },
@@ -306,7 +294,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "WEST"
             }
           }
         ],
@@ -319,7 +307,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -332,7 +320,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -345,7 +333,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -358,7 +346,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -371,7 +359,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -382,9 +370,9 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
-              "heading": "SOUTH"
+              "heading": "NORTH"
             }
           }
         ],
@@ -393,14 +381,7 @@
       },
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
+        "actions": [],
         "x": 4,
         "y": 8
       },
@@ -414,14 +395,7 @@
     [
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "SOUTH"
-            }
-          }
-        ],
+        "actions": [],
         "x": 5,
         "y": 0
       },
@@ -429,7 +403,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
             "INSTANCE": {
               "heading": "WEST"
             }
@@ -476,14 +450,7 @@
       },
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
+        "actions": [],
         "x": 5,
         "y": 8
       },
@@ -522,16 +489,15 @@
       },
       {
         "walls": [
-          "NORTH"
+          "NORTH",
+          "WEST"
         ],
         "actions": [],
         "x": 6,
         "y": 3
       },
       {
-        "walls": [
-          "SOUTH"
-        ],
+        "walls": [],
         "actions": [],
         "x": 6,
         "y": 4
@@ -540,6 +506,845 @@
         "walls": [],
         "actions": [],
         "x": 6,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint",
+            "INSTANCE": {
+              "checkpointNumber": 2
+            }
+          }
+        ],
+        "x": 6,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 7,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 7,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 8,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 8,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 8,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 2
+      },
+      {
+        "walls": [
+          "EAST",
+          "NORTH"
+        ],
+        "actions": [],
+        "x": 9,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 5
+      },
+      {
+        "walls": [
+          "EAST",
+          "SOUTH"
+        ],
+        "actions": [],
+        "x": 9,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 9,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 9,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 10,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 10,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 11,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 11,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 11,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 11,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 11,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 0
+      },
+      {
+        "walls": [
+          "WEST"
+        ],
+        "actions": [],
+        "x": 12,
+        "y": 1
+      },
+      {
+        "walls": [
+          "WEST"
+        ],
+        "actions": [],
+        "x": 12,
+        "y": 2
+      },
+      {
+        "walls": [
+          "WEST"
+        ],
+        "actions": [],
+        "x": 12,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 12,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 12,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 13,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 13,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 13,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 14,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 14,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "SOUTH"
+            }
+          }
+        ],
+        "x": 15,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 15,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 15,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 15,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 16,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 16,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 16,
+        "y": 2
+      },
+      {
+        "walls": [
+          "NORTH"
+        ],
+        "actions": [],
+        "x": 16,
+        "y": 3
+      },
+      {
+        "walls": [
+          "SOUTH"
+        ],
+        "actions": [],
+        "x": 16,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 16,
         "y": 5
       },
       {
@@ -547,13 +1352,13 @@
           "WEST"
         ],
         "actions": [],
-        "x": 6,
+        "x": 16,
         "y": 6
       },
       {
         "walls": [],
         "actions": [],
-        "x": 6,
+        "x": 16,
         "y": 7
       },
       {
@@ -566,13 +1371,13 @@
             }
           }
         ],
-        "x": 6,
+        "x": 16,
         "y": 8
       },
       {
         "walls": [],
         "actions": [],
-        "x": 6,
+        "x": 16,
         "y": 9
       }
     ],
@@ -580,7 +1385,7 @@
       {
         "walls": [],
         "actions": [],
-        "x": 7,
+        "x": 17,
         "y": 0
       },
       {
@@ -593,466 +1398,13 @@
             }
           }
         ],
-        "x": 7,
+        "x": 17,
         "y": 1
       },
       {
         "walls": [],
         "actions": [],
-        "x": 7,
-        "y": 2
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 7,
-        "y": 3
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 7,
-        "y": 4
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 7,
-        "y": 5
-      },
-      {
-        "walls": [
-          "EAST"
-        ],
-        "actions": [],
-        "x": 7,
-        "y": 6
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 7,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
-        "x": 7,
-        "y": 8
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 7,
-        "y": 9
-      }
-    ],
-    [
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 8,
-        "y": 1
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 2
-      },
-      {
-        "walls": [
-          "WEST"
-        ],
-        "actions": [],
-        "x": 8,
-        "y": 3
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 4
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 5
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 6
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
-        "x": 8,
-        "y": 8
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 8,
-        "y": 9
-      }
-    ],
-    [
-      {
-        "walls": [],
-        "actions": [],
-        "x": 9,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 9,
-        "y": 1
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 9,
-        "y": 2
-      },
-      {
-        "walls": [
-          "EAST"
-        ],
-        "actions": [],
-        "x": 9,
-        "y": 3
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 9,
-        "y": 4
-      },
-      {
-        "walls": [
-          "NORTH"
-        ],
-        "actions": [],
-        "x": 9,
-        "y": 5
-      },
-      {
-        "walls": [
-          "SOUTH"
-        ],
-        "actions": [],
-        "x": 9,
-        "y": 6
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 9,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
-        "x": 9,
-        "y": 8
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 9,
-        "y": 9
-      }
-    ],
-    [
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 10,
-        "y": 1
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 2
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 3
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 4
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 5
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 6
-      },
-      {
-        "walls": [],
-        "actions": [],
-        "x": 10,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
-        ],
-        "x": 10,
-        "y": 8
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 10,
-        "y": 9
-      }
-    ],
-    [
-      {
-        "walls": [],
-        "actions": [],
-        "x": 11,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 1
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 2
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 3
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 4
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 5
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 6
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 7
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 8
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
-        "x": 11,
-        "y": 9
-      }
-    ],
-    [
-      {
-        "walls": [],
-        "actions": [],
-        "x": 12,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 12,
-        "y": 1
-      },
-      {
-        "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
-            "INSTANCE": {
-              "heading": "WEST"
-            }
-          }
-        ],
-        "x": 12,
+        "x": 17,
         "y": 2
       },
       {
@@ -1065,46 +1417,657 @@
             }
           }
         ],
-        "x": 12,
+        "x": 17,
         "y": 3
       },
       {
         "walls": [],
         "actions": [],
-        "x": 12,
+        "x": 17,
         "y": 4
       },
       {
         "walls": [],
         "actions": [],
-        "x": 12,
+        "x": 17,
         "y": 5
       },
       {
-        "walls": [],
+        "walls": [
+          "EAST"
+        ],
         "actions": [],
-        "x": 12,
+        "x": 17,
         "y": 6
       },
       {
         "walls": [],
         "actions": [],
-        "x": 12,
+        "x": 17,
         "y": 7
       },
       {
         "walls": [],
-        "actions": [],
-        "x": 12,
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 17,
         "y": 8
       },
       {
         "walls": [],
         "actions": [],
-        "x": 12,
+        "x": 17,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 18,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 2
+      },
+      {
+        "walls": [
+          "WEST"
+        ],
+        "actions": [],
+        "x": 18,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 18,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 18,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 19,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 19,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 19,
+        "y": 2
+      },
+      {
+        "walls": [
+          "EAST"
+        ],
+        "actions": [],
+        "x": 19,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 19,
+        "y": 4
+      },
+      {
+        "walls": [
+          "NORTH"
+        ],
+        "actions": [],
+        "x": 19,
+        "y": 5
+      },
+      {
+        "walls": [
+          "SOUTH"
+        ],
+        "actions": [],
+        "x": 19,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 19,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 19,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 19,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 20,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 20,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "INSTANCE": {
+              "heading": "EAST"
+            }
+          }
+        ],
+        "x": 20,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 20,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 21,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltPositive",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastTripleConveyorBeltNegative",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 21,
+        "y": 9
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 22,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "INSTANCE": {
+              "heading": "WEST"
+            }
+          }
+        ],
+        "x": 22,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint",
+            "INSTANCE": {
+              "checkpointNumber": 3
+            }
+          }
+        ],
+        "x": 22,
+        "y": 7
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
+        "y": 8
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 22,
         "y": 9
       }
     ]
   ],
-  "players": []
+  "players": [
+    {
+      "x": 0,
+      "y": 0,
+      "name": "Player 1",
+      "color": "red",
+      "checkpointCounter": 0,
+      "heading": "SOUTH",
+      "registerSlots": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "availableCardSlots": [
+        {
+          "card": {
+            "command": "MOVE_3"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_BACK"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_BACK"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "name": "Player 2",
+      "color": "green",
+      "checkpointCounter": 0,
+      "heading": "SOUTH",
+      "registerSlots": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "availableCardSlots": [
+        {
+          "card": {
+            "command": "MOVE_1"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_3"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_3"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "MOVE_3"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "U_TURN"
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT"
+          },
+          "visible": true
+        }
+      ]
+    }
+  ]
 }
