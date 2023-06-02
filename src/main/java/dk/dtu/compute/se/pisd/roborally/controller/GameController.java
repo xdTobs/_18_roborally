@@ -37,6 +37,11 @@ public class GameController {
 
     public Board board;
 
+    {
+        // this should not happen
+        assert false;
+    }
+
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -75,7 +80,8 @@ public class GameController {
             }
         }
     }
-    public void loadProgrammingPhase(){
+
+    public void loadProgrammingPhase() {
         //TODO currently only load in step 0, should be easy to make able to load in all steps
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
@@ -195,56 +201,56 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER) {
-            int step = board.getStep();
-            if (step >= 0 && step < Player.NO_REGISTERS) {
-                CommandCard card = currentPlayer.getRegisterSlot(step).getCard();
-                if (card != null) {
-                    Command command = card.command;
-                    if (command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
-                        return;
-                    } else {
-                        executeCommand(currentPlayer, command);
-                    }
-                }
-                // We need to change state to get player input if we have a left or right card.
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    // New register
-                    for (Player p : board.getPlayers()) {
-                        List<IFieldAction> actions = p.getSpace().getActions();
-                        for(IFieldAction IFieldAction : actions){
-                            IFieldAction.doAction(this,p.getSpace());
-                        }
-                    }
-                    step++;
-                    if (board.isGameover()) {
-                        board.setPhase(Phase.GAMEOVER);
-                        currentPlayer = board.findWinner();
-                        Alert gameover = new Alert(Alert.AlertType.INFORMATION);
-                        gameover.setTitle("Winner found!");
-                        gameover.setHeaderText(null);
-                        gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'Stop Game' and then 'New Game' to play again.");
-                        gameover.showAndWait();
-                    } else if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
-                        board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
-                        startProgrammingPhase();
-                    }
-                }
-            } else {
-                // this should not happen
-                assert false;
-            }
-        } else {
-            // this should not happen
+        if (board.getPhase() != Phase.ACTIVATION || currentPlayer == null || board.getPhase() == Phase.GAMEOVER)
             assert false;
+
+        int step = board.getStep();
+
+        if (step < 0 || step >= Player.NO_REGISTERS) assert false;
+
+
+        CommandCard card = currentPlayer.getRegisterSlot(step).getCard();
+        if (card != null) {
+            Command command = card.command;
+            if (command.isInteractive()) {
+                board.setPhase(Phase.PLAYER_INTERACTION);
+                return;
+            } else {
+                executeCommand(currentPlayer, command);
+            }
         }
+
+        // We need to change state to get player input if we have a left or right card.
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+        } else {
+            // New register
+            for (Player p : board.getPlayers()) {
+                List<IFieldAction> actions = p.getSpace().getActions();
+                for (IFieldAction IFieldAction : actions) {
+                    IFieldAction.doAction(this, p.getSpace());
+                }
+            }
+            step++;
+            if (board.isGameover()) {
+                board.setPhase(Phase.GAMEOVER);
+                currentPlayer = board.findWinner();
+                Alert gameover = new Alert(Alert.AlertType.INFORMATION);
+                gameover.setTitle("Winner found!");
+                gameover.setHeaderText(null);
+                gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'Stop Game' and then 'New Game' to play again.");
+                gameover.showAndWait();
+            } else if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
+        }
+
+
     }
 
 //    private Optional<Player> findWinner() {
