@@ -97,6 +97,7 @@ https://codebeautify.org/html-table-generator
 .board {
     display: grid;
 }
+
 .row {
     display: flex;
 }
@@ -107,12 +108,15 @@ https://codebeautify.org/html-table-generator
 }
 
 .tile.empty {
-    background: url("imgs/empty.png");
+    background-image: url("imgs/empty.png");
+    background-size: 100%;
 }
 
 .tile.slow-belt {
-    background: url("imgs/slow-belt.png");
+    background-image: url("imgs/slow-belt.png");
+    background-size: 100%;
 }
+
 .number-of-players label {
     display: block;
 }
