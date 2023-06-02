@@ -2,13 +2,12 @@ package dk.dtu.compute.se.pisd.roborally.API;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Game {
     static int IDcounter = 0;
     int ID;
-    List<User> users = new ArrayList<>();
+    List<User> users = new ArrayList<>(10);
     AppController appController;
 
     public Game(AppController appController) {

@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+
 
 
 
@@ -257,7 +259,10 @@ public class AppController implements Observer {
 
     }
 
-    public void endProgramming(int playerNo,int x,int y) {
-        gameController.moveCurrentPlayerToSpace(gameController.board.getSpace(x,y));
+
+
+//TODO used to pass to Server, maybe not the best way
+    public GameController getGameController() {
+        return gameController;
     }
 }

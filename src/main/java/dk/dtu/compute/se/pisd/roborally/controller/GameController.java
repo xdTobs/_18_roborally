@@ -426,4 +426,7 @@ public class GameController {
         return this.board;
     }
 
+    public void endProgramming(int playerNo,int x,int y) {
+        moveCurrentPlayerToSpace(board.getSpace(x,y));
+    }
 }
