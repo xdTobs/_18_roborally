@@ -8,16 +8,18 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
 @RestController
 public class Server {
-    AppController mainController = new AppController();
+    private static AtomicInteger counter = new AtomicInteger(0);
+    HashMap<Integer, AppController> mainControllers = new HashMap<>();
     GameController gameController = null;
     Game game = null;
 
@@ -29,29 +31,37 @@ public class Server {
         return Board.createBoardFromResource("/boards/dizzy_highway.json");
     }
 
-    @GetMapping("/board")
-    public BoardTemplate getBoard() {
-        return mainController.getBoardTemplate();
+    @GetMapping("/board/")
+    public BoardTemplate getBoard(String boardName) {
+        return null;
     }
 
-    @GetMapping("/join")
-    public int joinGame() {
+    @GetMapping("/join/{id}")
+    public int joinGame(@PathVariable String id) {
         User newUser = new User();
         game.addUser(newUser);
         return newUser.getID();
     }
 
     @GetMapping("/start")
-    public String startGame() {
+    public Map<String, String> startGame() {
+        int i = counter.incrementAndGet();
+        AppController mainController = new AppController();
+        mainControllers.put(i, mainController);
         mainController.newGame(getStandardBoard());
         gameController = mainController.getGameController();
-        return "Game Started";
+        // This increments counter in a thread safe way and returns prev value.
+        Map<String, String> res = new HashMap<>();
+        res.put("ID", String.valueOf(i));
+        res.put("board", mainController.getBoardTemplate().toString());
+        return res;
     }
 
-    @GetMapping("/setup")
-    public String setupGame() {
-        game = new Game(mainController);
-        return "Game Setup";
+    @GetMapping(value = "/setup/{id}", produces = "application/json")
+    @ResponseBody
+    public String setupGame(@PathVariable int id) {
+        game = new Game(mainControllers.get(id));
+        return "game: " + game;
     }
 
     @GetMapping("/endProgramming")

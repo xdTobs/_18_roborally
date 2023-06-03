@@ -31,12 +31,11 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -177,50 +176,22 @@ public class AppController implements Observer {
         // XXX do nothing for now
     }
 
-    public File getFile() {
-        FileChooser fileChooser = createFileChooser("Open Save File");
-
-        fileChooser.setInitialDirectory(new File("./saves"));
+    public InputStream getBoard(String name) throws IOException {
         // Show file chooser dialog
 
         //TODO board selector without javafx
         //File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
-        File selectedFile = null;
-        if (selectedFile != null) System.out.println(selectedFile.getName());
-        return selectedFile;
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/boards/" + name);
+        if (inputStream == null) {
+            throw new IOException("Board not found");
+        }
+        return inputStream;
     }
 
-    public File createFile() {
-        FileChooser fileChooser = createFileChooser("Create Save File");
-        // Show file chooser dialog
-        fileChooser.setInitialFileName("roborally-game.json");
-        File selectedFile = null;
-        // File selectedFile = fileChooser.showSaveDialog(roboRally.getStage());
-        if (selectedFile != null) System.out.println(selectedFile.getName());
-        return selectedFile;
-    }
 
-    private FileChooser createFileChooser(String title) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(title);
-
-        String currentWorkingDir = Paths.get("").toAbsolutePath().toString();
-        File initialDirectory = new File(currentWorkingDir);
-        fileChooser.setInitialDirectory(initialDirectory);
-
-        // Add extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON Files (*.json)", "*.json");
-        FileChooser.ExtensionFilter showAllFilter = new FileChooser.ExtensionFilter("All (*)", "*");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.getExtensionFilters().add(showAllFilter);
-
-
-        return fileChooser;
-    }
-
-    public Board getStandardBoard() {
-        return Board.createBoardFromResource("boards/dizzy_highway.json");
-    }
+//    public Board getStandardBoard() {
+//        return Board.createBoardFromResource("boards/dizzy_highway.json");
+//    }
 
     public void saveState(String name) {
         LoadBoard.saveBoard(gameController.board, name);
@@ -230,8 +201,6 @@ public class AppController implements Observer {
         Board board = LoadBoard.loadSaveState(name);
         gameController = new GameController(board);
         gameController.loadProgrammingPhase();
-
-
     }
 
 

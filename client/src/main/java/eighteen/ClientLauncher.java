@@ -87,4 +87,5 @@ public class ClientLauncher extends Application {
             throw new RuntimeException(e);
         }
     }
+
 }
