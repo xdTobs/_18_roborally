@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <ScrollPane
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="eighteen.FXMLClientController"
+        fx:controller="eighteen.controller.FXMLClientController"
         prefHeight="1000.0" prefWidth="1400.0"
 >
     <GridPane alignment="center" hgap="10" vgap="10" id="root-container">

@@ -43,7 +43,6 @@ public class Space extends Subject {
     private List<IFieldAction> actions = new ArrayList<>();
 
 
-
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
@@ -106,6 +105,7 @@ public class Space extends Subject {
     public List<IFieldAction> getActions() {
         return actions;
     }
+
     public void addActions(IFieldAction... actions) {
         this.actions.addAll(Arrays.asList(actions));
     }

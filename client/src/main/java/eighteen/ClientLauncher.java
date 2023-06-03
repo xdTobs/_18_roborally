@@ -1,9 +1,12 @@
 package eighteen;
 
+import eighteen.view.BoardView;
+import eighteen.view.RoboRallyMenuBar;
+import eighteen.view.WebAppController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -15,19 +18,57 @@ import java.util.stream.Stream;
 
 public class ClientLauncher extends Application {
 
+    private BorderPane boardRoot;
+    private Stage stage;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/demo_application.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("FXML Welcome");
-        stage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("/demo_application.css").toExternalForm());
+    public void start(Stage primaryStage) throws IOException {
+//        Parent root = FXMLLoader.load(getClass().getResource("/demo_application.fxml"));
+//        Scene scene = new Scene(root);
+//        stage.setTitle("FXML Welcome");
+//        stage.setScene(scene);
+//        scene.getStylesheets().add(getClass().getResource("/demo_application.css").toExternalForm());
+//        stage.show();
+        var MIN_APP_WIDTH = 800;
+        stage = primaryStage;
+
+//        AppController appController = new AppController(this);
+
+        // create the primary scene with the a menu bar and a pane for
+        // the board view (which initially is empty); it will be filled
+        // when the user creates a new game or loads a game
+        WebAppController webAppController = new WebAppController();
+        RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
+        boardRoot = new BorderPane();
+        VBox vbox = new VBox(menuBar, boardRoot);
+        vbox.setMinWidth(MIN_APP_WIDTH);
+        Scene primaryScene = new Scene(vbox);
+
+        stage.setScene(primaryScene);
+        stage.setTitle("RoboRally");
+        stage.setOnCloseRequest(
+                e -> {
+                    e.consume();
+                    webAppController.exit();
+                });
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.show();
+    }
+
+    public void createBoardView() {
+        // if present, remove old BoardView
+        boardRoot.getChildren().clear();
+
+        // create and add view for new board
+        BoardView boardView = new BoardView();
+        boardRoot.setCenter(boardView);
+
+        stage.sizeToScene();
     }
 
     private ResponseEntity<String> getResponseEntity(String url) {

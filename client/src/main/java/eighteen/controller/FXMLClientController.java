@@ -1,4 +1,4 @@
-package eighteen;
+package eighteen.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
