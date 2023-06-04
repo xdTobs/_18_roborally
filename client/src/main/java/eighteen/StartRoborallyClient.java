@@ -13,24 +13,24 @@ import java.util.concurrent.ExecutionException;
 
 public class StartRoborallyClient {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-//        ClientLauncher.main(args);
+        ClientLauncher.main(args);
 
-        try {
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/start"))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = HttpClient.newBuilder()
-                    .build()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println("response headers: " + response.toString());
-            System.out.println("response body: " + response.body());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(new URI("http://localhost:8080/start"))
+//                    .GET()
+//                    .build();
+//
+//            HttpResponse<String> response = HttpClient.newBuilder()
+//                    .build()
+//                    .send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            System.out.println("response headers: " + response.toString());
+//            System.out.println("response body: " + response.body());
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
