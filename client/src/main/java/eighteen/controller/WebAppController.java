@@ -1,5 +1,6 @@
 package eighteen.controller;
 
+import eighteen.RoborallyClient;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -8,41 +9,57 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
 
 public class WebAppController {
-    public void newGame() throws IOException, InterruptedException, URISyntaxException {
-        System.out.println("make http request for new game");
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/start"))
-                .header("testHeader", "teztValue")
-                .GET()
-                .build();
+    private final RoborallyClient roborallyClient;
+    private final CallbackBuilder callbackBuilder;
+
+    public WebAppController(RoborallyClient roborallyClient, CallbackBuilder callbackBuilder) {
+        this.roborallyClient = roborallyClient;
+        this.callbackBuilder = callbackBuilder;
+    }
+
+    public void newGame() {
+
+        roborallyClient.setStatus("getting available 3x3board.json, please wait.");
+
+        ApiResponseCallback newGameCb = callbackBuilder.newGameCallback();
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/start"))
+                    .header("testHeader", "teztValue")
+                    .GET()
+                    .build();
+
+//            HttpResponse<String> response = HttpClient.newBuilder()
+//                    .build()
+//                    .send(request, HttpResponse.BodyHandlers.ofString());
+            CompletableFuture.supplyAsync(new Supplier<String>() {
+                @Override
+                public String get() {
+                    try {
+                        HttpResponse<String> response = HttpClient.newBuilder()
+                                .build()
+                                .send(request, HttpResponse.BodyHandlers.ofString());
+                        return response.body();
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }).thenAcceptAsync(newGameCb::onResponse);
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
         // TODO make async
-        HttpResponse<String> response = HttpClient.newBuilder()
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("response headers: " + response.headers().toString());
-        System.out.println("response body: " + response.body());
 
-//        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-//        dialog.setTitle("Player number");
-//        dialog.setHeaderText("Select number of players");
-//        Optional<Integer> result = dialog.showAndWait();
-//
-//        if (result.isPresent()) {
-//            if (gameController != null) {
-//                // The UI should not allow this, but in case this happens anyway.
-//                // give the user the option to save the game or abort this operation!
-//                if (!stopGame()) {
-//                    return;
-//                }
-//            }
-//
-//            // XXX the board should eventually be created programmatically or loaded from a file
-//            //     here we just create an empty board with the required number of players.
 //            Board board = new Board(8, 8);
 //            gameController = new GameController(board);
 //            int no = result.get();
@@ -50,14 +67,13 @@ public class WebAppController {
 //                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
 //                board.addPlayer(player);
 //                player.setSpace(board.getSpace(i % board.width, i));
-//            }
 //
 //            // XXX: V2
 //            // board.setCurrentPlayer(board.getPlayer(0));
 //            gameController.startProgrammingPhase();
 //
 //            roboRally.createBoardView(gameController);
-//        }
+
     }
 
     public void startPolling() throws IOException, InterruptedException {
@@ -88,3 +104,4 @@ public class WebAppController {
         return false;
     }
 }
+

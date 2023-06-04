@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public class StartRoborallyClient {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        ClientLauncher.main(args);
+        RoborallyClient.main(args);
 
 //        try {
 //

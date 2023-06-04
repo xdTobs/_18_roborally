@@ -1,27 +1,27 @@
 package eighteen;
 
-import eighteen.view.BoardView;
-import eighteen.view.RoboRallyMenuBar;
+import eighteen.controller.CallbackBuilder;
 import eighteen.controller.WebAppController;
+import eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-public class ClientLauncher extends Application {
+public class RoborallyClient extends Application {
 
-    WebAppController webAppController = new WebAppController();
-    private BorderPane boardRoot;
+    WebAppController webAppController = new WebAppController(this, new CallbackBuilder(this));
+    Text status;
+    RoboRallyMenuBar menuBar;
+    private BorderPane root;
     private Stage stage;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -36,7 +36,7 @@ public class ClientLauncher extends Application {
 //        scene.getStylesheets().add(getClass().getResource("/demo_application.css").toExternalForm());
 //        stage.show();
         var MIN_APP_WIDTH = 800;
-        var MIN_APP_HEIGHT = 800;
+        var MIN_APP_HEIGHT = 500;
         stage = primaryStage;
 
 //        AppController appController = new AppController(this);
@@ -44,9 +44,10 @@ public class ClientLauncher extends Application {
         // create the primary scene with the a menu bar and a pane for
         // the board view (which initially is empty); it will be filled
         // when the user creates a new game or loads a game
-        RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
-        boardRoot = new BorderPane();
-        VBox vbox = new VBox(menuBar, boardRoot);
+        this.menuBar = new RoboRallyMenuBar(webAppController);
+        this.root = new BorderPane();
+        this.status = new Text("Status: ");
+        VBox vbox = new VBox(menuBar, status, root);
         vbox.setMinWidth(MIN_APP_WIDTH);
         vbox.setMinHeight(MIN_APP_HEIGHT);
         Scene primaryScene = new Scene(vbox);
@@ -63,22 +64,6 @@ public class ClientLauncher extends Application {
         stage.show();
     }
 
-    public void createBoardView() {
-        // if present, remove old BoardView
-        boardRoot.getChildren().clear();
-
-        // create and add view for new board
-        BoardView boardView = new BoardView();
-        boardRoot.setCenter(boardView);
-
-        stage.sizeToScene();
-    }
-
-    private ResponseEntity<String> getResponseEntity(String url) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForEntity(url, String.class);
-    }
-
     private void jsonWriter(String json, Stream stream) {
         File file = new File("client/src/main/resources/jsonBoard.json");
         try {
@@ -91,4 +76,7 @@ public class ClientLauncher extends Application {
         }
     }
 
+    public void setStatus(String status) {
+        this.status.setText("status: " + status);
+    }
 }

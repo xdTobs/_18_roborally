@@ -20,6 +20,7 @@ package eighteen.view;/*
  *
  */
 
+import eighteen.controller.WebAppController;
 import eighteen.observer.Subject;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -46,7 +47,7 @@ public class BoardView extends VBox implements ViewObserver {
     private SpaceEventHandler spaceEventHandler;
 
     //    public BoardView(@NotNull GameController gameController) {
-    public BoardView() {
+    public BoardView(WebAppController webAppController) {
 //        board = gameController.board;
 //
 //        mainBoardPane = new GridPane();
