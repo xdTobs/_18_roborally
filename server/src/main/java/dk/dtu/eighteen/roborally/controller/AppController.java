@@ -32,10 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -208,4 +205,14 @@ public class AppController implements Observer {
     public GameController getGameController() {
         return gameController;
     }
+
+//        InputStream in = this.getClass().getResourceAsStream("/big-board.json");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//        String res = "";
+//        try {
+//            for (String s; (s = br.readLine()) != null; res += s.trim()) ;
+//            System.out.println(res);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 }
