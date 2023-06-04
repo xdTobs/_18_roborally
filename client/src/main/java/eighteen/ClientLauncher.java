@@ -1,13 +1,14 @@
 package eighteen;
 
+import eighteen.controller.WebAppController;
 import eighteen.view.BoardView;
 import eighteen.view.RoboRallyMenuBar;
-import eighteen.view.WebAppController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Status;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 

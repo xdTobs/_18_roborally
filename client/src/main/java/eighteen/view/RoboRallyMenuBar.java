@@ -20,6 +20,7 @@ package eighteen.view;/*
  *
  */
 
+import eighteen.controller.WebAppController;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
