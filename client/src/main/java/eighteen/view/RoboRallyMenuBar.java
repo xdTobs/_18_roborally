@@ -20,9 +20,12 @@ package eighteen.view;/*
  *
  */
 
+import eighteen.controller.WebAppController;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import java.io.IOException;
 
 /**
  * ...
@@ -55,6 +58,8 @@ public class RoboRallyMenuBar extends MenuBar {
         newGame.setOnAction(e -> {
             try {
                 this.webAppController.newGame();
+            } catch (IOException ex) {
+                System.err.println("io error in new game, is server started?");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

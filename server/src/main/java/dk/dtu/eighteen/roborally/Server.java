@@ -6,6 +6,8 @@ import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,12 @@ public class Server {
         return Board.createBoardFromResource("/boards/dizzy_highway.json");
     }
 
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//        return true;
+//    }
+
     @GetMapping("/board/")
     public BoardTemplate getBoard(String boardName) {
         return null;
@@ -47,6 +55,11 @@ public class Server {
 
     @GetMapping("/start")
     public Map<String, String> startGame() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         int i = counter.incrementAndGet();
         AppController mainController = new AppController();
         mainControllers.put(i, mainController);
