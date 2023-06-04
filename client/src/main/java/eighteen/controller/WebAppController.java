@@ -1,4 +1,4 @@
-package eighteen.view;
+package eighteen.controller;
 
 import javafx.application.Platform;
 
