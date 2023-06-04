@@ -53,7 +53,7 @@ public class BoardView extends VBox implements ViewObserver {
 //        playersView = new dk.dtu.compute.se.pisd.roborally.view.PlayersView(gameController);
 //        statusLabel = new Label("<no status>");
 //
-//        this.getChildren().add(mainBoardPane);
+        this.getChildren().add(mainBoardPane);
 //        this.getChildren().add(playersView);
 //        this.getChildren().add(statusLabel);
 //
