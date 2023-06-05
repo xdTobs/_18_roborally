@@ -183,14 +183,14 @@ public class Board extends Subject {
             Space space = board.getSpace(x, y);
             player.setSpace(space);
             space.setPlayer(player);
-            for (int i = 0; i < Player.NO_REGISTERS; i++) {
+            /*for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CommandCardField commandCardField = player.getRegisterSlot(i);
                 commandCardField.player = player;
                 CommandCard commandCard = commandCardField.getCard();
                 if (commandCard != null) {
                 }
-            }
-            for (int i = 0; i < Player.NO_CARDS; i++) {
+            }*/
+            for (int i = 0; i < Player.NO_AVAILABLE_CARDS; i++) {
                 CommandCardField commandCardField = player.getAvailableCardSlot(i);
                 commandCardField.player = player;
                 CommandCard commandCard = commandCardField.getCard();

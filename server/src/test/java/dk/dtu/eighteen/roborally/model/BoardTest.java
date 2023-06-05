@@ -48,8 +48,10 @@ class BoardTest {
         Player p2 = board.getPlayer(1);
         CommandCard c1 = new CommandCard(Command.MOVE_1);
         CommandCard c2 = new CommandCard(Command.MOVE_1);
-        p2.getRegisterSlot(0).setCard(c1);
-        p2.getRegisterSlot(1).setCard(c2);
+        //Tobs killed this one, since getRegisterSlot no longer exists
+        //Instead set move to point to the correct card in AvailableCardSlot
+        /*p2.getRegisterSlot(0).setCard(c1);
+        p2.getRegisterSlot(1).setCard(c2);*/
         gameController.finishProgrammingPhase();
         gc.executePrograms();
         assertTrue(board.getPhase() == Phase.GAMEOVER);
