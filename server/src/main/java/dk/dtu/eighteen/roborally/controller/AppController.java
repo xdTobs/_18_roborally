@@ -56,6 +56,9 @@ public class AppController implements Observer {
     public AppController() {
 
     }
+    public AppController(Board board) {
+        newGame(board);
+    }
 
 
     public void newGame(Board board) {
