@@ -24,24 +24,19 @@ public class WebAppController {
         List<String> boardNameList = new ArrayList<>();
         for (Object a : jsonArray) {
             String s = (String) a;
-            System.out.println(s);
+            boardNameList.add(s);
         }
 //        JSONObject myResponse = jsonArray.getJSONObject("MyResponse");
 //        JSONArray tsmresponse = (JSONArray) myResponse.get("listTsm");
         // This should be modyfied to actually allow players to select gameboards
-        List<Integer> gameboardNames = Arrays.asList(1);
 
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(gameboardNames.get(0), gameboardNames);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(boardNameList.get(0), boardNameList);
         dialog.setTitle("Gameboard Selector");
         dialog.setHeaderText("Select gameboard");
         dialog.setContentText("");
+        Optional<String> result = dialog.showAndWait();
 
-        Optional<Integer> result = dialog.showAndWait();
-
-        if (result.isPresent() && result.equals(1)) {
-            serverRequest("defaultboard");
-
-        }
+        //TODO: get correct board file and create boardview
 //
 //            // XXX the board should eventually be created programmatically or loaded from a file
 //            //     here we just create an empty board with the required number of players.

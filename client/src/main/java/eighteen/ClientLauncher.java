@@ -35,8 +35,8 @@ public class ClientLauncher extends Application {
 //        stage.setScene(scene);
 //        scene.getStylesheets().add(getClass().getResource("/demo_application.css").toExternalForm());
 //        stage.show();
-        var MIN_APP_WIDTH = 800;
-        var MIN_APP_HEIGHT = 800;
+        var MIN_APP_WIDTH = 600;
+        var MIN_APP_HEIGHT = 600;
         stage = primaryStage;
 
 //        AppController appController = new AppController(this);
