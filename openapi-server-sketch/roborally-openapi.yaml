@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: RoboRally API
+  description: REST API for managing Roborally games
+  version: 1.1.0
+servers:
+  - url: http://localhost:8080
+    description: dev server
+paths:
+  "/board":
+    get:
+      summary: Get the names of the available starting boards
+      operationId: getBoardNames
+      responses:
+        '200':
+          description: Board names retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  "/board/{boardName}":
+    post:
+      summary: Create a game from the given board
+      operationId: createGame
+      responses:
+        '200':
+          description: New game created from board name successfully
+        '404':
+          description: Board not found
+
+  "/game/{gameId}":
+    get:
+      summary: Get details of a specific game
+      operationId: getBoard
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of the game
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Board details retrieved successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Game"
+        '404':
+          description: Game not found
+    delete:
+      summary: Quit and save the game
+      operationId: quitGame
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of the game
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: A player has left the game. The game has been exited and saved.
+        '404':
+          description: Game or player not found
+
+  "/game/{gameId}/player/{playerName}":
+    post:
+      summary: Add a player to a game
+      operationId: addPlayerToGame
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of the game
+          required: true
+          schema:
+            type: integer
+        - name: playerName
+          in: path
+          description: Name of the player joining the game
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Player added successfully to game
+        '404':
+          description: Game not found
+        '409':
+          description: Conflict with resource. The player name is probably already in use.
+
+  "/game/{gameId}/player/{playerName}/moves":
+    post:
+      summary: Make moves for a specific player on the game board
+      operationId: makePlayerMoves
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of the game
+          required: true
+          schema:
+            type: integer
+        - name: playerName
+          in: path
+          description: Name of the player
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/MovePlan"
+      responses:
+        '200':
+          description: Moves executed successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Game or player not found
+
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        playerName:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+    MovePlan:
+      type: array
+      items:
+        type: object
+        properties:
+          cardId:
+            type: integer
+          card:
+            type: string
