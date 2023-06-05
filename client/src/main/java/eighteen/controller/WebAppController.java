@@ -9,70 +9,29 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 
 public class WebAppController {
 
     private final RoborallyClient roborallyClient;
-    private final CallbackBuilder callbackBuilder;
 
-    public WebAppController(RoborallyClient roborallyClient, CallbackBuilder callbackBuilder) {
+    public WebAppController(RoborallyClient roborallyClient) {
         this.roborallyClient = roborallyClient;
-        this.callbackBuilder = callbackBuilder;
     }
 
     public void newGame() {
-
-        roborallyClient.setStatus("getting available 3x3board.json, please wait.");
-
-        ApiResponseCallback newGameCb = callbackBuilder.newGameCallback();
-
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/start"))
-                    .header("testHeader", "teztValue")
+                    .uri(new URI("http://localhost:8080/board"))
                     .GET()
                     .build();
-
-//            HttpResponse<String> response = HttpClient.newBuilder()
-//                    .build()
-//                    .send(request, HttpResponse.BodyHandlers.ofString());
-            CompletableFuture.supplyAsync(new Supplier<String>() {
-                @Override
-                public String get() {
-                    try {
-                        HttpResponse<String> response = HttpClient.newBuilder()
-                                .build()
-                                .send(request, HttpResponse.BodyHandlers.ofString());
-                        return response.body();
-                    } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }).thenAcceptAsync(newGameCb::onResponse);
-
-        } catch (URISyntaxException e) {
+            HttpResponse<String> response = HttpClient.newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+            roborallyClient.setStatus(response.body());
+        } catch (InterruptedException | URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
-
-        // TODO make async
-
-
-//            Board board = new Board(8, 8);
-//            gameController = new GameController(board);
-//            int no = result.get();
-//            for (int i = 0; i < no; i++) {
-//                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-//                board.addPlayer(player);
-//                player.setSpace(board.getSpace(i % board.width, i));
-//
-//            // XXX: V2
-//            // board.setCurrentPlayer(board.getPlayer(0));
-//            gameController.startProgrammingPhase();
-//
-//            roboRally.createBoardView(gameController);
 
     }
 

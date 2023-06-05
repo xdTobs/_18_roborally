@@ -15,7 +15,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -50,12 +49,13 @@ public class Server {
     }
 
     static PathMatchingResourcePatternResolver getResources() {
-        try {
-            resourceResolver.getResources("classpath:boards/*.json");
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            resourceResolver.getResources("classpath:boards/*.json");
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        return null;
     }
 
     @PostMapping(value = "/game/{boardId}", produces = "application/json")
@@ -76,6 +76,7 @@ public class Server {
 
     private Board findBoards(String boardId) {
         var x = getResources();
+        return getStandardBoard();
     }
 
     @GetMapping(value = "/board", produces = "application/json")

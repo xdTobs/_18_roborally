@@ -1,6 +1,5 @@
 package eighteen;
 
-import eighteen.controller.CallbackBuilder;
 import eighteen.controller.WebAppController;
 import eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
 
 public class RoborallyClient extends Application {
 
-    WebAppController webAppController = new WebAppController(this, new CallbackBuilder(this));
+    WebAppController webAppController = new WebAppController(this);
     Text status;
     RoboRallyMenuBar menuBar;
     private BorderPane root;
