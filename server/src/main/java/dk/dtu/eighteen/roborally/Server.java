@@ -99,10 +99,13 @@ public class Server {
         List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
         if(!IDs.contains(userid))
             return "User not found";
-
+        if(!move.checkValid())
+            return "Invalid move";
         game.appController.getGameController().board.getPlayer(IDs.indexOf(userid)).setCurrentMove(move);
         return "Successfully updated move";
     }
+
+
 
     @GetMapping("/endProgramming")
     public String endProgramming(@RequestParam(name = "id") Integer id,
