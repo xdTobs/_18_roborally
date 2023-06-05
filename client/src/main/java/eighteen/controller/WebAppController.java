@@ -2,7 +2,7 @@ package eighteen.controller;
 
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
-import org.springframework.http.ResponseEntity;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,13 +18,24 @@ import java.util.Optional;
 public class WebAppController {
     public void newGame() throws IOException, InterruptedException, URISyntaxException {
 
-        serverRequest("start");
+        var response = serverRequest("/board");
+        var body = response.body();
+        JSONArray jsonArray = new JSONArray(body);
+        List<String> boardNameList = new ArrayList<>();
+        for (Object a : jsonArray) {
+            String s = (String) a;
+            System.out.println(s);
+        }
+//        JSONObject myResponse = jsonArray.getJSONObject("MyResponse");
+//        JSONArray tsmresponse = (JSONArray) myResponse.get("listTsm");
         // This should be modyfied to actually allow players to select gameboards
         List<Integer> gameboardNames = Arrays.asList(1);
 
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(gameboardNames.get(0), gameboardNames);
         dialog.setTitle("Gameboard Selector");
         dialog.setHeaderText("Select gameboard");
+        dialog.setContentText("");
+
         Optional<Integer> result = dialog.showAndWait();
 
         if (result.isPresent() && result.equals(1)) {
@@ -79,12 +90,11 @@ public class WebAppController {
         return false;
     }
 
-    private HttpResponse serverRequest(String target) throws IOException, InterruptedException, URISyntaxException {
+    private HttpResponse<String> serverRequest(String target) throws IOException, InterruptedException, URISyntaxException {
         System.out.println("make http request for " + target);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/" + target))
-                .header("testHeader", "teztValue")
+                .uri(new URI("http://localhost:8080" + target))
                 .GET()
                 .build();
 

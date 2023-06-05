@@ -3,7 +3,6 @@ package dk.dtu.eighteen.roborally;
 import dk.dtu.eighteen.roborally.API.Game;
 import dk.dtu.eighteen.roborally.API.User;
 import dk.dtu.eighteen.roborally.controller.AppController;
-import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Move;
@@ -11,9 +10,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,10 +26,13 @@ public class Server {
 
     public static void main(String[] args) {
         SpringApplication.run(Server.class, args);
+//        var a = getResourceFolderFiles("playableBoards");
+//        a.forEach(name -> System.out.println(name));
     }
 
+
     public static Board getStandardBoard() {
-        return Board.createBoardFromResource("/boards/dizzy_highway.json");
+        return Board.createBoardFromResource("/playableBoards/2x2-board-empty-json");
     }
 
 //    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -38,16 +41,43 @@ public class Server {
 //        return true;
 //    }
 
+    //    private static List<String> getBoardNames() {
+//        var a = Server.class.get
+//
+//    }
+    private static List<String> getResourceFolderFiles(String folderName) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folderName);
+        String path = url.getPath();
+        List<File> fileArr = List.of(new File(path).listFiles());
+        return fileArr.stream().map(file -> file.getName()).toList();
+        //
+        // File[] files -> String filename
+        // files.map(file -> file.toString())
+        //
+        // numbers.map(i => i + 3);
+        // let myFunction = () => console.log("aa")
+        // function myFunction() {
+        //      console.log("aaa")
+        //  }
+    }
+
     @GetMapping("/board/{gameid}/{userid}")
     public BoardTemplate getBoard(@PathVariable int gameid, @PathVariable int userid) {
-        if(!mainControllers.containsKey(gameid))
+        if (!mainControllers.containsKey(gameid))
             return null;
         Game game = mainControllers.get(gameid);
         List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-        if(!IDs.contains(userid))
+        if (!IDs.contains(userid))
             return null;
-        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board,IDs.indexOf(userid));
+        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board, IDs.indexOf(userid));
     }
+
+    @GetMapping("/board")
+    public List<String> getBoardNames() {
+        return getResourceFolderFiles("playableBoards");
+    }
+
     @GetMapping("/board/{gameid}")
     public BoardTemplate getBoard(@PathVariable int gameid) {
         if (!mainControllers.containsKey(gameid))
@@ -60,7 +90,7 @@ public class Server {
 
     @GetMapping("/join/{gameid}")
     public int joinGame(@PathVariable int gameid) {
-        if(!mainControllers.containsKey(gameid))
+        if (!mainControllers.containsKey(gameid))
             return -1;
         User newUser = new User();
         mainControllers.get(gameid).addUser(newUser);
@@ -69,18 +99,18 @@ public class Server {
 
     @GetMapping("/start/{gameid}")
     public String startGame(@PathVariable int gameid) {
-        if(!mainControllers.containsKey(gameid))
+        if (!mainControllers.containsKey(gameid))
             return "game not found";
 
         mainControllers.get(gameid).appController.newGame(getStandardBoard());
-        return "Game with the ID: "+gameid +" was started";
+        return "Game with the ID: " + gameid + " was started";
     }
 
     @GetMapping(value = "/setup")
     @ResponseBody
     public int setupGame() {
         int id = counter.incrementAndGet();
-        mainControllers.put(id,new Game(new AppController()));
+        mainControllers.put(id, new Game(new AppController()));
         return id;
     }
 
@@ -92,19 +122,18 @@ public class Server {
 
     @PostMapping(value = "/game/move/{gameid}/{userid}")
     @ResponseBody
-    public String updateMove(@PathVariable int gameid,@PathVariable int userid,@RequestBody Move move) {
-        if(!mainControllers.containsKey(gameid))
+    public String updateMove(@PathVariable int gameid, @PathVariable int userid, @RequestBody Move move) {
+        if (!mainControllers.containsKey(gameid))
             return "Game not found";
         Game game = mainControllers.get(gameid);
         List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-        if(!IDs.contains(userid))
+        if (!IDs.contains(userid))
             return "User not found";
-        if(!move.checkValid())
+        if (!move.checkValid())
             return "Invalid move";
         game.appController.getGameController().board.getPlayer(IDs.indexOf(userid)).setCurrentMove(move);
         return "Successfully updated move";
     }
-
 
 
     @GetMapping("/endProgramming")
