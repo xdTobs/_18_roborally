@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Game {
     List<User> users = new ArrayList<>(10);
-    AppController appController;
+    public AppController appController;
 
     public Game(AppController appController) {
         this.appController = appController;

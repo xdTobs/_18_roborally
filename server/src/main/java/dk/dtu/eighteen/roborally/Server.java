@@ -6,8 +6,7 @@ import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import dk.dtu.eighteen.roborally.model.Move;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
     UUID uuid = UUID.randomUUID();
-    HashMap<Integer, AppController> mainControllers = new HashMap<>();
-    GameController gameController = null;
-    Game game = null;
+    HashMap<Integer, Game> mainControllers = new HashMap<>();
 
     public static void main(String[] args) {
         SpringApplication.run(Server.class, args);
@@ -41,56 +38,88 @@ public class Server {
 //        return true;
 //    }
 
-    @GetMapping("/board/")
-    public BoardTemplate getBoard(String boardName) {
-        return null;
+    @GetMapping("/board/{gameid}/{userid}")
+    public BoardTemplate getBoard(@PathVariable int gameid, @PathVariable int userid) {
+        if(!mainControllers.containsKey(gameid))
+            return null;
+        Game game = mainControllers.get(gameid);
+        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+        if(!IDs.contains(userid))
+            return null;
+        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board,IDs.indexOf(userid));
+    }
+    @GetMapping("/board/{gameid}")
+    public BoardTemplate getBoard(@PathVariable int gameid) {
+        if (!mainControllers.containsKey(gameid))
+            return null;
+        Game game = mainControllers.get(gameid);
+        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+
+        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board);
     }
 
-    @GetMapping("/join/{id}")
-    public int joinGame(@PathVariable String id) {
+    @GetMapping("/join/{gameid}")
+    public int joinGame(@PathVariable int gameid) {
+        if(!mainControllers.containsKey(gameid))
+            return -1;
         User newUser = new User();
-        game.addUser(newUser);
+        mainControllers.get(gameid).addUser(newUser);
         return newUser.getID();
     }
 
-    @GetMapping("/start")
-    public Map<String, String> startGame() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        int i = counter.incrementAndGet();
-        AppController mainController = new AppController();
-        mainControllers.put(i, mainController);
-        mainController.newGame(getStandardBoard());
-        gameController = mainController.getGameController();
-        // This increments counter in a thread safe way and returns prev value.
-        Map<String, String> res = new HashMap<>();
-        res.put("ID", String.valueOf(i));
-        res.put("board", mainController.getBoardTemplate().toString());
-        return res;
+    @GetMapping("/start/{gameid}")
+    public String startGame(@PathVariable int gameid) {
+        if(!mainControllers.containsKey(gameid))
+            return "game not found";
+
+        mainControllers.get(gameid).appController.newGame(getStandardBoard());
+        return "Game with the ID: "+gameid +" was started";
     }
 
-    @GetMapping(value = "/setup/{id}", produces = "application/json")
+    @GetMapping(value = "/setup")
     @ResponseBody
-    public String setupGame(@PathVariable int id) {
-        game = new Game(mainControllers.get(id));
-        return "game: " + game;
+    public int setupGame() {
+        int id = counter.incrementAndGet();
+        mainControllers.put(id,new Game(new AppController()));
+        return id;
     }
+
+    @GetMapping(value = "/test/{id}")
+    @ResponseBody
+    public int test(@PathVariable int id) {
+        return id;
+    }
+
+    @PostMapping(value = "/game/move/{gameid}/{userid}")
+    @ResponseBody
+    public String updateMove(@PathVariable int gameid,@PathVariable int userid,@RequestBody Move move) {
+        if(!mainControllers.containsKey(gameid))
+            return "Game not found";
+        Game game = mainControllers.get(gameid);
+        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+        if(!IDs.contains(userid))
+            return "User not found";
+        if(!move.checkValid())
+            return "Invalid move";
+        game.appController.getGameController().board.getPlayer(IDs.indexOf(userid)).setCurrentMove(move);
+        return "Successfully updated move";
+    }
+
+
 
     @GetMapping("/endProgramming")
-    public String endProgramming(@RequestParam(name = "ID") Integer ID,
+    public String endProgramming(@RequestParam(name = "id") Integer id,
                                  @RequestParam(name = "x", required = false, defaultValue = "1") Integer x,
                                  @RequestParam(name = "y", required = false, defaultValue = "1") Integer y
     ) {
 
-        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-        if (!IDs.contains(ID))
+        /*List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+        if (!IDs.contains(id))
             return "This user is unknown";
-        int playerNo = IDs.indexOf(ID) + 1;
+        int playerNo = IDs.indexOf(id) ;
 
         gameController.endProgramming(playerNo, x, y);
-        return String.format("Moved player %d, to (%d,%d)%n", playerNo, x, y);
+        return String.format("Moved player %d, to (%d,%d)%n", playerNo, x, y);*/
+        return "not implemented";
     }
 }

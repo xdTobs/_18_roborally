@@ -35,7 +35,7 @@ import static dk.dtu.eighteen.roborally.model.Heading.SOUTH;
 public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
-    final public static int NO_CARDS = 8;
+    final public static int NO_AVAILABLE_CARDS = 8;
 
     public Board board;
     Space space;
@@ -43,7 +43,7 @@ public class Player extends Subject {
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
-    private CommandCardField[] registerSlots;
+    private Move currentMove;
     private CommandCardField[] availableCardSlots;
 
     //private boolean hasMovedThisTurn = false;
@@ -55,12 +55,9 @@ public class Player extends Subject {
 
         this.space = null;
 
-        registerSlots = new CommandCardField[NO_REGISTERS];
-        for (int i = 0; i < registerSlots.length; i++) {
-            registerSlots[i] = new CommandCardField(this);
-        }
+        this.currentMove = new Move();
 
-        availableCardSlots = new CommandCardField[NO_CARDS];
+        availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
             availableCardSlots[i] = new CommandCardField(this);
         }
@@ -71,12 +68,9 @@ public class Player extends Subject {
         this.board = board;
         this.space = board.getSpace(template.x,template.y);
         this.heading = template.heading;
-        registerSlots = new CommandCardField[NO_REGISTERS];
-        for (int i = 0; i < registerSlots.length; i++) {
-            registerSlots[i] = new CommandCardField(template.registerSlots[i],this);
-        }
+        this.currentMove = template.currentMove;
 
-        availableCardSlots = new CommandCardField[NO_CARDS];
+        availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
             availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i],this);
         }
@@ -159,19 +153,19 @@ public class Player extends Subject {
         this.hasMovedThisTurn = hasMovedThisTurn;
     }*/
 
-    public CommandCardField getRegisterSlot(int i) {
-        return registerSlots[i];
-    }
 
     public CommandCardField getAvailableCardSlot(int i) {
         return availableCardSlots[i];
-    }
-
-    public CommandCardField[] getRegisterSlots() {
-        return registerSlots;
     }
     public CommandCardField[] getAvailableCardSlots(){
         return availableCardSlots;
     }
 
+    public Move getCurrentMove() {
+        return currentMove;
+    }
+
+    public void setCurrentMove(Move currentMove) {
+        this.currentMove = currentMove;
+    }
 }
