@@ -22,6 +22,20 @@ public class BoardTemplate {
             players.add(new PlayerTemplate(p));
         }
     }
+    public BoardTemplate(Board board, int playerId){
+        this.height = board.height;
+        this.width = board.width;
+        SpaceTemplate[][] spaceTemplates = new SpaceTemplate[board.getSpaces().length][board.getSpaces()[0].length];
+        for (int i = 0; i < board.getSpaces().length; i++) {
+            for (int j = 0; j < board.getSpaces()[0].length; j++) {
+                spaceTemplates[i][j] = new SpaceTemplate(board.getSpace(i, j));
+            }
+        }
+        this.spaces = spaceTemplates;
+
+        players.add(new PlayerTemplate(board.getPlayer(playerId)));
+    }
+
     public int width;
     public int height;
     public SpaceTemplate[][]spaces;

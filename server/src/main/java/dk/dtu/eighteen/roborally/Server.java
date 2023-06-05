@@ -38,10 +38,23 @@ public class Server {
 //        return true;
 //    }
 
-    @GetMapping("/board/{gameid}")
-    public BoardTemplate getBoard(@PathVariable int gameid) {
+    @GetMapping("/board/{gameid}/{userid}")
+    public BoardTemplate getBoard(@PathVariable int gameid, @PathVariable int userid) {
         if(!mainControllers.containsKey(gameid))
             return null;
+        Game game = mainControllers.get(gameid);
+        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+        if(!IDs.contains(userid))
+            return null;
+        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board,IDs.indexOf(userid));
+    }
+    @GetMapping("/board/{gameid}")
+    public BoardTemplate getBoard(@PathVariable int gameid) {
+        if (!mainControllers.containsKey(gameid))
+            return null;
+        Game game = mainControllers.get(gameid);
+        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
+
         return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board);
     }
 
@@ -77,9 +90,9 @@ public class Server {
         return id;
     }
 
-    @GetMapping(value = "/game/move")
+    @PostMapping(value = "/game/move/{gameid}/{userid}")
     @ResponseBody
-    public String updateMove(@RequestParam int gameid,@RequestParam int userid,@RequestBody Move move) {
+    public String updateMove(@PathVariable int gameid,@PathVariable int userid,@RequestBody Move move) {
         if(!mainControllers.containsKey(gameid))
             return "Game not found";
         Game game = mainControllers.get(gameid);
