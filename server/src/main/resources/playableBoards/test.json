@@ -57,7 +57,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
             "INSTANCE": {
               "heading": "EAST"
             }

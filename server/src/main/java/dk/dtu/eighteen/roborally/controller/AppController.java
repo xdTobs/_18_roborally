@@ -23,10 +23,10 @@ package dk.dtu.eighteen.roborally.controller;
 
 import dk.dtu.eighteen.designpatterns.observer.Observer;
 import dk.dtu.eighteen.designpatterns.observer.Subject;
-import dk.dtu.eighteen.roborally.API.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
+import dtu.dk.eighteen.Status;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -35,7 +35,6 @@ import javafx.scene.control.ButtonType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +52,7 @@ public class AppController implements Observer {
     //    List<User> users = new ArrayList<>(10);
     public Status status;
     private GameController gameController;
+
     public AppController(Board board, int numberOfPlayersWhenGameIsFull, Status status) {
 
         this.numberOfPlayersWhenGameIsFull = numberOfPlayersWhenGameIsFull;
@@ -147,7 +147,6 @@ public class AppController implements Observer {
     public void update(Subject subject) {
         // XXX do nothing for now
     }
-
 
 
 //    public Board getStandardBoard() {

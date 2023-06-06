@@ -1,10 +1,10 @@
 package dk.dtu.eighteen.roborally;
 
-import dk.dtu.eighteen.roborally.API.Status;
 import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
+import dtu.dk.eighteen.Status;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class Server {
 
     public static void main(String[] args) {
 
-        var b = LoadBoard.loadSaveState("playableBoards/test.json");
+        var b = LoadBoard.loadSaveState("playableBoards/big-board.json");
         System.out.println(b);
 //        SpringApplication.run(Server.class, args);
     }

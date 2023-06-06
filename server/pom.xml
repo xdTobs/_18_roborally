@@ -79,6 +79,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>dtu.dk.eighteen</groupId>
+            <artifactId>shared-library</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>
