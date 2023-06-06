@@ -3,6 +3,7 @@ package eighteen.controller;
 import eighteen.ClientLauncher;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WebAppController {
@@ -36,34 +38,34 @@ public class WebAppController {
     }
 
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
-//        this.status = Status.INIT_NEW_GAME;
-//        HttpResponse<String> response = serverRequest("/board");
-//        var body = response.body();
-//        JSONArray jsonArray = new JSONArray(body);
-//        List<String> boardNameList = new ArrayList<>();
-//        for (Object a : jsonArray) {
-//            String s = (String) a;
-//            boardNameList.add(s);
-//        }
-//
-//        String boardName = dialogChoice(boardNameList, "gameboard");
-//        List<String> numPlayerOptions = new ArrayList<>();
-//        for (int i = 2; i < 7; i++) {
-//            numPlayerOptions.add(String.valueOf(i));
-//
-//        }
-//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-//        clientLauncher.setStatusText("You picked the board: " + boardName);
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(new URI("http://localhost:8080/board/" + boardName))
-//                .POST(HttpRequest.BodyPublishers.noBody())
-//                .build();
-//
-//        response = HttpClient.newBuilder()
-//                .build()
-//                .send(request, HttpResponse.BodyHandlers.ofString());
-//        clientLauncher.setStatusText("Game id: " + response.body());
+        this.status = Status.INIT_NEW_GAME;
+        HttpResponse<String> response = serverRequest("/board");
+        var body = response.body();
+        JSONArray jsonArray = new JSONArray(body);
+        List<String> boardNameList = new ArrayList<>();
+        for (Object a : jsonArray) {
+            String s = (String) a;
+            boardNameList.add(s);
+        }
 
+        String boardName = dialogChoice(boardNameList, "gameboard");
+        List<String> numPlayerOptions = new ArrayList<>();
+        for (int i = 2; i < 7; i++) {
+            numPlayerOptions.add(String.valueOf(i));
+
+        }
+        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+        clientLauncher.setStatusText("You picked the board: " + boardName);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + boardName))
+                .POST(HttpRequest.BodyPublishers.ofString(boardName)) //Something else than bordName
+                .build();
+
+        response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+       gameId = Integer.valueOf(response.body());
+       setStatus(Status.INIT_NEW_GAME);
 
         // TODO make async
 //        HttpResponse<String> response = HttpClient.newBuilder()
@@ -92,7 +94,7 @@ public class WebAppController {
 //
 //            roboRally.createBoardView(gameController);
 //        }
-        renderBoard();
+   //     renderBoard();
     }
 
     public void startPolling() throws IOException, InterruptedException {
@@ -141,6 +143,10 @@ public class WebAppController {
     }
 
     public void setStatus(Status status) {
+        if(status == null){
+            clientLauncher.setStatusText("game nut running");
+            return;
+        }
 
         switch (status) {
             case INIT_NEW_GAME -> {
@@ -154,9 +160,6 @@ public class WebAppController {
             }
             case QUITTING -> {
                 clientLauncher.setStatusText("Quitting and saving game with ID: " + gameId);
-            }
-            default -> {
-                clientLauncher.setStatusText("Game not running.");
             }
         }
     }

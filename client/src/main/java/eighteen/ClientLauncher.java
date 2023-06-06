@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 public class ClientLauncher extends Application {
-
-    WebAppController webAppController = new WebAppController(this);
     Text statusText = new Text("Status: start up");
+    WebAppController webAppController = new WebAppController(this);
+
     private BorderPane boardRoot;
     private Stage stage;
 
@@ -34,7 +34,6 @@ public class ClientLauncher extends Application {
         var MIN_APP_WIDTH = 600;
         var MIN_APP_HEIGHT = 600;
         stage = primaryStage;
-
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
         boardRoot = new BorderPane(statusText);
         BorderPane.setAlignment(statusText, Pos.BOTTOM_CENTER);
