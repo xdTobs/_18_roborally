@@ -20,13 +20,12 @@
  *
  */
 package dk.dtu.eighteen.roborally.controller;
-
+//import dtu.dk.eighteen.Status;
 import dk.dtu.eighteen.designpatterns.observer.Observer;
 import dk.dtu.eighteen.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dtu.dk.eighteen.Status;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -110,32 +109,13 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveState("autosave" + gameId);
+            saveState(String.valueOf(gameId));
 
             gameController = null;
 
             return true;
         }
         return false;
-    }
-
-    public void exit() {
-        if (gameController != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Are you sure you want to exit RoboRally?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (!result.isPresent() || result.get() != ButtonType.OK) {
-                return; // return without exiting the application
-            }
-        }
-
-        // If the user did not cancel, the RoboRally application will exit
-        // after the option to save the game
-        if (gameController == null || stopGame()) {
-            Platform.exit();
-        }
     }
 
     public boolean isGameRunning() {
