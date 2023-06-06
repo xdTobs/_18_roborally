@@ -1,5 +1,6 @@
 package eighteen.controller;
 
+import dtu.dk.eighteen.Status;
 import eighteen.ClientLauncher;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
@@ -16,9 +17,12 @@ import java.util.List;
 
 public class WebAppController {
     private final ClientLauncher clientLauncher;
+    private Status status = null;
+    private Integer gameId = null;
 
     public WebAppController(ClientLauncher clientLauncher) {
         this.clientLauncher = clientLauncher;
+        setStatus(null);
     }
 
     private String dialogChoice(List<String> options, String type) {
@@ -31,6 +35,7 @@ public class WebAppController {
     }
 
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
+        this.status = Status.INIT_NEW_GAME;
         HttpResponse<String> response = serverRequest("/board");
         var body = response.body();
         JSONArray jsonArray = new JSONArray(body);
@@ -131,5 +136,26 @@ public class WebAppController {
         System.out.println("response headers: " + response.headers().toString());
         System.out.println("response body: " + response.body());
         return response;
+    }
+
+    public void setStatus(Status status) {
+
+        switch (status) {
+            case INIT_NEW_GAME -> {
+                clientLauncher.setStatusText("New game with ID: " + gameId);
+            }
+            case INIT_LOAD_GAME -> {
+                clientLauncher.setStatusText("Loaded game with ID: " + gameId);
+            }
+            case RUNNING -> {
+                clientLauncher.setStatusText("Running game with ID: " + gameId);
+            }
+            case QUITTING -> {
+                clientLauncher.setStatusText("Quitting and saving game with ID: " + gameId);
+            }
+            default -> {
+                clientLauncher.setStatusText("Game not running.");
+            }
+        }
     }
 }

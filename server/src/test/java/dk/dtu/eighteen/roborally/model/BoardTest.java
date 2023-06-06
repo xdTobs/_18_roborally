@@ -21,18 +21,18 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = Board.createBoardFromResource(getClass().getResource("/TestBoardCheckpoint.json").getFile());
-        gameController = new GameController(board);
-
-        Player p1 = new Player(board, null, "Player 1");
-        board.addPlayer(p1);
-        p1.setSpace(board.getSpace(0, 0));
-        p1.setHeading(Heading.SOUTH);
-
-        Player p2 = new Player(board, null, "Player 1");
-        board.addPlayer(p2);
-        p2.setSpace(board.getSpace(1, 0));
-        p2.setHeading(Heading.SOUTH);
+//        board = Board.createBoardFromResource(getClass().getResource("/TestBoardCheckpoint.json").getFile());
+//        gameController = new GameController(board);
+//
+//        Player p1 = new Player(board, null, "Player 1");
+//        board.addPlayer(p1);
+//        p1.setSpace(board.getSpace(0, 0));
+//        p1.setHeading(Heading.SOUTH);
+//
+//        Player p2 = new Player(board, null, "Player 1");
+//        board.addPlayer(p2);
+//        p2.setSpace(board.getSpace(1, 0));
+//        p2.setHeading(Heading.SOUTH);
     }
 
     @Test
