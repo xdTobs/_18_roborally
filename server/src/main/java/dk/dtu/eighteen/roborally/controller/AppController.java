@@ -148,17 +148,6 @@ public class AppController implements Observer {
         // XXX do nothing for now
     }
 
-    public InputStream getBoardFileAsStream(String name) throws IOException {
-        // Show file chooser dialog
-
-        //TODO board selector without javafx
-        //File selectedFile = fileChooser.showOpenDialog(roboRally.getStage());
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/boards/" + name);
-        if (inputStream == null) {
-            throw new IOException("Board not found");
-        }
-        return inputStream;
-    }
 
 
 //    public Board getStandardBoard() {

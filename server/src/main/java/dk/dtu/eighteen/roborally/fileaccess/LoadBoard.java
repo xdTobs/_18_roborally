@@ -32,7 +32,10 @@ public class LoadBoard {
 
         //TODO Generalize
         //ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = "src/main/resources/test.json";
+        String filename = "./server/src/main/resources/" + boardname;
+        File f = new File(filename).getAbsoluteFile();
+        String s = f.getAbsolutePath();
+        System.out.println(s);
         File file = new File(filename);
         InputStream inputStream = null;
         try {

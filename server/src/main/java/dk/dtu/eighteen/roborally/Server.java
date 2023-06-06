@@ -2,9 +2,9 @@ package dk.dtu.eighteen.roborally;
 
 import dk.dtu.eighteen.roborally.API.Status;
 import dk.dtu.eighteen.roborally.controller.AppController;
+import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -28,14 +28,16 @@ public class Server {
     List<String> boardNames = getResourceFolderFiles("playableBoards");
 
     public static void main(String[] args) {
-        SpringApplication.run(Server.class, args);
-//        var a = getResourceFolderFiles("playableBoards");
-//        a.forEach(name -> System.out.println(name));
+
+        var b = LoadBoard.loadSaveState("playableBoards/test.json");
+        System.out.println(b);
+//        SpringApplication.run(Server.class, args);
     }
 
 
     public static Board getStandardBoard() {
-        return Board.createBoardFromResource("/playableBoards/2x2-board-empty-json");
+//        return Board.createBoardFromResource("/playableBoards/2x2-board-empty-json");
+        return null;
     }
 
 //    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -80,12 +82,18 @@ public class Server {
     }
 
     @PostMapping("/game")
-    public int createNewGame(@RequestBody String boardName, @RequestBody String playerName, @RequestBody int numberOfPlayerWhenGameIsFull) {
+    public int createNewGame(@RequestBody Map<String, String> userMap) {
+        String boardName = userMap.get("boardName");
+        String playerName = userMap.get("playerName");
+        int numberOfPlayersWhenGameIsFull = Integer.parseInt(userMap.get("numberOfPlayersWhenGameIsFull"));
         int id = counter.incrementAndGet();
-        var board = Board.createBoardFromResource("/boards/" + boardName);
+        System.out.println("1: " + boardName);
+        System.out.println("2: " + playerName);
+        System.out.println("3: " + numberOfPlayersWhenGameIsFull);
+        var board = LoadBoard.loadSaveState("/playableBoards/" + boardName);
         var player = new Player(board, null, playerName);
         board.addPlayer(player);
-        var appController = new AppController(board, numberOfPlayerWhenGameIsFull, Status.INIT_NEW_GAME);
+        var appController = new AppController(board, numberOfPlayersWhenGameIsFull, Status.INIT_NEW_GAME);
         appControllerMap.put(id, appController);
         return id;
     }

@@ -21,16 +21,14 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dk.dtu.eighteen.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.controller.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.spaces.Checkpoint;
-import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
-import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,91 +67,6 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-
-    public static Board createBoardFromResource(String boardFile) {
-        InputStream resourceStream = Board.class.getResourceAsStream(boardFile);
-        if (resourceStream == null) {
-            if (!boardFile.startsWith("/")) {
-                throw new IllegalArgumentException("Board file not found, remember parameter must start with /: " + boardFile);
-            } else {
-                throw new IllegalArgumentException("Board file not found: " + boardFile);
-            }
-        }
-        var reader = new BufferedReader(new java.io.InputStreamReader(resourceStream));
-        Gson gson = new Gson();
-        JsonObject jsonBoard = gson.fromJson(reader, JsonObject.class);
-
-        String boardName = jsonBoard.get("boardName").getAsString();
-        int width = jsonBoard.get("width").getAsInt();
-        int height = jsonBoard.get("height").getAsInt();
-        JsonArray boardRows = jsonBoard.getAsJsonArray("board");
-
-        ArrayList<String> boardFromFile = new ArrayList<>();
-        for (JsonElement row : boardRows) {
-            JsonArray rowArray = row.getAsJsonArray();
-            for (JsonElement cell : rowArray) {
-                boardFromFile.add(cell.getAsString());
-            }
-        }
-
-        Board board = new Board(width, height, boardName);
-//        return new Board(width, height, boardName, boardFromFile);
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                String valueAtSpace = boardFromFile.get(y * width + x);
-                Space space = new Space(board, x, y);
-
-                //When more spacetypes have been implemented, they can be put here.
-
-                switch (valueAtSpace.charAt(0)) {
-                    case 'w' -> {
-                        for (int i = 1; i < valueAtSpace.length(); i++) {
-                            char c = valueAtSpace.charAt(i);
-                            if (valueAtSpace.charAt(i) == 's') {
-                                space.addWalls(Heading.SOUTH);
-                            } else if (valueAtSpace.charAt(i) == 'w') {
-                                space.addWalls(Heading.WEST);
-                            } else if (valueAtSpace.charAt(i) == 'n') {
-                                space.addWalls(Heading.NORTH);
-                            } else if (valueAtSpace.charAt(i) == 'e') {
-                                space.addWalls(Heading.EAST);
-                            }
-                        }
-                    }
-
-                    case 'c' -> {
-                        int checkpointnr = Integer.parseInt(valueAtSpace.substring(1));
-
-                        space.addActions(new Checkpoint(checkpointnr));
-                    }
-                    case 'b' -> {
-                        Heading heading = switch (valueAtSpace.charAt(2)) {
-                            case 'n' -> Heading.NORTH;
-                            case 'e' -> Heading.EAST;
-                            case 's' -> Heading.SOUTH;
-                            case 'w' -> Heading.WEST;
-                            default ->
-                                    throw new IllegalArgumentException("Invalid direction: " + valueAtSpace.charAt(2));
-                        };
-                        if (valueAtSpace.charAt(1) == 'g') {
-                            space.addActions(new ConveyorBelt(heading));
-                        } else if (valueAtSpace.charAt(1) == 'b') {
-                            space.addActions(new FastConveyorBelt(heading));
-                        }
-                    }
-                    case 'e' -> {
-                        //nothing
-                    }
-                    default -> {
-                        throw new RuntimeException("This kind of square does not exists.");
-                    }
-                }
-                board.spaces[x][y] = space;
-            }
-        }
-        return board;
-
-    }
 
     // Creates a Board object with a given width, height, and name
     // and initializes a 2D array of Spaces with coordinates.

@@ -3,7 +3,7 @@ POST {{location}}/game
 Content-Type: application/json
 
 {
-  "numberOfPlayers": 2,
-  "value": "2x2-board-empty.json",
-  "myName": "player-1"
+  "numberOfPlayersWhenGameIsFull": 2,
+  "boardName": "2x2-board-empty.json",
+  "playerName": "player-1"
 }

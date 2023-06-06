@@ -1,10 +1,1 @@
 GET http://localhost:8080/board
-
-POST {{location}}/game
-Content-Type: application/json
-
-{
-  "numberOfPlayers": 2,
-  "value": "2x2-board-empty.json",
-  "myName": "player-1"
-}
