@@ -106,7 +106,7 @@ public class LoadBoard {
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
-        String filename = "src/main/resources/" + name + "." + JSON_EXT;
+        String filename = "templateBoard.json";
 
         // In simple cases, we can create a Gson object with new:
         //
