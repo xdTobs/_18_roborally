@@ -1,27 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dk.dtu.compute.se.pisd</groupId>
-    <artifactId>rr</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <description>
-        RoboRally demo with database access and loading
-        some game boards from a files for the course
-        Project in Software Development (PiSD) taught at
-        DTU Compute.
-    </description>
+    <groupId>com.example</groupId>
+    <artifactId>my-project</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>17</javafx.version>
-        <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
-        <maven.compiler.release>17</maven.compiler.release>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-
-    </properties>
+    <modules>
+        <module>roborally-shared-library</module> <!-- Include shared library module -->
+        <module>client</module>
+        <module>server</module>
+    </modules>
 
 </project>
