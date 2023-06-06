@@ -47,8 +47,6 @@ public class Board extends Subject {
     private final Space[][] spaces;
     private final List<Player> players = new ArrayList<>();
     public int width;
-    private Integer gameId;
-    //    private Player current;
     private int currentPlayerIndex = 0;
     private Phase phase = Phase.INITIALISATION;
     private int step = 0;
@@ -71,9 +69,6 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-    public Board(int width, int height) {
-        this(width, height, "Default");
-    }
 
     public static Board createBoardFromResource(String boardFile) {
         InputStream resourceStream = Board.class.getResourceAsStream(boardFile);
@@ -227,19 +222,6 @@ public class Board extends Subject {
         return players;
     }
 
-    public Integer getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        if (this.gameId == null) {
-            this.gameId = gameId;
-        } else {
-            if (!this.gameId.equals(gameId)) {
-                throw new IllegalStateException("A game with a set id may not be assigned a new id!");
-            }
-        }
-    }
 
     // Returns the Space object at a specified (x,y) position in the spaces array.
     // If the position is out of bounds, it returns null.
@@ -255,7 +237,7 @@ public class Board extends Subject {
         spaces[x][y] = space;
     }
 
-    public int getPlayersNumber() {
+    public int getNumberOfPlayers() {
         return players.size();
     }
 
@@ -390,5 +372,19 @@ public class Board extends Subject {
 
     public Space[][] getSpaces() {
         return spaces;
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "height=" + height +
+                ", boardName='" + boardName + '\'' +
+                ", players=" + players +
+                ", width=" + width +
+                ", currentPlayerIndex=" + currentPlayerIndex +
+                ", phase=" + phase +
+                ", step=" + step +
+                ", stepMode=" + stepMode +
+                '}';
     }
 }

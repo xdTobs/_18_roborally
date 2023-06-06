@@ -1,5 +1,6 @@
 package eighteen.controller;
 
+import eighteen.ClientLauncher;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import org.json.JSONArray;
@@ -11,14 +12,26 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class WebAppController {
-    public void newGame() throws IOException, InterruptedException, URISyntaxException {
+    private final ClientLauncher clientLauncher;
 
-        var response = serverRequest("/board");
+    public WebAppController(ClientLauncher clientLauncher) {
+        this.clientLauncher = clientLauncher;
+    }
+
+    private String dialogChoice(List<String> options, String type) {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+        dialog.setTitle(type + " selector");
+        dialog.setHeaderText("Select " + type);
+        dialog.setContentText("");
+        return dialog.showAndWait().orElseThrow();
+
+    }
+
+    public void newGame() throws IOException, URISyntaxException, InterruptedException {
+        HttpResponse<String> response = serverRequest("/board");
         var body = response.body();
         JSONArray jsonArray = new JSONArray(body);
         List<String> boardNameList = new ArrayList<>();
@@ -26,16 +39,34 @@ public class WebAppController {
             String s = (String) a;
             boardNameList.add(s);
         }
-//        JSONObject myResponse = jsonArray.getJSONObject("MyResponse");
-//        JSONArray tsmresponse = (JSONArray) myResponse.get("listTsm");
-        // This should be modyfied to actually allow players to select gameboards
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(boardNameList.get(0), boardNameList);
-        dialog.setTitle("Gameboard Selector");
-        dialog.setHeaderText("Select gameboard");
-        dialog.setContentText("");
-        Optional<String> result = dialog.showAndWait();
+        String boardName = dialogChoice(boardNameList, "gameboard");
+        List<String> numPlayerOptions = new ArrayList<>();
+        for (int i = 2; i < 7; i++) {
+            numPlayerOptions.add(String.valueOf(i));
 
+        }
+        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+        clientLauncher.setStatusText("You picked the board: " + boardName);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/board/" + boardName))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        clientLauncher.setStatusText("Game id: " + response.body());
+
+
+        // TODO make async
+//        HttpResponse<String> response = HttpClient.newBuilder()
+//                .build()
+//                .send(request, HttpResponse.BodyHandlers.ofString());
+//
+//        System.out.println("response headers: " + response.headers().toString());
+//        System.out.println("response body: " + response.body());
+//        return response;
         //TODO: get correct board file and create boardview
 //
 //            // XXX the board should eventually be created programmatically or loaded from a file
@@ -58,7 +89,6 @@ public class WebAppController {
     }
 
     public void startPolling() throws IOException, InterruptedException {
-
 
     }
 

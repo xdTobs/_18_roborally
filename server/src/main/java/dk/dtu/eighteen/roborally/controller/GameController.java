@@ -55,7 +55,7 @@ public class GameController {
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
         Player currentPlayer = board.getCurrentPlayer();
         currentPlayer.setSpace(space);
-        int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getPlayersNumber();
+        int playerNumber = (board.getPlayerNumber(currentPlayer) + 1) % board.getNumberOfPlayers();
         board.setCurrentPlayer(board.getPlayer(playerNumber));
     }
 
@@ -64,7 +64,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
@@ -80,7 +80,7 @@ public class GameController {
         //TODO currently only load in step 0, should be easy to make able to load in all steps
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
@@ -92,7 +92,7 @@ public class GameController {
     }
 
     public void resumeProgrammingPhase() {
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
@@ -120,7 +120,7 @@ public class GameController {
 
     /*private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
+            for (int i = 0; i < board.getNumberOfPlayers(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getRegisterSlot(register);
                 field.setVisible(true);
@@ -129,7 +129,7 @@ public class GameController {
     }*/
 
     /*private void makeProgramFieldsInvisible() {
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
                 CommandCardField field = player.getRegisterSlot(j);
@@ -167,7 +167,7 @@ public class GameController {
 
         int step = board.getStep();
 
-        if (nextPlayerNumber < board.getPlayersNumber()) {
+        if (nextPlayerNumber < board.getNumberOfPlayers()) {
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         } else {
             step++;
@@ -208,7 +208,7 @@ public class GameController {
 
         // We need to change state to get player input if we have a left or right card.
         int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        if (nextPlayerNumber < board.getPlayersNumber()) {
+        if (nextPlayerNumber < board.getNumberOfPlayers()) {
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         } else {
             // New register
@@ -412,7 +412,14 @@ public class GameController {
         return this.board;
     }
 
-    public void endProgramming(int playerNo,int x,int y) {
-        moveCurrentPlayerToSpace(board.getSpace(x,y));
+    public void endProgramming(int playerNo, int x, int y) {
+        moveCurrentPlayerToSpace(board.getSpace(x, y));
+    }
+
+    @Override
+    public String toString() {
+        return "GameController{" +
+                "board=" + board +
+                '}';
     }
 }

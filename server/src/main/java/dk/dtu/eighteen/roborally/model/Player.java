@@ -62,17 +62,18 @@ public class Player extends Subject {
             availableCardSlots[i] = new CommandCardField(this);
         }
     }
-    public Player(PlayerTemplate template, Board board){
+
+    public Player(PlayerTemplate template, Board board) {
         this.name = template.name;
         this.color = template.color;
         this.board = board;
-        this.space = board.getSpace(template.x,template.y);
+        this.space = board.getSpace(template.x, template.y);
         this.heading = template.heading;
         this.currentMove = template.currentMove;
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
-            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i],this);
+            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i], this);
         }
     }
 
@@ -157,7 +158,8 @@ public class Player extends Subject {
     public CommandCardField getAvailableCardSlot(int i) {
         return availableCardSlots[i];
     }
-    public CommandCardField[] getAvailableCardSlots(){
+
+    public CommandCardField[] getAvailableCardSlots() {
         return availableCardSlots;
     }
 

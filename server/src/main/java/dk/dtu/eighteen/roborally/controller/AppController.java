@@ -23,10 +23,10 @@ package dk.dtu.eighteen.roborally.controller;
 
 import dk.dtu.eighteen.designpatterns.observer.Observer;
 import dk.dtu.eighteen.designpatterns.observer.Subject;
+import dk.dtu.eighteen.roborally.API.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -49,51 +49,20 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-
-
+    private final int numberOfPlayersWhenGameIsFull;
+    //    List<User> users = new ArrayList<>(10);
+    public Status status;
     private GameController gameController;
+    public AppController(Board board, int numberOfPlayersWhenGameIsFull, Status status) {
 
-    public AppController() {
-
-    }
-    public AppController(Board board) {
-        newGame(board);
-    }
-
-
-    public void newGame(Board board) {
+        this.numberOfPlayersWhenGameIsFull = numberOfPlayersWhenGameIsFull;
+        this.status = status;
         gameController = new GameController(board);
-        //player count is always 4
-        //TODO change playercount somehow
-        newGameFromBoardfile(board, 4);
-
-
+        board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    private void newGameFromBoardfile(Board board, Integer players) {
-        if (gameController != null) {
-            // The UI should not allow this, but in case this happens anyway.
-            // give the user the option to save the game or abort this operation!
-            if (!stopGame()) {
-                return;
-            }
-        }
-
-//            // XXX the board should eventually be created programmatically or loaded from a file
-//            //     here we just create an empty board with the required number of players.
-//            Board board = new Board(8, 8);
-
-        gameController = new GameController(board);
-        int no = players;
-        for (int i = 0; i < no; i++) {
-            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-            board.addPlayer(player);
-            player.setSpace(board.getSpace(i % board.width, i));
-        }
-        // XXX: V2
-        // board.setCurrentPlayer(board.getPlayer(0));
-        gameController.resumeProgrammingPhase();
-
+    public int getNumberOfPlayersWhenGameIsFull() {
+        return numberOfPlayersWhenGameIsFull;
     }
 
     public void loadGame(Board board) {
@@ -179,7 +148,7 @@ public class AppController implements Observer {
         // XXX do nothing for now
     }
 
-    public InputStream getBoard(String name) throws IOException {
+    public InputStream getBoardFileAsStream(String name) throws IOException {
         // Show file chooser dialog
 
         //TODO board selector without javafx
@@ -210,5 +179,14 @@ public class AppController implements Observer {
     //TODO used to pass to Server, maybe not the best way
     public GameController getGameController() {
         return gameController;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AppController{" +
+                "numberOfPlayersWhenGameIsFull=" + numberOfPlayersWhenGameIsFull +
+                ", gameController=" + gameController +
+                '}';
     }
 }

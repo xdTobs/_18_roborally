@@ -21,27 +21,38 @@ paths:
                 items:
                   type: string
 
-  "/board/{boardName}":
+  "/game":
     post:
       summary: Create a game from the given board
-      operationId: createGame
+      operationId: createNewGame
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/InitBoardData"
       responses:
         '200':
-          description: New game created from board name successfully
+          description: New game started successfully
+          content:
+            application/json:
+              schema:
+                type: integer
         '404':
           description: Board not found
 
   "/game/{gameId}":
+    parameters:
+      - name: gameId
+        in: path
+        description: ID of the game
+        required: true
+        schema:
+          type: integer
     get:
       summary: Get details of a specific game
       operationId: getBoard
-      parameters:
-        - name: gameId
-          in: path
-          description: ID of the game
-          required: true
-          schema:
-            type: integer
+
       responses:
         '200':
           description: Board details retrieved successfully
@@ -54,13 +65,6 @@ paths:
     delete:
       summary: Quit and save the game
       operationId: quitGame
-      parameters:
-        - name: gameId
-          in: path
-          description: ID of the game
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: A player has left the game. The game has been exited and saved.
@@ -68,22 +72,22 @@ paths:
           description: Game or player not found
 
   "/game/{gameId}/player/{playerName}":
+    parameters:
+      - name: gameId
+        in: path
+        description: ID of the game
+        required: true
+        schema:
+          type: integer
+      - name: playerName
+        in: path
+        description: Name of the player joining the game
+        required: true
+        schema:
+          type: string
     post:
       summary: Add a player to a game
       operationId: addPlayerToGame
-      parameters:
-        - name: gameId
-          in: path
-          description: ID of the game
-          required: true
-          schema:
-            type: integer
-        - name: playerName
-          in: path
-          description: Name of the player joining the game
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Player added successfully to game
@@ -93,22 +97,22 @@ paths:
           description: Conflict with resource. The player name is probably already in use.
 
   "/game/{gameId}/player/{playerName}/moves":
+    parameters:
+      - name: gameId
+        in: path
+        description: ID of the game
+        required: true
+        schema:
+          type: integer
+      - name: playerName
+        in: path
+        description: Name of the player
+        required: true
+        schema:
+          type: string
     post:
       summary: Make moves for a specific player on the game board
       operationId: makePlayerMoves
-      parameters:
-        - name: gameId
-          in: path
-          description: ID of the game
-          required: true
-          schema:
-            type: integer
-        - name: playerName
-          in: path
-          description: Name of the player
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -137,6 +141,15 @@ components:
           items:
             type: string
         status:
+          type: string
+    InitBoardData:
+      type: object
+      properties:
+        numberOfPlayers:
+          type: integer
+        boardName:
+          type: string
+        playerName:
           type: string
     MovePlan:
       type: array

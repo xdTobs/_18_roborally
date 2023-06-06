@@ -1,12 +1,14 @@
 package eighteen;
 
+import eighteen.controller.WebAppController;
 import eighteen.view.BoardView;
 import eighteen.view.RoboRallyMenuBar;
-import eighteen.controller.WebAppController;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -18,10 +20,10 @@ import java.util.stream.Stream;
 
 public class ClientLauncher extends Application {
 
-    WebAppController webAppController = new WebAppController();
+    WebAppController webAppController = new WebAppController(this);
+    Text statusText = new Text("Status: start up");
     private BorderPane boardRoot;
     private Stage stage;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -29,23 +31,13 @@ public class ClientLauncher extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/demo_application.fxml"));
-//        Scene scene = new Scene(root);
-//        stage.setTitle("FXML Welcome");
-//        stage.setScene(scene);
-//        scene.getStylesheets().add(getClass().getResource("/demo_application.css").toExternalForm());
-//        stage.show();
         var MIN_APP_WIDTH = 600;
         var MIN_APP_HEIGHT = 600;
         stage = primaryStage;
 
-//        AppController appController = new AppController(this);
-
-        // create the primary scene with the a menu bar and a pane for
-        // the board view (which initially is empty); it will be filled
-        // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
-        boardRoot = new BorderPane();
+        boardRoot = new BorderPane(statusText);
+        BorderPane.setAlignment(statusText, Pos.BOTTOM_CENTER);
         VBox vbox = new VBox(menuBar, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
         vbox.setMinHeight(MIN_APP_HEIGHT);
@@ -74,6 +66,7 @@ public class ClientLauncher extends Application {
         stage.sizeToScene();
     }
 
+
     private ResponseEntity<String> getResponseEntity(String url) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForEntity(url, String.class);
@@ -89,6 +82,10 @@ public class ClientLauncher extends Application {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setStatusText(String s) {
+        this.statusText.setText("Status: " + s);
     }
 
 }

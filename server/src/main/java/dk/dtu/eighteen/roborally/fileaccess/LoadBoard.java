@@ -1,14 +1,15 @@
 package dk.dtu.eighteen.roborally.fileaccess;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.eighteen.roborally.controller.IFieldAction;
+import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
-import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 
 import java.io.*;
 
@@ -34,14 +35,14 @@ public class LoadBoard {
         String filename = "src/main/resources/test.json";
         File file = new File(filename);
         InputStream inputStream = null;
-        try{
+        try {
             inputStream = new FileInputStream(file);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
-            return new Board(8,8);
+            return new Board(8, 8, "default");
         }
 
         // In simple cases, we can create a Gson object with new Gson():
@@ -56,21 +57,21 @@ public class LoadBoard {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
-            result = new Board(template.width, template.height);
+            result = new Board(template.width, template.height, boardname);
 
             for (int i = 0; i < template.spaces.length; i++) {
                 for (int j = 0; j < template.spaces[0].length; j++) {
-                    Space space = new Space(template.spaces[i][j],result);
-                    result.setSpace(i,j,space);
+                    Space space = new Space(template.spaces[i][j], result);
+                    result.setSpace(i, j, space);
                 }
             }
 
-            for(PlayerTemplate pt : template.players){
+            for (PlayerTemplate pt : template.players) {
                 result.addPlayer(new Player(pt, result));
             }
 
 
-            for (Player player : result.getPlayers()){
+            for (Player player : result.getPlayers()) {
                 player.getSpace().setPlayer(player);
             }
 
@@ -82,18 +83,20 @@ public class LoadBoard {
                 try {
                     reader.close();
                     inputStream = null;
-                } catch (IOException e2) {}
+                } catch (IOException e2) {
+                }
             }
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e2) {}
+                } catch (IOException e2) {
+                }
             }
         }
         return null;
     }
 
-    public static void saveBoard(Board board, String name){
+    public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate(board);
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
@@ -127,12 +130,14 @@ public class LoadBoard {
                 try {
                     writer.close();
                     fileWriter = null;
-                } catch (IOException e2) {}
+                } catch (IOException e2) {
+                }
             }
             if (fileWriter != null) {
                 try {
                     fileWriter.close();
-                } catch (IOException e2) {}
+                } catch (IOException e2) {
+                }
             }
         }
     }
