@@ -30,7 +30,7 @@ public class ClientLauncher extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         var MIN_APP_WIDTH = 600;
         var MIN_APP_HEIGHT = 600;
         stage = primaryStage;
@@ -44,7 +44,7 @@ public class ClientLauncher extends Application {
         Scene primaryScene = new Scene(vbox);
 
         stage.setScene(primaryScene);
-        stage.setTitle("RoboRally");
+        stage.setTitle("Roborally");
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
