@@ -1,11 +1,12 @@
 package dk.dtu.eighteen.roborally;
 
 //import dk.dtu.eighteen.roborally.API.Status;
+
 import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
-import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -28,17 +29,17 @@ public class Server {
     HashMap<Integer, AppController> appControllerMap = new HashMap<>();
     List<String> boardNames = getResourceFolderFiles("playableBoards");
 
-    public static void main(String[] args) {
 
-        var b = LoadBoard.loadSaveState("playableBoards/test.json");
-        System.out.println(b);
-//        SpringApplication.run(Server.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(Server.class, args);
     }
 
-
-    public static Board getStandardBoard() {
-//        return Board.createBoardFromResource("/playableBoards/2x2-board-empty-json");
-        return null;
+    private static List<String> getResourceFolderFiles(String folderName) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folderName);
+        String path = url.getPath();
+        List<File> files = List.of(new File(path).listFiles());
+        return files.stream().map(file -> file.getName()).toList();
     }
 
 //    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -47,17 +48,6 @@ public class Server {
 //        return true;
 //    }
 
-    //    private static List<String> getBoardNames() {
-//        var a = Server.class.get
-//
-//    }
-    private static List<String> getResourceFolderFiles(String folderName) {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folderName);
-        String path = url.getPath();
-        List<File> files = List.of(new File(path).listFiles());
-        return files.stream().map(file -> file.getName()).toList();
-    }
 //
 //    @GetMapping("/board/{gameid}/{userid}")
 //    public BoardTemplate getBoard(@PathVariable int gameid, @PathVariable int userid) {
@@ -69,7 +59,6 @@ public class Server {
 //            return null;
 //        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board, IDs.indexOf(userid));
 //    }
-
 
     /**
      * GET /game: Get the names of available games
@@ -88,15 +77,24 @@ public class Server {
         String playerName = userMap.get("playerName");
         int numberOfPlayersWhenGameIsFull = Integer.parseInt(userMap.get("numberOfPlayersWhenGameIsFull"));
         int id = counter.incrementAndGet();
-        System.out.println("1: " + boardName);
-        System.out.println("2: " + playerName);
-        System.out.println("3: " + numberOfPlayersWhenGameIsFull);
-        var board = LoadBoard.loadSaveState("/playableBoards/" + boardName);
+        var board = LoadBoard.loadNewGameBoard(boardName);
         var player = new Player(board, null, playerName);
         board.addPlayer(player);
         var appController = new AppController(board, numberOfPlayersWhenGameIsFull, Status.INIT_NEW_GAME);
         appControllerMap.put(id, appController);
+        debugPrintAppControllerMap();
         return id;
+    }
+
+    private void debugPrintAppControllerMap() {
+        System.out.println("all current games:");
+        for (Integer key : appControllerMap.keySet()) {
+            var appController = appControllerMap.get(key);
+            System.out.println("game id: " + key);
+            System.out.println("number of players: " + appController.getGameController().getBoard().getNumberOfPlayers() + "/" + appController.getNumberOfPlayersWhenGameIsFull());
+            System.out.println();
+
+        }
     }
 
     @GetMapping("/game/{gameId}")
@@ -110,7 +108,7 @@ public class Server {
     }
 
     @DeleteMapping("/game/{gameId}")
-    public void quitGame(@PathVariable int gameId){
+    public void quitGame(@PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
         appController.stopGame(gameId);
     }
@@ -153,7 +151,7 @@ public class Server {
     }
 
     @PostMapping("/game/{gameId}/player/{playerName}/moves")
-    public void executeMove(@PathVariable int gameId, @PathVariable String playerName){
+    public void executeMove(@PathVariable int gameId, @PathVariable String playerName) {
         AppController appController = appControllerMap.get(gameId);
 
     }

@@ -4,6 +4,6 @@ Content-Type: application/json
 
 {
   "numberOfPlayersWhenGameIsFull": 2,
-  "boardName": "2x2-board-empty.json",
+  "boardName": "test.json",
   "playerName": "player-1"
 }

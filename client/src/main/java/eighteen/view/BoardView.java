@@ -51,11 +51,11 @@ public class BoardView extends VBox implements ViewObserver {
 //
 //        mainBoardPane = new GridPane();
 //        playersView = new dk.dtu.compute.se.pisd.roborally.view.PlayersView(gameController);
-//        statusLabel = new Label("<no status>");
+        statusLabel = new Label("test");
 //
         this.getChildren().add(mainBoardPane);
 //        this.getChildren().add(playersView);
-//        this.getChildren().add(statusLabel);
+        this.getChildren().add(statusLabel);
 //
 //        spaces = new dk.dtu.compute.se.pisd.roborally.view.SpaceView[board.width][board.height];
 //

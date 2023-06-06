@@ -53,7 +53,6 @@ public class AppController implements Observer {
     private GameController gameController;
 
     public AppController(Board board, int numberOfPlayersWhenGameIsFull, Status status) {
-
         this.numberOfPlayersWhenGameIsFull = numberOfPlayersWhenGameIsFull;
         this.status = status;
         gameController = new GameController(board);
@@ -137,11 +136,11 @@ public class AppController implements Observer {
         LoadBoard.saveBoard(gameController.board, name);
     }
 
-    public void loadSaveState(String name) {
-        Board board = LoadBoard.loadSaveState(name);
-        gameController = new GameController(board);
-        gameController.loadProgrammingPhase();
-    }
+//    public void loadSaveState(String name) {
+//        Board board = LoadBoard.loadSaveState(name);
+//        gameController = new GameController(board);
+//        gameController.loadProgrammingPhase();
+//    }
 
 
     //TODO used to pass to Server, maybe not the best way
