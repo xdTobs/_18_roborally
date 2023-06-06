@@ -5,6 +5,7 @@ import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -29,9 +30,9 @@ public class Server {
 
     public static void main(String[] args) {
 
-        var b = LoadBoard.loadSaveState("playableBoards/test.json");
-        System.out.println(b);
-//        SpringApplication.run(Server.class, args);
+//        var b = LoadBoard.loadSaveState("playableBoards/test.json");
+//        System.out.println(b);
+        SpringApplication.run(Server.class, args);
     }
 
 
@@ -108,6 +109,14 @@ public class Server {
         return map;
     }
 
+    @DeleteMapping("/game/{gameId}")
+    public void quitGame(@PathVariable int gameId){
+        AppController appController = appControllerMap.get(gameId);
+        //appController.saveState(String.valueOf(gameId));
+        appController.stopGame(gameId);
+    }
+
+
     /**
      * POST /game: Join a game
      * If joining a new game, then you can pick any playerName,
@@ -143,6 +152,13 @@ public class Server {
             appController.status = Status.RUNNING;
         }
     }
+
+    @PostMapping("/game/{gameId}/player/{playerName}/moves")
+    public void executeMove(@PathVariable int gameId, @PathVariable String playerName){
+        AppController appController = appControllerMap.get(gameId);
+
+    }
+
 
     //    @GetMapping("/join/{gameid}")
     //    public int joinGame(@PathVariable int gameid) {

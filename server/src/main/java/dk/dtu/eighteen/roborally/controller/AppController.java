@@ -106,11 +106,11 @@ public class AppController implements Observer {
      *
      * @return true if the current game was stopped, false otherwise
      */
-    public boolean stopGame() {
+    public boolean stopGame(int gameId) {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveState("autosave");
+            saveState("autosave" + gameId);
 
             gameController = null;
 
