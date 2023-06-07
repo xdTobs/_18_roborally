@@ -117,15 +117,18 @@ public class Server {
         }
         Status status = appController.status;
         var hasJoined = appController.getGameController().getBoard().getPlayer(playerName) != null;
-        if (status == Status.INIT_NEW_GAME || status == Status.INIT_LOAD_GAME && !hasJoined) {
+        if (status == Status.INIT_NEW_GAME || status == Status.INIT_LOAD_GAME) {
             if (!hasJoined) {
+                System.out.println("player " + playerName + " has joined game " + gameId);
                 joinGame(gameId, playerName);
+            } else {
+                System.out.println("player " + playerName + "has polled for server info" + gameId);
             }
         }
-        Player p = appController.getGameController().getBoard().getPlayer(playerName);
+        Player player = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
         HashMap<String, Object> map = new HashMap<>();
-        BoardTemplate boardTemplate = new BoardTemplate(board, p);
+        BoardTemplate boardTemplate = new BoardTemplate(board, player);
         map.put("board", boardTemplate);
         map.put("status", appController.status.toString());
         return map;
