@@ -3,7 +3,9 @@ package eighteen.controller;
 import eighteen.ClientLauncher;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -33,10 +35,31 @@ public class WebAppController {
 
     }
 
+    private String nameInputDialog() {
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("Name Selector");
+        textInputDialog.setHeaderText("Please enter your name");
+        textInputDialog.setContentText("Name: ");
+        if (textInputDialog != null) {
+            return textInputDialog.showAndWait().orElseThrow();
+        } else {
+            return "Default Name";
+        }
+    }
+
     void renderBoard() {
         clientLauncher.createBoardView();
     }
 
+    /**
+     * This method starts a new game by requesting the name of avaliable boards, and then
+     * prompting the user to select the desired gameboard, number of player and name.
+     * It sends the choices to the server, which handles the creation of the game.
+     *
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
         this.status = Status.INIT_NEW_GAME;
         HttpResponse<String> response = serverRequest("/board");
@@ -48,24 +71,35 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
+        String playerName = nameInputDialog();
+
         String boardName = dialogChoice(boardNameList, "gameboard");
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
             numPlayerOptions.add(String.valueOf(i));
-
         }
+
         int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+
         clientLauncher.setStatusText("You picked the board: " + boardName);
+
+        // Creating a new JSON Object to send playerName, boardName and number of players to server
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("boardName", boardName);
+        requestObject.put("playerName", playerName);
+        requestObject.put("numberOfPlayersWhenGameIsFull", numberOfPlayers);
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game/" + boardName))
-                .POST(HttpRequest.BodyPublishers.ofString(boardName)) //Something else than bordName
+                .uri(new URI("http://localhost:8080/game"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
                 .build();
 
         response = HttpClient.newBuilder()
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-       gameId = Integer.valueOf(response.body());
-       setStatus(Status.INIT_NEW_GAME);
+        gameId = Integer.valueOf(response.body());
+        setStatus(Status.INIT_NEW_GAME);
 
         // TODO make async
 //        HttpResponse<String> response = HttpClient.newBuilder()
@@ -94,7 +128,7 @@ public class WebAppController {
 //
 //            roboRally.createBoardView(gameController);
 //        }
-   //     renderBoard();
+        //     renderBoard();
     }
 
     public void startPolling() throws IOException, InterruptedException {
@@ -143,8 +177,8 @@ public class WebAppController {
     }
 
     public void setStatus(Status status) {
-        if(status == null){
-            clientLauncher.setStatusText("game nut running");
+        if (status == null) {
+            clientLauncher.setStatusText("game not running");
             return;
         }
 
