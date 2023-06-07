@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebAppController {
+    static int timesPolled = 0;
     private final ClientLauncher clientLauncher;
     private Status status;
     private Integer gameId = null;
@@ -37,14 +38,24 @@ public class WebAppController {
     }
 
     private String nameInputDialog() {
+        if (true) {
+            return "henrik";
+        }
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setTitle("Name Selector");
         textInputDialog.setHeaderText("Please enter your name");
         textInputDialog.setContentText("Name: ");
-        if (textInputDialog != null) {
-            return textInputDialog.showAndWait().orElseThrow();
-        } else {
-            return "Default Name";
+
+        try {
+            var answer = textInputDialog.showAndWait();
+            if (answer.isPresent()) {
+                return answer.get();
+            } else {
+                throw new NullPointerException("No name entered");
+            }
+        } catch (Exception e) {
+            System.err.println("You didn't pick a name so your name is default name.\nError message: " + e);
+            return "default name";
         }
     }
 
@@ -62,7 +73,6 @@ public class WebAppController {
      * @throws InterruptedException
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
-        this.status = Status.INIT_NEW_GAME;
         HttpResponse<String> response = serverRequest("/board");
         var body = response.body();
         JSONArray jsonArray = new JSONArray(body);
@@ -74,13 +84,17 @@ public class WebAppController {
 
         String playerName = nameInputDialog();
 
-        String boardName = dialogChoice(boardNameList, "gameboard");
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
             numPlayerOptions.add(String.valueOf(i));
         }
 
-        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+//
+//        String boardName = dialogChoice(boardNameList, "gameboard");
+
+        int numberOfPlayers = 2;
+        String boardName = "a-test-board.json";
 
         clientLauncher.setStatusText("You picked the board: " + boardName);
 
@@ -99,8 +113,16 @@ public class WebAppController {
         response = HttpClient.newBuilder()
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-        gameId = Integer.valueOf(response.body());
+
+        this.gameId = Integer.valueOf(response.body());
+
         setStatus(Status.INIT_NEW_GAME);
+
+
+        while (true) {
+            pollServer();
+            Thread.sleep(2000);
+        }
 
         // TODO make async
 //        HttpResponse<String> response = HttpClient.newBuilder()
@@ -132,7 +154,24 @@ public class WebAppController {
         //     renderBoard();
     }
 
-    public void startPolling() throws IOException, InterruptedException {
+    public void pollServer() throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .GET()
+                .build();
+        var response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        // put response in a json object
+        JSONObject jsonObject = new JSONObject(response.body());
+        // get the status of the game
+        Status status = Status.of(jsonObject.getString("status"));
+        if (status == Status.INIT_NEW_GAME) {
+            timesPolled++;
+            setStatus(status);
+
+        }
+
 
     }
 
@@ -172,19 +211,19 @@ public class WebAppController {
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("response headers: " + response.headers().toString());
-        System.out.println("response body: " + response.body());
         return response;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+        String s = "";
         switch (status) {
             case NOT_INITIATED_GAME -> {
                 clientLauncher.setStatusText("Game not running");
             }
             case INIT_NEW_GAME -> {
-                clientLauncher.setStatusText("New game with ID: " + gameId);
+                s = "Times polled: " + timesPolled + "\n";
+                clientLauncher.setStatusText(s + "New game with ID: " + gameId + "\nWaiting for players to join");
             }
             case INIT_LOAD_GAME -> {
                 clientLauncher.setStatusText("Loaded game with ID: " + gameId);
@@ -198,3 +237,18 @@ public class WebAppController {
         }
     }
 }
+//
+//ObjectMapper objectMapper = new ObjectMapper();
+//String requestBody = objectMapper
+//        .writerWithDefaultPrettyPrinter()
+//        .writeValueAsString(map);
+//
+//HttpRequest request = HttpRequest.newBuilder(uri)
+//        .header("Content-Type", "application/json")
+//        .POST(BodyPublishers.ofString(requestBody))
+//        .build();
+//
+//return HttpClient.newHttpClient()
+//        .sendAsync(request, BodyHandlers.ofString())
+//        .thenApply(HttpResponse::statusCode)
+//        .thenAccept(System.out::println);
