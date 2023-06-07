@@ -3,10 +3,12 @@ package dk.dtu.eighteen.roborally;
 //import dk.dtu.eighteen.roborally.API.Status;
 
 import dk.dtu.eighteen.roborally.controller.AppController;
+import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
+import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Moves;
 import dk.dtu.eighteen.roborally.model.Player;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,11 @@ public class Server {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(Server.class, args);
+        Board b = LoadBoard.loadNewGameBoard("test.json");
+        Player.createAddPlayerToEmptySpace(b, null, "p1");
+        Player.createAddPlayerToEmptySpace(b, null, "p2");
+        GameController gc = new GameController(b);
+//        SpringApplication.run(Server.class, args);
     }
 
     private static List<String> getResourceFolderFiles(String folderName) {
@@ -91,7 +97,7 @@ public class Server {
         for (Integer key : appControllerMap.keySet()) {
             var appController = appControllerMap.get(key);
             System.out.println("game id: " + key);
-            System.out.println("number of players: " + appController.getGameController().getBoard().getNumberOfPlayers() + "/" + appController.getNumberOfPlayersWhenGameIsFull());
+            System.out.println("number of players: " + appController.getGameController().getBoard().getNumberOfPlayers() + "/" + appController.getPlayerCapacity());
             System.out.println();
 
         }
@@ -135,25 +141,45 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "board not found");
         }
 
+        boolean playerExists = appController.getGameController().getBoard().getPlayer(playerName) != null;
 
         if (appController.status == Status.INIT_NEW_GAME) {
+            if (playerExists) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name already exists");
+            }
             var player = new Player(board, null, playerName);
             board.addPlayer(player);
         } else if (appController.status == Status.INIT_LOAD_GAME) {
-            throw new RuntimeException("Not implemented yet");
+            if (!playerExists) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name does not exist");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request adding a player when game is INIT_NEW_GAME or INIT_LOAD_GAME");
+        }
+        var i = appController.incrementTakenAction();
+        if (i == appController.getPlayerCapacity()) {
+            appController.status = Status.RUNNING;
+            appController.resetTakenAction();
         }
 
-        int currentNumberOfPlayers = board.getNumberOfPlayers();
-        var numberOfPlayersWhenGameIsFull = appController.getNumberOfPlayersWhenGameIsFull();
-        if (currentNumberOfPlayers == numberOfPlayersWhenGameIsFull) {
-            appController.status = Status.RUNNING;
-        }
     }
 
     @PostMapping("/game/{gameId}/player/{playerName}/moves")
-    public void executeMove(@PathVariable int gameId, @PathVariable String playerName) {
+    public void planMoves(@RequestBody int[] moves, @PathVariable int gameId, @PathVariable String playerName) {
         AppController appController = appControllerMap.get(gameId);
-
+        Player p = appController.getGameController().getBoard().getPlayer(playerName);
+        if (p == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
+        }
+        Moves playerMoves = p.getCurrentMoves();
+        if (!playerMoves.areValid()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");
+        }
+        playerMoves.setCardIndex(moves);
+        var i = appController.incrementTakenAction();
+        if (i == appController.getPlayerCapacity()) {
+            appController.resetTakenAction();
+        }
     }
 
 

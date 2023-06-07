@@ -300,4 +300,13 @@ public class Board extends Subject {
                 ", stepMode=" + stepMode +
                 '}';
     }
+
+    public Player getPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                return player;
+            }
+        }
+        return null;
+    }
 }

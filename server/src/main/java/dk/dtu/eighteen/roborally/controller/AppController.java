@@ -21,22 +21,19 @@
  */
 package dk.dtu.eighteen.roborally.controller;
 //import dtu.dk.eighteen.Status;
+
 import dk.dtu.eighteen.designpatterns.observer.Observer;
 import dk.dtu.eighteen.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * ...
@@ -45,22 +42,28 @@ import java.util.Optional;
  */
 public class AppController implements Observer {
 
+    // Use this to check if all players have joined/moved.
+    private static AtomicInteger playersTakenAction = new AtomicInteger(1);
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    private final int numberOfPlayersWhenGameIsFull;
+    private final int playerCapacity;
     //    List<User> users = new ArrayList<>(10);
     public Status status;
     private GameController gameController;
 
-    public AppController(Board board, int numberOfPlayersWhenGameIsFull, Status status) {
-        this.numberOfPlayersWhenGameIsFull = numberOfPlayersWhenGameIsFull;
+    public AppController(Board board, int playerCapacity, Status status) {
+        this.playerCapacity = playerCapacity;
         this.status = status;
         gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    public int getNumberOfPlayersWhenGameIsFull() {
-        return numberOfPlayersWhenGameIsFull;
+    public static int incrementTakenAction() {
+        return playersTakenAction.incrementAndGet();
+    }
+
+    public int getPlayerCapacity() {
+        return playerCapacity;
     }
 
     public void loadGame(Board board) {
@@ -152,8 +155,12 @@ public class AppController implements Observer {
     @Override
     public String toString() {
         return "AppController{" +
-                "numberOfPlayersWhenGameIsFull=" + numberOfPlayersWhenGameIsFull +
+                "numberOfPlayersWhenGameIsFull=" + playerCapacity +
                 ", gameController=" + gameController +
                 '}';
+    }
+
+    public void resetTakenAction() {
+        playersTakenAction.set(1);
     }
 }

@@ -43,11 +43,8 @@ public class Player extends Subject {
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
-    private Move currentMove;
+    private Moves currentMoves;
     private CommandCardField[] availableCardSlots;
-
-    //private boolean hasMovedThisTurn = false;
-
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -55,7 +52,7 @@ public class Player extends Subject {
 
         this.space = null;
 
-        this.currentMove = new Move();
+        this.currentMoves = new Moves();
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
@@ -63,13 +60,15 @@ public class Player extends Subject {
         }
     }
 
+    //private boolean hasMovedThisTurn = false;
+
     public Player(PlayerTemplate template, Board board) {
         this.name = template.name;
         this.color = template.color;
         this.board = board;
         this.space = board.getSpace(template.x, template.y);
         this.heading = template.heading;
-        this.currentMove = template.currentMove;
+        this.currentMoves = template.currentMoves;
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
@@ -77,6 +76,23 @@ public class Player extends Subject {
         }
     }
 
+    public static void createAddPlayerToEmptySpace(Board board, String color, String name) {
+        Player player = new Player(board, color, name);
+        board.addPlayer(player);
+        int x = 0;
+        int y = 0;
+        while (board.getSpace(x, y) != null) {
+            x++;
+            if (x == board.width - 1) {
+                x = 0;
+                y++;
+            }
+        }
+    }
+
+    public Moves getCurrentMoves() {
+        return currentMoves;
+    }
 
     public int getCheckpointCounter() {
         return checkpointCounter;
@@ -163,11 +179,11 @@ public class Player extends Subject {
         return availableCardSlots;
     }
 
-    public Move getCurrentMove() {
-        return currentMove;
+    public Moves getCurrentMove() {
+        return currentMoves;
     }
 
-    public void setCurrentMove(Move currentMove) {
-        this.currentMove = currentMove;
+    public void setCurrentMove(Moves currentMoves) {
+        this.currentMoves = currentMoves;
     }
 }
