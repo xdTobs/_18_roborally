@@ -2,7 +2,7 @@ package dk.dtu.eighteen.roborally.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dk.dtu.eighteen.roborally.model.IFieldAction;
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.fileaccess.Adapter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;

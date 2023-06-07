@@ -1,7 +1,7 @@
 package dk.dtu.eighteen.roborally.controller.spaces;
 
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
-import dk.dtu.eighteen.roborally.model.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Heading;
 import dk.dtu.eighteen.roborally.model.Space;
 

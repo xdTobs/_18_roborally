@@ -21,6 +21,7 @@
  */
 package dk.dtu.eighteen.roborally.controller;
 
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;

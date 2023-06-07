@@ -52,7 +52,7 @@ public class WebAppController {
             System.err.println("You didn't pick a name so your name is default name.\nError message: " + e);
             this.playerName = "default name";
         }
-//        this.playerName = "henrik";
+        System.out.println("Your name is: " + this.playerName);
         requestController.createScheduledService(this.playerName);
     }
 

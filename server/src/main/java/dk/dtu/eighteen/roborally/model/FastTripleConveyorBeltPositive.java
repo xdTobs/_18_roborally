@@ -1,22 +1,20 @@
 package dk.dtu.eighteen.roborally.model;
 
 import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
 
 public class FastTripleConveyorBeltPositive extends ConveyorBelt {
 
-    public FastTripleConveyorBeltPositive(Board board, int x, int y, Heading heading) {
-        super(board, x, y, heading);
+    public FastTripleConveyorBeltPositive(Heading heading) {
+        super(heading);
     }
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-
-        /*if (this.getPlayer().hasMovedThisTurn()) {
-            return true;
-        }*/
-
-        this.getPlayer().setHeading(heading);
-        gameController.moveForward_2(this.getPlayer());
+        Heading playerHeading = space.getPlayer().getHeading();
+        space.getPlayer().setHeading(super.getHeading());
+        gameController.moveForward(space.getPlayer());
+        space.getPlayer().setHeading(playerHeading);
 
         return true;
     }

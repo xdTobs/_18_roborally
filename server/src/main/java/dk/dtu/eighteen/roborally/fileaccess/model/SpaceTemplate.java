@@ -2,7 +2,7 @@ package dk.dtu.eighteen.roborally.fileaccess.model;
 
 
 import dk.dtu.eighteen.roborally.model.Heading;
-import dk.dtu.eighteen.roborally.model.IFieldAction;
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Space;
 
 import java.util.List;

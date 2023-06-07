@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.IFieldAction;
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 

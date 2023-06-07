@@ -1,5 +1,6 @@
 package dk.dtu.eighteen.controller;
 
+import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.view.BoardView;
@@ -66,12 +67,12 @@ public class ClientController extends Application {
             throw new RuntimeException(e);
         }
         // create and add view for new board
-//        this.minimalGameController = new MinimalGameController(board);
+        GameController gc = new GameController(board);
 //        BoardView boardView = new BoardView(minimalGameController);
         // TODO find a way to show the board and make it interactive
         // Maybe we should create a IGameController interface and implement it in a minimal game controller here
         // and use that as a helper to create the board view
-        BoardView boardView = new BoardView(board);
+        BoardView boardView = new BoardView(gc);
 
         boardRoot.setCenter(boardView);
 

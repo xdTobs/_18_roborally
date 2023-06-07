@@ -1,6 +1,7 @@
-package dk.dtu.eighteen.roborally.model;
+package dk.dtu.eighteen.roborally.controller.Actions;
 
 import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.roborally.model.Space;
 
 public interface IFieldAction {
     /**
