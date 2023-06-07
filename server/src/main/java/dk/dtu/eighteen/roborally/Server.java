@@ -1,6 +1,5 @@
 package dk.dtu.eighteen.roborally;
 
-//import dk.dtu.eighteen.roborally.API.Status;
 
 import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
@@ -112,8 +111,16 @@ public class Server {
     @GetMapping("/game/{gameId}")
     public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
+
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+        }
+        Status status = appController.status;
+        var hasJoined = appController.getGameController().getBoard().getPlayer(playerName) != null;
+        if (status == Status.INIT_NEW_GAME || status == Status.INIT_LOAD_GAME && !hasJoined) {
+            if (!hasJoined) {
+                joinGame(gameId, playerName);
+            }
         }
         Player p = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
@@ -135,22 +142,7 @@ public class Server {
         }
     }
 
-
-    /**
-     * POST /game: Join a game
-     * If joining a new game, then you can pick any playerName,
-     * but if joining a game that has been loaded you have to join with one of the names that exists.
-     *
-     * @param gameId     ID of the game to join
-     *                   (required)
-     * @param playerName Name of the player to join the game
-     *                   (required)
-     * @return Board retrieved successfully (status code 200)
-     * or Game not found (status code 404)
-     * or Player name not found (status code 404)
-     */
-    @PostMapping("/game/{gameId}/player/{playerName}")
-    public void joinGame(@PathVariable int gameId, @PathVariable String playerName) {
+    public void joinGame(int gameId, String playerName) {
         AppController appController = appControllerMap.get(gameId);
         var board = appController.getGameController().getBoard();
         if (board == null) {
