@@ -102,6 +102,19 @@ public class WebAppController {
         gameId = Integer.valueOf(response.body());
         setStatus(Status.INIT_NEW_GAME);
 
+        // Making request for gameboard the server just created
+        request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId +  "?playerName=" + playerName))
+                .GET()
+                .build();
+
+        HttpResponse<String> boardResponse = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(boardResponse);
+        System.out.println(boardResponse.body());
+
         // TODO make async
 //        HttpResponse<String> response = HttpClient.newBuilder()
 //                .build()

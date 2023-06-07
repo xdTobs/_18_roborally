@@ -110,7 +110,7 @@ public class Server {
     }
 
     @GetMapping("/game/{gameId}")
-    public Map<String, Object> getGame(@RequestBody Map<String, String> json, @PathVariable int gameId) {
+    public Map<String, Object> getGame(@RequestParam Map<String, String> json, @PathVariable int gameId) {
         String playerName = json.get("playerName");
         AppController appController = appControllerMap.get(gameId);
         if (appController == null) {
