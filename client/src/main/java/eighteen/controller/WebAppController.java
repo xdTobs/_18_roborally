@@ -39,9 +39,9 @@ public class WebAppController {
     }
 
     private String nameInputDialog() {
-        if (true) {
+        /*if (true) {
             return "henrik";
-        }
+        }*/
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setTitle("Name Selector");
         textInputDialog.setHeaderText("Please enter your name");
@@ -91,12 +91,12 @@ public class WebAppController {
             numPlayerOptions.add(String.valueOf(i));
         }
 
-//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-//
-//        String boardName = dialogChoice(boardNameList, "gameboard");
+        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
 
-        int numberOfPlayers = 2;
-        String boardName = "a-test-board.json";
+        String boardName = dialogChoice(boardNameList, "gameboard");
+
+//        int numberOfPlayers = 2;
+//        String boardName = "a-test-board.json";
 
         clientLauncher.setStatusText("You picked the board: " + boardName);
 
@@ -118,11 +118,25 @@ public class WebAppController {
 
         this.gameId = Integer.valueOf(response.body());
 
+        // Making request for gameboard the server just created
+        request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .header("roborally-player-name", playerName)
+                .GET()
+                .build();
+
+        HttpResponse<String> boardResponse = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(boardResponse);
+        System.out.println(boardResponse.body());
+
         setStatus(Status.INIT_NEW_GAME);
-        while (true) {
+       /* while (true) {
             pollServer();
             Thread.sleep(2000);
-        }
+        }*/
     }
 
     public void pollServer() throws URISyntaxException, IOException, InterruptedException {
