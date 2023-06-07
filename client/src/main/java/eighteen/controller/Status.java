@@ -1,5 +1,5 @@
 package eighteen.controller;
 
 public enum Status {
-    INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING
+    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING
 }

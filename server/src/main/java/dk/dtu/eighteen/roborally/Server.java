@@ -112,10 +112,6 @@ public class Server {
     @GetMapping("/game/{gameId}")
     public Map<String, Object> getGame(@RequestBody Map<String, String> json, @PathVariable int gameId) {
         String playerName = json.get("playerName");
-        System.out.println("request");
-        System.out.println(playerName);
-        System.out.println(gameId);
-
         AppController appController = appControllerMap.get(gameId);
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");

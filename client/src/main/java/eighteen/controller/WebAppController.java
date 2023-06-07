@@ -18,12 +18,13 @@ import java.util.List;
 
 public class WebAppController {
     private final ClientLauncher clientLauncher;
-    private Status status = null;
+    private Status status;
     private Integer gameId = null;
+
 
     public WebAppController(ClientLauncher clientLauncher) {
         this.clientLauncher = clientLauncher;
-        setStatus(null);
+        setStatus(Status.NOT_INITIATED_GAME);
     }
 
     private String dialogChoice(List<String> options, String type) {
@@ -177,12 +178,11 @@ public class WebAppController {
     }
 
     public void setStatus(Status status) {
-        if (status == null) {
-            clientLauncher.setStatusText("game not running");
-            return;
-        }
-
+        this.status = status;
         switch (status) {
+            case NOT_INITIATED_GAME -> {
+                clientLauncher.setStatusText("Game not running");
+            }
             case INIT_NEW_GAME -> {
                 clientLauncher.setStatusText("New game with ID: " + gameId);
             }
