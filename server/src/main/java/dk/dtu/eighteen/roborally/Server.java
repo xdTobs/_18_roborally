@@ -82,13 +82,13 @@ public class Server {
     public int createNewGame(@RequestBody Map<String, String> userMap) {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
+        int playerCapacity = Integer.parseInt(userMap.get("playerCapacity"));
         Board board = null;
         try {
             board = LoadBoard.loadNewGameBoard(boardName);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
-        int playerCapacity = Integer.parseInt(userMap.get("playerCapacity"));
         int id = counter.incrementAndGet();
         var player = new Player(board, null, playerName);
         board.addPlayer(player);
