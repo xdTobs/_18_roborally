@@ -3,12 +3,13 @@ package dk.dtu.eighteen.roborally;
 //import dk.dtu.eighteen.roborally.API.Status;
 
 import dk.dtu.eighteen.roborally.controller.AppController;
-import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
+import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Moves;
 import dk.dtu.eighteen.roborally.model.Player;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -29,15 +31,14 @@ public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
     UUID uuid = UUID.randomUUID();
     HashMap<Integer, AppController> appControllerMap = new HashMap<>();
-    List<String> boardNames = getResourceFolderFiles("playableBoards");
 
 
     public static void main(String[] args) {
-        Board b = LoadBoard.loadNewGameBoard("test.json");
-        Player.createAddPlayerToEmptySpace(b, null, "p1");
-        Player.createAddPlayerToEmptySpace(b, null, "p2");
-        GameController gc = new GameController(b);
-//        SpringApplication.run(Server.class, args);
+//        Board b = LoadBoard.loadNewGameBoard("test.json");
+//        Player.createAddPlayerToEmptySpace(b, null, "p1");
+//        Player.createAddPlayerToEmptySpace(b, null, "p2");
+//        GameController gc = new GameController(b);
+        SpringApplication.run(Server.class, args);
     }
 
     private static List<String> getResourceFolderFiles(String folderName) {
@@ -81,12 +82,17 @@ public class Server {
     public int createNewGame(@RequestBody Map<String, String> userMap) {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
-        int numberOfPlayersWhenGameIsFull = Integer.parseInt(userMap.get("numberOfPlayersWhenGameIsFull"));
+        Board board = null;
+        try {
+            board = LoadBoard.loadNewGameBoard(boardName);
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
+        }
+        int playerCapacity = Integer.parseInt(userMap.get("playerCapacity"));
         int id = counter.incrementAndGet();
-        var board = LoadBoard.loadNewGameBoard(boardName);
         var player = new Player(board, null, playerName);
         board.addPlayer(player);
-        var appController = new AppController(board, numberOfPlayersWhenGameIsFull, Status.INIT_NEW_GAME);
+        var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
         appControllerMap.put(id, appController);
         debugPrintAppControllerMap();
         return id;
@@ -104,14 +110,25 @@ public class Server {
     }
 
     @GetMapping("/game/{gameId}")
-    public Map<String, Object> getGame(@PathVariable int gameId) {
+    public Map<String, Object> getGame(@RequestBody Map<String, String> json, @PathVariable int gameId) {
+        String playerName = json.get("playerName");
+        System.out.println("request");
+        System.out.println(playerName);
+        System.out.println(gameId);
+
         AppController appController = appControllerMap.get(gameId);
+        if (appController == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+        }
+        Player p = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
-        Map<String, Object> map = new HashMap<>();
-        map.put("board", board);
+        HashMap<String, Object> map = new HashMap<>();
+        BoardTemplate boardTemplate = new BoardTemplate(board, p);
+        map.put("board", boardTemplate);
         map.put("status", appController.status);
         return map;
     }
+
 
     @DeleteMapping("/game/{gameId}")
     public void quitGame(@PathVariable int gameId) {
@@ -183,67 +200,5 @@ public class Server {
     }
 
 
-    //    @GetMapping("/join/{gameid}")
-    //    public int joinGame(@PathVariable int gameid) {
-    //        if (!mainControllers.containsKey(gameid))
-    //            return -1;
-    //        User newUser = new User();
-    //        mainControllers.get(gameid).addUser(newUser);
-    //        return newUser.getID();
-    //    }
-
-    //    @GetMapping("/start/{gameid}")
-    //    public String startGame(@PathVariable int gameid) {
-    //        if (!mainControllers.containsKey(gameid))
-    //            return "game not found";
-    //
-    //        mainControllers.get(gameid).appController.newGame(getStandardBoard());
-    //        return "Game with the ID: " + gameid + " was started";
-    //    }
-
-    //    @GetMapping(value = "/setup")
-    //    @ResponseBody
-    //    public int setupGame() {
-    //        int id = counter.incrementAndGet();
-    //        mainControllers.put(id, new Game(new AppController()));
-    //        return id;
-    //    }
-
-    //    @GetMapping(value = "/test/{id}")
-    //    @ResponseBody
-    //    public int test(@PathVariable int id) {
-    //        return id;
-    //    }
-    //
-    //    @PostMapping(value = "/game/move/{gameid}/{userid}")
-    //    @ResponseBody
-    //    public String updateMove(@PathVariable int gameid, @PathVariable int userid, @RequestBody Move move) {
-    //        if (!mainControllers.containsKey(gameid))
-    //            return "Game not found";
-    //        Game game = mainControllers.get(gameid);
-    //        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-    //        if (!IDs.contains(userid))
-    //            return "User not found";
-    //        if (!move.checkValid())
-    //            return "Invalid move";
-    //        game.appController.getGameController().board.getPlayer(IDs.indexOf(userid)).setCurrentMove(move);
-    //        return "Successfully updated move";
-    //    }
-    //
-    //
-    //    @GetMapping("/endProgramming")
-    //    public String endProgramming(@RequestParam(name = "id") Integer id,
-    //                                 @RequestParam(name = "x", required = false, defaultValue = "1") Integer x,
-    //                                 @RequestParam(name = "y", required = false, defaultValue = "1") Integer y
-    //    ) {
-    //
-    //        /*List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-    //        if (!IDs.contains(id))
-    //            return "This user is unknown";
-    //        int playerNo = IDs.indexOf(id) ;
-    //
-    //        gameController.endProgramming(playerNo, x, y);
-    //        return String.format("Moved player %d, to (%d,%d)%n", playerNo, x, y);*/
-//        return "not implemented";
 //    }
 }

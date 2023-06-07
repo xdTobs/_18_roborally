@@ -6,14 +6,14 @@ import dk.dtu.eighteen.roborally.model.Player;
 
 public class PlayerTemplate {
     public Moves currentMoves;
-    public int x,y;
+    public int x, y;
     public String name;
     public String color;
     public int checkpointCounter;
     public Heading heading;
     public CommandCardFieldTemplate[] availableCardSlots;
 
-    public PlayerTemplate(Player p) {
+    private PlayerTemplate(Player p, CommandCardFieldTemplate[] availableSlotsTemplate) {
         this.x = p.getSpace().x;
         this.y = p.getSpace().y;
         this.name = p.getName();
@@ -21,12 +21,23 @@ public class PlayerTemplate {
         this.checkpointCounter = p.getCheckpointCounter();
         this.heading = p.getHeading();
         this.currentMoves = p.getCurrentMove();
+        this.availableCardSlots = availableSlotsTemplate;
+    }
 
+    public static PlayerTemplate createPlayerTemplate(Player p) {
         CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
         for (int i = 0; i < p.getAvailableCardSlots().length; i++) {
             availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i));
         }
-        this.availableCardSlots = availableSlotsTemplate;
+        return new PlayerTemplate(p, availableSlotsTemplate);
+    }
+
+    public static PlayerTemplate createSecretPlayerTemplate(Player p) {
+        CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
+        for (int i = 0; i < p.getAvailableCardSlots().length; i++) {
+            availableSlotsTemplate[i] = null;
+        }
+        return new PlayerTemplate(p, availableSlotsTemplate);
     }
 }
 

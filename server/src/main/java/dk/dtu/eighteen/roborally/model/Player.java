@@ -38,19 +38,20 @@ public class Player extends Subject {
     final public static int NO_AVAILABLE_CARDS = 8;
 
     public Board board;
-    Space space;
+    int x;
+    int y;
     private String name;
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
     private Moves currentMoves;
     private CommandCardField[] availableCardSlots;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
         this.color = color;
 
-        this.space = null;
 
         this.currentMoves = new Moves();
 
@@ -66,7 +67,8 @@ public class Player extends Subject {
         this.name = template.name;
         this.color = template.color;
         this.board = board;
-        this.space = board.getSpace(template.x, template.y);
+        this.x = board.getSpace(template.x, template.y).x;
+        this.y = board.getSpace(template.x, template.y).y;
         this.heading = template.heading;
         this.currentMoves = template.currentMoves;
 
@@ -110,9 +112,6 @@ public class Player extends Subject {
         if (name != null && !name.equals(this.name)) {
             this.name = name;
             notifyChange();
-            if (space != null) {
-                space.playerChanged();
-            }
         }
     }
 
@@ -123,28 +122,15 @@ public class Player extends Subject {
     public void setColor(String color) {
         this.color = color;
         notifyChange();
-        if (space != null) {
-            space.playerChanged();
-        }
     }
 
     public Space getSpace() {
-        return space;
+        return board.getSpace(x, y);
     }
 
     public void setSpace(Space space) {
-        Space oldSpace = this.space;
-//        if (space != oldSpace &&
-//                (space == null || space.board == this.board)) {
-        this.space = space;
-        if (oldSpace != null) {
-            oldSpace.setPlayer(null);
-        }
-        if (space != null) {
-            space.setPlayer(this);
-        }
-        notifyChange();
-//    }
+        this.x = space.x;
+        this.y = space.y;
 
     }
 
@@ -153,13 +139,7 @@ public class Player extends Subject {
     }
 
     public void setHeading(@NotNull Heading heading) {
-        if (heading != this.heading) {
-            this.heading = heading;
-            notifyChange();
-            if (space != null) {
-                space.playerChanged();
-            }
-        }
+        this.heading = heading;
     }
 
     /*public boolean hasMovedThisTurn() {
@@ -183,7 +163,4 @@ public class Player extends Subject {
         return currentMoves;
     }
 
-    public void setCurrentMove(Moves currentMoves) {
-        this.currentMoves = currentMoves;
-    }
 }

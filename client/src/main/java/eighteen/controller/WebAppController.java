@@ -87,7 +87,7 @@ public class WebAppController {
         JSONObject requestObject = new JSONObject();
         requestObject.put("boardName", boardName);
         requestObject.put("playerName", playerName);
-        requestObject.put("numberOfPlayersWhenGameIsFull", numberOfPlayers);
+        requestObject.put("playerCapacity", numberOfPlayers);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8080/game"))

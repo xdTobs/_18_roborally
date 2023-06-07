@@ -155,7 +155,7 @@ public class AppController implements Observer {
     @Override
     public String toString() {
         return "AppController{" +
-                "numberOfPlayersWhenGameIsFull=" + playerCapacity +
+                "playerCapacity=" + playerCapacity +
                 ", gameController=" + gameController +
                 '}';
     }

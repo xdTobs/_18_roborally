@@ -24,15 +24,15 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    static public Board loadSavedBoard(String name) {
+    static public Board loadSavedBoard(String name) throws IOException {
         return LoadBoard.loadSaveState("savedBoards/" + name);
     }
 
-    static public Board loadNewGameBoard(String name) {
+    static public Board loadNewGameBoard(String name) throws IOException {
         return LoadBoard.loadSaveState("playableBoards/" + name);
     }
 
-    private static Board loadSaveState(String boardname) {
+    private static Board loadSaveState(String boardname) throws IOException {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
@@ -48,7 +48,7 @@ public class LoadBoard {
         try {
             inputStream = new FileInputStream(file);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IOException("Could not load board: " + boardname, e);
         }
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
