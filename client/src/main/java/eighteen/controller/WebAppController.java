@@ -21,6 +21,7 @@ public class WebAppController {
     private final ClientLauncher clientLauncher;
     private Status status;
     private Integer gameId = null;
+    private String playerName = null;
 
 
     public WebAppController(ClientLauncher clientLauncher) {
@@ -60,7 +61,8 @@ public class WebAppController {
     }
 
     void renderBoard() {
-        clientLauncher.createBoardView();
+        System.out.println("RENDER BOARD");
+//        clientLauncher.createBoardView();
     }
 
     /**
@@ -82,7 +84,7 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
-        String playerName = nameInputDialog();
+        this.playerName = nameInputDialog();
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
@@ -117,47 +119,17 @@ public class WebAppController {
         this.gameId = Integer.valueOf(response.body());
 
         setStatus(Status.INIT_NEW_GAME);
-
-
         while (true) {
             pollServer();
             Thread.sleep(2000);
         }
-
-        // TODO make async
-//        HttpResponse<String> response = HttpClient.newBuilder()
-//                .build()
-//                .send(request, HttpResponse.BodyHandlers.ofString());
-//
-//        System.out.println("response headers: " + response.headers().toString());
-//        System.out.println("response body: " + response.body());
-//        return response;
-        //TODO: get correct board file and create boardview
-//
-//            // XXX the board should eventually be created programmatically or loaded from a file
-//            //     here we just create an empty board with the required number of players.
-//            Board board = new Board(8, 8);
-//            gameController = new GameController(board);
-//            int no = result.get();
-//            for (int i = 0; i < no; i++) {
-//                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-//                board.addPlayer(player);
-//                player.setSpace(board.getSpace(i % board.width, i));
-//            }
-//
-//            // XXX: V2
-//            // board.setCurrentPlayer(board.getPlayer(0));
-//            gameController.startProgrammingPhase();
-//
-//            roboRally.createBoardView(gameController);
-//        }
-        //     renderBoard();
     }
 
     public void pollServer() throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8080/game/" + gameId))
                 .GET()
+                .header("roborally-player-name", "henrik")
                 .build();
         var response = HttpClient.newBuilder()
                 .build()
@@ -166,10 +138,15 @@ public class WebAppController {
         JSONObject jsonObject = new JSONObject(response.body());
         // get the status of the game
         Status status = Status.of(jsonObject.getString("status"));
+        System.out.println("status: " + status);
+        System.out.println("polling " + timesPolled);
+        setStatus(status);
+        timesPolled++;
         if (status == Status.INIT_NEW_GAME) {
-            timesPolled++;
-            setStatus(status);
-
+            System.out.println("still waiting");
+        } else if (status == Status.RUNNING) {
+            setStatus(Status.RUNNING);
+            renderBoard();
         }
 
 

@@ -110,8 +110,7 @@ public class Server {
     }
 
     @GetMapping("/game/{gameId}")
-    public Map<String, Object> getGame(@RequestParam Map<String, String> json, @PathVariable int gameId) {
-        String playerName = json.get("playerName");
+    public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -121,7 +120,7 @@ public class Server {
         HashMap<String, Object> map = new HashMap<>();
         BoardTemplate boardTemplate = new BoardTemplate(board, p);
         map.put("board", boardTemplate);
-        map.put("status", appController.status);
+        map.put("status", appController.status.toString());
         return map;
     }
 
