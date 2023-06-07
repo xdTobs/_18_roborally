@@ -1,5 +1,7 @@
 package eighteen;
 
+import eighteen.controller.ClientController;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -13,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 public class StartRoborallyClient {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        ClientLauncher.main(args);
+        ClientController.main(args);
 
 //        try {
 //

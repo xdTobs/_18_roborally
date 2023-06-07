@@ -21,11 +21,18 @@ package eighteen.view;/*
  */
 
 import eighteen.controller.WebAppController;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.util.Duration;
 
-import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  * ...
@@ -48,18 +55,58 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
+
     public RoboRallyMenuBar(WebAppController webAppController) {
+        Button requestButton = new Button("Make Request");
+
+        requestButton.setOnAction(event -> {
+        });
+
         this.webAppController = webAppController;
 
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
+        ScheduledService<String> scheduledService = new ScheduledService<>() {
+            @Override
+            protected Task<String> createTask() {
+                return new Task<>() {
+                    @Override
+                    protected String call() throws Exception {
+
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(new URI("http://localhost:8080/board"))
+                                .header("roborally-player-name", webAppController.playerName)
+                                .GET()
+                                .build();
+                        System.out.println(request.toString());
+                        HttpResponse<String> response = HttpClient.newBuilder()
+                                .build()
+                                .send(request, HttpResponse.BodyHandlers.ofString());
+                        return response.body().toString();
+                    }
+                };
+            }
+        };
+
+        scheduledService.setPeriod(Duration.seconds(1));
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
             try {
                 this.webAppController.newGame();
-            } catch (IOException ex) {
-                System.err.println("io error in new game, is server started?");
+                scheduledService.setOnSucceeded(event1 -> {
+                    String response = scheduledService.getValue();
+                    // Process the response
+                    System.out.println("Request completed: " + response);
+                });
+
+                scheduledService.setOnFailed(event1 -> {
+                    Throwable exception = scheduledService.getException();
+                    // Handle the exception
+                    System.out.println("Request failed: " + exception.getMessage());
+                });
+
+                scheduledService.start();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -87,9 +134,6 @@ public class RoboRallyMenuBar extends MenuBar {
         update();
     }
 
-    private void runFn() {
-
-    }
 
     public void update() {
         if (webAppController.isGameRunning()) {

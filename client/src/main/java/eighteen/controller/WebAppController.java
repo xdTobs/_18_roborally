@@ -1,6 +1,5 @@
 package eighteen.controller;
 
-import eighteen.ClientLauncher;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
@@ -17,17 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebAppController {
-    static int timesPolled = 0;
-    private final ClientLauncher clientLauncher;
-    private Status status;
-    private Integer gameId = null;
-    private String playerName = null;
+    public final RequestController requestController;
+    public String playerName = null;
+    Integer gameId = null;
 
 
-    public WebAppController(ClientLauncher clientLauncher) {
-        this.clientLauncher = clientLauncher;
-        setStatus(Status.NOT_INITIATED_GAME);
+    public WebAppController(ClientController clientController, RequestController requestController) {
+        this.requestController = requestController;
     }
+
 
     private String dialogChoice(List<String> options, String type) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
@@ -60,22 +57,26 @@ public class WebAppController {
         }
     }
 
-    void renderBoard() {
-        System.out.println("RENDER BOARD");
-//        clientLauncher.createBoardView();
-    }
 
     /**
      * This method starts a new game by requesting the name of avaliable boards, and then
      * prompting the user to select the desired gameboard, number of player and name.
      * It sends the choices to the server, which handles the creation of the game.
      *
+     * @return
      * @throws IOException
      * @throws URISyntaxException
      * @throws InterruptedException
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
-        HttpResponse<String> response = serverRequest("/board");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/board"))
+                .GET()
+                .build();
+        HttpResponse<String> response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
         var body = response.body();
         JSONArray jsonArray = new JSONArray(body);
         List<String> boardNameList = new ArrayList<>();
@@ -98,7 +99,7 @@ public class WebAppController {
         int numberOfPlayers = 2;
         String boardName = "a-test-board.json";
 
-        clientLauncher.setStatusText("You picked the board: " + boardName);
+//        clientController.setStatusText("You picked the board: " + boardName);
 
         // Creating a new JSON Object to send playerName, boardName and number of players to server
         JSONObject requestObject = new JSONObject();
@@ -106,7 +107,7 @@ public class WebAppController {
         requestObject.put("playerName", playerName);
         requestObject.put("playerCapacity", numberOfPlayers);
 
-        HttpRequest request = HttpRequest.newBuilder()
+        request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8080/game"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
@@ -117,40 +118,13 @@ public class WebAppController {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         this.gameId = Integer.valueOf(response.body());
-
-        setStatus(Status.INIT_NEW_GAME);
-        while (true) {
-            pollServer();
-            Thread.sleep(2000);
-        }
+//        setStatus(Status.INIT_NEW_GAME);
+//        while (true) {
+//            pollServer();
+//            Thread.sleep(2000);
+//        }
     }
 
-    public void pollServer() throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game/" + gameId))
-                .GET()
-                .header("roborally-player-name", "henrik")
-                .build();
-        var response = HttpClient.newBuilder()
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-        // put response in a json object
-        JSONObject jsonObject = new JSONObject(response.body());
-        // get the status of the game
-        Status status = Status.of(jsonObject.getString("status"));
-        System.out.println("status: " + status);
-        System.out.println("polling " + timesPolled);
-        setStatus(status);
-        timesPolled++;
-        if (status == Status.INIT_NEW_GAME) {
-            System.out.println("still waiting");
-        } else if (status == Status.RUNNING) {
-            setStatus(Status.RUNNING);
-            renderBoard();
-        }
-
-
-    }
 
     public void stopGame() {
         System.err.println("stop game not implemented");
@@ -175,44 +149,6 @@ public class WebAppController {
         return false;
     }
 
-    private HttpResponse<String> serverRequest(String target) throws IOException, InterruptedException, URISyntaxException {
-        System.out.println("make http request for " + target);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080" + target))
-                .GET()
-                .build();
-
-        // TODO make async
-        HttpResponse<String> response = HttpClient.newBuilder()
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-
-        return response;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-        String s = "";
-        switch (status) {
-            case NOT_INITIATED_GAME -> {
-                clientLauncher.setStatusText("Game not running");
-            }
-            case INIT_NEW_GAME -> {
-                s = "Times polled: " + timesPolled + "\n";
-                clientLauncher.setStatusText(s + "New game with ID: " + gameId + "\nWaiting for players to join");
-            }
-            case INIT_LOAD_GAME -> {
-                clientLauncher.setStatusText("Loaded game with ID: " + gameId);
-            }
-            case RUNNING -> {
-                clientLauncher.setStatusText("Running game with ID: " + gameId);
-            }
-            case QUITTING -> {
-                clientLauncher.setStatusText("Quitting and saving game with ID: " + gameId);
-            }
-        }
-    }
 }
 //
 //ObjectMapper objectMapper = new ObjectMapper();
