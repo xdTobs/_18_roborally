@@ -118,11 +118,6 @@ public class WebAppController {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         this.gameId = Integer.valueOf(response.body());
-//        setStatus(Status.INIT_NEW_GAME);
-//        while (true) {
-//            pollServer();
-//            Thread.sleep(2000);
-//        }
     }
 
 
