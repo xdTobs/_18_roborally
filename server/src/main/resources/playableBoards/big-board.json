@@ -135,7 +135,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.model.ConveyorBelt",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -200,7 +200,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.ConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.model.ConveyorBelt",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -257,7 +257,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -270,7 +270,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "EAST"
             }
@@ -291,7 +291,7 @@
         "walls": [],
         "actions": [
           {
-            "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.FastConveyorBelt",
+            "CLASSNAME": "dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltPositive",
             "INSTANCE": {
               "heading": "SOUTH"
             }
