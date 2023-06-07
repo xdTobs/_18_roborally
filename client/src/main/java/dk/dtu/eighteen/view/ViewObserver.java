@@ -1,4 +1,4 @@
-package eighteen.view;/*
+package dk.dtu.eighteen.view;/*
  *  This file is part of the initial project provided for the
  *  course "Project in Software Development (02362)" held at
  *  DTU Compute at the Technical University of Denmark.
@@ -20,8 +20,8 @@ package eighteen.view;/*
  *
  */
 
-import eighteen.observer.Observer;
-import eighteen.observer.Subject;
+import dk.dtu.eighteen.observer.Observer;
+import dk.dtu.eighteen.observer.Subject;
 import javafx.application.Platform;
 
 /**

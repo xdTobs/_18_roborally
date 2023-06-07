@@ -1,6 +1,6 @@
-package eighteen;
+package dk.dtu.eighteen;
 
-import eighteen.controller.ClientController;
+import dk.dtu.eighteen.controller.ClientController;
 
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -33,11 +33,7 @@ public class PlayerTemplate {
     }
 
     public static PlayerTemplate createSecretPlayerTemplate(Player p) {
-        CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
-        for (int i = 0; i < p.getAvailableCardSlots().length; i++) {
-            availableSlotsTemplate[i] = null;
-        }
-        return new PlayerTemplate(p, availableSlotsTemplate);
+        return new PlayerTemplate(p, null);
     }
 }
 

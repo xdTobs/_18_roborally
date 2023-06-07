@@ -1,7 +1,9 @@
-package eighteen.controller;
+package dk.dtu.eighteen.controller;
 
-import eighteen.view.BoardView;
-import eighteen.view.RoboRallyMenuBar;
+import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
+import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.view.BoardView;
+import dk.dtu.eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,10 +22,10 @@ import java.util.stream.Stream;
 
 public class ClientController extends Application {
     Text statusText = new Text("Status: start up");
-    RequestController requestController = new RequestController(this);
-    WebAppController webAppController = new WebAppController(this, requestController);
+    WebAppController webAppController = new WebAppController(this);
     private BorderPane boardRoot;
     private Stage stage;
+//    private MinimalGameController minimalGameController;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,7 +39,6 @@ public class ClientController extends Application {
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
         boardRoot = new BorderPane(statusText);
         BorderPane.setAlignment(statusText, Pos.BOTTOM_CENTER);
-        requestController.setStatus(Status.NOT_INITIATED_GAME);
         VBox vbox = new VBox(menuBar, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
         vbox.setMinHeight(MIN_APP_HEIGHT);
@@ -54,12 +56,23 @@ public class ClientController extends Application {
         stage.show();
     }
 
-    public void createBoardView() {
+    public void createBoardView(String json) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-
+        Board board = null;
+        try {
+            board = LoadBoard.loadBoardFromJSONString(json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         // create and add view for new board
-        BoardView boardView = new BoardView();
+//        this.minimalGameController = new MinimalGameController(board);
+//        BoardView boardView = new BoardView(minimalGameController);
+        // TODO find a way to show the board and make it interactive
+        // Maybe we should create a IGameController interface and implement it in a minimal game controller here
+        // and use that as a helper to create the board view
+        BoardView boardView = new BoardView(board);
+
         boardRoot.setCenter(boardView);
 
         stage.sizeToScene();
@@ -115,8 +128,9 @@ public class ClientController extends Application {
 //        }
 //    }
 
-    void renderBoard() {
+    void renderBoard(JSONObject board) {
         System.out.println("RENDER BOARD");
+//        BoardTemplate boardTemplate = new BoardTemplate();
 //        clientLauncher.createBoardView();
     }
 

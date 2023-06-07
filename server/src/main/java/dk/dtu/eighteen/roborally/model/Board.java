@@ -23,8 +23,7 @@ package dk.dtu.eighteen.roborally.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dk.dtu.eighteen.designpatterns.observer.Subject;
-import dk.dtu.eighteen.roborally.controller.IFieldAction;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.controller.spaces.Checkpoint;
 import org.jetbrains.annotations.NotNull;
 

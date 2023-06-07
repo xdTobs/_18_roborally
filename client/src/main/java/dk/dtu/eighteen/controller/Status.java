@@ -1,7 +1,8 @@
-package eighteen.controller;
+package dk.dtu.eighteen.controller;
 
 public enum Status {
-    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING;
+    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING, INVALID_GAME_ID;
+
 
     public static Status of(String statusString) {
         return switch (statusString.toUpperCase()) {

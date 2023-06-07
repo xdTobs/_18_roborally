@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dk.dtu.compute.se.pisd</groupId>
-    <artifactId>client-rr</artifactId>
+    <groupId>dk.dtu.eighteen</groupId>
+    <artifactId>client</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <description>
         RoboRally demo with database access and loading
@@ -87,6 +87,12 @@
             <groupId>dtu.dk.eighteen</groupId>
             <artifactId>shared-library</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dk.dtu.eighteen</groupId>
+            <artifactId>server</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

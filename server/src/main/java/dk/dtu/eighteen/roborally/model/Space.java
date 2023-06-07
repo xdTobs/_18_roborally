@@ -23,8 +23,7 @@ package dk.dtu.eighteen.roborally.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dk.dtu.eighteen.designpatterns.observer.Subject;
-import dk.dtu.eighteen.roborally.controller.IFieldAction;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.SpaceTemplate;
 
 import java.util.*;
@@ -91,7 +90,6 @@ public class Space extends Subject {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
-        notifyChange();
     }
 
     public Set<Heading> getWalls() {

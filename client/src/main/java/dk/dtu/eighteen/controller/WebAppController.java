@@ -1,4 +1,4 @@
-package eighteen.controller;
+package dk.dtu.eighteen.controller;
 
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebAppController {
-    public final RequestController requestController;
     public String playerName = null;
+    RequestController requestController;
     Integer gameId = null;
 
 
-    public WebAppController(ClientController clientController, RequestController requestController) {
-        this.requestController = requestController;
+    public WebAppController(ClientController clientController) {
+        this.requestController = new RequestController(clientController);
     }
 
 
@@ -35,10 +35,7 @@ public class WebAppController {
 
     }
 
-    private String nameInputDialog() {
-        if (true) {
-            return "henrik";
-        }
+    private void nameInputDialog() {
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setTitle("Name Selector");
         textInputDialog.setHeaderText("Please enter your name");
@@ -47,14 +44,16 @@ public class WebAppController {
         try {
             var answer = textInputDialog.showAndWait();
             if (answer.isPresent()) {
-                return answer.get();
+                this.playerName = answer.get();
             } else {
                 throw new NullPointerException("No name entered");
             }
         } catch (Exception e) {
             System.err.println("You didn't pick a name so your name is default name.\nError message: " + e);
-            return "default name";
+            this.playerName = "default name";
         }
+//        this.playerName = "henrik";
+        requestController.createScheduledService(this.playerName);
     }
 
 
@@ -85,19 +84,19 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
-        this.playerName = nameInputDialog();
+        nameInputDialog();
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
             numPlayerOptions.add(String.valueOf(i));
         }
 
-//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-//
-//        String boardName = dialogChoice(boardNameList, "gameboard");
+        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
 
-        int numberOfPlayers = 2;
-        String boardName = "a-test-board.json";
+        String boardName = dialogChoice(boardNameList, "gameboard");
+
+//        int numberOfPlayers = 2;
+//        String boardName = "a-test-board.json";
 
 //        clientController.setStatusText("You picked the board: " + boardName);
 
@@ -118,6 +117,9 @@ public class WebAppController {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         this.gameId = Integer.valueOf(response.body());
+        requestController.setStatus(Status.INIT_NEW_GAME);
+        this.requestController.startPolling();
+
     }
 
 
@@ -144,6 +146,26 @@ public class WebAppController {
         return false;
     }
 
+    public void joinGame() {
+        nameInputDialog();
+
+        TextInputDialog gameIdInputDialog = new TextInputDialog();
+        gameIdInputDialog.setTitle("Enter game ID");
+        gameIdInputDialog.setHeaderText("Please enter the game ID you want to join");
+        gameIdInputDialog.setContentText("Game ID: ");
+
+        try {
+            var answer = gameIdInputDialog.showAndWait();
+            if (answer.isPresent()) {
+                this.gameId = Integer.valueOf(answer.get());
+            } else {
+                throw new NullPointerException("Invalid/no game id entered");
+            }
+            this.requestController.startPolling();
+        } catch (Exception e) {
+            requestController.setStatus(Status.INVALID_GAME_ID);
+        }
+    }
 }
 //
 //ObjectMapper objectMapper = new ObjectMapper();

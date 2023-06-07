@@ -19,7 +19,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.eighteen.designpatterns.observer;
+package dk.dtu.eighteen.observer;
 
 import java.util.Collections;
 import java.util.Set;

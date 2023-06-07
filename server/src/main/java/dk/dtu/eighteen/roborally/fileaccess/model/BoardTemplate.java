@@ -1,5 +1,6 @@
 package dk.dtu.eighteen.roborally.fileaccess.model;
 
+
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
 
@@ -11,6 +12,10 @@ public class BoardTemplate {
     public int height;
     public SpaceTemplate[][] spaces;
     public List<PlayerTemplate> players = new ArrayList<>();
+
+    private BoardTemplate() {
+
+    }
 
     public BoardTemplate(Board board) {
         this.height = board.height;
@@ -40,14 +45,20 @@ public class BoardTemplate {
         this.spaces = spaceTemplates;
 
         for (Player player : board.getPlayers()) {
-            if(player.equals(currentPlayer)) {
+            if (player.equals(currentPlayer)) {
                 players.add(PlayerTemplate.createPlayerTemplate(player));
             } else {
                 players.add(PlayerTemplate.createSecretPlayerTemplate(player));
             }
         }
-//        players.add(PlayerTemplate.createPlayerTemplate(p));
     }
 
+
+//    public static BoardTemplate createBoardTemplate(JSONObject jsonObject) {
+//        BoardTemplate bt = new BoardTemplate(null, null);
+//        bt.width = (int) jsonObject.get("width");
+//        bt.height = (int) jsonObject.get("height");
+//        return bt;
+//    }
 }
 

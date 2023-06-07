@@ -1,4 +1,4 @@
-package eighteen.view;
+package dk.dtu.eighteen.view;
 /*
  *  This file is part of the initial project provided for the
  *  course "Project in Software Development (02362)" held at
@@ -21,7 +21,7 @@ package eighteen.view;
  *
  */
 
-import eighteen.observer.Subject;
+import dk.dtu.eighteen.observer.Subject;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.DataFormat;

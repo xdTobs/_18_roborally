@@ -21,7 +21,7 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import dk.dtu.eighteen.designpatterns.observer.Subject;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.CommandCardTemplate;
 import org.jetbrains.annotations.NotNull;
 

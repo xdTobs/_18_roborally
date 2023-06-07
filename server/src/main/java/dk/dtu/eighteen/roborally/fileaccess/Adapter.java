@@ -1,5 +1,6 @@
 package dk.dtu.eighteen.roborally.fileaccess;
 
+
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

@@ -1,4 +1,4 @@
-package eighteen.view;/*
+package dk.dtu.eighteen.view;/*
  *  This file is part of the initial project provided for the
  *  course "Project in Software Development (02362)" held at
  *  DTU Compute at the Technical University of Denmark.
@@ -20,19 +20,11 @@ package eighteen.view;/*
  *
  */
 
-import eighteen.controller.WebAppController;
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
+import dk.dtu.eighteen.controller.WebAppController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.util.Duration;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 /**
  * ...
@@ -48,6 +40,7 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem saveGame;
 
     private MenuItem newGame;
+    private MenuItem joinGame;
 
     private MenuItem loadGame;
 
@@ -67,51 +60,44 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
-        ScheduledService<String> scheduledService = new ScheduledService<>() {
-            @Override
-            protected Task<String> createTask() {
-                return new Task<>() {
-                    @Override
-                    protected String call() throws Exception {
-
-                        HttpRequest request = HttpRequest.newBuilder()
-                                .uri(new URI("http://localhost:8080/board"))
-                                .header("roborally-player-name", webAppController.playerName)
-                                .GET()
-                                .build();
-                        System.out.println(request.toString());
-                        HttpResponse<String> response = HttpClient.newBuilder()
-                                .build()
-                                .send(request, HttpResponse.BodyHandlers.ofString());
-                        return response.body().toString();
-                    }
-                };
-            }
-        };
-
-        scheduledService.setPeriod(Duration.seconds(1));
+//        ScheduledService<String> scheduledService = new ScheduledService<>() {
+//            @Override
+//            protected Task<String> createTask() {
+//                return new Task<>() {
+//                    @Override
+//                    protected String call() throws Exception {
+//
+//                        HttpRequest request = HttpRequest.newBuilder()
+//                                .uri(new URI("http://localhost:8080/board"))
+//                                .header("roborally-player-name", webAppController.playerName)
+//                                .GET()
+//                                .build();
+//                        System.out.println(request.toString());
+//                        HttpResponse<String> response = HttpClient.newBuilder()
+//                                .build()
+//                                .send(request, HttpResponse.BodyHandlers.ofString());
+//                        return response.body().toString();
+//                    }
+//                };
+//            }
+//        };
+//
+//        scheduledService.setPeriod(Duration.seconds(1));
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
             try {
                 this.webAppController.newGame();
-                scheduledService.setOnSucceeded(event1 -> {
-                    String response = scheduledService.getValue();
-                    // Process the response
-                    System.out.println("Request completed: " + response);
-                });
-
-                scheduledService.setOnFailed(event1 -> {
-                    Throwable exception = scheduledService.getException();
-                    // Handle the exception
-                    System.out.println("Request failed: " + exception.getMessage());
-                });
-
-                scheduledService.start();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
         controlMenu.getItems().add(newGame);
+
+        joinGame = new MenuItem("Join Game");
+        joinGame.setOnAction(e -> {
+            this.webAppController.joinGame();
+        });
+        controlMenu.getItems().add(joinGame);
 
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction(e -> this.webAppController.stopGame());

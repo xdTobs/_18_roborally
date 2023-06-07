@@ -84,7 +84,7 @@ public class Server {
         int playerCapacity = Integer.parseInt(userMap.get("playerCapacity"));
         Board board = null;
         try {
-            board = LoadBoard.loadNewGameBoard(boardName);
+            board = LoadBoard.loadNewGameFromFile(boardName);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
@@ -116,21 +116,20 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
         }
         Status status = appController.status;
-        var hasJoined = appController.getGameController().getBoard().getPlayer(playerName) != null;
-        if (status == Status.INIT_NEW_GAME || status == Status.INIT_LOAD_GAME) {
-            if (!hasJoined) {
-                System.out.println("player " + playerName + " has joined game " + gameId);
-                joinGame(gameId, playerName);
-            } else {
-                System.out.println("player " + playerName + "has polled for server info" + gameId);
-            }
+        var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
+        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard ||
+                status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
+            System.out.println("player " + playerName + " has joined game " + gameId);
+            joinGame(gameId, playerName);
+        } else {
+            System.out.println("player " + playerName + " has polled for server info" + gameId);
         }
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
         HashMap<String, Object> map = new HashMap<>();
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
-        map.put("board", boardTemplate);
         map.put("status", appController.status.toString());
+        map.put("board", boardTemplate);
         return map;
     }
 
@@ -171,6 +170,9 @@ public class Server {
         if (i == appController.getPlayerCapacity()) {
             appController.status = Status.RUNNING;
             appController.resetTakenAction();
+            appController.getGameController().startProgrammingPhase();
+            System.out.println("game " + gameId + " has started");
+
         }
 
     }

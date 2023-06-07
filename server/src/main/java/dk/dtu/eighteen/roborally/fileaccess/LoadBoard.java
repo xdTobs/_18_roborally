@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.eighteen.roborally.controller.IFieldAction;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
@@ -24,15 +24,20 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    static public Board loadSavedBoard(String name) throws IOException {
-        return LoadBoard.loadSaveState("savedBoards/" + name);
+    static public Board loadSavedGameFromFile(String name) throws IOException {
+        return LoadBoard.loadSaveStateFromFile("savedBoards/" + name);
     }
 
-    static public Board loadNewGameBoard(String name) throws IOException {
-        return LoadBoard.loadSaveState("playableBoards/" + name);
+    static public Board loadNewGameFromFile(String name) throws IOException {
+        return LoadBoard.loadSaveStateFromFile("playableBoards/" + name);
     }
 
-    private static Board loadSaveState(String boardname) throws IOException {
+    static public Board loadBoardFromJSONString(String data) throws IOException {
+        return LoadBoard.loadSaveState(new ByteArrayInputStream(data.getBytes()), DEFAULTBOARD);
+    }
+
+
+    private static Board loadSaveStateFromFile(String boardname) throws IOException {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
@@ -50,10 +55,10 @@ public class LoadBoard {
         } catch (Exception e) {
             throw new IOException("Could not load board: " + boardname, e);
         }
-        if (inputStream == null) {
-            // TODO these constants should be defined somewhere
-            return new Board(8, 8, "default");
-        }
+        return loadSaveState(inputStream, boardname);
+    }
+
+    private static Board loadSaveState(InputStream inputStream, String boardname) throws IOException {
 
         // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder()

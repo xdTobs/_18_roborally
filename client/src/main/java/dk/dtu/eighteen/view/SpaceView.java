@@ -1,4 +1,4 @@
-package eighteen.view;
+package dk.dtu.eighteen.view;
 
 /*
  *  This file is part of the initial project provided for the
@@ -22,7 +22,7 @@ package eighteen.view;
  *
  */
 
-import eighteen.observer.Subject;
+import dk.dtu.eighteen.observer.Subject;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 

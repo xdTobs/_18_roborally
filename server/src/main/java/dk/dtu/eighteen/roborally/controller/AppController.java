@@ -22,15 +22,11 @@
 package dk.dtu.eighteen.roborally.controller;
 //import dtu.dk.eighteen.Status;
 
-import dk.dtu.eighteen.designpatterns.observer.Observer;
-import dk.dtu.eighteen.designpatterns.observer.Subject;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Observer;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
-import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -66,37 +62,6 @@ public class AppController implements Observer {
         return playerCapacity;
     }
 
-    public void loadGame(Board board) {
-        gameController = new GameController(board);
-        switch (gameController.board.getPhase()) {
-            case PROGRAMMING -> {
-            }
-            case INITIALISATION -> {
-            }
-            default -> {
-                throw new RuntimeException("Invalid save state.");
-            }
-        }
-
-    }
-
-    public void startDebugGame(Board board) {
-        loadGame(board);
-    }
-
-
-    public void saveGame(File file) {
-        // TODO make it possible to save in all phases or disable saving when not in programming phase.
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            fileOutputStream.write(Board.toJson(gameController.board).getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public BoardTemplate getBoardTemplate() {
-        return new BoardTemplate(gameController.board);
-    }
 
     /**
      * Stop playing the current game, giving the user the option to save

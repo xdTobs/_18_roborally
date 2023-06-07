@@ -91,52 +91,18 @@ public class GameController {
         }
     }
 
-    public void resumeProgrammingPhase() {
-        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
-                    CommandCardField field = player.getAvailableCardSlot(j);
-                    field.setCard(generateRandomCommandCard());
-                    field.setVisible(true);
-                }
-            }
-        }
-    }
-
-    private CommandCard generateRandomCommandCard() {
+    public CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
 
     public void finishProgrammingPhase() {
-        /*makeProgramFieldsInvisible();
-        makeProgramFieldsVisible(0);*/
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
 
-    /*private void makeProgramFieldsVisible(int register) {
-        if (register >= 0 && register < Player.NO_REGISTERS) {
-            for (int i = 0; i < board.getNumberOfPlayers(); i++) {
-                Player player = board.getPlayer(i);
-                CommandCardField field = player.getRegisterSlot(register);
-                field.setVisible(true);
-            }
-        }
-    }*/
-
-    /*private void makeProgramFieldsInvisible() {
-        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
-            Player player = board.getPlayer(i);
-            for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                CommandCardField field = player.getRegisterSlot(j);
-                field.setVisible(false);
-            }
-        }
-    }*/
 
     // XXX: V2
     public void executePrograms() {
@@ -151,7 +117,7 @@ public class GameController {
     }
 
     // XXX: V2
-    private void continuePrograms() {
+    public void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
@@ -185,7 +151,7 @@ public class GameController {
     }
 
     // XXX: V2
-    private void executeNextStep() {
+    public void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() != Phase.ACTIVATION || currentPlayer == null || board.getPhase() == Phase.GAMEOVER)
             assert false;
@@ -239,32 +205,7 @@ public class GameController {
 
     }
 
-//    private Optional<Player> findWinner() {
-//        List<Checkpoint> checkpoints = board.getCheckpoints();
-//        HashMap<Player, Integer> timesLandedPerPlayer = new HashMap();
-//        for (Checkpoint c : checkpoints) {
-//            Set<Player> players = c.getPlayersLanded();
-//            for (Player p : players) {
-//                if (timesLandedPerPlayer.containsKey(p)) {
-//                    int val = timesLandedPerPlayer.get(p);
-//                    timesLandedPerPlayer.put(p, val + 1);
-//                } else {
-//                    timesLandedPerPlayer.put(p, 1);
-//                }
-//            }
-//        }
-//        for (Player p : timesLandedPerPlayer.keySet()) {
-//            int val = timesLandedPerPlayer.get(p);
-//            if (val == checkpoints.size()) {
-//                return Optional.of(p);
-//            }
-//        }
-//        return Optional.empty();
-//
-//  }
-
-    // XXX: V2
-    private void executeCommand(@NotNull Player player, Command command) {
+    public void executeCommand(@NotNull Player player, Command command) {
         if (command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way

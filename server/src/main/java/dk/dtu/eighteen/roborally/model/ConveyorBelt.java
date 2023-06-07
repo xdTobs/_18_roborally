@@ -1,6 +1,6 @@
 package dk.dtu.eighteen.roborally.model;
 
-import dk.dtu.eighteen.roborally.controller.IFieldAction;
+
 import dk.dtu.eighteen.roborally.controller.GameController;
 
 public class ConveyorBelt extends Space implements IFieldAction {

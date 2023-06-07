@@ -1,8 +1,8 @@
 package dk.dtu.eighteen.roborally.fileaccess.model;
 
 
-import dk.dtu.eighteen.roborally.controller.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Heading;
+import dk.dtu.eighteen.roborally.model.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Space;
 
 import java.util.List;
@@ -13,6 +13,7 @@ public class SpaceTemplate {
     public List<IFieldAction> actions;
     public int x;
     public int y;
+
     public SpaceTemplate(Space space) {
         this.actions = space.getActions();
         this.y = space.y;

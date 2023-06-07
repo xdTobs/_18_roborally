@@ -21,7 +21,7 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import dk.dtu.eighteen.designpatterns.observer.Subject;
+import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,8 +73,10 @@ public class Player extends Subject {
         this.currentMoves = template.currentMoves;
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
-        for (int i = 0; i < availableCardSlots.length; i++) {
-            availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i], this);
+        if (template.availableCardSlots != null) {
+            for (int i = 0; i < availableCardSlots.length; i++) {
+                availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i], this);
+            }
         }
     }
 
