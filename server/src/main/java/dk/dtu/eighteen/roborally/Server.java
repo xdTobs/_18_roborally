@@ -34,7 +34,7 @@ public class Server {
 
 
     public static void main(String[] args) {
-//        Board b = LoadBoard.loadNewGameBoard("test.json");
+//        Board b = LoadBoard.loadNewGameBoard("a-test-board.json");
 //        Player.createAddPlayerToEmptySpace(b, null, "p1");
 //        Player.createAddPlayerToEmptySpace(b, null, "p2");
 //        GameController gc = new GameController(b);
@@ -129,7 +129,11 @@ public class Server {
     @DeleteMapping("/game/{gameId}")
     public void quitGame(@PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
-        appController.stopGame(gameId);
+        var isSaved = appController.saveGame(gameId);
+        appControllerMap.remove(gameId);
+        if (!isSaved) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "game could not be saved, but has been removed");
+        }
     }
 
 
