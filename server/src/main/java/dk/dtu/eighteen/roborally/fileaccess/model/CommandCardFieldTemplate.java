@@ -9,7 +9,6 @@ public class CommandCardFieldTemplate {
             this.card = new CommandCardTemplate(commandCardField.getCard());
         this.visible = commandCardField.isVisible();
     }
-
     public CommandCardTemplate card = null;
 
     public boolean visible;

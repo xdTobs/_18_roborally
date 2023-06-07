@@ -28,5 +28,19 @@ public class PlayerTemplate {
         }
         this.availableCardSlots = availableSlotsTemplate;
     }
+    public PlayerTemplate(Player p, boolean hidden) {
+        this.x = p.getSpace().x;
+        this.y = p.getSpace().y;
+        this.name = p.getName();
+        this.color = p.getColor();
+        this.checkpointCounter = p.getCheckpointCounter();
+        this.heading = p.getHeading();
+
+        CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getAvailableCardSlots().length];
+        for (int i = 0; i < p.getAvailableCardSlots().length; i++) {
+            availableSlotsTemplate[i] = null;
+        }
+        this.availableCardSlots = availableSlotsTemplate;
+    }
 }
 

@@ -33,7 +33,16 @@ public class BoardTemplate {
         }
         this.spaces = spaceTemplates;
 
-        players.add(new PlayerTemplate(board.getPlayer(playerId)));
+        for (Player p : board.getPlayers()){
+            players.add(new PlayerTemplate(p));
+        }
+        for (int i = 0; i < board.getNumberOfPlayers(); i++) {
+            if(playerId==i)
+                players.add(new PlayerTemplate(board.getPlayers().get(i)));
+            else
+                players.add(new PlayerTemplate(board.getPlayers().get(i),true));
+
+        }
     }
 
     public int width;
