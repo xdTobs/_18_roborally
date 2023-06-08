@@ -2,16 +2,19 @@ package dk.dtu.eighteen.roborally.fileaccess.model;
 
 
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Phase;
 import dk.dtu.eighteen.roborally.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardTemplate {
+    public Phase phase;
     public int width;
     public int height;
     public SpaceTemplate[][] spaces;
     public List<PlayerTemplate> players = new ArrayList<>();
+
 
     private BoardTemplate() {
 
@@ -20,6 +23,7 @@ public class BoardTemplate {
     public BoardTemplate(Board board) {
         this.height = board.height;
         this.width = board.width;
+        this.phase = board.getPhase();
         SpaceTemplate[][] spaceTemplates = new SpaceTemplate[board.getSpaces().length][board.getSpaces()[0].length];
         for (int i = 0; i < board.getSpaces().length; i++) {
             for (int j = 0; j < board.getSpaces()[0].length; j++) {
@@ -36,6 +40,7 @@ public class BoardTemplate {
     public BoardTemplate(Board board, Player currentPlayer) {
         this.height = board.height;
         this.width = board.width;
+        this.phase = board.getPhase();
         SpaceTemplate[][] spaceTemplates = new SpaceTemplate[board.getSpaces().length][board.getSpaces()[0].length];
         for (int i = 0; i < board.getSpaces().length; i++) {
             for (int j = 0; j < board.getSpaces()[0].length; j++) {

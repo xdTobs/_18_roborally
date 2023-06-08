@@ -64,6 +64,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private Label label;
 
 
+
+
+
     public CardFieldView(@NotNull WebAppController webAppController, Board board, @NotNull CommandCardField field) {
         this.webAppController = webAppController;
         this.board = board;
@@ -102,18 +105,18 @@ public class CardFieldView extends GridPane implements ViewObserver {
         if (cardField.player != null) {
 
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
-//                CommandCardField other = cardField.player.getRegisterSlot(i);
-//                if (other == cardField) {
-//                    return "P," + i;
-//                }
+                CommandCardField other = cardField.player.getCurrentMove().getCardFieldAtIndex(i,cardField.player.getCardsOnHand());
+                if (other == cardField) {
+                    return "P," + i;
+                }
             }
 
-//            for (int i = 0; i < Player.NO_CARDS; i++) {
-//                CommandCardField other = cardField.player.getAvailableCardSlot(i);
-//                if (other == cardField) {
-//                    return "C," + i;
-//                }
-//            }
+            for (int i = 0; i < Player.NO_AVAILABLE_CARDS; i++) {
+                CommandCardField other = cardField.player.getAvailableCardSlot(i);
+                if (other == cardField) {
+                    return "C," + i;
+                }
+            }
         }
         return null;
 
@@ -124,15 +127,15 @@ public class CardFieldView extends GridPane implements ViewObserver {
             String[] strings = rep.split(",");
             if (strings.length == 2) {
                 int i = Integer.parseInt(strings[1]);
-//                if ("P".equals(strings[0])) {
-//                    if (i < Player.NO_REGISTERS) {
-//                        return field.player.getRegisterSlot(i);
-//                    }
-//                } else if ("C".equals(strings[0])) {
-//                    if (i < Player.NO_CARDS) {
-//                        return field.player.getAvailableCardSlot(i);
-//                    }
-//                }
+                if ("P".equals(strings[0])) {
+                    if (i < Player.NO_REGISTERS) {
+                       return field.player.getCurrentMove().getCardFieldAtIndex(i,field.player.getCardsOnHand());
+                   }
+               } else if ("C".equals(strings[0])) {
+                    if (i < Player.NO_AVAILABLE_CARDS) {
+                        return field.player.getAvailableCardSlot(i);
+                    }
+                }
             }
         }
         return null;

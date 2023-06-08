@@ -27,6 +27,10 @@ public class Move {
     public CommandCard getCardAtIndex(int index, CommandCardField[] cards) {
         return cards[cardIndex[index]].getCard();
     }
+    public CommandCardField getCardFieldAtIndex(int index, CommandCardField[] cards) {
+        return cards[cardIndex[index]];
+    }
+
 
     public boolean areValid() {
         if (cardIndex.length != 5)

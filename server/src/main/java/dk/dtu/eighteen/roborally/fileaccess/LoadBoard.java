@@ -89,6 +89,7 @@ public class LoadBoard {
             for (Player player : result.getPlayers()) {
                 player.getSpace().setPlayer(player);
             }
+            result.setPhase(template.phase);
 
 
             reader.close();
