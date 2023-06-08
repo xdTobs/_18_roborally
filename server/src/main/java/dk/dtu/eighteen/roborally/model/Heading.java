@@ -49,7 +49,6 @@ public enum Heading {
         Set<Heading> walls = new HashSet<>();
         walls.add(Heading.NORTH);
         walls.add(Heading.NORTH);
-        System.out.println(walls.size());
     }
 
     public Heading next() {

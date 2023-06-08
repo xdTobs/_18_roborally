@@ -21,12 +21,9 @@
  */
 package dk.dtu.eighteen.view;
 
-import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.controller.WebAppController;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
-import dk.dtu.eighteen.roborally.model.CommandCard;
-import dk.dtu.eighteen.roborally.model.CommandCardField;
-import dk.dtu.eighteen.roborally.model.Phase;
-import dk.dtu.eighteen.roborally.model.Player;
+import dk.dtu.eighteen.roborally.model.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -59,15 +56,17 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     final public static Background BG_ACTIVE = new Background(new BackgroundFill(Color.YELLOW, null, null));
     final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW, null, null));
+    private final WebAppController webAppController;
 
+    private final Board board;
     private CommandCardField field;
 
     private Label label;
 
-    private GameController gameController;
 
-    public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
-        this.gameController = gameController;
+    public CardFieldView(@NotNull WebAppController webAppController, Board board, @NotNull CommandCardField field) {
+        this.webAppController = webAppController;
+        this.board = board;
         this.field = field;
 
         this.setAlignment(Pos.CENTER);
@@ -155,6 +154,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(MouseEvent event) {
+            System.out.println("OnDragDetectedHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;
@@ -162,8 +162,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         cardField.getCard() != null &&
                         cardField.player != null &&
-                        gameController.board != null &&
-                        gameController.board.getPhase().equals(Phase.PROGRAMMING)) {
+                        board != null &&
+                        board.getPhase().equals(Phase.PROGRAMMING)) {
                     Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
                     Image image = source.snapshot(null, null);
                     db.setDragView(image);
@@ -184,6 +184,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
+            System.out.println("OnDragOverHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -191,7 +192,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         (cardField.getCard() == null || event.getGestureSource() == target) &&
                         cardField.player != null &&
-                        gameController.board != null) {
+                        board != null) {
                     if (event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
@@ -206,6 +207,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
+            System.out.println("OnDragEnteredHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -213,7 +215,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         cardField.getCard() == null &&
                         cardField.player != null &&
-                        gameController.board != null) {
+                        board != null) {
                     if (event.getGestureSource() != target &&
                             event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         target.setBackground(BG_DROP);
@@ -229,6 +231,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
+            System.out.println("OnDragExitedHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -236,7 +239,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         cardField.getCard() == null &&
                         cardField.player != null &&
-                        gameController.board != null) {
+                        board != null) {
                     if (event.getGestureSource() != target &&
                             event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         target.setBackground(BG_DEFAULT);
@@ -252,6 +255,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
+            System.out.println("OnDragDroppedHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -262,19 +266,22 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         cardField.getCard() == null &&
                         cardField.player != null &&
-                        gameController.board != null) {
+                        board != null) {
                     if (event.getGestureSource() != target &&
                             db.hasContent(ROBO_RALLY_CARD)) {
                         Object object = db.getContent(ROBO_RALLY_CARD);
                         if (object instanceof String) {
                             CommandCardField source = cardFieldFromRepresentation((String) object);
-                            if (source != null && gameController.moveCards(source, cardField)) {
-                                // CommandCard card = source.getCard();
-                                // if (card != null) {
-                                // if (gameController.moveCards(source, cardField)) {
-                                // cardField.setCard(card);
-                                success = true;
-                                // }
+                            // TODO Somehow actually move the cards.
+                            if (source != null && board.moveCards(source, cardField)) {
+
+                                CommandCard card = source.getCard();
+                                if (card != null) {
+                                    if (board.moveCards(source, cardField)) {
+                                        cardField.setCard(card);
+                                        success = true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -288,9 +295,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
     }
 
     private class OnDragDoneHandler implements EventHandler<DragEvent> {
-
         @Override
         public void handle(DragEvent event) {
+            System.out.println("OnDragDoneHandler");
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;

@@ -162,7 +162,7 @@ public class GameController {
         if (step < 0 || step >= Player.NO_REGISTERS) assert false;
 
 
-        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getAvailableCardSlots());
+        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getCardsOnHand());
         if (card != null) {
             Command command = card.command;
             if (command.isInteractive()) {
@@ -315,7 +315,7 @@ public class GameController {
         if (step < 0) {
             return;
         }
-        CommandCard card = player.getCurrentMove().getCardAtIndex(step, player.getAvailableCardSlots());
+        CommandCard card = player.getCurrentMove().getCardAtIndex(step, player.getCardsOnHand());
         if (card.command == Command.AGAIN) {
             again(player, step - 1);
             return;
@@ -328,17 +328,6 @@ public class GameController {
         again(player, board.getStep());
     }
 
-    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
-        CommandCard sourceCard = source.getCard();
-        CommandCard targetCard = target.getCard();
-        if (sourceCard != null && targetCard == null) {
-            target.setCard(sourceCard);
-            source.setCard(null);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * A method called when no corresponding controller operation is implemented yet. This

@@ -53,7 +53,6 @@ public class WebAppController {
             this.playerName = "default name";
         }
         System.out.println("Your name is: " + this.playerName);
-        requestController.createScheduledService(this.playerName);
     }
 
 
@@ -85,6 +84,7 @@ public class WebAppController {
         }
 
         nameInputDialog();
+//        this.playerName = "debug-name-1";
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
@@ -92,11 +92,10 @@ public class WebAppController {
         }
 
         int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-
         String boardName = dialogChoice(boardNameList, "gameboard");
-
-//        int numberOfPlayers = 2;
 //        String boardName = "a-test-board.json";
+//        int numberOfPlayers = 2;
+
 
 //        clientController.setStatusText("You picked the board: " + boardName);
 
@@ -118,6 +117,8 @@ public class WebAppController {
 
         this.gameId = Integer.valueOf(response.body());
         requestController.setStatus(Status.INIT_NEW_GAME);
+
+        requestController.createScheduledService(this.playerName);
         this.requestController.startPolling();
 
     }
@@ -161,10 +162,15 @@ public class WebAppController {
             } else {
                 throw new NullPointerException("Invalid/no game id entered");
             }
+            requestController.createScheduledService(this.playerName);
             this.requestController.startPolling();
         } catch (Exception e) {
             requestController.setStatus(Status.INVALID_GAME_ID);
         }
+    }
+
+    public void finishProgrammingPhase() {
+        System.err.println("finish programming phase not implemented");
     }
 }
 //

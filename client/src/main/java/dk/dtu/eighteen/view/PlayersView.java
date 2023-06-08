@@ -21,10 +21,11 @@
  */
 package dk.dtu.eighteen.view;
 
-import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.controller.WebAppController;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
@@ -36,18 +37,14 @@ public class PlayersView extends TabPane implements ViewObserver {
 
     private Board board;
 
-    private PlayerView[] playerViews;
+    private PlayerView[] playerViews = new PlayerView[1];
 
-    public PlayersView(Board board) {
-        board = board;
+    public PlayersView(Board board, WebAppController webAppController) {
+        this.board = board;
 
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-//        playerViews = new PlayerView[board.getPlayersNumber()];
-//        for (int i = 0; i < board.getPlayersNumber();  i++) {
-//            playerViews[i] = new PlayerView(gameController, board.getPlayer(i));
-//            this.getTabs().add(playerViews[i]);
-//        }
+        playerViews[0] = new PlayerView(webAppController, board);
         board.attach(this);
         update(board);
     }

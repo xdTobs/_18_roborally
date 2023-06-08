@@ -1,8 +1,8 @@
 package dk.dtu.eighteen.controller;
 
-import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.view.BoardView;
 import dk.dtu.eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 public class ClientController extends Application {
@@ -55,6 +56,15 @@ public class ClientController extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+//        try {
+//            webAppController.newGame();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void createBoardView(String json) {
@@ -63,6 +73,11 @@ public class ClientController extends Application {
         Board board = null;
         try {
             board = LoadBoard.loadBoardFromJSONString(json);
+            for (Player p : board.getPlayers()) {
+                if (p.getColor() == null) {
+                    p.setColor("red");
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,11 +86,9 @@ public class ClientController extends Application {
         // TODO find a way to show the board and make it interactive
         // Maybe we should create a IGameController interface and implement it in a minimal game controller here
         // and use that as a helper to create the board view
-        BoardView boardView = new BoardView(board);
+        BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);
-
-        stage.sizeToScene();
     }
 
 
@@ -129,7 +142,6 @@ public class ClientController extends Application {
 //    }
 
     void renderBoard(JSONObject board) {
-        System.out.println("RENDER BOARD");
 //        BoardTemplate boardTemplate = new BoardTemplate();
 //        clientLauncher.createBoardView();
     }

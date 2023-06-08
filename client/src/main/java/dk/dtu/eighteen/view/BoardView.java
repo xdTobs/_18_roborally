@@ -21,20 +21,17 @@
  */
 package dk.dtu.eighteen.view;
 
+import dk.dtu.eighteen.controller.WebAppController;
 import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
-import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
 import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltNegative;
-import dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltPositive;
 import dk.dtu.eighteen.roborally.model.Space;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,19 +49,19 @@ public class BoardView extends VBox implements ViewObserver {
     private GridPane mainBoardPane;
     private SpaceView[][] spaces;
 
-    private PlayersView playersView;
+    private PlayerView playerView;
 
     private Label statusLabel;
 
-    public BoardView(@NotNull Board board) {
-        board = board;
+    public BoardView(WebAppController webAppController, @NotNull Board board) {
+        this.board = board;
 
         mainBoardPane = new GridPane();
-        playersView = new PlayersView(board);
+        playerView = new PlayerView(webAppController, board);
         statusLabel = new Label("<no status>");
 
         this.getChildren().add(mainBoardPane);
-        this.getChildren().add(playersView);
+        this.getChildren().add(playerView);
         this.getChildren().add(statusLabel);
 
         spaces = new SpaceView[board.width][board.height];
@@ -85,19 +82,6 @@ public class BoardView extends VBox implements ViewObserver {
                         spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());
                     }
                 }
-//                if (space instanceof ConveyorBelt conveyorBelt) {
-//                    spaceView = new FastConveyorBeltView(conveyorBelt);
-//                } else if (space instanceof FastTripleConveyorBeltPositive conveyorBelt) {
-//                    spaceView = new FastTripleConveyorBeltPositiveView(conveyorBelt);
-//                } else if (space instanceof FastTripleConveyorBeltNegative conveyorBelt) {
-//                    spaceView = new FastTripleConveyorBeltNegativeView(conveyorBelt);
-//                } else if (space instanceof ConveyorBelt conveyorBelt) {
-//                    spaceView = new ConveyorBeltView(conveyorBelt);
-//                } else if (space instanceof Checkpoint checkpoint) {
-//                    spaceView = new CheckpointView(checkpoint);
-//                } else {
-//                    spaceView = new SpaceView(space);
-//                }
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
 

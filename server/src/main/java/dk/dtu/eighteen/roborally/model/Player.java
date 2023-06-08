@@ -45,7 +45,8 @@ public class Player extends Subject {
     private int checkpointCounter;
     private Heading heading = SOUTH;
     private Move currentMove;
-    private CommandCardField[] availableCardSlots;
+    private CommandCardField[] cardsOnHand;
+    private CommandCardField[] programmedCards;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -53,13 +54,16 @@ public class Player extends Subject {
         this.color = color;
         this.currentMove = new Move();
 
-        availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
-        for (int i = 0; i < availableCardSlots.length; i++) {
-            availableCardSlots[i] = new CommandCardField(this);
+        cardsOnHand = new CommandCardField[NO_AVAILABLE_CARDS];
+        for (int i = 0; i < cardsOnHand.length; i++) {
+            cardsOnHand[i] = new CommandCardField(this);
+        }
+
+        programmedCards = new CommandCardField[NO_REGISTERS];
+        for (int i = 0; i < programmedCards.length; i++) {
+            programmedCards[i] = new CommandCardField(this);
         }
     }
-
-    //private boolean hasMovedThisTurn = false;
 
     public Player(PlayerTemplate template, Board board) {
         this.name = template.name;
@@ -70,14 +74,23 @@ public class Player extends Subject {
         this.heading = template.heading;
         this.currentMove = template.currentMoves;
 
-        availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
+        cardsOnHand = new CommandCardField[NO_AVAILABLE_CARDS];
+        programmedCards = new CommandCardField[NO_REGISTERS];
         if (template.availableCardSlots != null) {
-            for (int i = 0; i < availableCardSlots.length; i++) {
-                availableCardSlots[i] = new CommandCardField(template.availableCardSlots[i], this);
+            for (int i = 0; i < cardsOnHand.length; i++) {
+                cardsOnHand[i] = new CommandCardField(template.availableCardSlots[i], this);
             }
+        }
+        for (int i = 0; i < programmedCards.length; i++) {
+            programmedCards[i] = new CommandCardField(this);
         }
     }
 
+    //private boolean hasMovedThisTurn = false;
+
+    public CommandCardField getProgrammedCards(int i) {
+        return programmedCards[i];
+    }
 
     public int getCheckpointCounter() {
         return checkpointCounter;
@@ -135,11 +148,11 @@ public class Player extends Subject {
 
 
     public CommandCardField getAvailableCardSlot(int i) {
-        return availableCardSlots[i];
+        return cardsOnHand[i];
     }
 
-    public CommandCardField[] getAvailableCardSlots() {
-        return availableCardSlots;
+    public CommandCardField[] getCardsOnHand() {
+        return cardsOnHand;
     }
 
     public Move getCurrentMove() {

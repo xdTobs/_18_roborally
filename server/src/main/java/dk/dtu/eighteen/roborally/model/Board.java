@@ -240,6 +240,18 @@ public class Board extends Subject {
         }
     }
 
+    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
+        CommandCard sourceCard = source.getCard();
+        CommandCard targetCard = target.getCard();
+        if (sourceCard != null && targetCard == null) {
+            target.setCard(sourceCard);
+            source.setCard(null);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
             return players.indexOf(player);
@@ -329,4 +341,5 @@ public class Board extends Subject {
         }
         return null;
     }
+
 }

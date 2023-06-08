@@ -19,6 +19,7 @@ public class RequestController {
     ClientController clientController;
     ScheduledService<String> scheduledService;
 
+
     public RequestController(ClientController roborallyClient) {
         this.clientController = roborallyClient;
     }
@@ -40,16 +41,27 @@ public class RequestController {
                                 .header("roborally-player-name", playerName)
                                 .GET()
                                 .build();
-                        System.out.println(request.toString());
                         HttpResponse<String> response = HttpClient.newBuilder()
                                 .build()
                                 .send(request, HttpResponse.BodyHandlers.ofString());
+//                        // For debugging
+//                        if (timesPolled == 1) {
+//                            var req = HttpRequest.newBuilder()
+//                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+//                                    .header("roborally-player-name", "debug-name")
+//                                    .GET()
+//                                    .build();
+//                            HttpResponse<Void> res = HttpClient.newBuilder()
+//                                    .build()
+//                                    .send(req, HttpResponse.BodyHandlers.discarding());
+//                            return response.body().toString();
+//                        }
                         return response.body().toString();
                     }
                 };
             }
         };
-        scheduledService.setPeriod(Duration.seconds(4));
+        scheduledService.setPeriod(Duration.seconds(1));
     }
 //
 //    ApiResponseCallback newGameCallback() {
@@ -77,12 +89,7 @@ public class RequestController {
             Status status = Status.of(jsonObject.get("status").toString());
             setStatus(status);
             if (status == Status.RUNNING) {
-//                clientController.renderBoard();
-//                BoardTemplate boardTemplate = new BoardTemplate(jsonObject);
-                System.out.println("RUNNING");
                 clientController.createBoardView(jsonObject.get("board").toString());
-            } else {
-                System.out.println("waiting");
             }
         });
 
@@ -99,7 +106,6 @@ public class RequestController {
 
     public void setStatus(Status status) {
         String s = "";
-        System.out.println("STATUS: " + status);
         switch (status) {
             case NOT_INITIATED_GAME -> {
                 clientController.setStatusText("Game not running");
