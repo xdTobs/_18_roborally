@@ -6,7 +6,7 @@ import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Moves;
+import dk.dtu.eighteen.roborally.model.Move;
 import dk.dtu.eighteen.roborally.model.Player;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
@@ -178,21 +175,32 @@ public class Server {
     }
 
     @PostMapping("/game/{gameId}/player/{playerName}/moves")
-    public void planMoves(@RequestBody int[] moves, @PathVariable int gameId, @PathVariable String playerName) {
+    public String planMoves(@RequestBody Move move, @PathVariable int gameId, @PathVariable String playerName) {
         AppController appController = appControllerMap.get(gameId);
         Player p = appController.getGameController().getBoard().getPlayer(playerName);
         if (p == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
-        Moves playerMoves = p.getCurrentMoves();
-        if (!playerMoves.areValid()) {
+        if (!move.areValid()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");
         }
-        playerMoves.setCardIndex(moves);
-        var i = appController.incrementTakenAction();
-        if (i == appController.getPlayerCapacity()) {
-            appController.resetTakenAction();
+        System.out.println(Arrays.toString(move.getCardIndex()));
+        p.setCurrentMove(move);
+        System.out.println(Arrays.toString(p.getCurrentMove().getCardIndex()));
+        int playerNo = p.board.getPlayers().indexOf(p);
+        appController.getMadeMove()[playerNo] = true;
+        int count = 0;
+        System.out.println(Arrays.toString(appController.getMadeMove()));
+        for(boolean bool : appController.getMadeMove()){
+            if(bool)count++;
         }
+        if(count == appController.getPlayerCapacity()){
+            System.out.println("all made move");
+            appController.getGameController().finishProgrammingPhase();
+            appController.getGameController().executePrograms();
+            Arrays.fill(appController.getMadeMove(),false);
+        }
+        return "done";
     }
 
 

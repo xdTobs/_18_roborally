@@ -44,7 +44,7 @@ public class Player extends Subject {
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
-    private Moves currentMoves;
+    private Move currentMove;
     private CommandCardField[] availableCardSlots;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -53,7 +53,7 @@ public class Player extends Subject {
         this.color = color;
 
 
-        this.currentMoves = new Moves();
+        this.currentMove = new Move();
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         for (int i = 0; i < availableCardSlots.length; i++) {
@@ -70,7 +70,7 @@ public class Player extends Subject {
         this.x = board.getSpace(template.x, template.y).x;
         this.y = board.getSpace(template.x, template.y).y;
         this.heading = template.heading;
-        this.currentMoves = template.currentMoves;
+        this.currentMove = template.currentMoves;
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
         if (template.availableCardSlots != null) {
@@ -94,9 +94,7 @@ public class Player extends Subject {
         }
     }
 
-    public Moves getCurrentMoves() {
-        return currentMoves;
-    }
+
 
     public int getCheckpointCounter() {
         return checkpointCounter;
@@ -161,8 +159,11 @@ public class Player extends Subject {
         return availableCardSlots;
     }
 
-    public Moves getCurrentMove() {
-        return currentMoves;
+    public Move getCurrentMove() {
+        return currentMove;
     }
 
+    public void setCurrentMove(Move currentMove) {
+        this.currentMove = currentMove;
+    }
 }

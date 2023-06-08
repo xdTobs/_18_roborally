@@ -43,12 +43,14 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
+    private boolean[] madeMove;
     //    List<User> users = new ArrayList<>(10);
     public Status status;
     private GameController gameController;
 
     public AppController(Board board, int playerCapacity, Status status) {
         this.playerCapacity = playerCapacity;
+        madeMove = new boolean[playerCapacity];
         this.status = status;
         gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -124,5 +126,13 @@ public class AppController implements Observer {
 
     public void resetTakenAction() {
         playersTakenAction.set(1);
+    }
+
+    public boolean[] getMadeMove() {
+        return madeMove;
+    }
+
+    public void setMadeMove(boolean[] madeMove) {
+        this.madeMove = madeMove;
     }
 }

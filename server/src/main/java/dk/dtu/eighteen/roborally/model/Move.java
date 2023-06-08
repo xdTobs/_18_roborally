@@ -1,16 +1,16 @@
 package dk.dtu.eighteen.roborally.model;
 
-public class Moves {
+public class Move {
 
     private final int[] cardIndex = new int[5];
 
-    public Moves(int[] cardIndex) {
+    public Move(int[] cardIndex) {
         for (int i = 0; i < 5; i++) {
             this.cardIndex[i] = cardIndex[i];
         }
     }
 
-    public Moves() {
+    public Move() {
     }
 
     public int[] getCardIndex() {
