@@ -51,8 +51,6 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
-
-
         this.currentMove = new Move();
 
         availableCardSlots = new CommandCardField[NO_AVAILABLE_CARDS];
@@ -79,21 +77,6 @@ public class Player extends Subject {
             }
         }
     }
-
-    public static void createAddPlayerToEmptySpace(Board board, String color, String name) {
-        Player player = new Player(board, color, name);
-        board.addPlayer(player);
-        int x = 0;
-        int y = 0;
-        while (board.getSpace(x, y) != null) {
-            x++;
-            if (x == board.width - 1) {
-                x = 0;
-                y++;
-            }
-        }
-    }
-
 
 
     public int getCheckpointCounter() {

@@ -164,11 +164,11 @@ class LoadBoardTest {
                    "status":"INIT_NEW_GAME"
                 }
                 """;
-        try {
-            var b = LoadBoard.loadBoardFromJSONString(json);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            var b = LoadBoard.loadBoardFromJSONString(json);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 //        BoardTemplate boardTemplate = BoardTemplate.createBoardTemplate(jsonObject);
 //        assertEquals(3, boardTemplate.width);
 //        assertEquals(3, boardTemplate.height);

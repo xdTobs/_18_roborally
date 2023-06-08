@@ -154,12 +154,32 @@ public class Board extends Subject {
         return players.size();
     }
 
-    // Adds a new player
+    //     Adds a new player
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
             notifyChange();
         }
+    }
+
+
+    public void createAddPlayerToEmptySpace(String color, String name) {
+        Player player = new Player(this, color, name);
+        Space space = getFirstEmptySpace();
+        player.setSpace(space);
+        space.setPlayer(player);
+        players.add(player);
+    }
+
+    private Space getFirstEmptySpace() {
+        for (Space[] row : spaces) {
+            for (Space space : row) {
+                if (space.getPlayer() == null) {
+                    return space;
+                }
+            }
+        }
+        return null;
     }
 
     // Returns the player at a specified index from the list of players.

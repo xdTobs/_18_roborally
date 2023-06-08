@@ -49,6 +49,14 @@ paths:
         required: true
         schema:
           type: integer
+      - in: header
+        name: roborally-player-name
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 20
+          pattern: '[a-zA-Z0-9]+'
+        required: true
     get:
       summary: Get details of a specific game
       operationId: getBoard
@@ -85,16 +93,6 @@ paths:
         required: true
         schema:
           type: string
-    post:
-      summary: Add a player to a game
-      operationId: addPlayerToGame
-      responses:
-        '200':
-          description: Player added successfully to game
-        '404':
-          description: Game not found
-        '409':
-          description: Conflict with resource. The player name is probably already in use.
 
   "/game/{gameId}/player/{playerName}/moves":
     parameters:
@@ -145,7 +143,7 @@ components:
     InitBoardData:
       type: object
       properties:
-        numberOfPlayers:
+        playerCapacity:
           type: integer
         boardName:
           type: string

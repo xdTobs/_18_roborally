@@ -90,8 +90,7 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
         int id = counter.incrementAndGet();
-        var player = new Player(board, null, playerName);
-        board.addPlayer(player);
+        board.createAddPlayerToEmptySpace(null, playerName);
         var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
         appControllerMap.put(id, appController);
         debugPrintAppControllerMap();
@@ -159,7 +158,7 @@ public class Server {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name already exists");
             }
             var player = new Player(board, null, playerName);
-            board.addPlayer(player);
+            board.createAddPlayerToEmptySpace(null, playerName);
         } else if (appController.status == Status.INIT_LOAD_GAME) {
             if (!playerExists) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name does not exist");
