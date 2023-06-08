@@ -1,6 +1,6 @@
 {
-  "width": 3,
-  "height": 3,
+  "width": 4,
+  "height": 4,
   "spaces": [
     [
       {
@@ -20,6 +20,12 @@
         "actions": [],
         "x": 0,
         "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 0,
+        "y": 3
       }
     ],
     [
@@ -42,6 +48,12 @@
         "actions": [],
         "x": 1,
         "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 3
       }
     ],
     [
@@ -71,6 +83,54 @@
         "actions": [],
         "x": 2,
         "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 2,
+        "y": 3
+      }
+    ],
+    [
+      {
+        "walls": [
+          "EAST"
+        ],
+        "actions": [],
+        "x": 3,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
+            "INSTANCE": {
+              "heading": "NORTH"
+            }
+          }
+        ],
+        "x": 3,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.Actions.Checkpoint",
+            "INSTANCE": {
+              "checkpointNumber": 1
+            }
+          }
+        ],
+        "x": 3,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 3
       }
     ]
   ],

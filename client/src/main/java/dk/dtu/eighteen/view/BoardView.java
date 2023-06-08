@@ -25,6 +25,7 @@ import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
+import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltNegative;
@@ -55,13 +56,11 @@ public class BoardView extends VBox implements ViewObserver {
 
     private Label statusLabel;
 
-    private SpaceEventHandler spaceEventHandler;
-
-    public BoardView(@NotNull GameController gameController) {
-        board = gameController.board;
+    public BoardView(@NotNull Board board) {
+        board = board;
 
         mainBoardPane = new GridPane();
-        playersView = new PlayersView(gameController);
+        playersView = new PlayersView(board);
         statusLabel = new Label("<no status>");
 
         this.getChildren().add(mainBoardPane);
@@ -70,13 +69,22 @@ public class BoardView extends VBox implements ViewObserver {
 
         spaces = new SpaceView[board.width][board.height];
 
-        spaceEventHandler = new SpaceEventHandler(gameController);
-
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
                 List<IFieldAction> actions = space.getActions();
                 SpaceView spaceView = new SpaceView(space);
+                for (IFieldAction action : actions) {
+                    if (action instanceof ConveyorBelt conveyorBelt) {
+                        spaceView = new ConveyorBeltView(conveyorBelt, space);
+                    }
+                    if (action instanceof FastConveyorBelt fastconveyorBelt) {
+                        spaceView = new FastConveyorBeltView(fastconveyorBelt, space);
+                    }
+                    if (action instanceof Checkpoint checkpoint) {
+                        spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());
+                    }
+                }
 //                if (space instanceof ConveyorBelt conveyorBelt) {
 //                    spaceView = new FastConveyorBeltView(conveyorBelt);
 //                } else if (space instanceof FastTripleConveyorBeltPositive conveyorBelt) {
@@ -92,7 +100,7 @@ public class BoardView extends VBox implements ViewObserver {
 //                }
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
-                spaceView.setOnMouseClicked(spaceEventHandler);
+
             }
         }
 
@@ -107,31 +115,5 @@ public class BoardView extends VBox implements ViewObserver {
         }
     }
 
-    // XXX this handler and its uses should eventually be deleted! This is just to help test the
-    //     behaviour of the game by being able to explicitly move the players on the board!
-    private class SpaceEventHandler implements EventHandler<MouseEvent> {
-
-        final public GameController gameController;
-
-        public SpaceEventHandler(@NotNull GameController gameController) {
-            this.gameController = gameController;
-        }
-
-        @Override
-        public void handle(MouseEvent event) {
-            Object source = event.getSource();
-            if (source instanceof SpaceView) {
-                SpaceView spaceView = (SpaceView) source;
-                Space space = spaceView.space;
-                Board board = gameController.board;
-
-                if (board == gameController.board) {
-                    gameController.moveCurrentPlayerToSpace(space);
-                    event.consume();
-                }
-            }
-        }
-
-    }
 
 }
