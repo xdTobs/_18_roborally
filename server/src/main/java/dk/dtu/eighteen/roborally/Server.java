@@ -18,15 +18,19 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
 @RestController
 public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
-    UUID uuid = UUID.randomUUID();
-    HashMap<Integer, AppController> appControllerMap = new HashMap<>();
+    Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
+//    HashMap<Integer, AppController> appControllerMap = new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -191,14 +195,14 @@ public class Server {
         appController.getMadeMove()[playerNo] = true;
         int count = 0;
         System.out.println(Arrays.toString(appController.getMadeMove()));
-        for(boolean bool : appController.getMadeMove()){
-            if(bool)count++;
+        for (boolean bool : appController.getMadeMove()) {
+            if (bool) count++;
         }
-        if(count == appController.getPlayerCapacity()){
+        if (count == appController.getPlayerCapacity()) {
             System.out.println("all made move");
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
-            Arrays.fill(appController.getMadeMove(),false);
+            Arrays.fill(appController.getMadeMove(), false);
         }
         return "done";
     }
