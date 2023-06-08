@@ -58,8 +58,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-        //TODO: make board grey with black borders
-
 
         String filePath = new File("client/src/main/resources/imgs/Empty_Space.png").toURI().toString();
         this.setStyle("-fx-background-image: url(" + filePath + ");" +
@@ -67,13 +65,6 @@ public class SpaceView extends StackPane implements ViewObserver {
                 "-fx-background-repeat: no-repeat;" +
                 "-fx-background-position: center;");
 
-
-        /**
-         * This switch statement checks which type of space is given,
-         * and adds the appropriate visuals
-         */
-
-        //Add the different spacetypes here in the switch statement
 
         Set<Heading> walls = space.getWalls();
         if (!walls.isEmpty()) {

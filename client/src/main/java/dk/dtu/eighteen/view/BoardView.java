@@ -72,6 +72,8 @@ public class BoardView extends VBox implements ViewObserver {
 
         spaceEventHandler = new SpaceEventHandler(gameController);
 
+        //TODO: add more spacetypes here
+
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
