@@ -1061,7 +1061,7 @@
           {
             "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.spaces.Checkpoint",
             "INSTANCE": {
-              "checkpointNumber": 1
+              "checkpointNR": 1
             }
           }
         ],

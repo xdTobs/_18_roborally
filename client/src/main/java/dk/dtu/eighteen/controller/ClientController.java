@@ -67,12 +67,11 @@ public class ClientController extends Application {
             throw new RuntimeException(e);
         }
         // create and add view for new board
-        GameController gc = new GameController(board);
 //        BoardView boardView = new BoardView(minimalGameController);
         // TODO find a way to show the board and make it interactive
         // Maybe we should create a IGameController interface and implement it in a minimal game controller here
         // and use that as a helper to create the board view
-        BoardView boardView = new BoardView(gc);
+        BoardView boardView = new BoardView(board);
 
         boardRoot.setCenter(boardView);
 
