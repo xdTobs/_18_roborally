@@ -77,6 +77,9 @@ public class BoardView extends VBox implements ViewObserver {
                     if (action instanceof ConveyorBelt conveyorBelt) {
                         spaceView = new ConveyorBeltView(conveyorBelt, space);
                     }
+                    if (action instanceof Checkpoint checkpoint) {
+                        spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());
+                    }
                 }
 //                if (space instanceof ConveyorBelt conveyorBelt) {
 //                    spaceView = new FastConveyorBeltView(conveyorBelt);
@@ -107,7 +110,6 @@ public class BoardView extends VBox implements ViewObserver {
             statusLabel.setText(board.getStatusMessage());
         }
     }
-
 
 
 }
