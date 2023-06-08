@@ -25,6 +25,7 @@ import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
+import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.FastTripleConveyorBeltNegative;
@@ -76,6 +77,9 @@ public class BoardView extends VBox implements ViewObserver {
                 for (IFieldAction action : actions) {
                     if (action instanceof ConveyorBelt conveyorBelt) {
                         spaceView = new ConveyorBeltView(conveyorBelt, space);
+                    }
+                    if (action instanceof FastConveyorBelt fastconveyorBelt) {
+                        spaceView = new FastConveyorBeltView(fastconveyorBelt, space);
                     }
                     if (action instanceof Checkpoint checkpoint) {
                         spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());
