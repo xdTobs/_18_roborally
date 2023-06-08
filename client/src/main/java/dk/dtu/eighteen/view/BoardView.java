@@ -77,6 +77,11 @@ public class BoardView extends VBox implements ViewObserver {
                 Space space = board.getSpace(x, y);
                 List<IFieldAction> actions = space.getActions();
                 SpaceView spaceView = new SpaceView(space);
+                for (IFieldAction action : actions) {
+                    if (action instanceof ConveyorBelt conveyorBelt) {
+                        spaceView = new ConveyorBeltView(conveyorBelt, space);
+                    }
+                }
 //                if (space instanceof ConveyorBelt conveyorBelt) {
 //                    spaceView = new FastConveyorBeltView(conveyorBelt);
 //                } else if (space instanceof FastTripleConveyorBeltPositive conveyorBelt) {
