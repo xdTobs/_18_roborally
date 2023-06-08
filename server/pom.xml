@@ -6,7 +6,7 @@
 
     <groupId>dk.dtu.eighteen</groupId>
     <artifactId>server</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <description>
         RoboRally demo with database access and loading
         some game boards from a files for the course
@@ -106,7 +106,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>dk.dtu.eighteen.roborally.RoboRally</mainClass>
+                            <mainClass>dk.dtu.eighteen.roborally.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

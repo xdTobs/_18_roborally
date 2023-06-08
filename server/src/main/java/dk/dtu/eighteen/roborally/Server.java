@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
-    UUID uuid = UUID.randomUUID();
     HashMap<Integer, AppController> appControllerMap = new HashMap<>();
 
 
