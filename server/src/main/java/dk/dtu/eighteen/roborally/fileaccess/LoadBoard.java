@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 

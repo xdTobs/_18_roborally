@@ -25,15 +25,17 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.CommandCardTemplate;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CommandCard extends Subject {
 
     final public Command command;
+    final public UUID cardID = UUID.randomUUID();
 
     public CommandCard(@NotNull Command command) {
         this.command = command;
