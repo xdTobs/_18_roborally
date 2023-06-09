@@ -96,7 +96,12 @@
         "walls": [
           "EAST"
         ],
-        "actions": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.RotateRight",
+            "INSTANCE": {}
+          }
+        ],
         "x": 3,
         "y": 0
       },
@@ -128,7 +133,12 @@
       },
       {
         "walls": [],
-        "actions": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.RotateLeft",
+            "INSTANCE": {}
+          }
+        ],
         "x": 3,
         "y": 3
       }
