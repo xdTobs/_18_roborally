@@ -1,5 +1,6 @@
 package dk.dtu.eighteen.controller;
 
+import dk.dtu.eighteen.roborally.controller.Status;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;

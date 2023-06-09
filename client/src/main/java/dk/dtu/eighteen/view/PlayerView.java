@@ -114,7 +114,7 @@ public class PlayerView extends Pane implements ViewObserver {
                     cardIds.add("empty");
                 }
             }
-            webAppController.finishProgrammingPhase(cardIds);
+            webAppController.finishProgrammingPhase();//cardIds was gives as argument
         });
 
         buttonPanel = new VBox(finishButton);
