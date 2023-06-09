@@ -59,18 +59,15 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private final WebAppController webAppController;
 
     private final Board board;
-    private CommandCardField field;
+    private CommandCardField commandCardField;
 
     private Label label;
 
 
-
-
-
-    public CardFieldView(@NotNull WebAppController webAppController, Board board, @NotNull CommandCardField field) {
+    public CardFieldView(@NotNull WebAppController webAppController, Board board, @NotNull CommandCardField commandCardField) {
         this.webAppController = webAppController;
         this.board = board;
-        this.field = field;
+        this.commandCardField = commandCardField;
 
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(5, 5, 5, 5));
@@ -97,8 +94,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setOnDragDropped(new OnDragDroppedHandler());
         this.setOnDragDone(new OnDragDoneHandler());
 
-        field.attach(this);
-        update(field);
+        commandCardField.attach(this);
+        update(commandCardField);
     }
 
     private String cardFieldRepresentation(CommandCardField cardField) {
@@ -123,17 +120,17 @@ public class CardFieldView extends GridPane implements ViewObserver {
     }
 
     private CommandCardField cardFieldFromRepresentation(String rep) {
-        if (rep != null && field.player != null) {
+        if (rep != null && commandCardField.player != null) {
             String[] strings = rep.split(",");
             if (strings.length == 2) {
                 int i = Integer.parseInt(strings[1]);
                 if ("P".equals(strings[0])) {
                     if (i < Player.NO_REGISTERS) {
-                       return field.player.getProgrammedCards(i);
-                   }
-               } else if ("C".equals(strings[0])) {
+                        return commandCardField.player.getProgrammedCards(i);
+                    }
+                } else if ("C".equals(strings[0])) {
                     if (i < Player.NO_AVAILABLE_CARDS) {
-                        return field.player.getAvailableCardSlot(i);
+                        return commandCardField.player.getAvailableCardSlot(i);
                     }
                 }
             }
@@ -143,14 +140,18 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     @Override
     public void updateView(Subject subject) {
-        if (subject == field && subject != null) {
-            CommandCard card = field.getCard();
-            if (card != null && field.isVisible()) {
+        if (subject == commandCardField && subject != null) {
+            CommandCard card = commandCardField.getCard();
+            if (card != null && commandCardField.isVisible()) {
                 label.setText(card.getName());
             } else {
                 label.setText("");
             }
         }
+    }
+
+    public CommandCardField getCommandCardField() {
+        return commandCardField;
     }
 
     private class OnDragDetectedHandler implements EventHandler<MouseEvent> {
@@ -161,7 +162,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;
-                CommandCardField cardField = source.field;
+                CommandCardField cardField = source.commandCardField;
                 if (cardField != null &&
                         cardField.getCard() != null &&
                         cardField.player != null &&
@@ -191,7 +192,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
-                CommandCardField cardField = target.field;
+                CommandCardField cardField = target.commandCardField;
                 if (cardField != null &&
                         (cardField.getCard() == null || event.getGestureSource() == target) &&
                         cardField.player != null &&
@@ -214,7 +215,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
-                CommandCardField cardField = target.field;
+                CommandCardField cardField = target.commandCardField;
                 if (cardField != null &&
                         cardField.getCard() == null &&
                         cardField.player != null &&
@@ -238,7 +239,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
-                CommandCardField cardField = target.field;
+                CommandCardField cardField = target.commandCardField;
                 if (cardField != null &&
                         cardField.getCard() == null &&
                         cardField.player != null &&
@@ -262,7 +263,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
-                CommandCardField cardField = target.field;
+                CommandCardField cardField = target.commandCardField;
 
                 Dragboard db = event.getDragboard();
                 boolean success = false;

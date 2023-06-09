@@ -37,6 +37,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ...
  *
@@ -99,17 +102,30 @@ public class PlayerView extends Pane implements ViewObserver {
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> {
-            try {
-                webAppController.finishProgrammingPhase();
-            } catch (IOException | URISyntaxException | InterruptedException ex) {
-                throw new RuntimeException(ex);
+            for (CardFieldView c : programCardViews) {
+                System.out.println(c);
             }
+            for (CardFieldView c : cardViews) {
+                System.out.println(c);
+            }
+            System.out.println();
+            List<String> cardIds = new ArrayList<>();
+            for (CardFieldView programCardView : this.programCardViews) {
+                try {
+                    String string = programCardView.getCommandCardField().getCard().cardID.toString();
+                    cardIds.add(string);
+                } catch (NullPointerException exeption) {
+                    System.err.println("NullPointerException: player has submitted an empty card field. Ajabaja!");
+                    cardIds.add("empty");
+                }
+            }
+            webAppController.finishProgrammingPhase(cardIds);
         });
 
         buttonPanel = new VBox(finishButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
-        // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
+        programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);

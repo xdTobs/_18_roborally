@@ -96,7 +96,7 @@ public class BoardView extends VBox implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            statusLabel.setText(board.getStatusMessage(webAppController.playerName));
+           statusLabel.setText(board.getStatusMessage(webAppController.playerName));
         }
     }
 

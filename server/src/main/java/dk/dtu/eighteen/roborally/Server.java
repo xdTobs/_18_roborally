@@ -177,8 +177,11 @@ public class Server {
 
     }
 
-    @PostMapping("/game/{gameId}/player/{playerName}/moves")
-    public String planMoves(@RequestBody Move move, @PathVariable int gameId, @PathVariable String playerName) {
+    @PostMapping("/game/{gameId}/moves")
+    public String planMoves(@RequestHeader("roborally-player-name") String playerName, @RequestBody String moves, @PathVariable int gameId) {
+        System.out.println(moves);
+        Move move = Move.parseMoves(moves);
+        // TODO Continue from here.
         AppController appController = appControllerMap.get(gameId);
         Player p = appController.getGameController().getBoard().getPlayer(playerName);
         if (p == null) {

@@ -13,6 +13,13 @@ public class Move {
     public Move() {
     }
 
+    public static Move parseMoves(String moves) {
+        // parse moves
+        String[] moveStrings = moves.split(",");
+
+        return null;
+    }
+
     public int[] getCardIndex() {
         return cardIndex;
     }
@@ -27,6 +34,7 @@ public class Move {
     public CommandCard getCardAtIndex(int index, CommandCardField[] cards) {
         return cards[cardIndex[index]].getCard();
     }
+
     public CommandCardField getCardFieldAtIndex(int index, CommandCardField[] cards) {
         return cards[cardIndex[index]];
     }
