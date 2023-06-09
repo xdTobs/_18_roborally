@@ -105,7 +105,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         if (cardField.player != null) {
 
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CommandCardField other = cardField.player.getCurrentMove().getCardFieldAtIndex(i,cardField.player.getCardsOnHand());
+                CommandCardField other = cardField.player.getProgrammedCards(i);
                 if (other == cardField) {
                     return "P," + i;
                 }
@@ -129,7 +129,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 int i = Integer.parseInt(strings[1]);
                 if ("P".equals(strings[0])) {
                     if (i < Player.NO_REGISTERS) {
-                       return field.player.getCurrentMove().getCardFieldAtIndex(i,field.player.getCardsOnHand());
+                       return field.player.getProgrammedCards(i);
                    }
                } else if ("C".equals(strings[0])) {
                     if (i < Player.NO_AVAILABLE_CARDS) {
@@ -276,15 +276,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
                         if (object instanceof String) {
                             CommandCardField source = cardFieldFromRepresentation((String) object);
                             // TODO Somehow actually move the cards.
-                            if (source != null && board.moveCards(source, cardField)) {
 
-                                CommandCard card = source.getCard();
-                                if (card != null) {
-                                    if (board.moveCards(source, cardField)) {
-                                        cardField.setCard(card);
-                                        success = true;
-                                    }
-                                }
+                            if (source != null && board.moveCards(source, cardField)) {
+                                success = true;
                             }
                         }
                     }
