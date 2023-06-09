@@ -64,6 +64,7 @@ public class RequestController {
         scheduledService.setPeriod(Duration.seconds(1));
     }
 //
+
 //    ApiResponseCallback newGameCallback() {
 //        return new ApiResponseCallback() {
 //            @Override
@@ -80,6 +81,11 @@ public class RequestController {
 //    }
 //
 
+
+    public void stopPolling() {
+        scheduledService.cancel();
+    }
+
     public void startPolling() {
         scheduledService.setOnSucceeded(event1 -> {
             String response = scheduledService.getValue();
@@ -89,6 +95,7 @@ public class RequestController {
             Status status = Status.of(jsonObject.get("status").toString());
             setStatus(status);
             if (status == Status.RUNNING) {
+                stopPolling();
                 clientController.createBoardView(jsonObject.get("board").toString());
             }
         });
