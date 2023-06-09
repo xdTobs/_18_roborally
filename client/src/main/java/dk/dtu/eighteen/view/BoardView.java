@@ -31,7 +31,6 @@ import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Space;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,6 +43,7 @@ import java.util.List;
  */
 public class BoardView extends VBox implements ViewObserver {
 
+    private final WebAppController webAppController;
     private Board board;
 
     private GridPane mainBoardPane;
@@ -54,6 +54,7 @@ public class BoardView extends VBox implements ViewObserver {
     private Label statusLabel;
 
     public BoardView(WebAppController webAppController, @NotNull Board board) {
+        this.webAppController = webAppController;
         this.board = board;
 
         mainBoardPane = new GridPane();
@@ -95,7 +96,7 @@ public class BoardView extends VBox implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            statusLabel.setText(board.getStatusMessage());
+            statusLabel.setText(board.getStatusMessage(webAppController.playerName));
         }
     }
 

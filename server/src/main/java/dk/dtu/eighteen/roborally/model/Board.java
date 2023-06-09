@@ -21,17 +21,13 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * ...
@@ -67,54 +63,6 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-
-    // Creates a Board object with a given width, height, and name
-    // and initializes a 2D array of Spaces with coordinates.
-    //add checkpoint
-    // The stepMode is set to false.
-
-    public static String toJson(Board board) {
-        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(board);
-    }
-
-    public static Board fromJson(BufferedReader bufferedReader) {
-
-        String json = bufferedReader.lines().collect(Collectors.joining("\n"));
-        Board board = new Gson().fromJson(json, Board.class);
-        for (Player player : board.getPlayers()) {
-            player.board = board;
-            // Make the two references one.
-            int x = player.getSpace().x;
-            int y = player.getSpace().y;
-            Space space = board.getSpace(x, y);
-            player.setSpace(space);
-            space.setPlayer(player);
-            /*for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CommandCardField commandCardField = player.getRegisterSlot(i);
-                commandCardField.player = player;
-                CommandCard commandCard = commandCardField.getCard();
-                if (commandCard != null) {
-                }
-            }*/
-            for (int i = 0; i < Player.NO_AVAILABLE_CARDS; i++) {
-                CommandCardField commandCardField = player.getAvailableCardSlot(i);
-                commandCardField.player = player;
-                CommandCard commandCard = commandCardField.getCard();
-                if (commandCard != null) {
-                }
-            }
-        }
-        for (Space[] row : board.getSpaces()) {
-            for (Space space : row) {
-                space.board = board;
-            }
-        }
-
-        return board;
-
-    }
 
     public boolean isGameover() {
         return findWinner() != null;
@@ -291,13 +239,13 @@ public class Board extends Subject {
         return getSpace(x, y);
     }
 
-    public String getStatusMessage() {
+    public String getStatusMessage(String playerName) {
         // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() + ", Player = " + getCurrentPlayer().getName() + ", Step: " + getStep();
+        return "Phase: " + getPhase().name() + ", Player = " + playerName + ", Step: " + getStep();
     }
 
     public List<Checkpoint> getCheckpoints() {
