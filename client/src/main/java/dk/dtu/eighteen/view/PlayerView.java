@@ -34,6 +34,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * ...
  *
@@ -95,7 +98,13 @@ public class PlayerView extends Pane implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction(e -> webAppController.finishProgrammingPhase());
+        finishButton.setOnAction(e -> {
+            try {
+                webAppController.finishProgrammingPhase();
+            } catch (IOException | URISyntaxException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         buttonPanel = new VBox(finishButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);

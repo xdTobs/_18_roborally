@@ -1,5 +1,8 @@
 package dk.dtu.eighteen.controller;
 
+import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
+import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Move;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
@@ -169,8 +172,34 @@ public class WebAppController {
         }
     }
 
-    public void finishProgrammingPhase() {
-        System.err.println("finish programming phase not implemented");
+    public void finishProgrammingPhase() throws IOException, URISyntaxException, InterruptedException {
+
+
+
+        HttpRequest requestBoard = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .header("roborally-player-name", playerName)
+                .GET()
+                .build();
+        HttpResponse<String> response = HttpClient.newBuilder()
+                .build()
+                .send(requestBoard, HttpResponse.BodyHandlers.ofString());
+
+        JSONObject responseObj = new JSONObject(response.body());
+        Board lastBoard = LoadBoard.loadBoardFromJSONString(responseObj.get("board").toString());
+
+        int[] cardIndex = new int[5];
+        
+
+        JSONObject requestObject = new JSONObject();
+        Move move = new Move();
+        requestObject.put("boardName", move);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
+                .build();
     }
 }
 //
