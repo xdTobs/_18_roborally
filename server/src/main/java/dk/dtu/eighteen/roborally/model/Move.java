@@ -1,24 +1,31 @@
 package dk.dtu.eighteen.roborally.model;
 
+import java.util.List;
+
 public class Move {
 
     private final int[] cardIndex = new int[5];
 
-    public Move(int[] cardIndex) {
-        for (int i = 0; i < 5; i++) {
-            this.cardIndex[i] = cardIndex[i];
-        }
-    }
+//    public Move(int[] cardIndex) {
+//        for (int i = 0; i < 5; i++) {
+//            this.cardIndex[i] = cardIndex[i];
+//        }
+//    }
 
-    public Move() {
-    }
+//    public Move() {
+//    }
 
-    public static Move parseMoves(String moves) {
+    public static Move findSelectedMoves(List<String> moves, CommandCardField[] availableCards) {
         // parse moves
-        String[] moveStrings = moves.split(",");
+        int[] cardIndex = new int[5];
+        for (int i = 0; i < 5; i++) {
+            cardIndex[i] = -1;
+        }
+
 
         return null;
     }
+
 
     public int[] getCardIndex() {
         return cardIndex;

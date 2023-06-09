@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.UUID;
 
 //interface ApiResponseCallback {
 //    void onResponse(String response);
@@ -50,15 +51,15 @@ public class RequestController {
                                 .send(request, HttpResponse.BodyHandlers.ofString());
                         // For debugging
                         if (timesPolled == 1) {
-                            var req = HttpRequest.newBuilder()
-                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
-                                    .header("roborally-player-name", "debug-name")
-                                    .GET()
-                                    .build();
-                            HttpResponse<Void> res = HttpClient.newBuilder()
-                                    .build()
-                                    .send(req, HttpResponse.BodyHandlers.discarding());
-                            return response.body().toString();
+//                            var req = HttpRequest.newBuilder()
+//                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+//                                    .header("roborally-player-name", "debug-name")
+//                                    .GET()
+//                                    .build();
+//                            HttpResponse<Void> res = HttpClient.newBuilder()
+//                                    .build()
+//                                    .send(req, HttpResponse.BodyHandlers.discarding());
+//                            return response.body().toString();
                         }
                         return response.body().toString();
                     }
@@ -140,17 +141,36 @@ public class RequestController {
         }
     }
 
-    public void postMoves(List<String> cardIds) {
+    public void postMoves(List<UUID> cardIds) {
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "moves"))
-                    .header("roborally-player-name", clientController.webAppController.playerName)
-                    .POST(HttpRequest.BodyPublishers.ofString(String.join(",", cardIds)))
-                    .build();
+            String requestBody = "[" + String.join(",", cardIds.stream().map(c -> c.toString()).toList()) + "]";
+            // Send the request and get the response
 
+            // Print the response body
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves"))
+                    .header("Content-Type", "application/json")
+                    .header("roborally-player-name", clientController.webAppController.playerName)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+//                    .POST(HttpRequest.BodyPublishers.ofString(cardIds.get(0).toString()))
+//                    .build();
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves"))
+//                    .header("roborally-player-name", clientController.webAppController.playerName)
+//                    .POST(HttpRequest.BodyPublishers.noBody())
+//                    .build();
+
+
+            System.out.println(request);
             HttpResponse<String> response = HttpClient.newBuilder()
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response);
+            System.out.println(response.body());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

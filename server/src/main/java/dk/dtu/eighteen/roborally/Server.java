@@ -6,7 +6,7 @@ import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Move;
+import dk.dtu.eighteen.roborally.model.CommandCardField;
 import dk.dtu.eighteen.roborally.model.Player;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -166,7 +163,7 @@ public class Server {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request adding a player when game is INIT_NEW_GAME or INIT_LOAD_GAME");
         }
-        var i = appController.incrementTakenAction();
+        var i = appController.incGetTakenAction();
         if (i == appController.getPlayerCapacity()) {
             appController.status = Status.RUNNING;
             appController.resetTakenAction();
@@ -178,34 +175,86 @@ public class Server {
     }
 
     @PostMapping("/game/{gameId}/moves")
-    public String planMoves(@RequestHeader("roborally-player-name") String playerName, @RequestBody String moves, @PathVariable int gameId) {
-        System.out.println(moves);
-        Move move = Move.parseMoves(moves);
-        // TODO Continue from here.
+    public String planMoves(@RequestHeader("roborally-player-name") String playerName,
+                            @RequestBody List<UUID> moveIds,
+                            @PathVariable int gameId) {
+        System.out.println(moveIds);
         AppController appController = appControllerMap.get(gameId);
-        Player p = appController.getGameController().getBoard().getPlayer(playerName);
-        if (p == null) {
+
+        Player player = appController.getGameController().getBoard().getPlayer(playerName);
+        if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
-        if (!move.areValid()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");
+
+//        outer:
+//        for (int i = 0; i < 5; i++) {
+//            var regField = player.getRegisterCardField(i);
+//            var playableCardFields = player.getPlayableCards();
+//            for (CommandCardField playableCardField : playableCardFields) {
+//                if (playableCardField.getCard().cardID.equals(moveIds.get(i))) {
+//                    regField.setCard(playableCardField.getCard());
+//                    continue outer;
+//                }
+//            }
+//            regField.setCard(null);
+//            playableCardFields.findFirst().ifPresentOrElse(playableCardField -> {
+//                regField.setCard(playableCardField.getCard());
+//            }, () -> {
+//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "card not found");
+//            });
+//        }
+
+//        System.out.println("player " + playerName + " has planned moves");
+//        System.out.println("player planned moves");
+        moveIds.forEach(System.out::println);
+        System.out.println("5 reg");
+        for (int i = 0; i < 5; i++) {
+            var regField = player.getRegisterCardField(i);
+            if (regField.getCard() != null) {
+                System.out.println(regField.getCard().cardID);
+                System.out.println(regField.getCard().command.displayName);
+            } else {
+                System.out.println("empty");
+            }
         }
-        System.out.println(Arrays.toString(move.getCardIndex()));
-        p.setCurrentMove(move);
-        System.out.println(Arrays.toString(p.getCurrentMove().getCardIndex()));
-        int playerNo = p.board.getPlayers().indexOf(p);
-        appController.getMadeMove()[playerNo] = true;
-        int count = 0;
-        System.out.println(Arrays.toString(appController.getMadeMove()));
-        for (boolean bool : appController.getMadeMove()) {
-            if (bool) count++;
+        System.out.println();
+        System.out.println("player available moves");
+        for (int i = 0; i < 8; i++) {
+            var availField = player.getPlayableCard(i);
+            if (availField.getCard() != null) {
+                System.out.println(availField.getCard().cardID);
+                System.out.println(availField.getCard().command.displayName);
+            }
         }
-        if (count == appController.getPlayerCapacity()) {
+
+        if (appController.incGetTakenAction() == appController.getPlayerCapacity()) {
             System.out.println("all made move");
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
             Arrays.fill(appController.getMadeMove(), false);
         }
+
+//        Move move = Move.findSelectedMoves(moveIds, playableCards);
+        // TODO Continue from here.
+//        if (!move.areValid()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");
+//        }
+//        System.out.println(Arrays.toString(move.getCardIndex()));
+//        p.setCurrentMove(move);
+//        System.out.println(Arrays.toString(p.getCurrentMove().getCardIndex()));
+//        int playerNo = p.board.getPlayers().indexOf(p);
+//        appController.getMadeMove()[playerNo] = true;
+//        int count = 0;
+//        System.out.println(Arrays.toString(appController.getMadeMove()));
+//        for (boolean bool : appController.getMadeMove()) {
+//            if (bool) count++;
+//        }
+//        if (count == appController.getPlayerCapacity()) {
+//            System.out.println("all made move");
+//            appController.getGameController().finishProgrammingPhase();
+//            appController.getGameController().executePrograms();
+//            Arrays.fill(appController.getMadeMove(), false);
+//        }
         return "done";
     }
 

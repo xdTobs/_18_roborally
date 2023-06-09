@@ -68,8 +68,8 @@ public class GameController {
         for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
-                for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
-                    CommandCardField field = player.getAvailableCardSlot(j);
+                for (int j = 0; j < Player.NO_PLAYABLE_CARDS; j++) {
+                    CommandCardField field = player.getPlayableCard(j);
                     field.setCard(generateRandomCommandCard());
                     field.setVisible(true);
                 }
@@ -84,8 +84,8 @@ public class GameController {
         for (int i = 0; i < board.getNumberOfPlayers(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
-                for (int j = 0; j < Player.NO_AVAILABLE_CARDS; j++) {
-                    CommandCardField field = player.getAvailableCardSlot(j);
+                for (int j = 0; j < Player.NO_PLAYABLE_CARDS; j++) {
+                    CommandCardField field = player.getPlayableCard(j);
                     field.setVisible(true);
                 }
             }
@@ -138,7 +138,7 @@ public class GameController {
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         } else {
             step++;
-            if (step < Player.NO_REGISTERS) {
+            if (step < Player.NO_REGISTER_CARDS) {
                 //makeProgramFieldsVisible(step);
                 board.setStep(step);
                 board.setCurrentPlayer(board.getPlayer(0));
@@ -159,10 +159,10 @@ public class GameController {
 
         int step = board.getStep();
 
-        if (step < 0 || step >= Player.NO_REGISTERS) assert false;
+        if (step < 0 || step >= Player.NO_REGISTER_CARDS) assert false;
 
 
-        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getCardsOnHand());
+        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getPlayableCards());
         if (card != null) {
             Command command = card.command;
             if (command.isInteractive()) {
@@ -194,7 +194,7 @@ public class GameController {
                 gameover.setHeaderText(null);
                 gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'Stop Game' and then 'New Game' to play again.");
                 gameover.showAndWait();
-            } else if (step < Player.NO_REGISTERS) {
+            } else if (step < Player.NO_REGISTER_CARDS) {
                 //makeProgramFieldsVisible(step);
                 board.setStep(step);
                 board.setCurrentPlayer(board.getPlayer(0));
@@ -315,7 +315,7 @@ public class GameController {
         if (step < 0) {
             return;
         }
-        CommandCard card = player.getCurrentMove().getCardAtIndex(step, player.getCardsOnHand());
+        CommandCard card = player.getCurrentMove().getCardAtIndex(step, player.getPlayableCards());
         if (card.command == Command.AGAIN) {
             again(player, step - 1);
             return;

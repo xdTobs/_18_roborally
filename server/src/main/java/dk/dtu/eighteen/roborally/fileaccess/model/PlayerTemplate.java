@@ -11,7 +11,7 @@ public class PlayerTemplate {
     public String color;
     public int checkpointCounter;
     public Heading heading;
-    public CommandCardFieldTemplate[] availableCardSlots;
+    public CommandCardFieldTemplate[] playableCards;
 
     private PlayerTemplate(Player p, CommandCardFieldTemplate[] availableSlotsTemplate) {
         this.x = p.getSpace().x;
@@ -21,13 +21,13 @@ public class PlayerTemplate {
         this.checkpointCounter = p.getCheckpointCounter();
         this.heading = p.getHeading();
         this.currentMoves = p.getCurrentMove();
-        this.availableCardSlots = availableSlotsTemplate;
+        this.playableCards = availableSlotsTemplate;
     }
 
     public static PlayerTemplate createPlayerTemplate(Player p) {
-        CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getCardsOnHand().length];
-        for (int i = 0; i < p.getCardsOnHand().length; i++) {
-            availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getAvailableCardSlot(i));
+        CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getPlayableCards().length];
+        for (int i = 0; i < p.getPlayableCards().length; i++) {
+            availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getPlayableCard(i));
         }
         return new PlayerTemplate(p, availableSlotsTemplate);
     }
