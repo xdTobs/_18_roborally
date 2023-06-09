@@ -4,9 +4,9 @@ import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.model.Space;
 
-public class Rotate implements IFieldAction {
+public class RotateLeft implements IFieldAction {
 
-    public Rotate(){}
+    public RotateLeft(){}
     @Override
     public boolean doAction(GameController gameController, Space space) {
         space.getPlayer().setHeading(space.getPlayer().getHeading().prev());;
