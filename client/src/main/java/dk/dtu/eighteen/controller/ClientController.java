@@ -35,8 +35,8 @@ public class ClientController extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        var MIN_APP_WIDTH = 600;
-        var MIN_APP_HEIGHT = 600;
+        var MIN_APP_WIDTH = 800;
+        var MIN_APP_HEIGHT = 1000;
         stage = primaryStage;
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
         boardRoot = new BorderPane(statusText);
@@ -73,9 +73,13 @@ public class ClientController extends Application {
         Board board = null;
         try {
             board = LoadBoard.loadBoardFromJSONString(json);
+            String[] colors = {"red","orange", "yellow", "green",  "blue", "indigo", "violet",}; // Add more colors if needed
+            int i = 0;
             for (Player p : board.getPlayers()) {
                 if (p.getColor() == null) {
-                    p.setColor("red");
+                    String color = colors[i];
+                    i++;
+                    p.setColor(color);
                 }
             }
         } catch (IOException e) {
