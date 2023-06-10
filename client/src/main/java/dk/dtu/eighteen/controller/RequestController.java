@@ -50,17 +50,17 @@ public class RequestController {
                                 .build()
                                 .send(request, HttpResponse.BodyHandlers.ofString());
                         // For debugging
-                        if (timesPolled == 1) {
-                            var req = HttpRequest.newBuilder()
-                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
-                                    .header("roborally-player-name", "debug-name")
-                                    .GET()
-                                    .build();
-                            HttpResponse<Void> res = HttpClient.newBuilder()
-                                    .build()
-                                    .send(req, HttpResponse.BodyHandlers.discarding());
-                            return response.body().toString();
-                        }
+//                        if (timesPolled == 1) {
+//                            var req = HttpRequest.newBuilder()
+//                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+//                                    .header("roborally-player-name", "debug-name")
+//                                    .GET()
+//                                    .build();
+//                            HttpResponse<Void> res = HttpClient.newBuilder()
+//                                    .build()
+//                                    .send(req, HttpResponse.BodyHandlers.discarding());
+//                            return response.body().toString();
+//                        }
                         return response.body().toString();
                     }
                 };
@@ -155,23 +155,9 @@ public class RequestController {
                     .header("roborally-player-name", clientController.webAppController.playerName)
                     .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray)))
                     .build();
-//            HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
-//                    .POST(HttpRequest.BodyPublishers.ofString(cardIds.get(0).toString()))
-//                    .build();
-//            HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves"))
-//                    .header("roborally-player-name", clientController.webAppController.playerName)
-//                    .POST(HttpRequest.BodyPublishers.noBody())
-//                    .build();
-
-
-            System.out.println(request);
             HttpResponse<String> response = HttpClient.newBuilder()
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response);
-            System.out.println(response.body());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

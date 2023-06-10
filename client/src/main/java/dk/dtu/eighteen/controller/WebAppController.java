@@ -15,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class WebAppController {
     public String playerName = null;
@@ -85,7 +86,7 @@ public class WebAppController {
         }
 
         nameInputDialog();
-//        this.playerName = "debug-name-1";
+//        this.playerName = UUID.randomUUID().toString();
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
@@ -150,6 +151,7 @@ public class WebAppController {
 
     public void joinGame() {
         nameInputDialog();
+//        this.playerName = UUID.randomUUID().toString();
 
         TextInputDialog gameIdInputDialog = new TextInputDialog();
         gameIdInputDialog.setTitle("Enter game ID");
@@ -172,7 +174,7 @@ public class WebAppController {
 
     public void finishProgrammingPhase(List<String> cardIds) {
         requestController.postMoves(cardIds);
-        System.err.println("finish programming phase not implemented");
+        requestController.startPolling();
     }
 }
 //

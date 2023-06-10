@@ -162,7 +162,8 @@ public class GameController {
         if (step < 0 || step >= Player.NO_REGISTER_CARDS) assert false;
 
 
-        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getPlayableCards());
+        CommandCard card = currentPlayer.getRegisterCardField(step).getCard();
+//        CommandCard card = currentPlayer.getCurrentMove().getCardAtIndex(step, currentPlayer.getPlayableCards());
         if (card != null) {
             Command command = card.command;
             if (command.isInteractive()) {

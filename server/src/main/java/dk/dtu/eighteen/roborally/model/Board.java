@@ -120,8 +120,9 @@ public class Board extends Subject {
     }
 
     private Space getFirstEmptySpace() {
-        for (Space[] row : spaces) {
-            for (Space space : row) {
+        for (int i = 0; i < spaces.length; i++) {
+            for (int j = 0; j < spaces[i].length; j++) {
+                Space space = spaces[i][j];
                 if (space.getPlayer() == null) {
                     return space;
                 }

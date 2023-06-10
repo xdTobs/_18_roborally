@@ -21,6 +21,7 @@ public class ConveyorBelt implements IFieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
+        // TODO find out why this give nullpointerexception
         space.getPlayer().setHeading(heading);
         gameController.moveForward(space.getPlayer());
 

@@ -73,15 +73,6 @@ public class ClientController extends Application {
         Board board = null;
         try {
             board = LoadBoard.loadBoardFromJSONString(json);
-            String[] colors = {"red","orange", "yellow", "green",  "blue", "indigo", "violet",}; // Add more colors if needed
-            int i = 0;
-            for (Player p : board.getPlayers()) {
-                if (p.getColor() == null) {
-                    String color = colors[i];
-                    i++;
-                    p.setColor(color);
-                }
-            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

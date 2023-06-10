@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +91,7 @@ public class Server {
         }
         int id = counter.incrementAndGet();
         var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
+        appController.incGetTakenAction();
         board.createAddPlayerToEmptySpace(null, playerName);
 //        board.generateCardsForPlayers();
 
@@ -206,42 +206,14 @@ public class Server {
                 System.out.println("empty");
             }
         }
-        System.out.println();
-        System.out.println("player available moves");
-        for (int i = 0; i < 8; i++) {
-            var availField = player.getPlayableCard(i);
-            if (availField.getCard() != null) {
-                System.out.println(availField.getCard().command.displayName);
-            }
-        }
 
-            caSystem.out.println("all made move");
+        if (appController.incGetTakenAction() == appController.getPlayerCapacity()) {
+            System.out.println("all made move");
+            appController.resetTakenAction();
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
-            Arrays.fill(appController.getMadeMove(), false);
+            System.out.println("moves have been made");
         }
-
-//        Move move = Move.findSelectedMoves(moveNames, playableCards);
-        // TODO Continue from here.
-//        if (!move.areValid()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");
-//        }
-//        System.out.println(Arrays.toString(move.getCardIndex()));
-//        p.setCurrentMove(move);
-//        System.out.println(Arrays.toString(p.getCurrentMove().getCardIndex()));
-//        int playerNo = p.board.getPlayers().indexOf(p);
-//        appController.getMadeMove()[playerNo] = true;
-//        int count = 0;
-//        System.out.println(Arrays.toString(appController.getMadeMove()));
-//        for (boolean bool : appController.getMadeMove()) {
-//            if (bool) count++;
-//        }
-//        if (count == appController.getPlayerCapacity()) {
-//            System.out.println("all made move");
-//            appController.getGameController().finishProgrammingPhase();
-//            appController.getGameController().executePrograms();
-//            Arrays.fill(appController.getMadeMove(), false);
-//        }
         return "done";
     }
 

@@ -37,27 +37,24 @@ import java.util.List;
  */
 public class AppController implements Observer {
 
-    // Use this to check if all players have joined/moved.
-    private static int playersTakenAction = 1;
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
     //    List<User> users = new ArrayList<>(10);
     public Status status;
-    private boolean[] madeMove;
+    // Use this to check if all players have joined/moved.
+    private int playersTakenAction = 0;
     private GameController gameController;
 
     public AppController(Board board, int playerCapacity, Status status) {
         this.playerCapacity = playerCapacity;
-        madeMove = new boolean[playerCapacity];
         this.status = status;
         gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    public static int incGetTakenAction() {
-        playersTakenAction++;
-        return playersTakenAction;
+    public int incGetTakenAction() {
+        return ++playersTakenAction;
     }
 
     public int getPlayerCapacity() {
@@ -125,14 +122,8 @@ public class AppController implements Observer {
     }
 
     public void resetTakenAction() {
-        playersTakenAction = 1;
+        playersTakenAction = 0;
     }
 
-    public boolean[] getMadeMove() {
-        return madeMove;
-    }
 
-    public void setMadeMove(boolean[] madeMove) {
-        this.madeMove = madeMove;
-    }
 }

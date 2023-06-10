@@ -25,8 +25,6 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 import static dk.dtu.eighteen.roborally.model.Heading.SOUTH;
 
 /**
@@ -38,7 +36,7 @@ public class Player extends Subject {
 
     final public static int NO_REGISTER_CARDS = 5;
     final public static int NO_PLAYABLE_CARDS = 8;
-
+    private final String[] colors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet",}; // Add more colors if needed
     public Board board;
     int x;
     int y;
@@ -51,6 +49,11 @@ public class Player extends Subject {
     private CommandCardField[] registerCards;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
+        if (color == null) {
+            // The same player name always gives the same color, for easier debugging.
+            int n = Math.abs(name.hashCode() % 7);
+            color = colors[n];
+        }
         this.board = board;
         this.name = name;
         this.color = color;
