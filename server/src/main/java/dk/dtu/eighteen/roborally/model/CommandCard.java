@@ -35,11 +35,11 @@ import java.util.UUID;
 public class CommandCard extends Subject {
 
     final public Command command;
-    final public UUID cardID = UUID.randomUUID();
 
     public CommandCard(@NotNull Command command) {
         this.command = command;
     }
+
 
     public CommandCard(CommandCardTemplate template) {
         this.command = template.command;
@@ -47,5 +47,12 @@ public class CommandCard extends Subject {
 
     public String getName() {
         return command.displayName;
+    }
+
+    @Override
+    public String toString() {
+        return "card{" +
+                "command=" + command +
+                '}';
     }
 }

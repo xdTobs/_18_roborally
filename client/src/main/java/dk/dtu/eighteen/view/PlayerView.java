@@ -36,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * ...
@@ -105,18 +104,16 @@ public class PlayerView extends Pane implements ViewObserver {
                 System.out.println(c);
             }
             System.out.println();
-            List<UUID> cardIds = new ArrayList<>();
+            List<String> moveNames = new ArrayList<>();
             for (CardFieldView programCardView : this.programCardViews) {
                 try {
-                    UUID uuid = programCardView.getCommandCardField().getCard().cardID;
-                    cardIds.add(uuid);
+                    String s = programCardView.getCommandCardField().getCard().command.toString();
+                    moveNames.add(s);
                 } catch (NullPointerException exeption) {
-                    System.err.println("NullPointerException: player has submitted an empty card field. Ajabaja!");
-                    UUID emptyUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
-                    cardIds.add(emptyUUID);
+                    moveNames.add("empty");
                 }
             }
-            webAppController.finishProgrammingPhase(cardIds);//cardIds was gives as argument
+            webAppController.finishProgrammingPhase(moveNames);
         });
 
         buttonPanel = new VBox(finishButton);

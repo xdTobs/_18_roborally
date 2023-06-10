@@ -6,7 +6,8 @@ import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.CommandCardField;
+import dk.dtu.eighteen.roborally.model.Command;
+import dk.dtu.eighteen.roborally.model.CommandCard;
 import dk.dtu.eighteen.roborally.model.Player;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +19,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -87,8 +91,10 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
         int id = counter.incrementAndGet();
-        board.createAddPlayerToEmptySpace(null, playerName);
         var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
+        board.createAddPlayerToEmptySpace(null, playerName);
+//        board.generateCardsForPlayers();
+
         appControllerMap.put(id, appController);
         debugPrintAppControllerMap();
         return id;
@@ -114,8 +120,7 @@ public class Server {
         }
         Status status = appController.status;
         var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
-        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard ||
-                status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
+        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             System.out.println("player " + playerName + " has joined game " + gameId);
             joinGame(gameId, playerName);
         } else {
@@ -154,7 +159,6 @@ public class Server {
             if (playerExists) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name already exists");
             }
-            var player = new Player(board, null, playerName);
             board.createAddPlayerToEmptySpace(null, playerName);
         } else if (appController.status == Status.INIT_LOAD_GAME) {
             if (!playerExists) {
@@ -176,9 +180,9 @@ public class Server {
 
     @PostMapping("/game/{gameId}/moves")
     public String planMoves(@RequestHeader("roborally-player-name") String playerName,
-                            @RequestBody List<UUID> moveIds,
+                            @RequestBody List<String> moveNames,
                             @PathVariable int gameId) {
-        System.out.println(moveIds);
+        System.out.println(moveNames);
         AppController appController = appControllerMap.get(gameId);
 
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
@@ -186,32 +190,17 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
 
-//        outer:
-//        for (int i = 0; i < 5; i++) {
-//            var regField = player.getRegisterCardField(i);
-//            var playableCardFields = player.getPlayableCards();
-//            for (CommandCardField playableCardField : playableCardFields) {
-//                if (playableCardField.getCard().cardID.equals(moveIds.get(i))) {
-//                    regField.setCard(playableCardField.getCard());
-//                    continue outer;
-//                }
-//            }
-//            regField.setCard(null);
-//            playableCardFields.findFirst().ifPresentOrElse(playableCardField -> {
-//                regField.setCard(playableCardField.getCard());
-//            }, () -> {
-//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "card not found");
-//            });
-//        }
+        outer:
+        for (int i = 0; i < 5; i++) {
+            Command c = Command.of(moveNames.get(i));
+            CommandCard cc = c == null ? null : new CommandCard(c);
+            var regField = player.getRegisterCardField(i);
+            regField.setCard(cc);
+        }
 
-//        System.out.println("player " + playerName + " has planned moves");
-//        System.out.println("player planned moves");
-        moveIds.forEach(System.out::println);
-        System.out.println("5 reg");
         for (int i = 0; i < 5; i++) {
             var regField = player.getRegisterCardField(i);
             if (regField.getCard() != null) {
-                System.out.println(regField.getCard().cardID);
                 System.out.println(regField.getCard().command.displayName);
             } else {
                 System.out.println("empty");
@@ -222,19 +211,17 @@ public class Server {
         for (int i = 0; i < 8; i++) {
             var availField = player.getPlayableCard(i);
             if (availField.getCard() != null) {
-                System.out.println(availField.getCard().cardID);
                 System.out.println(availField.getCard().command.displayName);
             }
         }
 
-        if (appController.incGetTakenAction() == appController.getPlayerCapacity()) {
-            System.out.println("all made move");
+            caSystem.out.println("all made move");
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
             Arrays.fill(appController.getMadeMove(), false);
         }
 
-//        Move move = Move.findSelectedMoves(moveIds, playableCards);
+//        Move move = Move.findSelectedMoves(moveNames, playableCards);
         // TODO Continue from here.
 //        if (!move.areValid()) {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "moves are not valid");

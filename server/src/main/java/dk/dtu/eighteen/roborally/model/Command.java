@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public enum Command   {
+public enum Command {
 
     // This is a very simplistic way of realizing different commands.
 
@@ -53,6 +53,22 @@ public enum Command   {
     Command(String displayName, Command... options) {
         this.displayName = displayName;
         this.options = Collections.unmodifiableList(Arrays.asList(options));
+    }
+
+    public static Command of(String s) {
+        return switch (s.toUpperCase()) {
+            case "MOVE_1" -> MOVE_1;
+            case "MOVE_2" -> MOVE_2;
+            case "MOVE_3" -> MOVE_3;
+            case "RIGHT" -> RIGHT;
+            case "LEFT" -> LEFT;
+            case "U_TURN" -> U_TURN;
+            case "MOVE_BACK" -> MOVE_BACK;
+            case "AGAIN" -> AGAIN;
+            case "OPTION_LEFT_RIGHT" -> OPTION_LEFT_RIGHT;
+            case "EMPTY" -> null;
+            default -> throw new IllegalStateException("Unexpected value: " + s.toUpperCase());
+        };
     }
 
     public boolean isInteractive() {

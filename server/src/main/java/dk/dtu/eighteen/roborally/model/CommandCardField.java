@@ -78,9 +78,8 @@ public class CommandCardField extends Subject {
 
     @Override
     public String toString() {
-        return "CommandCardField{" +
-                "player=" + player +
-                ", card=" + card +
+        return "player={" + player +
+                "card=" + card +
                 ", visible=" + visible +
                 '}';
     }

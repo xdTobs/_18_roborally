@@ -290,4 +290,9 @@ public class Board extends Subject {
         return null;
     }
 
+//    public void generateCardsForPlayers() {
+//        for (Player player : players) {
+//            player.generateCards();
+//        }
+//    }
 }

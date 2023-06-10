@@ -25,6 +25,8 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import static dk.dtu.eighteen.roborally.model.Heading.SOUTH;
 
 /**
@@ -153,5 +155,14 @@ public class Player extends Subject {
 
     public void setCurrentMove(Move currentMove) {
         this.currentMove = currentMove;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                ", x=" + x +
+                ", y=" + y +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
