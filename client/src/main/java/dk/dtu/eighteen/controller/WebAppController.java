@@ -85,18 +85,18 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
-//        nameInputDialog();
-        this.playerName = "debug-name-1";
+        nameInputDialog();
+//        this.playerName = "debug-name-1";
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
             numPlayerOptions.add(String.valueOf(i));
         }
 
-//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-//        String boardName = dialogChoice(boardNameList, "gameboard");
-        String boardName = "a-test-board.json";
-        int numberOfPlayers = 2;
+        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
+        String boardName = dialogChoice(boardNameList, "gameboard");
+//        String boardName = "a-test-board.json";
+//        int numberOfPlayers = 2;
 
 
 //        clientController.setStatusText("You picked the board: " + boardName);
