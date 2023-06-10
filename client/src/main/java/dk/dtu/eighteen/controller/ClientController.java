@@ -82,11 +82,6 @@ public class ClientController extends Application {
                     p.setColor(color);
                 }
             }
-//            for (Player p : board.getPlayers()) {
-//                if (p.getColor() == null) {
-//                    p.setColor("red");
-//                }
-//            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
