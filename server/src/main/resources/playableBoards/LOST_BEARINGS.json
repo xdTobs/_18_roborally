@@ -213,6 +213,12 @@
     [
       {
         "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 0
+      },
+      {
+        "walls": [],
         "actions": [
           {
             "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
@@ -221,12 +227,6 @@
             }
           }
         ],
-        "x": 3,
-        "y": 0
-      },
-      {
-        "walls": [],
-        "actions": [],
         "x": 3,
         "y": 1
       },
@@ -717,7 +717,7 @@
           {
             "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
             "INSTANCE": {
-              "heading": "East"
+              "heading": "EAST"
             }
           }
         ],
