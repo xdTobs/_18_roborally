@@ -3,6 +3,7 @@ package dk.dtu.eighteen.roborally.controller.spaces;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
 import dk.dtu.eighteen.roborally.model.Heading;
+import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
 public class ConveyorBelt implements IFieldAction {
@@ -22,8 +23,8 @@ public class ConveyorBelt implements IFieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
         // TODO find out why this give nullpointerexception
-        space.getPlayer().setHeading(heading);
-        gameController.moveForward(space.getPlayer());
+        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        gameController.moveForward(player);
 
         return true;
     }

@@ -11,10 +11,11 @@ public class FastTripleConveyorBeltPositive extends ConveyorBelt {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        Heading playerHeading = space.getPlayer().getHeading();
-        space.getPlayer().setHeading(super.getHeading());
-        gameController.moveForward(space.getPlayer());
-        space.getPlayer().setHeading(playerHeading);
+        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        Heading playerHeading = player.getHeading();
+        player.setHeading(super.getHeading());
+        gameController.moveForward(player);
+        player.setHeading(playerHeading);
 
         return true;
     }

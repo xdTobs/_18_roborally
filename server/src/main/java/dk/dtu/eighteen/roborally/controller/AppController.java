@@ -27,9 +27,6 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * ...
  *
@@ -37,13 +34,13 @@ import java.util.List;
  */
 public class AppController implements Observer {
 
-    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
-    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    //    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
+//    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
     //    List<User> users = new ArrayList<>(10);
     public Status status;
     // Use this to check if all players have joined/moved.
-    private int playersTakenAction = 0;
+    private int actionCounter = 0;
     private GameController gameController;
 
     public AppController(Board board, int playerCapacity, Status status) {
@@ -53,8 +50,8 @@ public class AppController implements Observer {
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    public int incGetTakenAction() {
-        return ++playersTakenAction;
+    public int incActionCounter() {
+        return ++actionCounter;
     }
 
     public int getPlayerCapacity() {
@@ -122,7 +119,7 @@ public class AppController implements Observer {
     }
 
     public void resetTakenAction() {
-        playersTakenAction = 0;
+        actionCounter = 0;
     }
 
 

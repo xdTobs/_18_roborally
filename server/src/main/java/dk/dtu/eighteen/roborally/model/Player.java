@@ -38,8 +38,8 @@ public class Player extends Subject {
     final public static int NO_PLAYABLE_CARDS = 8;
     private final String[] colors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet",}; // Add more colors if needed
     public Board board;
-    int x;
-    int y;
+    public int x;
+    public int y;
     private String name;
     private String color;
     private int checkpointCounter;

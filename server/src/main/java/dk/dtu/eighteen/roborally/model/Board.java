@@ -115,7 +115,6 @@ public class Board extends Subject {
         Player player = new Player(this, color, name);
         Space space = getFirstEmptySpace();
         player.setSpace(space);
-        space.setPlayer(player);
         players.add(player);
     }
 
@@ -123,7 +122,8 @@ public class Board extends Subject {
         for (int i = 0; i < spaces.length; i++) {
             for (int j = 0; j < spaces[i].length; j++) {
                 Space space = spaces[i][j];
-                if (space.getPlayer() == null) {
+
+                if (players.stream().map(Player::getSpace).noneMatch(s -> s == space)) {
                     return space;
                 }
             }
@@ -255,8 +255,7 @@ public class Board extends Subject {
         for (Space[] row : spaces) {
             for (Space space : row) {
                 for (IFieldAction actions : space.getActions()) {
-                    if (actions instanceof Checkpoint checkpoint)
-                        checkpoints.add(checkpoint);
+                    if (actions instanceof Checkpoint checkpoint) checkpoints.add(checkpoint);
                 }
             }
         }
@@ -270,16 +269,7 @@ public class Board extends Subject {
 
     @Override
     public String toString() {
-        return "Board{" +
-                "height=" + height +
-                ", boardName='" + boardName + '\'' +
-                ", players=" + players +
-                ", width=" + width +
-                ", currentPlayerIndex=" + currentPlayerIndex +
-                ", phase=" + phase +
-                ", step=" + step +
-                ", stepMode=" + stepMode +
-                '}';
+        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width=" + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + ", stepMode=" + stepMode + '}';
     }
 
     public Player getPlayer(String playerName) {

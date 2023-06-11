@@ -1,6 +1,7 @@
 package dk.dtu.eighteen.roborally.controller.Actions;
 
 import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
 public class Checkpoint implements IFieldAction {
@@ -18,9 +19,10 @@ public class Checkpoint implements IFieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
+        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
 
-        if (space.getPlayer().getCheckpointCounter() + 1 == checkpointNumber) {
-            space.getPlayer().incrementCheckpointCounter();
+        if (player.getCheckpointCounter() + 1 == checkpointNumber) {
+            player.incrementCheckpointCounter();
             return true;
         }
         return false;

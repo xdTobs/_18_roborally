@@ -91,7 +91,7 @@ public class Server {
         }
         int id = counter.incrementAndGet();
         var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
-        appController.incGetTakenAction();
+        appController.incActionCounter();
         board.createAddPlayerToEmptySpace(null, playerName);
 //        board.generateCardsForPlayers();
 
@@ -167,13 +167,12 @@ public class Server {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request adding a player when game is INIT_NEW_GAME or INIT_LOAD_GAME");
         }
-        var i = appController.incGetTakenAction();
+        var i = appController.incActionCounter();
         if (i == appController.getPlayerCapacity()) {
             appController.status = Status.RUNNING;
             appController.resetTakenAction();
             appController.getGameController().startProgrammingPhase();
             System.out.println("game " + gameId + " has started");
-
         }
 
     }
@@ -198,25 +197,14 @@ public class Server {
             regField.setCard(cc);
         }
 
-        for (int i = 0; i < 5; i++) {
-            var regField = player.getRegisterCardField(i);
-            if (regField.getCard() != null) {
-                System.out.println(regField.getCard().command.displayName);
-            } else {
-                System.out.println("empty");
-            }
-        }
-
-        if (appController.incGetTakenAction() == appController.getPlayerCapacity()) {
-            System.out.println("all made move");
-            appController.resetTakenAction();
+        if (appController.incActionCounter() == appController.getPlayerCapacity()) {
+            System.out.println("In game " + gameId + " all players have submitted moves. Executing them now.");
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
-            System.out.println("moves have been made");
+            appController.resetTakenAction();
         }
-        return "done";
+
+        return "moves submitted: " + String.join(", ", moveNames);
+
     }
-
-
-//    }
 }

@@ -235,12 +235,9 @@ public class GameController {
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(player.getHeading());
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        push(nextSpace, player.getHeading());
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
-            if (nextSpace.getPlayer() != null) {
-                push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), player.getHeading());
-            } else {
-                player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
-            }
+            player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
 
     }
@@ -300,14 +297,20 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
     }
 
-    public void push(@NotNull Player player, Heading direction) {
+    //    public void push(Player player, Heading heading) {
+    // TODO edge check.
+    public void push(Space space, Heading heading) {
+        Player player = this.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        if (null == player) return;
         int x = player.getSpace().x;
         int y = player.getSpace().y;
-        int[] nextCoords = Heading.headingToCoords(direction);
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() != null) {
-            push(board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer(), direction);
-        }
-        if (board.getSpace(x + nextCoords[0], y + nextCoords[1]) != null && board.getSpace(x + nextCoords[0], y + nextCoords[1]).getPlayer() == null) {
+        int[] nextCoords = Heading.headingToCoords(heading);
+        Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        Player playerNextSpace = this.board.getPlayers().stream().filter(p -> p.x == nextSpace.x && p.y == nextSpace.y).findFirst().orElse(null);
+        if (!isPlayerIsBlockedByWall(player, nextSpace)) {
+            if (playerNextSpace != null) {
+                push(nextSpace, heading);
+            }
             player.setSpace(board.getSpace(x + nextCoords[0], y + nextCoords[1]));
         }
     }
@@ -350,8 +353,6 @@ public class GameController {
 
     @Override
     public String toString() {
-        return "GameController{" +
-                "board=" + board +
-                '}';
+        return "GameController{" + "board=" + board + '}';
     }
 }
