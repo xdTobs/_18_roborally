@@ -44,7 +44,7 @@ public class LoadBoard {
 
         //TODO Generalize
         //ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = "./src/main/resources/" + boardname;
+        String filename = "./server/src/main/resources/" + boardname;
         File f = new File(filename).getAbsoluteFile();
         String s = f.getAbsolutePath();
 
