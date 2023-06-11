@@ -1,6 +1,7 @@
 package dk.dtu.eighteen.roborally;
 
 
+import com.google.gson.JsonArray;
 import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
@@ -70,8 +71,24 @@ public class Server {
     @GetMapping("/game/{gameId}")
     public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("status", appController.getStatus().toString());
+
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+        }
+        if (appController.getStatus() == Status.INTERACTIVE) {
+            Player currentPlayer = appController.getGameController().getBoard().getPlayer(playerName);
+            if (currentPlayer.getName().equals(playerName)) {
+                int step = appController.getGameController().getBoard().getStep();
+                Command card = currentPlayer.getRegisterCardField(step).getCard().command;
+                JsonArray jsonArray = new JsonArray();
+                for (Command opts : card.getOptions()) {
+                    jsonArray.add(opts.toString());
+                }
+                map.put("options", jsonArray);
+                return map;
+            }
         }
         Status status = appController.getStatus();
         var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
@@ -82,9 +99,7 @@ public class Server {
 
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
-        HashMap<String, Object> map = new HashMap<>();
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
-        map.put("status", appController.getStatus().toString());
         map.put("board", boardTemplate);
         return map;
     }
@@ -125,7 +140,6 @@ public class Server {
         if (i == appController.getPlayerCapacity()) {
             appController.setStatus(Status.RUNNING);
             appController.resetTakenAction();
-            appController.getGameController().startProgrammingPhase();
         }
 
     }
@@ -150,15 +164,40 @@ public class Server {
             var regField = player.getRegisterCardField(i);
             regField.setCard(commandCard);
         }
-
-        if (appController.incActionCounter() == appController.getPlayerCapacity()) {
+        if (appController.incActionCounter() >= appController.getPlayerCapacity()) {
             appController.getGameController().finishProgrammingPhase();
-            appController.getGameController().executePrograms();
-            appController.getGameController().getBoard().turn++;
-            appController.resetTakenAction();
+            appController.runActivationPhase();
         }
         return "moves submitted: " + String.join(", ", moveNames);
+    }
 
+//    private void runGame(AppController appController) {
+//        appController.getGameController().finishProgrammingPhase();
+//        appController.runActivationPhase();
+//        if (appController.getStatus() == Status.RUNNING) {
+//            appController.resetTakenAction();
+//        }
+//    }
+
+    @PostMapping("/game/{gameId}/moves/{stringCommand}")
+    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName,
+                                        @PathVariable String stringCommand,
+                                        @PathVariable int gameId) {
+        Command c = Command.of(stringCommand);
+        AppController appController = appControllerMap.get(gameId);
+        Player player = appController.getGameController().getBoard().getPlayer(playerName);
+        if (appController.getStatus() != Status.INTERACTIVE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request interactive moves when game is in INTERACTIVE mode");
+        }
+        if (player == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
+        }
+
+        var regField = player.getRegisterCardField(appController.getGameController().getBoard().getStep());
+        regField.setCard(new CommandCard(c));
+        appController.setStatus(Status.RUNNING);
+        appController.runActivationPhase();
+        return "interactive move submitted, " + c;
     }
 
     private static List<String> getResourceFolderFiles(String folderName) {
