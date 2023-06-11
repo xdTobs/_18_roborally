@@ -23,7 +23,7 @@ public class ConveyorBelt implements IFieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
         // TODO find out why this give nullpointerexception
-        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        Player player = space.getPlayer();
         gameController.moveForward(player);
 
         return true;

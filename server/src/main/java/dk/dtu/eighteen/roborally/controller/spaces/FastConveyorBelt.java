@@ -22,7 +22,8 @@ public class FastConveyorBelt implements IFieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        Player player = space.getPlayer();
+
         player.setHeading(heading);
         gameController.moveForward(player);
         gameController.moveForward(player);

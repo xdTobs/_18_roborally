@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-public class CheckpointView extends SpaceView{
+public class CheckpointView extends SpaceView {
     public CheckpointView(@NotNull Space space, int checkpointNr) {
         super(space);
         //TODO: add all checkpoint numbers
-        if(checkpointNr == 1) {
+        if (checkpointNr == 1) {
             String filePath = new File("client/src/main/resources/imgs/Checkpoint1.png").toURI().toString();
             appendStyle("-fx-background-image: url('" + filePath + "');" +
                     "-fx-background-size: 100% 100%;" +
@@ -18,7 +18,7 @@ public class CheckpointView extends SpaceView{
                     "-fx-background-position: center;" +
                     "-fx-rotate: 270;");
         }
-        if(checkpointNr == 2) {
+        if (checkpointNr == 2) {
             String filePath = new File("client/src/main/resources/imgs/Checkpoint2.png").toURI().toString();
             appendStyle("-fx-background-image: url('" + filePath + "');" +
                     "-fx-background-size: 100% 100%;" +
@@ -26,7 +26,7 @@ public class CheckpointView extends SpaceView{
                     "-fx-background-position: center;" +
                     "-fx-rotate: 270;");
         }
-        if(checkpointNr == 3) {
+        if (checkpointNr == 3) {
             String filePath = new File("client/src/main/resources/imgs/Checkpoint3.png").toURI().toString();
             appendStyle("-fx-background-image: url('" + filePath + "');" +
                     "-fx-background-size: 100% 100%;" +
@@ -34,7 +34,7 @@ public class CheckpointView extends SpaceView{
                     "-fx-background-position: center;" +
                     "-fx-rotate: 270;");
         }
-        if(checkpointNr == 4) {
+        if (checkpointNr == 4) {
             String filePath = new File("client/src/main/resources/imgs/Checkpoint4.png").toURI().toString();
             appendStyle("-fx-background-image: url('" + filePath + "');" +
                     "-fx-background-size: 100% 100%;" +

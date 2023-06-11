@@ -45,11 +45,6 @@ public enum Heading {
         return nextCoords;
     }
 
-    public static void main(String[] args) {
-        Set<Heading> walls = new HashSet<>();
-        walls.add(Heading.NORTH);
-        walls.add(Heading.NORTH);
-    }
 
     public Heading next() {
         return values()[(this.ordinal() + 1) % values().length];

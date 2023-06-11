@@ -28,8 +28,6 @@ public class StartRoborallyClient {
 //                    .build()
 //                    .send(request, HttpResponse.BodyHandlers.ofString());
 //
-//            System.out.println("response headers: " + response.toString());
-//            System.out.println("response body: " + response.body());
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
@@ -72,7 +70,7 @@ public class StartRoborallyClient {
             }
             Collections.sort(intList);
             for (Integer i : intList) {
-                System.out.println(i.toString());
+                
             }
 
         } catch (URISyntaxException | InterruptedException | ExecutionException e) {

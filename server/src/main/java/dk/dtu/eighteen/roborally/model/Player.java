@@ -112,7 +112,7 @@ public class Player extends Subject {
     public void setName(String name) {
         if (name != null && !name.equals(this.name)) {
             this.name = name;
-            notifyChange();
+        
         }
     }
 
@@ -122,7 +122,7 @@ public class Player extends Subject {
 
     public void setColor(String color) {
         this.color = color;
-        notifyChange();
+    
     }
 
     public Space getSpace() {

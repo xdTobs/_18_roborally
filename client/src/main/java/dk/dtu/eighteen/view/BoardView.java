@@ -81,10 +81,10 @@ public class BoardView extends VBox implements ViewObserver {
                     if (action instanceof FastConveyorBelt fastconveyorBelt) {
                         spaceView = new FastConveyorBeltView(fastconveyorBelt, space);
                     }
-                    if (action instanceof RotateLeft rotateleft){
+                    if (action instanceof RotateLeft rotateleft) {
                         spaceView = new RotateLeftView(rotateleft, space);
                     }
-                    if (action instanceof RotateRight rotateright){
+                    if (action instanceof RotateRight rotateright) {
                         spaceView = new RotateRightView(rotateright, space);
                     }
                     if (action instanceof Checkpoint checkpoint) {
@@ -99,12 +99,13 @@ public class BoardView extends VBox implements ViewObserver {
 
         board.attach(this);
         update(board);
+
     }
 
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-           statusLabel.setText(board.getStatusMessage(webAppController.playerName));
+            statusLabel.setText(board.getStatusMessage(webAppController.playerName));
         }
     }
 

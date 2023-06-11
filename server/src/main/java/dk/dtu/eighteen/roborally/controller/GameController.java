@@ -190,11 +190,7 @@ public class GameController {
             if (board.isGameover()) {
                 board.setPhase(Phase.GAMEOVER);
                 currentPlayer = board.findWinner();
-                Alert gameover = new Alert(Alert.AlertType.INFORMATION);
-                gameover.setTitle("Winner found!");
-                gameover.setHeaderText(null);
-                gameover.setContentText(currentPlayer.getName() + " has won the game! Select 'Stop Game' and then 'New Game' to play again.");
-                gameover.showAndWait();
+                
             } else if (step < Player.NO_REGISTER_CARDS) {
                 //makeProgramFieldsVisible(step);
                 board.setStep(step);
@@ -300,13 +296,16 @@ public class GameController {
     //    public void push(Player player, Heading heading) {
     // TODO edge check.
     public void push(Space space, Heading heading) {
-        Player player = this.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
+        if (space == null) return;
+        Player player = space.getPlayer();
+
         if (null == player) return;
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(heading);
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
-        Player playerNextSpace = this.board.getPlayers().stream().filter(p -> p.x == nextSpace.x && p.y == nextSpace.y).findFirst().orElse(null);
+        Player playerNextSpace = nextSpace.getPlayer();
+
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
             if (playerNextSpace != null) {
                 push(nextSpace, heading);
@@ -339,7 +338,7 @@ public class GameController {
      */
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented
-        System.out.println("Not implemented yet");
+        
         assert false;
     }
 

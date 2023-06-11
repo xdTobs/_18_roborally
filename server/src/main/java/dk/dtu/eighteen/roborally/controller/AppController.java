@@ -26,6 +26,7 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Observer;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Player;
 
 /**
  * ...
@@ -37,8 +38,35 @@ public class AppController implements Observer {
     //    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
 //    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
+
+
+    public void setRecievedBoardUpdate(String playerName) {
+        Player p = gameController.getBoard().getPlayer(playerName);
+        int n = gameController.getBoard().getPlayerNumber(p);
+        this.hasRecievedBoardUpdate[n] = true;
+    }
+
+    public boolean[] getHasRecievedBoardUpdate() {
+        return hasRecievedBoardUpdate;
+    }
+
+    private boolean[] hasRecievedBoardUpdate;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     //    List<User> users = new ArrayList<>(10);
-    public Status status;
+    private Status status;
+
+    public int getActionCounter() {
+        return actionCounter;
+    }
+
     // Use this to check if all players have joined/moved.
     private int actionCounter = 0;
     private GameController gameController;
@@ -46,8 +74,12 @@ public class AppController implements Observer {
     public AppController(Board board, int playerCapacity, Status status) {
         this.playerCapacity = playerCapacity;
         this.status = status;
-        gameController = new GameController(board);
+        this.gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
+        hasRecievedBoardUpdate = new boolean[playerCapacity];
+        for (int i = 0; i < playerCapacity; i++) {
+            hasRecievedBoardUpdate[i] = false;
+        }
     }
 
     public int incActionCounter() {
@@ -112,10 +144,7 @@ public class AppController implements Observer {
 
     @Override
     public String toString() {
-        return "AppController{" +
-                "playerCapacity=" + playerCapacity +
-                ", gameController=" + gameController +
-                '}';
+        return "AppController{" + "playerCapacity=" + playerCapacity + ", gameController=" + gameController + '}';
     }
 
     public void resetTakenAction() {
@@ -123,4 +152,12 @@ public class AppController implements Observer {
     }
 
 
+    public boolean allPlayersHaveRecievedUpdate() {
+        for (boolean b : hasRecievedBoardUpdate) {
+            if (!b) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

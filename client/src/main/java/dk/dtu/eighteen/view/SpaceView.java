@@ -22,6 +22,7 @@
 package dk.dtu.eighteen.view;
 
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
+import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Heading;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
@@ -38,13 +39,12 @@ import java.util.Set;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class SpaceView extends StackPane implements ViewObserver {
+public class SpaceView extends StackPane {
 
     final public static int SPACE_HEIGHT = 60; // 60; // 75;
     final public static int SPACE_WIDTH = 60;  // 60; // 75;
 
     public final Space space;
-
 
     public SpaceView(@NotNull Space space) {
         this.space = space;
@@ -60,10 +60,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
         String filePath = new File("client/src/main/resources/imgs/Empty_Space.png").toURI().toString();
-        this.setStyle("-fx-background-image: url(" + filePath + ");" +
-                "-fx-background-size: 100% 100%;" +
-                "-fx-background-repeat: no-repeat;" +
-                "-fx-background-position: center;");
+        this.setStyle("-fx-background-image: url(" + filePath + ");" + "-fx-background-size: 100% 100%;" + "-fx-background-repeat: no-repeat;" + "-fx-background-position: center;");
 
 
         Set<Heading> walls = space.getWalls();
@@ -80,13 +77,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             borderCss.append("; ");
             appendStyle(borderCss.toString());
         }
-
-
-        // updatePlayer();
-
-        // This space view should listen to changes of the space
-        space.attach(this);
-        update(space);
+        drawPlayer();
     }
 
     void appendStyle(String style) {
@@ -94,14 +85,12 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 
-    private void updatePlayer() {
+    private void drawPlayer() {
         this.getChildren().clear();
 
         Player player = space.getPlayer();
         if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0);
+            Polygon arrow = new Polygon(0.0, 0.0, 10.0, 20.0, 20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
@@ -110,13 +99,6 @@ public class SpaceView extends StackPane implements ViewObserver {
 
             arrow.setRotate((90 * (player.getHeading().ordinal() - 2)) % 360);
             this.getChildren().add(arrow);
-        }
-    }
-
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == this.space) {
-            updatePlayer();
         }
     }
 

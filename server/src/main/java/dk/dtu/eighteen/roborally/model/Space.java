@@ -57,17 +57,8 @@ public class Space extends Subject {
 
     }
 
-    public String toJson() {
-        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(this);
-    }
-
-
-    void playerChanged() {
-        // This is a minor hack; since some views that are registered with the space
-        // also need to update when some player attributes change, the player can
-        // notify the space of these changes by calling this method.
+    public Player getPlayer() {
+        return board.getPlayers().stream().filter(player -> player.x == x && player.y == y).findFirst().orElse(null);
     }
 
     public Set<Heading> getWalls() {

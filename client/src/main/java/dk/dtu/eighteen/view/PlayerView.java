@@ -97,13 +97,6 @@ public class PlayerView extends Pane implements ViewObserver {
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> {
-            for (CardFieldView c : programCardViews) {
-                System.out.println(c);
-            }
-            for (CardFieldView c : cardViews) {
-                System.out.println(c);
-            }
-            System.out.println();
             List<String> moveNames = new ArrayList<>();
             for (CardFieldView programCardView : this.programCardViews) {
                 try {

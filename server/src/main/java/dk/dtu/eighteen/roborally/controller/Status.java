@@ -1,14 +1,16 @@
 package dk.dtu.eighteen.roborally.controller;
 
 public enum Status {
-    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING, INVALID_GAME_ID;
+    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, PLAYERS_GETTING_UPDATE, PLAYERS_PROGRAMMING, UPDATING_GAMEBOARD, QUITTING, INVALID_GAME_ID;
 
     public static Status of(String statusString) {
         return switch (statusString.toUpperCase()) {
             case "NOT_INITIATED_GAME" -> NOT_INITIATED_GAME;
             case "INIT_NEW_GAME" -> INIT_NEW_GAME;
             case "INIT_LOAD_GAME" -> INIT_LOAD_GAME;
-            case "RUNNING" -> RUNNING;
+            case "PLAYERS_GETTING_UPDATE" -> PLAYERS_GETTING_UPDATE;
+            case "PLAYERS_PROGRAMMING" -> PLAYERS_PROGRAMMING;
+            case "UPDATING" -> UPDATING_GAMEBOARD;
             case "QUITTING" -> QUITTING;
             default -> throw new IllegalStateException("Unexpected value: " + statusString.toUpperCase());
         };

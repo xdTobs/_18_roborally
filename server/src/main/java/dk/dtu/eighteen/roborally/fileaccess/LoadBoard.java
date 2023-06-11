@@ -47,7 +47,7 @@ public class LoadBoard {
         String filename = "./server/src/main/resources/" + boardname;
         File f = new File(filename).getAbsoluteFile();
         String s = f.getAbsolutePath();
-        System.out.println(s);
+
         File file = new File(filename);
         InputStream inputStream = null;
         try {
@@ -71,7 +71,7 @@ public class LoadBoard {
         try {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-            System.out.println(template);
+            
 
             result = new Board(template.width, template.height, boardname);
 

@@ -62,7 +62,6 @@ class BoardTest {
 //        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
 //        Gson gson = gsonBuilder.create();
 //        String jsonString = gson.toJson(board);
-//        System.out.println(jsonString);
 //        Board board2 = gson.fromJson(jsonString, Board.class);
 ////        assertEquals();
 //    }
@@ -96,7 +95,7 @@ class BoardTest {
 //            bufferedReader = new BufferedReader(inputStreamReader);
 //        }
 //        Board board = Board.fromJson(bufferedReader);
-//        System.out.println(board);
+//        
 //
 ////        Board board = Board.fromJson()
 ////        assertEquals(board.getCheckpoints().size(), 2);

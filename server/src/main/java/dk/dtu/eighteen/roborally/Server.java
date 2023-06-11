@@ -29,43 +29,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
-    Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
-//    HashMap<Integer, AppController> appControllerMap = new HashMap<>();
+    private static Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
 
 
     public static void main(String[] args) {
-//        Board b = LoadBoard.loadNewGameBoard("a-test-board.json");
-//        Player.createAddPlayerToEmptySpace(b, null, "p1");
-//        Player.createAddPlayerToEmptySpace(b, null, "p2");
-//        GameController gc = new GameController(b);
         SpringApplication.run(Server.class, args);
     }
-
-    private static List<String> getResourceFolderFiles(String folderName) {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folderName);
-        String path = url.getPath();
-        List<File> files = List.of(new File(path).listFiles());
-        return files.stream().map(file -> file.getName()).toList();
-    }
-
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//        return true;
-//    }
-
-//
-//    @GetMapping("/board/{gameid}/{userid}")
-//    public BoardTemplate getBoard(@PathVariable int gameid, @PathVariable int userid) {
-//        if (!mainControllers.containsKey(gameid))
-//            return null;
-//        Game game = mainControllers.get(gameid);
-//        List<Integer> IDs = game.getUsers().stream().map(User::getID).toList();
-//        if (!IDs.contains(userid))
-//            return null;
-//        return new BoardTemplate(mainControllers.get(gameid).appController.getGameController().board, IDs.indexOf(userid));
-//    }
 
     /**
      * GET /game: Get the names of available games
@@ -93,45 +62,40 @@ public class Server {
         var appController = new AppController(board, playerCapacity, Status.INIT_NEW_GAME);
         appController.incActionCounter();
         board.createAddPlayerToEmptySpace(null, playerName);
-//        board.generateCardsForPlayers();
 
         appControllerMap.put(id, appController);
-        debugPrintAppControllerMap();
         return id;
-    }
-
-    private void debugPrintAppControllerMap() {
-        System.out.println("all current games:");
-        for (Integer key : appControllerMap.keySet()) {
-            var appController = appControllerMap.get(key);
-            System.out.println("game id: " + key);
-            System.out.println("number of players: " + appController.getGameController().getBoard().getNumberOfPlayers() + "/" + appController.getPlayerCapacity());
-            System.out.println();
-
-        }
     }
 
     @GetMapping("/game/{gameId}")
     public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
-
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
         }
-        Status status = appController.status;
+        Status status = appController.getStatus();
         var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
-        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
-            System.out.println("player " + playerName + " has joined game " + gameId);
-            joinGame(gameId, playerName);
-        } else {
-            System.out.println("player " + playerName + " has polled for server info" + gameId);
+
+        if (status == Status.PLAYERS_PROGRAMMING || status == Status.UPDATING_GAMEBOARD) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong phase for getting game update, wait for other players or game to catch up.");
         }
+        if (status == Status.PLAYERS_GETTING_UPDATE) {
+            appController.setRecievedBoardUpdate(playerName);
+            if (appController.allPlayersHaveRecievedUpdate()) {
+                appController.setStatus(Status.PLAYERS_PROGRAMMING);
+            }
+        }
+        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
+            joinGame(gameId, playerName);
+        }
+
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
         HashMap<String, Object> map = new HashMap<>();
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
-        map.put("status", appController.status.toString());
+        map.put("status", appController.getStatus().toString());
         map.put("board", boardTemplate);
+        appController.setRecievedBoardUpdate(playerName);
         return map;
     }
 
@@ -155,12 +119,12 @@ public class Server {
 
         boolean playerExists = appController.getGameController().getBoard().getPlayer(playerName) != null;
 
-        if (appController.status == Status.INIT_NEW_GAME) {
+        if (appController.getStatus() == Status.INIT_NEW_GAME) {
             if (playerExists) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name already exists");
             }
             board.createAddPlayerToEmptySpace(null, playerName);
-        } else if (appController.status == Status.INIT_LOAD_GAME) {
+        } else if (appController.getStatus() == Status.INIT_LOAD_GAME) {
             if (!playerExists) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name does not exist");
             }
@@ -169,42 +133,53 @@ public class Server {
         }
         var i = appController.incActionCounter();
         if (i == appController.getPlayerCapacity()) {
-            appController.status = Status.RUNNING;
+            appController.setStatus(Status.PLAYERS_PROGRAMMING);
             appController.resetTakenAction();
             appController.getGameController().startProgrammingPhase();
-            System.out.println("game " + gameId + " has started");
+
         }
 
     }
 
     @PostMapping("/game/{gameId}/moves")
-    public String planMoves(@RequestHeader("roborally-player-name") String playerName,
-                            @RequestBody List<String> moveNames,
-                            @PathVariable int gameId) {
-        System.out.println(moveNames);
-        AppController appController = appControllerMap.get(gameId);
+    public String planMoves(@RequestHeader("roborally-player-name") String playerName, @RequestBody List<String> moveNames, @PathVariable int gameId) {
 
+        AppController appController = appControllerMap.get(gameId);
+        if (appController.getActionCounter() == appController.getPlayerCapacity()) {
+            appController.setStatus(Status.UPDATING_GAMEBOARD);
+        }
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
+        System.out.println(playerName);
+        System.out.println(appController.getStatus());
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
 
         outer:
         for (int i = 0; i < 5; i++) {
-            Command c = Command.of(moveNames.get(i));
-            CommandCard cc = c == null ? null : new CommandCard(c);
+            Command card = Command.of(moveNames.get(i));
+            CommandCard commandCard = card == null ? null : new CommandCard(card);
             var regField = player.getRegisterCardField(i);
-            regField.setCard(cc);
+            regField.setCard(commandCard);
         }
 
         if (appController.incActionCounter() == appController.getPlayerCapacity()) {
-            System.out.println("In game " + gameId + " all players have submitted moves. Executing them now.");
+            appController.setStatus(Status.UPDATING_GAMEBOARD);
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
             appController.resetTakenAction();
+            appController.setStatus(Status.PLAYERS_GETTING_UPDATE);
         }
-
         return "moves submitted: " + String.join(", ", moveNames);
 
     }
+
+    private static List<String> getResourceFolderFiles(String folderName) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folderName);
+        String path = url.getPath();
+        List<File> files = List.of(new File(path).listFiles());
+        return files.stream().map(file -> file.getName()).toList();
+    }
 }
+

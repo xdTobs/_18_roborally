@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,7 +116,7 @@ public class ClientController extends Application {
 
 //    public void setStatus(Status status) {
 //        String s = "";
-//        System.out.println("STATUS: " + status);
+//        
 //        switch (status) {
 //            case NOT_INITIATED_GAME -> {
 //                this.setStatusText("Game not running");
@@ -154,12 +155,12 @@ public class ClientController extends Application {
 //        JSONObject jsonObject = new JSONObject(response.body());
 //        // get the status of the game
 //        Status status = Status.of(jsonObject.getString("status"));
-//        System.out.println("status: " + status);
-//        System.out.println("polling " + timesPolled);
+//        
+//        
 //        setStatus(status);
 //        timesPolled++;
 //        if (status == Status.INIT_NEW_GAME) {
-//            System.out.println("still waiting");
+//            
 //        } else if (status == Status.RUNNING) {
 //            setStatus(Status.RUNNING);
 //            renderBoard();
