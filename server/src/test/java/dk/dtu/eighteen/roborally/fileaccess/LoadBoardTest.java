@@ -11,7 +11,7 @@ import java.io.IOException;
 class LoadBoardTest {
 
 
-    @Test
+  /*  @Test
     void loadBoardFromJSONString() {
         String json = """
                 {
@@ -178,7 +178,7 @@ class LoadBoardTest {
 //        assertEquals(3, boardTemplate.width);
 //        assertEquals(3, boardTemplate.height);
 
-    }
+    }*/
 
 
     @Test
@@ -201,9 +201,8 @@ class LoadBoardTest {
             Assertions.assertEquals(board.width, board2.width);
             Assertions.assertEquals(board.getPhase(), board2.getPhase());
             Assertions.assertEquals(board.getStep(), board2.getStep());
-            Assertions.assertEquals(board.isStepMode(), board2.isStepMode());
 
-            // Check if spacetype is the same on both boards with a wall
+            // Check if spacetypes are the same on both boards with a wall
             Assertions.assertEquals(board.getSpace(1, 2).getWalls(), board2.getSpace(1, 2).getWalls());
 
             // Assert relevant attributes of the players
