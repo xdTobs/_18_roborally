@@ -26,10 +26,7 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Observer;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import dk.dtu.eighteen.roborally.model.Phase;
 
 /**
  * ...
@@ -38,26 +35,39 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class AppController implements Observer {
 
-    // Use this to check if all players have joined/moved.
-    private static AtomicInteger playersTakenAction = new AtomicInteger(1);
-    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
-    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    //    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
+//    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
-    private boolean[] madeMove;
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     //    List<User> users = new ArrayList<>(10);
-    public Status status;
+    private Status status;
+
+    public int getActionCounter() {
+        return actionCounter;
+    }
+
+    // Use this to check if all players have joined/moved.
+    private int actionCounter = 0;
     private GameController gameController;
 
     public AppController(Board board, int playerCapacity, Status status) {
         this.playerCapacity = playerCapacity;
-        madeMove = new boolean[playerCapacity];
         this.status = status;
-        gameController = new GameController(board);
+        this.gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    public static int incrementTakenAction() {
-        return playersTakenAction.incrementAndGet();
+    public int incActionCounter() {
+        return ++actionCounter;
     }
 
     public int getPlayerCapacity() {
@@ -82,10 +92,6 @@ public class AppController implements Observer {
             return true;
         }
         return false;
-    }
-
-    public boolean isGameRunning() {
-        return gameController != null;
     }
 
 
@@ -118,21 +124,22 @@ public class AppController implements Observer {
 
     @Override
     public String toString() {
-        return "AppController{" +
-                "playerCapacity=" + playerCapacity +
-                ", gameController=" + gameController +
-                '}';
+        return "AppController{" + "playerCapacity=" + playerCapacity + ", gameController=" + gameController + '}';
     }
 
     public void resetTakenAction() {
-        playersTakenAction.set(1);
+        actionCounter = 0;
     }
 
-    public boolean[] getMadeMove() {
-        return madeMove;
-    }
 
-    public void setMadeMove(boolean[] madeMove) {
-        this.madeMove = madeMove;
+    public void runActivationPhase() {
+        gameController.board.setPhase(Phase.ACTIVATION);
+        gameController.continuePrograms();
+        if (gameController.board.getPhase() == Phase.PLAYER_INTERACTION) {
+            status = Status.INTERACTIVE;
+        } else {
+            gameController.loadProgrammingPhase();
+            setStatus(Status.RUNNING);
+        }
     }
 }

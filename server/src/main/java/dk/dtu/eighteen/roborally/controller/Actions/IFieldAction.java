@@ -11,5 +11,5 @@ public interface IFieldAction {
      * @param gameController the gameController of the respective game
      * @return whether the action was successfully executed
      */
-    public abstract boolean doAction(GameController gameController, Space space);
+   boolean doAction(GameController gameController, Space space);
 }

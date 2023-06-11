@@ -1,7 +1,7 @@
 package dk.dtu.eighteen.roborally.controller;
 
 public enum Status {
-    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, QUITTING, INVALID_GAME_ID;
+    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, INTERACTIVE, QUITTING, INVALID_GAME_ID;
 
     public static Status of(String statusString) {
         return switch (statusString.toUpperCase()) {

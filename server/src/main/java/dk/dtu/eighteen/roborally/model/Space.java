@@ -38,7 +38,6 @@ public class Space extends Subject {
     public final int x;
     public final int y;
     public Board board;
-    private Player player = null;
     private Set<Heading> walls = new HashSet<>();
     private List<IFieldAction> actions = new ArrayList<>();
 
@@ -58,39 +57,8 @@ public class Space extends Subject {
 
     }
 
-    public String toJson() {
-        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(this);
-    }
-
     public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-        notifyChange();
-
-//        Player oldPlayer = this.player;
-//        if (player != oldPlayer &&
-//                (player == null || board == player.board)) {
-//            this.player = player;
-//            if (oldPlayer != null) {
-//                // this should actually not happen
-//                oldPlayer.setSpace(null);
-//            }
-//            if (player != null) {
-//                player.setSpace(this);
-//            }
-//            notifyChange();
-//        }
-    }
-
-    void playerChanged() {
-        // This is a minor hack; since some views that are registered with the space
-        // also need to update when some player attributes change, the player can
-        // notify the space of these changes by calling this method.
+        return board.getPlayers().stream().filter(player -> player.x == x && player.y == y).findFirst().orElse(null);
     }
 
     public Set<Heading> getWalls() {
@@ -109,4 +77,14 @@ public class Space extends Subject {
         this.actions.addAll(Arrays.asList(actions));
     }
 
+    @Override
+    public String toString() {
+        return "Space{" +
+                "x=" + x +
+                ", y=" + y +
+                ", board=" + board +
+                ", walls=" + walls +
+                ", actions=" + actions +
+                '}';
+    }
 }

@@ -44,7 +44,7 @@ public class Board extends Subject {
     private int currentPlayerIndex = 0;
     private Phase phase = Phase.INITIALISATION;
     private int step = 0;
-    private boolean stepMode;
+    public int turn;
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
     //TODO: Fix test board constructor
@@ -53,7 +53,6 @@ public class Board extends Subject {
 //        this.width = width;
 //        this.height = height;
 //        this.spaces = spaces;
-//        this.stepMode = false;
 //    }
 
     public Board(int width, int height, String boardName) {
@@ -65,7 +64,9 @@ public class Board extends Subject {
 
 
     public boolean isGameover() {
-        return findWinner() != null;
+        // TODO CHANGE THIS
+        return false;
+//        return findWinner() != null;
     }
 
     public Player findWinner() {
@@ -106,7 +107,7 @@ public class Board extends Subject {
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
-            notifyChange();
+
         }
     }
 
@@ -115,14 +116,15 @@ public class Board extends Subject {
         Player player = new Player(this, color, name);
         Space space = getFirstEmptySpace();
         player.setSpace(space);
-        space.setPlayer(player);
         players.add(player);
     }
 
     private Space getFirstEmptySpace() {
-        for (Space[] row : spaces) {
-            for (Space space : row) {
-                if (space.getPlayer() == null) {
+        for (int i = 0; i < spaces.length; i++) {
+            for (int j = 0; j < spaces[i].length; j++) {
+                Space space = spaces[i][j];
+
+                if (players.stream().map(Player::getSpace).noneMatch(s -> s == space)) {
                     return space;
                 }
             }
@@ -150,7 +152,7 @@ public class Board extends Subject {
         Player current = getCurrentPlayer();
         if (player != current && players.contains(player)) {
             currentPlayerIndex = players.indexOf(player);
-            notifyChange();
+
         }
     }
 
@@ -163,7 +165,7 @@ public class Board extends Subject {
     public void setPhase(Phase phase) {
         if (phase == this.phase || this.phase == Phase.GAMEOVER) return;
         this.phase = phase;
-        notifyChange();
+
     }
 
     public int getStep() {
@@ -171,21 +173,7 @@ public class Board extends Subject {
     }
 
     public void setStep(int step) {
-        if (step != this.step) {
-            this.step = step;
-            notifyChange();
-        }
-    }
-
-    public boolean isStepMode() {
-        return stepMode;
-    }
-
-    public void setStepMode(boolean stepMode) {
-        if (stepMode != this.stepMode) {
-            this.stepMode = stepMode;
-            notifyChange();
-        }
+        this.step = step;
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
@@ -254,8 +242,7 @@ public class Board extends Subject {
         for (Space[] row : spaces) {
             for (Space space : row) {
                 for (IFieldAction actions : space.getActions()) {
-                    if (actions instanceof Checkpoint checkpoint)
-                        checkpoints.add(checkpoint);
+                    if (actions instanceof Checkpoint checkpoint) checkpoints.add(checkpoint);
                 }
             }
         }
@@ -269,16 +256,7 @@ public class Board extends Subject {
 
     @Override
     public String toString() {
-        return "Board{" +
-                "height=" + height +
-                ", boardName='" + boardName + '\'' +
-                ", players=" + players +
-                ", width=" + width +
-                ", currentPlayerIndex=" + currentPlayerIndex +
-                ", phase=" + phase +
-                ", step=" + step +
-                ", stepMode=" + stepMode +
-                '}';
+        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width=" + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + '}';
     }
 
     public Player getPlayer(String playerName) {
@@ -290,4 +268,9 @@ public class Board extends Subject {
         return null;
     }
 
+//    public void generateCardsForPlayers() {
+//        for (Player player : players) {
+//            player.generateCards();
+//        }
+//    }
 }

@@ -87,9 +87,9 @@ public class PlayerView extends Pane implements ViewObserver {
         programPane = new GridPane();
         programPane.setVgap(2.0);
         programPane.setHgap(2.0);
-        programCardViews = new CardFieldView[Player.NO_REGISTERS];
-        for (int i = 0; i < Player.NO_REGISTERS; i++) {
-            CommandCardField cardField = player.getProgrammedCards(i);
+        programCardViews = new CardFieldView[Player.NO_REGISTER_CARDS];
+        for (int i = 0; i < Player.NO_REGISTER_CARDS; i++) {
+            CommandCardField cardField = player.getRegisterCardField(i);
             if (cardField != null) {
                 programCardViews[i] = new CardFieldView(webAppController, board, cardField);
                 programPane.add(programCardViews[i], i, 0);
@@ -102,30 +102,22 @@ public class PlayerView extends Pane implements ViewObserver {
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> {
-            for (CardFieldView c : programCardViews) {
-                System.out.println(c);
-            }
-            for (CardFieldView c : cardViews) {
-                System.out.println(c);
-            }
-            System.out.println();
-            List<String> cardIds = new ArrayList<>();
+            List<String> moveNames = new ArrayList<>();
             for (CardFieldView programCardView : this.programCardViews) {
                 try {
-                    String string = programCardView.getCommandCardField().getCard().cardID.toString();
-                    cardIds.add(string);
+                    String s = programCardView.getCommandCardField().getCard().command.toString();
+                    moveNames.add(s);
                 } catch (NullPointerException exeption) {
-                    System.err.println("NullPointerException: player has submitted an empty card field. Ajabaja!");
-                    cardIds.add("empty");
+                    moveNames.add("empty");
                 }
             }
-            webAppController.finishProgrammingPhase(cardIds);
+            webAppController.finishProgrammingPhase(moveNames);
         });
 
         buttonPanel = new VBox(finishButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
-        programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
+        programPane.add(buttonPanel, Player.NO_REGISTER_CARDS, 0);
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
@@ -135,9 +127,9 @@ public class PlayerView extends Pane implements ViewObserver {
         cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
         cardsPane.setHgap(2.0);
-        cardViews = new CardFieldView[Player.NO_AVAILABLE_CARDS];
-        for (int i = 0; i < Player.NO_AVAILABLE_CARDS; i++) {
-            CommandCardField cardField = player.getAvailableCardSlot(i);
+        cardViews = new CardFieldView[Player.NO_PLAYABLE_CARDS];
+        for (int i = 0; i < Player.NO_PLAYABLE_CARDS; i++) {
+            CommandCardField cardField = player.getPlayableCard(i);
             if (cardField != null) {
                 cardViews[i] = new CardFieldView(webAppController, board, cardField);
                 cardsPane.add(cardViews[i], i, 0);

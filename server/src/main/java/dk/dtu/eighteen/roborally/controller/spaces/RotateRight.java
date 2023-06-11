@@ -2,14 +2,19 @@ package dk.dtu.eighteen.roborally.controller.spaces;
 
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.GameController;
+import dk.dtu.eighteen.roborally.model.Heading;
+import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
-public class Rotate implements IFieldAction {
+public class RotateRight implements IFieldAction {
 
-    public Rotate(){}
+    public RotateRight() {
+    }
+
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        space.getPlayer().setHeading(space.getPlayer().getHeading().prev());;
+        Player player = space.getPlayer();
+        player.setHeading(player.getHeading().next());
         return true;
     }
 

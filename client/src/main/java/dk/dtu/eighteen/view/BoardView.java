@@ -26,6 +26,8 @@ import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
 import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
+import dk.dtu.eighteen.roborally.controller.spaces.RotateLeft;
+import dk.dtu.eighteen.roborally.controller.spaces.RotateRight;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Space;
@@ -79,6 +81,12 @@ public class BoardView extends VBox implements ViewObserver {
                     if (action instanceof FastConveyorBelt fastconveyorBelt) {
                         spaceView = new FastConveyorBeltView(fastconveyorBelt, space);
                     }
+                    if (action instanceof RotateLeft rotateleft) {
+                        spaceView = new RotateLeftView(rotateleft, space);
+                    }
+                    if (action instanceof RotateRight rotateright) {
+                        spaceView = new RotateRightView(rotateright, space);
+                    }
                     if (action instanceof Checkpoint checkpoint) {
                         spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());
                     }
@@ -91,12 +99,13 @@ public class BoardView extends VBox implements ViewObserver {
 
         board.attach(this);
         update(board);
+
     }
 
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-           statusLabel.setText(board.getStatusMessage(webAppController.playerName));
+            statusLabel.setText(board.getStatusMessage(webAppController.playerName));
         }
     }
 

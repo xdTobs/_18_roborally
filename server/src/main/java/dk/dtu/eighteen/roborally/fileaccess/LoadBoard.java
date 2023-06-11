@@ -46,8 +46,9 @@ public class LoadBoard {
         //ClassLoader classLoader = LoadBoard.class.getClassLoader();
         String filename = "./server/src/main/resources/" + boardname;
         File f = new File(filename).getAbsoluteFile();
+
         String s = f.getAbsolutePath();
-        System.out.println(s);
+
         File file = new File(filename);
         InputStream inputStream = null;
         try {
@@ -65,35 +66,34 @@ public class LoadBoard {
                 .registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
         Gson gson = simpleBuilder.create();
 
-        Board result;
+        Board board;
         // FileReader fileReader = null;
         JsonReader reader = null;
         try {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+            
 
-            result = new Board(template.width, template.height, boardname);
+            board = new Board(template.width, template.height, boardname);
 
             for (int i = 0; i < template.spaces.length; i++) {
                 for (int j = 0; j < template.spaces[0].length; j++) {
-                    Space space = new Space(template.spaces[i][j], result);
-                    result.setSpace(i, j, space);
+                    Space space = new Space(template.spaces[i][j], board);
+                    board.setSpace(i, j, space);
                 }
             }
 
             for (PlayerTemplate pt : template.players) {
-                result.addPlayer(new Player(pt, result));
+                board.addPlayer(new Player(pt, board));
             }
 
+            board.turn = template.turn;
 
-            for (Player player : result.getPlayers()) {
-                player.getSpace().setPlayer(player);
-            }
-            result.setPhase(template.phase);
+            board.setPhase(template.phase);
 
 
             reader.close();
-            return result;
+            return board;
         } catch (IOException e1) {
             if (reader != null) {
                 try {

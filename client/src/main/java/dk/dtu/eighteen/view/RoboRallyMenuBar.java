@@ -72,7 +72,6 @@ public class RoboRallyMenuBar extends MenuBar {
 //                                .header("roborally-player-name", webAppController.playerName)
 //                                .GET()
 //                                .build();
-//                        System.out.println(request.toString());
 //                        HttpResponse<String> response = HttpClient.newBuilder()
 //                                .build()
 //                                .send(request, HttpResponse.BodyHandlers.ofString());

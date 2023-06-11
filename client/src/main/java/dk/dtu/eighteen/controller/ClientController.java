@@ -2,7 +2,6 @@ package dk.dtu.eighteen.controller;
 
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.view.BoardView;
 import dk.dtu.eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
@@ -19,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 public class ClientController extends Application {
@@ -35,8 +33,8 @@ public class ClientController extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        var MIN_APP_WIDTH = 600;
-        var MIN_APP_HEIGHT = 600;
+        var MIN_APP_WIDTH = 800;
+        var MIN_APP_HEIGHT = 1000;
         stage = primaryStage;
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(webAppController);
         boardRoot = new BorderPane(statusText);
@@ -67,25 +65,10 @@ public class ClientController extends Application {
 //        }
     }
 
-    public void createBoardView(String json) {
+    public void createBoardView(Board board) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-        Board board = null;
-        try {
-            board = LoadBoard.loadBoardFromJSONString(json);
-            for (Player p : board.getPlayers()) {
-                if (p.getColor() == null) {
-                    p.setColor("red");
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // create and add view for new board
-//        BoardView boardView = new BoardView(minimalGameController);
         // TODO find a way to show the board and make it interactive
-        // Maybe we should create a IGameController interface and implement it in a minimal game controller here
-        // and use that as a helper to create the board view
         BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);
@@ -120,7 +103,7 @@ public class ClientController extends Application {
 
 //    public void setStatus(Status status) {
 //        String s = "";
-//        System.out.println("STATUS: " + status);
+//        
 //        switch (status) {
 //            case NOT_INITIATED_GAME -> {
 //                this.setStatusText("Game not running");
@@ -159,12 +142,12 @@ public class ClientController extends Application {
 //        JSONObject jsonObject = new JSONObject(response.body());
 //        // get the status of the game
 //        Status status = Status.of(jsonObject.getString("status"));
-//        System.out.println("status: " + status);
-//        System.out.println("polling " + timesPolled);
+//        
+//        
 //        setStatus(status);
 //        timesPolled++;
 //        if (status == Status.INIT_NEW_GAME) {
-//            System.out.println("still waiting");
+//            
 //        } else if (status == Status.RUNNING) {
 //            setStatus(Status.RUNNING);
 //            renderBoard();

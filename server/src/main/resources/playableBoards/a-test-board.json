@@ -5,7 +5,8 @@
     [
       {
         "walls": [],
-        "actions": [],
+        "actions": [
+        ],
         "x": 0,
         "y": 0
       },
@@ -43,7 +44,6 @@
       },
       {
         "walls": [
-          "NORTH"
         ],
         "actions": [],
         "x": 1,
@@ -59,7 +59,6 @@
     [
       {
         "walls": [
-          "EAST"
         ],
         "actions": [],
         "x": 2,
@@ -68,12 +67,6 @@
       {
         "walls": [],
         "actions": [
-          {
-            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
-            "INSTANCE": {
-              "heading": "EAST"
-            }
-          }
         ],
         "x": 2,
         "y": 1
@@ -93,36 +86,20 @@
     ],
     [
       {
-        "walls": [
-          "EAST"
-        ],
+        "walls": [],
         "actions": [],
         "x": 3,
         "y": 0
       },
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
-            "INSTANCE": {
-              "heading": "NORTH"
-            }
-          }
-        ],
+        "actions": [],
         "x": 3,
         "y": 1
       },
       {
         "walls": [],
-        "actions": [
-          {
-            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.Actions.Checkpoint",
-            "INSTANCE": {
-              "checkpointNumber": 1
-            }
-          }
-        ],
+        "actions": [],
         "x": 3,
         "y": 2
       },

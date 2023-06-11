@@ -75,4 +75,12 @@ public class CommandCardField extends Subject {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    @Override
+    public String toString() {
+        return "player={" + player +
+                "card=" + card +
+                ", visible=" + visible +
+                '}';
+    }
 }

@@ -96,20 +96,21 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         commandCardField.attach(this);
         update(commandCardField);
+        updateView(board);
     }
 
     private String cardFieldRepresentation(CommandCardField cardField) {
         if (cardField.player != null) {
 
-            for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CommandCardField other = cardField.player.getProgrammedCards(i);
+            for (int i = 0; i < Player.NO_REGISTER_CARDS; i++) {
+                CommandCardField other = cardField.player.getRegisterCardField(i);
                 if (other == cardField) {
                     return "P," + i;
                 }
             }
 
-            for (int i = 0; i < Player.NO_AVAILABLE_CARDS; i++) {
-                CommandCardField other = cardField.player.getAvailableCardSlot(i);
+            for (int i = 0; i < Player.NO_PLAYABLE_CARDS; i++) {
+                CommandCardField other = cardField.player.getPlayableCard(i);
                 if (other == cardField) {
                     return "C," + i;
                 }
@@ -125,12 +126,12 @@ public class CardFieldView extends GridPane implements ViewObserver {
             if (strings.length == 2) {
                 int i = Integer.parseInt(strings[1]);
                 if ("P".equals(strings[0])) {
-                    if (i < Player.NO_REGISTERS) {
-                        return commandCardField.player.getProgrammedCards(i);
+                    if (i < Player.NO_REGISTER_CARDS) {
+                        return commandCardField.player.getRegisterCardField(i);
                     }
                 } else if ("C".equals(strings[0])) {
-                    if (i < Player.NO_AVAILABLE_CARDS) {
-                        return commandCardField.player.getAvailableCardSlot(i);
+                    if (i < Player.NO_PLAYABLE_CARDS) {
+                        return commandCardField.player.getPlayableCard(i);
                     }
                 }
             }
@@ -158,7 +159,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(MouseEvent event) {
-            System.out.println("OnDragDetectedHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;
@@ -188,7 +189,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
-            System.out.println("OnDragOverHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -211,7 +212,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
-            System.out.println("OnDragEnteredHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -235,7 +236,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
-            System.out.println("OnDragExitedHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -259,7 +260,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         @Override
         public void handle(DragEvent event) {
-            System.out.println("OnDragDroppedHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView target = (CardFieldView) t;
@@ -295,7 +296,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     private class OnDragDoneHandler implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
-            System.out.println("OnDragDoneHandler");
+
             Object t = event.getTarget();
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;

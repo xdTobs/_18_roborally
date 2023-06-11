@@ -34,34 +34,39 @@ import static dk.dtu.eighteen.roborally.model.Heading.SOUTH;
  */
 public class Player extends Subject {
 
-    final public static int NO_REGISTERS = 5;
-    final public static int NO_AVAILABLE_CARDS = 8;
-
+    final public static int NO_REGISTER_CARDS = 5;
+    final public static int NO_PLAYABLE_CARDS = 8;
+    private final String[] colors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet",}; // Add more colors if needed
     public Board board;
-    int x;
-    int y;
+    public int x;
+    public int y;
     private String name;
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
     private Move currentMove;
-    private CommandCardField[] cardsOnHand;
-    private CommandCardField[] programmedCards;
+    private CommandCardField[] playableCards;
+    private CommandCardField[] registerCards;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
+        if (color == null) {
+            // The same player name always gives the same color, for easier debugging.
+            int n = Math.abs(name.hashCode() % 7);
+            color = colors[n];
+        }
         this.board = board;
         this.name = name;
         this.color = color;
         this.currentMove = new Move();
 
-        cardsOnHand = new CommandCardField[NO_AVAILABLE_CARDS];
-        for (int i = 0; i < cardsOnHand.length; i++) {
-            cardsOnHand[i] = new CommandCardField(this);
+        playableCards = new CommandCardField[NO_PLAYABLE_CARDS];
+        for (int i = 0; i < playableCards.length; i++) {
+            playableCards[i] = new CommandCardField(this);
         }
 
-        programmedCards = new CommandCardField[NO_REGISTERS];
-        for (int i = 0; i < programmedCards.length; i++) {
-            programmedCards[i] = new CommandCardField(this);
+        registerCards = new CommandCardField[NO_REGISTER_CARDS];
+        for (int i = 0; i < registerCards.length; i++) {
+            registerCards[i] = new CommandCardField(this);
         }
     }
 
@@ -74,22 +79,22 @@ public class Player extends Subject {
         this.heading = template.heading;
         this.currentMove = template.currentMoves;
 
-        cardsOnHand = new CommandCardField[NO_AVAILABLE_CARDS];
-        programmedCards = new CommandCardField[NO_REGISTERS];
-        if (template.availableCardSlots != null) {
-            for (int i = 0; i < cardsOnHand.length; i++) {
-                cardsOnHand[i] = new CommandCardField(template.availableCardSlots[i], this);
+        playableCards = new CommandCardField[NO_PLAYABLE_CARDS];
+        registerCards = new CommandCardField[NO_REGISTER_CARDS];
+        if (template.playableCards != null) {
+            for (int i = 0; i < playableCards.length; i++) {
+                playableCards[i] = new CommandCardField(template.playableCards[i], this);
             }
         }
-        for (int i = 0; i < programmedCards.length; i++) {
-            programmedCards[i] = new CommandCardField(this);
+        for (int i = 0; i < registerCards.length; i++) {
+            registerCards[i] = new CommandCardField(this);
         }
     }
 
     //private boolean hasMovedThisTurn = false;
 
-    public CommandCardField getProgrammedCards(int i) {
-        return programmedCards[i];
+    public CommandCardField getRegisterCardField(int i) {
+        return registerCards[i];
     }
 
     public int getCheckpointCounter() {
@@ -107,7 +112,7 @@ public class Player extends Subject {
     public void setName(String name) {
         if (name != null && !name.equals(this.name)) {
             this.name = name;
-            notifyChange();
+        
         }
     }
 
@@ -117,7 +122,7 @@ public class Player extends Subject {
 
     public void setColor(String color) {
         this.color = color;
-        notifyChange();
+    
     }
 
     public Space getSpace() {
@@ -138,21 +143,13 @@ public class Player extends Subject {
         this.heading = heading;
     }
 
-    /*public boolean hasMovedThisTurn() {
-        return hasMovedThisTurn;
+
+    public CommandCardField getPlayableCard(int i) {
+        return playableCards[i];
     }
 
-    public void setHasMovedThisTurn(boolean hasMovedThisTurn) {
-        this.hasMovedThisTurn = hasMovedThisTurn;
-    }*/
-
-
-    public CommandCardField getAvailableCardSlot(int i) {
-        return cardsOnHand[i];
-    }
-
-    public CommandCardField[] getCardsOnHand() {
-        return cardsOnHand;
+    public CommandCardField[] getPlayableCards() {
+        return playableCards;
     }
 
     public Move getCurrentMove() {
@@ -161,5 +158,14 @@ public class Player extends Subject {
 
     public void setCurrentMove(Move currentMove) {
         this.currentMove = currentMove;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                ", x=" + x +
+                ", y=" + y +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

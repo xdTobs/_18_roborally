@@ -1,8 +1,6 @@
 package dk.dtu.eighteen.controller;
 
-import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
-import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Move;
+import dk.dtu.eighteen.roborally.controller.Status;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
@@ -17,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class WebAppController {
     public String playerName = null;
@@ -55,7 +54,7 @@ public class WebAppController {
             System.err.println("You didn't pick a name so your name is default name.\nError message: " + e);
             this.playerName = "default name";
         }
-        System.out.println("Your name is: " + this.playerName);
+//        this.playerName = UUID.randomUUID().toString();
     }
 
 
@@ -87,7 +86,6 @@ public class WebAppController {
         }
 
         nameInputDialog();
-//        this.playerName = "debug-name-1";
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
@@ -172,34 +170,9 @@ public class WebAppController {
         }
     }
 
-    public void finishProgrammingPhase() throws IOException, URISyntaxException, InterruptedException {
-
-
-
-        HttpRequest requestBoard = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game/" + gameId))
-                .header("roborally-player-name", playerName)
-                .GET()
-                .build();
-        HttpResponse<String> response = HttpClient.newBuilder()
-                .build()
-                .send(requestBoard, HttpResponse.BodyHandlers.ofString());
-
-        JSONObject responseObj = new JSONObject(response.body());
-        Board lastBoard = LoadBoard.loadBoardFromJSONString(responseObj.get("board").toString());
-
-        int[] cardIndex = new int[5];
-        
-
-        JSONObject requestObject = new JSONObject();
-        Move move = new Move();
-        requestObject.put("boardName", move);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
-                .build();
+    public void finishProgrammingPhase(List<String> cardIds) {
+        requestController.postMoves(cardIds);
+        requestController.startPolling();
     }
 }
 //
