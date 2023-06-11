@@ -118,6 +118,9 @@ public class RequestController {
             case INIT_LOAD_GAME ->
                     clientController.setStatusText("Loaded game with ID: " + clientController.getGameId());
             case RUNNING -> clientController.setStatusText("Running game with ID: " + clientController.getGameId());
+            case INTERACTIVE -> {
+                clientController.setStatusText("Awaiting input from " + clientController.webAppController.playerName + " in game with ID: " + clientController.getGameId());
+            }
             case QUITTING ->
                     clientController.setStatusText("Quitting and saving game with ID: " + clientController.getGameId());
             case INVALID_GAME_ID -> clientController.setStatusText("Invalid game ID");

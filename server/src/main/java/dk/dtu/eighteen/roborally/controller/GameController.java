@@ -38,11 +38,6 @@ public class GameController {
 
     public Board board;
 
-    {
-        // this should not happen
-        assert false;
-    }
-
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -107,13 +102,6 @@ public class GameController {
 
     // XXX: V2
     public void executePrograms() {
-        board.setStepMode(false);
-        continuePrograms();
-    }
-
-    // XXX: V2
-    public void executeStep() {
-        board.setStepMode(true);
         continuePrograms();
     }
 
@@ -121,7 +109,7 @@ public class GameController {
     public void continuePrograms() {
         do {
             executeNextStep();
-        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        } while (board.getPhase() == Phase.ACTIVATION);
     }
 
     public void executeCommandOptionAndContinue(Command command) {
@@ -146,9 +134,7 @@ public class GameController {
                 startProgrammingPhase();
             }
         }
-        if (!board.isStepMode()) {
-            continuePrograms();
-        }
+        continuePrograms();
     }
 
     // XXX: V2
@@ -190,7 +176,7 @@ public class GameController {
             if (board.isGameover()) {
                 board.setPhase(Phase.GAMEOVER);
                 currentPlayer = board.findWinner();
-                
+
             } else if (step < Player.NO_REGISTER_CARDS) {
                 //makeProgramFieldsVisible(step);
                 board.setStep(step);
@@ -338,7 +324,7 @@ public class GameController {
      */
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented
-        
+
         assert false;
     }
 

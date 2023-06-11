@@ -44,7 +44,6 @@ public class Board extends Subject {
     private int currentPlayerIndex = 0;
     private Phase phase = Phase.INITIALISATION;
     private int step = 0;
-    private boolean stepMode;
     public int turn;
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
@@ -54,7 +53,6 @@ public class Board extends Subject {
 //        this.width = width;
 //        this.height = height;
 //        this.spaces = spaces;
-//        this.stepMode = false;
 //    }
 
     public Board(int width, int height, String boardName) {
@@ -175,21 +173,7 @@ public class Board extends Subject {
     }
 
     public void setStep(int step) {
-        if (step != this.step) {
-            this.step = step;
-
-        }
-    }
-
-    public boolean isStepMode() {
-        return stepMode;
-    }
-
-    public void setStepMode(boolean stepMode) {
-        if (stepMode != this.stepMode) {
-            this.stepMode = stepMode;
-
-        }
+        this.step = step;
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
@@ -272,7 +256,7 @@ public class Board extends Subject {
 
     @Override
     public String toString() {
-        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width=" + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + ", stepMode=" + stepMode + '}';
+        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width=" + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + '}';
     }
 
     public Player getPlayer(String playerName) {
