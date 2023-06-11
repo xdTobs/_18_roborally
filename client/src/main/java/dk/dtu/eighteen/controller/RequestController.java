@@ -1,14 +1,14 @@
 package dk.dtu.eighteen.controller;
 
 import dk.dtu.eighteen.roborally.controller.Status;
+import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
+import dk.dtu.eighteen.roborally.model.Board;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
-import org.apache.tomcat.websocket.WsWebSocketContainer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,9 +26,12 @@ public class RequestController {
     ClientController clientController;
     ScheduledService<String> scheduledService;
 
+    Board board = null;
+
     public RequestController(ClientController roborallyClient) {
         this.clientController = roborallyClient;
     }
+
 
     public void createScheduledService(String playerName) {
         if (playerName == null) {
@@ -44,6 +47,7 @@ public class RequestController {
                         timesPolled++;
                         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId())).header("roborally-player-name", playerName).GET().build();
                         HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+                        System.out.println(response);
                         // For debugging
 //                        if (timesPolled == 1) {
 //                            var req = HttpRequest.newBuilder()
@@ -76,10 +80,18 @@ public class RequestController {
             // Process the response
             JSONObject jsonObject = new JSONObject(response);
             Status status = Status.of(jsonObject.get("status").toString());
+            System.out.println("polling" + clientController.webAppController.playerName);
             setStatus(status);
-            if (status == Status.PLAYERS_PROGRAMMING) {
-                stopPolling();
-                clientController.createBoardView(jsonObject.get("board").toString());
+            try {
+                String json = jsonObject.get("board").toString();
+                Board board = LoadBoard.loadBoardFromJSONString(json);
+                if (status == Status.RUNNING && (this.board == null || this.board.turn != board.turn)) {
+                    stopPolling();
+                    this.board = board;
+                    clientController.createBoardView(board);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -105,10 +117,7 @@ public class RequestController {
             }
             case INIT_LOAD_GAME ->
                     clientController.setStatusText("Loaded game with ID: " + clientController.getGameId());
-            case UPDATING_GAMEBOARD ->
-                    clientController.setStatusText("Waiting for all players to get updates from game with ID: " + clientController.getGameId());
-            case PLAYERS_PROGRAMMING ->
-                    clientController.setStatusText("Running game with ID: " + clientController.getGameId());
+            case RUNNING -> clientController.setStatusText("Running game with ID: " + clientController.getGameId());
             case QUITTING ->
                     clientController.setStatusText("Quitting and saving game with ID: " + clientController.getGameId());
             case INVALID_GAME_ID -> clientController.setStatusText("Invalid game ID");

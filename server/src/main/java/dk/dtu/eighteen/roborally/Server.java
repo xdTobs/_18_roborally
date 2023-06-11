@@ -9,9 +9,9 @@ import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Command;
 import dk.dtu.eighteen.roborally.model.CommandCard;
 import dk.dtu.eighteen.roborally.model.Player;
+import jdk.jfr.Description;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -76,15 +76,6 @@ public class Server {
         Status status = appController.getStatus();
         var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
 
-        if (status == Status.PLAYERS_PROGRAMMING || status == Status.UPDATING_GAMEBOARD) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong phase for getting game update, wait for other players or game to catch up.");
-        }
-        if (status == Status.PLAYERS_GETTING_UPDATE) {
-            appController.setRecievedBoardUpdate(playerName);
-            if (appController.allPlayersHaveRecievedUpdate()) {
-                appController.setStatus(Status.PLAYERS_PROGRAMMING);
-            }
-        }
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             joinGame(gameId, playerName);
         }
@@ -95,7 +86,6 @@ public class Server {
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
         map.put("status", appController.getStatus().toString());
         map.put("board", boardTemplate);
-        appController.setRecievedBoardUpdate(playerName);
         return map;
     }
 
@@ -133,10 +123,9 @@ public class Server {
         }
         var i = appController.incActionCounter();
         if (i == appController.getPlayerCapacity()) {
-            appController.setStatus(Status.PLAYERS_PROGRAMMING);
+            appController.setStatus(Status.RUNNING);
             appController.resetTakenAction();
             appController.getGameController().startProgrammingPhase();
-
         }
 
     }
@@ -146,7 +135,7 @@ public class Server {
 
         AppController appController = appControllerMap.get(gameId);
         if (appController.getActionCounter() == appController.getPlayerCapacity()) {
-            appController.setStatus(Status.UPDATING_GAMEBOARD);
+            appController.setStatus(Status.RUNNING);
         }
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         System.out.println(playerName);
@@ -155,7 +144,6 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
 
-        outer:
         for (int i = 0; i < 5; i++) {
             Command card = Command.of(moveNames.get(i));
             CommandCard commandCard = card == null ? null : new CommandCard(card);
@@ -164,11 +152,10 @@ public class Server {
         }
 
         if (appController.incActionCounter() == appController.getPlayerCapacity()) {
-            appController.setStatus(Status.UPDATING_GAMEBOARD);
             appController.getGameController().finishProgrammingPhase();
             appController.getGameController().executePrograms();
+            appController.getGameController().getBoard().turn++;
             appController.resetTakenAction();
-            appController.setStatus(Status.PLAYERS_GETTING_UPDATE);
         }
         return "moves submitted: " + String.join(", ", moveNames);
 

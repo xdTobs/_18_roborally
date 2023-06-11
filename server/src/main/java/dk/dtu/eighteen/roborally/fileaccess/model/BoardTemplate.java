@@ -13,6 +13,7 @@ public class BoardTemplate {
     public int width;
     public int height;
     public SpaceTemplate[][] spaces;
+    public int turn;
     public List<PlayerTemplate> players = new ArrayList<>();
 
 
@@ -24,6 +25,7 @@ public class BoardTemplate {
         this.height = board.height;
         this.width = board.width;
         this.phase = board.getPhase();
+        this.turn = board.turn;
         SpaceTemplate[][] spaceTemplates = new SpaceTemplate[board.getSpaces().length][board.getSpaces()[0].length];
         for (int i = 0; i < board.getSpaces().length; i++) {
             for (int j = 0; j < board.getSpaces()[0].length; j++) {
@@ -38,16 +40,8 @@ public class BoardTemplate {
     }
 
     public BoardTemplate(Board board, Player currentPlayer) {
-        this.height = board.height;
-        this.width = board.width;
-        this.phase = board.getPhase();
-        SpaceTemplate[][] spaceTemplates = new SpaceTemplate[board.getSpaces().length][board.getSpaces()[0].length];
-        for (int i = 0; i < board.getSpaces().length; i++) {
-            for (int j = 0; j < board.getSpaces()[0].length; j++) {
-                spaceTemplates[i][j] = new SpaceTemplate(board.getSpace(i, j));
-            }
-        }
-        this.spaces = spaceTemplates;
+        this(board);
+        this.players = new ArrayList<>();
 
         for (Player player : board.getPlayers()) {
             if (player.equals(currentPlayer)) {
@@ -59,11 +53,5 @@ public class BoardTemplate {
     }
 
 
-//    public static BoardTemplate createBoardTemplate(JSONObject jsonObject) {
-//        BoardTemplate bt = new BoardTemplate(null, null);
-//        bt.width = (int) jsonObject.get("width");
-//        bt.height = (int) jsonObject.get("height");
-//        return bt;
-//    }
 }
 

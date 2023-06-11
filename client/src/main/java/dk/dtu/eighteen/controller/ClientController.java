@@ -2,7 +2,6 @@ package dk.dtu.eighteen.controller;
 
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.view.BoardView;
 import dk.dtu.eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
@@ -13,14 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 public class ClientController extends Application {
@@ -68,20 +65,10 @@ public class ClientController extends Application {
 //        }
     }
 
-    public void createBoardView(String json) {
+    public void createBoardView(Board board) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-        Board board = null;
-        try {
-            board = LoadBoard.loadBoardFromJSONString(json);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // create and add view for new board
-//        BoardView boardView = new BoardView(minimalGameController);
         // TODO find a way to show the board and make it interactive
-        // Maybe we should create a IGameController interface and implement it in a minimal game controller here
-        // and use that as a helper to create the board view
         BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);

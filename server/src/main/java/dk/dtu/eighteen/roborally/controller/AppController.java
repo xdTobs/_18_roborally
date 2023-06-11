@@ -40,17 +40,6 @@ public class AppController implements Observer {
     private final int playerCapacity;
 
 
-    public void setRecievedBoardUpdate(String playerName) {
-        Player p = gameController.getBoard().getPlayer(playerName);
-        int n = gameController.getBoard().getPlayerNumber(p);
-        this.hasRecievedBoardUpdate[n] = true;
-    }
-
-    public boolean[] getHasRecievedBoardUpdate() {
-        return hasRecievedBoardUpdate;
-    }
-
-    private boolean[] hasRecievedBoardUpdate;
 
     public Status getStatus() {
         return status;
@@ -76,10 +65,6 @@ public class AppController implements Observer {
         this.status = status;
         this.gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
-        hasRecievedBoardUpdate = new boolean[playerCapacity];
-        for (int i = 0; i < playerCapacity; i++) {
-            hasRecievedBoardUpdate[i] = false;
-        }
     }
 
     public int incActionCounter() {
@@ -108,10 +93,6 @@ public class AppController implements Observer {
             return true;
         }
         return false;
-    }
-
-    public boolean isGameRunning() {
-        return gameController != null;
     }
 
 
@@ -152,12 +133,4 @@ public class AppController implements Observer {
     }
 
 
-    public boolean allPlayersHaveRecievedUpdate() {
-        for (boolean b : hasRecievedBoardUpdate) {
-            if (!b) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

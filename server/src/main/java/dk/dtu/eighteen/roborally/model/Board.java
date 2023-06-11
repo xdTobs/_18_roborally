@@ -45,6 +45,7 @@ public class Board extends Subject {
     private Phase phase = Phase.INITIALISATION;
     private int step = 0;
     private boolean stepMode;
+    public int turn;
 
     //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
     //TODO: Fix test board constructor
@@ -108,7 +109,7 @@ public class Board extends Subject {
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
-        
+
         }
     }
 
@@ -153,7 +154,7 @@ public class Board extends Subject {
         Player current = getCurrentPlayer();
         if (player != current && players.contains(player)) {
             currentPlayerIndex = players.indexOf(player);
-        
+
         }
     }
 
@@ -166,7 +167,7 @@ public class Board extends Subject {
     public void setPhase(Phase phase) {
         if (phase == this.phase || this.phase == Phase.GAMEOVER) return;
         this.phase = phase;
-    
+
     }
 
     public int getStep() {
@@ -176,7 +177,7 @@ public class Board extends Subject {
     public void setStep(int step) {
         if (step != this.step) {
             this.step = step;
-        
+
         }
     }
 
@@ -187,7 +188,7 @@ public class Board extends Subject {
     public void setStepMode(boolean stepMode) {
         if (stepMode != this.stepMode) {
             this.stepMode = stepMode;
-        
+
         }
     }
 
