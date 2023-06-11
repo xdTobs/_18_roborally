@@ -183,8 +183,7 @@ class LoadBoardTest {
 
     @Test
     /**
-     * This tests the loadNewGameFromFile(), saveBoard(), and loadSavedGameFromFile() methods from
-     * the LoadBoard class.
+     * This tests the all the methods from the LoadBoard class.
      * @Author Frederik Rolsted, s224299@dtu.dk
      */
     void savingAndLoadingGame() throws IOException {
