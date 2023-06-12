@@ -104,7 +104,11 @@ public class RequestController {
             }
 
             if (gameStatus == Status.GAMEOVER) {
+                stopPolling();
                 clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+
+                clientController.webAppController.exit();
+
                 return;
             }
             if (gameStatus == Status.RUNNING) {

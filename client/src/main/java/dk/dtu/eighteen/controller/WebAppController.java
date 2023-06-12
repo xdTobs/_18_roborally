@@ -1,11 +1,7 @@
 package dk.dtu.eighteen.controller;
 
-import dk.dtu.eighteen.roborally.controller.Status;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,10 +11,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class WebAppController {
     public String playerName = null;
@@ -226,10 +219,10 @@ public class WebAppController {
 
     public void gameOver(String winner) {
         Alert gameOver = new Alert(Alert.AlertType.INFORMATION);
-        gameOver.setContentText("Choose how to continue");
+        gameOver.setContentText("Press OK to end game");
         gameOver.setHeaderText("Game has ended, " + winner + " has won");
-        gameOver.show();
-        System.out.println("here lmao");
+        Optional<ButtonType> button = gameOver.showAndWait();
+
 
     }
 }

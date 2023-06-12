@@ -6,6 +6,7 @@ import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Command;
 import dk.dtu.eighteen.roborally.model.CommandCard;
@@ -110,6 +111,8 @@ public class Server {
         Status status = appController.getStatus();
         HashMap<String, Object> map = new HashMap<>();
         map.put("gameStatus", status.toString());
+        if(status == Status.GAMEOVER)
+            map.put("winner", appController.getGameController().board.getCurrentPlayer().getName());
         if (status == Status.INTERACTIVE) {
             Player playerToInteract = board.getCurrentPlayer();
             if (playerToInteract.getName().equals(playerName)) {
@@ -124,10 +127,6 @@ public class Server {
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
             }
-        }
-        if (status == Status.GAMEOVER) {
-            map.put("winner", board.getCurrentPlayer());
-            return map;
         }
 
         var playerExistsOnBoard = board.getPlayer(playerName) != null;
@@ -195,6 +194,7 @@ public class Server {
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
+        //TODO move validation
 
         for (int i = 0; i < 5; i++) {
             Command card = Command.of(moveNames.get(i));
