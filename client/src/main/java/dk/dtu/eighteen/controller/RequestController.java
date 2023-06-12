@@ -86,15 +86,15 @@ public class RequestController {
             System.out.println("polling" + clientController.webAppController.playerName);
             setStatus(status);
             try {
-//                if (status == Status.INTERACTIVE) {
-//                    stopPolling();
-//                    System.out.println("Running interactive action");
-//                    var options = jsonObject.get("options").toString();
-//                    System.out.println(options);
-////                    clientController.webAppController.showChoiceDialog()
-//
-//                    return;
-//                }
+                if (status == Status.INTERACTIVE) {
+                    stopPolling();
+                    System.out.println("Running interactive action");
+                    var options = jsonObject.get("options").toString();
+                    System.out.println(options);
+//                    clientController.webAppController.showChoiceDialog();
+
+                    return;
+                }
                 String json = jsonObject.get("board").toString();
                 Board board = LoadBoard.loadBoardFromJSONString(json);
                 if (status == Status.RUNNING && (this.board == null || this.board.turn != board.turn)) {

@@ -173,13 +173,6 @@ public class Server {
         return "moves submitted: " + String.join(", ", moveNames);
     }
 
-//    private void runGame(AppController appController) {
-//        appController.getGameController().finishProgrammingPhase();
-//        appController.runActivationPhase();
-//        if (appController.getStatus() == Status.RUNNING) {
-//            appController.resetTakenAction();
-//        }
-//    }
 
     @PostMapping("/game/{gameId}/moves/{stringCommand}")
     public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName,
