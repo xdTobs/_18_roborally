@@ -44,10 +44,15 @@ public class Player extends Subject {
     private String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
-    private Move currentMove;
     private CommandCardField[] playableCards;
     private CommandCardField[] registerCards;
 
+    /***
+     * Constructor for player
+     * @param board
+     * @param color
+     * @param name
+     */
     public Player(@NotNull Board board, String color, @NotNull String name) {
         if (color == null) {
             // The same player name always gives the same color, for easier debugging.
@@ -57,7 +62,7 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
-        this.currentMove = new Move();
+
 
         playableCards = new CommandCardField[NO_PLAYABLE_CARDS];
         for (int i = 0; i < playableCards.length; i++) {
@@ -70,6 +75,11 @@ public class Player extends Subject {
         }
     }
 
+    /***
+     * Constructor used to convert from player template to player, uses Board to reinstate board pointer
+     * @param template
+     * @param board
+     */
     public Player(PlayerTemplate template, Board board) {
         this.name = template.name;
         this.color = template.color;
@@ -77,7 +87,6 @@ public class Player extends Subject {
         this.x = board.getSpace(template.x, template.y).x;
         this.y = board.getSpace(template.x, template.y).y;
         this.heading = template.heading;
-        this.currentMove = template.currentMoves;
 
         playableCards = new CommandCardField[NO_PLAYABLE_CARDS];
         registerCards = new CommandCardField[NO_REGISTER_CARDS];
@@ -97,6 +106,10 @@ public class Player extends Subject {
         return registerCards[i];
     }
 
+    /***
+     * functions to interact with checkpoint counter. Can only be incremented and gotten. Can never go down, or up by more than one
+     * @return
+     */
     public int getCheckpointCounter() {
         return checkpointCounter;
     }
@@ -152,14 +165,10 @@ public class Player extends Subject {
         return playableCards;
     }
 
-    public Move getCurrentMove() {
-        return currentMove;
-    }
-
-    public void setCurrentMove(Move currentMove) {
-        this.currentMove = currentMove;
-    }
-
+    /***
+     * Overrides toString, for easier prints
+     * @return
+     */
     @Override
     public String toString() {
         return "Player{" +

@@ -43,6 +43,11 @@ public class CommandCardField extends Subject {
         this.visible = true;
     }
 
+    /***
+     * Constructor to convert from CommandCardFieldTemplate to CommandCardField
+     * @param template template for CommandCardField
+     * @param player Used to reinstate pointers
+     */
     public CommandCardField(CommandCardFieldTemplate template, Player player) {
         if(template.card!=null)
             this.card = new CommandCard(template.card);

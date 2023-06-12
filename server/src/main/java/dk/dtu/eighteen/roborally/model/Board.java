@@ -64,11 +64,14 @@ public class Board extends Subject {
 
 
     public boolean isGameover() {
-        // TODO CHANGE THIS
-
         return findWinner() != null;
     }
 
+    /***
+     * Function for finding winning player, returns null if no winner yet.
+     * Can never have winner if no checkpoints on board
+     * @return Winning player, null if no winner yet
+     */
     public Player findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
 
@@ -87,9 +90,12 @@ public class Board extends Subject {
         return players;
     }
 
+    /***
+     *  Returns the Space object at a specified (x,y) position in the spaces array.
+     *      If the position is out of bounds, it returns null.
+     * @return Space of given space
+     */
 
-    // Returns the Space object at a specified (x,y) position in the spaces array.
-    // If the position is out of bounds, it returns null.
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return spaces[x][y];
@@ -177,6 +183,12 @@ public class Board extends Subject {
         this.step = step;
     }
 
+    /***
+     * Method for moving cards from one Field to another. Called by dragging cards
+     * @param source Source Field
+     * @param target Target Field
+     * @return If move was successful
+     */
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
         CommandCard targetCard = target.getCard();

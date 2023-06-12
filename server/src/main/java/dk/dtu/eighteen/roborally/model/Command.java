@@ -50,6 +50,11 @@ public enum Command {
 
     final private List<Command> options;
 
+    /***
+     * Constructor for Command
+     * @param displayName Name for command
+     * @param options Optional, options for interactive cards
+     */
     Command(String displayName, Command... options) {
         this.displayName = displayName;
         this.options = Collections.unmodifiableList(Arrays.asList(options));

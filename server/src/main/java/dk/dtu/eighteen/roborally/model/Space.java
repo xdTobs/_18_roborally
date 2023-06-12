@@ -48,6 +48,12 @@ public class Space extends Subject {
         this.y = y;
     }
 
+    /***
+     * Constructor for space from SpaceTemplate
+     * Uses Board to reinstate pointer
+     * @param template
+     * @param board
+     */
     public Space(SpaceTemplate template, Board board) {
         this.x = template.x;
         this.y = template.y;
@@ -57,6 +63,11 @@ public class Space extends Subject {
 
     }
 
+    /***
+     * Finds first player with x and y coordinates matching current space
+     * otherwise returns null
+     * @return
+     */
     public Player getPlayer() {
         return board.getPlayers().stream().filter(player -> player.x == x && player.y == y).findFirst().orElse(null);
     }

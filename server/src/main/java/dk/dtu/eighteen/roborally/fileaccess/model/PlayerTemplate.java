@@ -1,17 +1,17 @@
 package dk.dtu.eighteen.roborally.fileaccess.model;
 
 import dk.dtu.eighteen.roborally.model.Heading;
-import dk.dtu.eighteen.roborally.model.Move;
 import dk.dtu.eighteen.roborally.model.Player;
 
 public class PlayerTemplate {
-    public Move currentMoves;
+
     public int x, y;
     public String name;
     public String color;
     public int checkpointCounter;
     public Heading heading;
     public CommandCardFieldTemplate[] playableCards;
+
 
     private PlayerTemplate(Player p, CommandCardFieldTemplate[] availableSlotsTemplate) {
         this.x = p.getSpace().x;
@@ -20,10 +20,12 @@ public class PlayerTemplate {
         this.color = p.getColor();
         this.checkpointCounter = p.getCheckpointCounter();
         this.heading = p.getHeading();
-        this.currentMoves = p.getCurrentMove();
         this.playableCards = availableSlotsTemplate;
     }
-
+    /***
+     * Function used by BoardTemplate constructor, to create PlayerTemplates in BoardTemplate
+     *
+     */
     public static PlayerTemplate createPlayerTemplate(Player p) {
         CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getPlayableCards().length];
         for (int i = 0; i < p.getPlayableCards().length; i++) {

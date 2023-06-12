@@ -33,8 +33,12 @@ public enum Heading {
 
     NORTH, EAST, SOUTH, WEST;
 
+    /***
+     * Convert heading to offset coordinates, giving the coordinates of the space in the direction given
+     * @param heading
+     * @return
+     */
     public static int[] headingToCoords(Heading heading) {
-
         int[] nextCoords = new int[2];
         switch (heading) {
             case NORTH -> nextCoords = new int[]{0, -1};
@@ -45,7 +49,10 @@ public enum Heading {
         return nextCoords;
     }
 
-
+    /***
+     * Returns next heading in clockwise direction
+     * @return
+     */
     public Heading next() {
         return values()[(this.ordinal() + 1) % values().length];
     }
