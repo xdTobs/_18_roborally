@@ -22,7 +22,6 @@
 package dk.dtu.eighteen.view;
 
 import dk.dtu.eighteen.controller.WebAppController;
-import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.CommandCardField;
 import dk.dtu.eighteen.roborally.model.Player;
@@ -34,9 +33,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,30 +41,24 @@ import java.util.List;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class PlayerView extends Pane implements ViewObserver {
+public class PlayerView extends Pane {
 
-    private final WebAppController webAppController;
-    private Player player;
+    private final VBox top;
 
-    private VBox top;
+    private final Label programLabel;
+    private final GridPane programPane;
+    private final Label cardsLabel;
+    private final GridPane cardsPane;
 
-    private Label programLabel;
-    private GridPane programPane;
-    private Label cardsLabel;
-    private GridPane cardsPane;
+    private final CardFieldView[] programCardViews;
+    private final CardFieldView[] cardViews;
 
-    private CardFieldView[] programCardViews;
-    private CardFieldView[] cardViews;
+    private final VBox buttonPanel;
 
-    private VBox buttonPanel;
+    private final Button finishButton;
 
-    private Button finishButton;
-    private Button executeButton;
-    private Button stepButton;
+    private final VBox playerInteractionPanel;
 
-    private VBox playerInteractionPanel;
-
-//    private GameController gameController;
 
     public PlayerView(@NotNull WebAppController webAppController, Board board) {
         super();
@@ -78,9 +68,6 @@ public class PlayerView extends Pane implements ViewObserver {
 
         top = new VBox();
         this.getChildren().add(top);
-
-        this.webAppController = webAppController;
-        this.player = player;
 
         programLabel = new Label("Program");
 
@@ -141,97 +128,5 @@ public class PlayerView extends Pane implements ViewObserver {
         top.getChildren().add(cardsLabel);
         top.getChildren().add(cardsPane);
 
-        if (board != null) {
-            board.attach(this);
-            update(board);
-        }
     }
-
-    @Override
-    public void updateView(Subject subject) {
-//        if (subject == gameController.board) {
-//            for (int i = 0; i < Player.NO_REGISTERS; i++) {
-//                CardFieldView cardFieldView = programCardViews[i];
-//                if (cardFieldView != null) {
-//                    if (gameController.board.getPhase() == Phase.PROGRAMMING) {
-//                        cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-//                    } else {
-//                        if (i < gameController.board.getStep()) {
-//                            cardFieldView.setBackground(CardFieldView.BG_DONE);
-//                        } else if (i == gameController.board.getStep()) {
-//                            if (gameController.board.getCurrentPlayer() == player) {
-//                                cardFieldView.setBackground(CardFieldView.BG_ACTIVE);
-//                            } else if (gameController.board.getPlayerNumber(gameController.board.getCurrentPlayer()) > gameController.board.getPlayerNumber(player)) {
-//                                cardFieldView.setBackground(CardFieldView.BG_DONE);
-//                            } else {
-//                                cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-//                            }
-//                        } else {
-//                            cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if (gameController.board.getPhase() != Phase.PLAYER_INTERACTION) {
-//                if (!programPane.getChildren().contains(buttonPanel)) {
-//                    programPane.getChildren().remove(playerInteractionPanel);
-//                    programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
-//                }
-//                switch (gameController.board.getPhase()) {
-//                    case INITIALISATION:
-//                        finishButton.setDisable(true);
-//                        // XXX just to make sure that there is a way for the player to get
-//                        //     from the initialization phase to the programming phase somehow!
-//                        executeButton.setDisable(false);
-//                        stepButton.setDisable(true);
-//                        break;
-//
-//                    case PROGRAMMING:
-//                        finishButton.setDisable(false);
-//                        executeButton.setDisable(true);
-//                        stepButton.setDisable(true);
-//                        break;
-//
-//                    case ACTIVATION:
-//                        finishButton.setDisable(true);
-//                        executeButton.setDisable(false);
-//                        stepButton.setDisable(false);
-//                        break;
-//
-//                    default:
-//                        finishButton.setDisable(true);
-//                        executeButton.setDisable(true);
-//                        stepButton.setDisable(true);
-//                }
-//
-//
-//            } else {
-//                if (!programPane.getChildren().contains(playerInteractionPanel)) {
-//                    programPane.getChildren().remove(buttonPanel);
-//                    programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
-//                }
-//                playerInteractionPanel.getChildren().clear();
-//
-//                if (gameController.board.getCurrentPlayer() == player) {
-//                    // TODO Assignment V3: these buttons should be shown only when there is
-//                    //      an interactive command card, and the buttons should represent
-//                    //      the player's choices of the interactive command card. The
-//                    //      following is just a mockup showing two options
-//                    int step = gameController.board.getStep();
-////                    CommandCard card = player.getRegisterSlot(step).getCard();
-////                    List<Command> options = card.command.getOptions();
-//
-////                    for (Command option : options) {
-////                        Button optionButton = new Button(option.displayName);
-////                        optionButton.setOnAction(e -> gameController.executeCommandOptionAndContinue(option));
-////                        optionButton.setDisable(false);
-////                        playerInteractionPanel.getChildren().add(optionButton);
-////                    }
-//
-//                }
-//            }
-//        }
-    }
-
 }

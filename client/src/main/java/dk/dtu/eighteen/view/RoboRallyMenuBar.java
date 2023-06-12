@@ -36,20 +36,20 @@ import java.net.URISyntaxException;
  */
 public class RoboRallyMenuBar extends MenuBar {
 
-    private WebAppController webAppController;
+    private final WebAppController webAppController;
 
-    private Menu controlMenu;
+    private final Menu controlMenu;
 
-    private MenuItem saveGame;
+    private final MenuItem saveGame;
 
-    private MenuItem newGame;
-    private MenuItem joinGame;
+    private final MenuItem newGame;
+    private final MenuItem joinGame;
 
-    private MenuItem loadGame;
+    private final MenuItem loadGame;
 
-    private MenuItem stopGame;
+    private final MenuItem stopGame;
 
-    private MenuItem exitApp;
+    private final MenuItem exitApp;
 
 
     public RoboRallyMenuBar(WebAppController webAppController) {
@@ -102,6 +102,7 @@ public class RoboRallyMenuBar extends MenuBar {
             } catch (NullPointerException ex) {
                 throw new RuntimeException(ex);
             }
+            update();
         });
         controlMenu.getItems().add(joinGame);
 
@@ -123,19 +124,17 @@ public class RoboRallyMenuBar extends MenuBar {
         saveGame.setOnAction(e -> {
             try {
                 this.webAppController.saveGame();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            } catch (URISyntaxException ex) {
+            } catch (IOException | InterruptedException | URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }
+            update();
         });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction(e -> {
             this.webAppController.loadGame();
+            update();
         });
         controlMenu.getItems().add(loadGame);
 
@@ -151,15 +150,16 @@ public class RoboRallyMenuBar extends MenuBar {
 
     public void update() {
         if (webAppController.isGameRunning()) {
-            newGame.setVisible(false);
+            newGame.setVisible(true);
             stopGame.setVisible(true);
             saveGame.setVisible(true);
-            loadGame.setVisible(false);
+            loadGame.setVisible(true);
+            loadGame.setVisible(true);
             exitApp.setVisible(false);
         } else {
             newGame.setVisible(true);
-            stopGame.setVisible(false);
-            saveGame.setVisible(false);
+            stopGame.setVisible(true);
+            saveGame.setVisible(true);
             loadGame.setVisible(true);
             exitApp.setVisible(true);
         }
