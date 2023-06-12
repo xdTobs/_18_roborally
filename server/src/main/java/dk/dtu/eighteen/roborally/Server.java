@@ -200,7 +200,7 @@ public class Server {
         return "interactive move submitted, " + c;
     }
 
-    @PostMapping("/game/{gameId}/saveGame")
+    @PostMapping("/game/saveGame")
     public void saveGame(@PathVariable int gameId,
                          @PathVariable String saveName) {
         Board board = appControllerMap.get(gameId).getGameController().getBoard();

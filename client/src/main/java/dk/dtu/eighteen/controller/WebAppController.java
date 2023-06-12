@@ -24,6 +24,7 @@ public class WebAppController {
     RequestController requestController;
     Integer gameId = null;
 
+    private boolean isGameRunning = false;
 
     public WebAppController(ClientController clientController) {
         this.requestController = new RequestController(clientController);
@@ -103,6 +104,8 @@ public class WebAppController {
         response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
 
         this.gameId = Integer.valueOf(response.body());
+        requestController.setStatus(Status.INIT_NEW_GAME);
+        isGameRunning = true;
 
         requestController.createScheduledService(this.playerName);
         this.requestController.startPolling();
@@ -131,13 +134,13 @@ public class WebAppController {
         String saveName = savedNameInputDialog.showAndWait().orElse("");
 
         if (!saveName.isEmpty()) {
-            // Creating a new JSON Object to send
+//            Creating a new JSON Object to send
             JSONObject requestObject = new JSONObject();
             requestObject.put("saveName", saveName);
             requestObject.put("gameId", gameId);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/game/" + gameId + "/saveGame"))
+                    .uri(new URI("http://localhost:8080/game/saveGame"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
                     .build();
