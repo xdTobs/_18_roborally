@@ -170,6 +170,7 @@ public class Server {
         if (appController.incActionCounter() >= appController.getPlayerCapacity()) {
             appController.getGameController().finishProgrammingPhase();
             appController.runActivationPhase();
+            appController.resetTakenAction();
         }
         return "moves submitted: " + String.join(", ", moveNames);
     }
