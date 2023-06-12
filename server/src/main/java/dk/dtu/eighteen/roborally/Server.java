@@ -92,6 +92,11 @@ public class Server {
                 return map;
             }
         }
+        if(status == Status.GAMEOVER){
+            map.put("winner",board.getCurrentPlayer());
+            return map;
+        }
+
         var playerExistsOnBoard = board.getPlayer(playerName) != null;
 
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {

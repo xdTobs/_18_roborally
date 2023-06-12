@@ -3,6 +3,7 @@ package dk.dtu.eighteen.controller;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Phase;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
@@ -16,6 +17,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+
+import static dk.dtu.eighteen.roborally.controller.Status.GAMEOVER;
 
 //interface ApiResponseCallback {
 //    void onResponse(String response);
@@ -95,6 +98,10 @@ public class RequestController {
 
                     return;
                 }
+                if(status==GAMEOVER) {
+                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+                    return;
+                }
                 String json = jsonObject.get("board").toString();
                 Board board = LoadBoard.loadBoardFromJSONString(json);
                 if (status == Status.RUNNING && (this.board == null || this.board.turn != board.turn)) {
@@ -102,6 +109,7 @@ public class RequestController {
                     this.board = board;
                     clientController.createBoardView(board);
                 }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -137,7 +137,11 @@ public class AppController implements Observer {
         gameController.continuePrograms();
         if (gameController.board.getPhase() == Phase.PLAYER_INTERACTION) {
             status = Status.INTERACTIVE;
-        } else {
+        }
+        else if(gameController.board.getPhase() == Phase.GAMEOVER){
+            status = Status.GAMEOVER;
+        }
+        else {
             gameController.loadProgrammingPhase();
             setStatus(Status.RUNNING);
         }

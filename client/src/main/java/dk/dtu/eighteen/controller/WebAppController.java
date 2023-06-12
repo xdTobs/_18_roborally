@@ -84,9 +84,9 @@ public class WebAppController {
             numPlayerOptions.add(String.valueOf(i));
         }
 
-//        int numberOfPlayers = Integer.parseInt(dialogChoice(numPlayerOptions, "number of players"));
-//        String boardName = dialogChoice(boardNameList, "gameboard");
-        String boardName = "a-test-board.json";
+        //int numberOfPlayers = Integer.parseInt(showChoiceDialog(numPlayerOptions, "number of players"));
+        String boardName = showChoiceDialog(boardNameList, "gameboard");
+        //String boardName = "a-test-board.json";
         int numberOfPlayers = 2;
 
 
@@ -197,6 +197,15 @@ public class WebAppController {
     public void finishProgrammingPhase(List<String> cardIds) {
         requestController.postMoves(cardIds);
         requestController.startPolling();
+    }
+
+    public void gameOver(String winner) {
+        Alert gameOver = new Alert(Alert.AlertType.INFORMATION);
+        gameOver.setContentText("Choose how to continue");
+        gameOver.setHeaderText("Game has ended, "+winner +" has won");
+        gameOver.show();
+        System.out.println("here lmao");
+
     }
 }
 //
