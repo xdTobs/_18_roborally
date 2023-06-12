@@ -16,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +66,8 @@ public class WebAppController {
      * @throws IOException
      * @throws URISyntaxException
      * @throws InterruptedException
+     * @Author Frederik Rolsted, s224299@dtu.dk
+     * @Author Write your own name and email.
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/board")).GET().build();
@@ -113,8 +116,27 @@ public class WebAppController {
     }
 
 
-    public void stopGame() {
-        System.err.println("stop game not implemented");
+    /**
+     * This method prompts user to save game, and then stops and deletes game from server.
+     * @Author Frederik Rolsted, s224299@dtu.dk
+     */
+    public void stopGame() throws IOException, URISyntaxException, InterruptedException {
+        List<String> dialogOptions = Arrays.asList("Yes", "No");
+        String answer = showChoiceDialog(dialogOptions, "yes if you want to save the game");
+
+        if (!answer.isEmpty() && answer.equals("Yes")) {
+            saveGame();
+        }
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        HttpResponse response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.statusCode());
         Platform.exit();
     }
 
@@ -134,8 +156,6 @@ public class WebAppController {
         String saveName = savedNameInputDialog.showAndWait().orElse("");
 
         if (!saveName.isEmpty()) {
-//            Creating a new JSON Object to send
-            JSONObject requestObject = new JSONObject();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/game/" + gameId))

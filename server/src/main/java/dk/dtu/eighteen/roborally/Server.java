@@ -237,6 +237,8 @@ public class Server {
     }
 
 
+
+
     private static List<String> getResourceFolderFiles(String folderName) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(folderName);
