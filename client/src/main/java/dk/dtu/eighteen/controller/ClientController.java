@@ -54,15 +54,6 @@ public class ClientController extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
-//        try {
-//            webAppController.newGame();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     public void createBoardView(Board board) {
@@ -72,24 +63,6 @@ public class ClientController extends Application {
         BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);
-    }
-
-
-    private ResponseEntity<String> getResponseEntity(String url) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForEntity(url, String.class);
-    }
-
-    private void jsonWriter(String json, Stream stream) {
-        File file = new File("client/src/main/resources/jsonBoard.json");
-        try {
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(json);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void setStatusText(String s) {

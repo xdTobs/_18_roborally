@@ -72,7 +72,7 @@ public class LoadBoard {
         try {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-            
+
 
             board = new Board(template.width, template.height, boardname);
 

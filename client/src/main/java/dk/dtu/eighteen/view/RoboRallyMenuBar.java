@@ -94,7 +94,11 @@ public class RoboRallyMenuBar extends MenuBar {
 
         joinGame = new MenuItem("Join Game");
         joinGame.setOnAction(e -> {
-            this.webAppController.joinGame();
+            try {
+                this.webAppController.joinGame();
+            } catch (NullPointerException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         controlMenu.getItems().add(joinGame);
 
