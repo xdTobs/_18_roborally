@@ -10,6 +10,7 @@ public enum Status {
             case "INIT_LOAD_GAME" -> INIT_LOAD_GAME;
             case "RUNNING" -> RUNNING;
             case "QUITTING" -> QUITTING;
+            case "INTERACTIVE" -> INTERACTIVE;
             default -> throw new IllegalStateException("Unexpected value: " + statusString.toUpperCase());
         };
 
