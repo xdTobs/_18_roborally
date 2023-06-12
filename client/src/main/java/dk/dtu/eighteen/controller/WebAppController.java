@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class WebAppController {
     public String playerName = null;
@@ -41,18 +42,18 @@ public class WebAppController {
     }
 
     private void nameInputDialog() {
-        TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.setTitle("Name Selector");
-        textInputDialog.setHeaderText("Please enter your name");
-        textInputDialog.setContentText("Name: ");
-
-        var answer = textInputDialog.showAndWait();
-        if (answer.isPresent()) {
-            this.playerName = answer.get();
-        } else {
-            throw new NullPointerException("No name entered");
-        }
-//        this.playerName = UUID.randomUUID().toString();
+//        TextInputDialog textInputDialog = new TextInputDialog();
+//        textInputDialog.setTitle("Name Selector");
+//        textInputDialog.setHeaderText("Please enter your name");
+//        textInputDialog.setContentText("Name: ");
+//
+//        var answer = textInputDialog.showAndWait();
+//        if (answer.isPresent()) {
+//            this.playerName = answer.get();
+//        } else {
+//            throw new NullPointerException("No name entered");
+//        }
+        this.playerName = UUID.randomUUID().toString();
     }
 
 
@@ -82,8 +83,8 @@ public class WebAppController {
         }
 
         //int numberOfPlayers = Integer.parseInt(showChoiceDialog(numPlayerOptions, "number of players"));
-        String boardName = showChoiceDialog(boardNameList, "gameboard");
-        //String boardName = "a-test-board.json";
+//        String boardName = showChoiceDialog(boardNameList, "gameboard");
+        String boardName = "a-test-board.json";
         int numberOfPlayers = 2;
 
 

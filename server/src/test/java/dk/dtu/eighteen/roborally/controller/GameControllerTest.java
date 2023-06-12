@@ -5,7 +5,6 @@ import dk.dtu.eighteen.roborally.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import java.io.IOException;
 
@@ -186,10 +185,10 @@ class GameControllerTest {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getPlayer(0);
-        CommandCardField field = player.getPlayableCard(0);
-        assertEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCard(0)));
+        CommandCardField field = player.getPlayableCardField(0);
+        assertEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCardField(0)));
         field.setCard(gamecontroller.generateRandomCommandCard());
-        assertNotEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCard(0)));
+        assertNotEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCardField(0)));
     }
 
 

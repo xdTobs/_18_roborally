@@ -62,7 +62,7 @@ public class GameController {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_PLAYABLE_CARDS; j++) {
-                    CommandCardField field = player.getPlayableCard(j);
+                    CommandCardField field = player.getPlayableCardField(j);
                     field.setCard(generateRandomCommandCard());
                     field.setVisible(true);
                 }

@@ -116,7 +116,7 @@ public class PlayerView extends Pane {
         cardsPane.setHgap(2.0);
         cardViews = new CardFieldView[Player.NO_PLAYABLE_CARDS];
         for (int i = 0; i < Player.NO_PLAYABLE_CARDS; i++) {
-            CommandCardField cardField = player.getPlayableCard(i);
+            CommandCardField cardField = player.getPlayableCardField(i);
             if (cardField != null) {
                 cardViews[i] = new CardFieldView(webAppController, board, cardField);
                 cardsPane.add(cardViews[i], i, 0);

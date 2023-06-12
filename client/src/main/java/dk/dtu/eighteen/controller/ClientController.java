@@ -12,6 +12,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * This class is the main controller for the client application.
+ *
+ * @author Zenkert
+ */
 public class ClientController extends Application {
     Text statusText = new Text("Status: start up");
     WebAppController webAppController = new WebAppController(this);

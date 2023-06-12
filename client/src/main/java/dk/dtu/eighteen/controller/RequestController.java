@@ -5,6 +5,7 @@ import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,10 +19,11 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-//interface ApiResponseCallback {
-//    void onResponse(String response);
-//}
-
+/**
+ * This class is the controller for making requests to the server.
+ *
+ * @author Zenkert
+ */
 public class RequestController {
     static int timesPolled = 0;
     ClientController clientController;

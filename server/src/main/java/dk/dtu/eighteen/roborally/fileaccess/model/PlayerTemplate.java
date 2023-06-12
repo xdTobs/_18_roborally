@@ -27,7 +27,7 @@ public class PlayerTemplate {
     public static PlayerTemplate createPlayerTemplate(Player p) {
         CommandCardFieldTemplate[] availableSlotsTemplate = new CommandCardFieldTemplate[p.getPlayableCards().length];
         for (int i = 0; i < p.getPlayableCards().length; i++) {
-            availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getPlayableCard(i));
+            availableSlotsTemplate[i] = new CommandCardFieldTemplate(p.getPlayableCardField(i));
         }
         return new PlayerTemplate(p, availableSlotsTemplate);
     }

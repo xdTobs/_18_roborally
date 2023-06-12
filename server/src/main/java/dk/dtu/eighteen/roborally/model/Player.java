@@ -144,7 +144,7 @@ public class Player extends Subject {
     }
 
 
-    public CommandCardField getPlayableCard(int i) {
+    public CommandCardField getPlayableCardField(int i) {
         return playableCards[i];
     }
 

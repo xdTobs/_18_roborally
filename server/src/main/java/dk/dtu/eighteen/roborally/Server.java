@@ -95,6 +95,11 @@ public class Server {
         appController.incActionCounter();
         board.createAddPlayerToEmptySpace(null, playerName);
 
+        var player = board.getPlayer(playerName);
+        for (int i = 0; i < 5; i++) {
+            var f = player.getPlayableCardField(i);
+            f.setCard(new CommandCard(Command.OPTION_LEFT_RIGHT));
+        }
         appControllerMap.put(id, appController);
         return id;
     }
