@@ -49,6 +49,7 @@ public class Server {
     }
 
     @PostMapping("/game")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public int createNewGame(@RequestBody Map<String, String> userMap) {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
@@ -78,7 +79,7 @@ public class Server {
         Player player = board.getPlayer(playerName);
         Status status = appController.getStatus();
         HashMap<String, Object> map = new HashMap<>();
-
+        map.put("gameStatus", status.toString());
         if (status == Status.INTERACTIVE) {
             Player playerToInteract = board.getCurrentPlayer();
             if (playerToInteract.getName().equals(playerName)) {
@@ -90,6 +91,8 @@ public class Server {
                 }
                 map.put("options", jsonArray);
                 return map;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
             }
         }
         if(status == Status.GAMEOVER){
@@ -104,7 +107,6 @@ public class Server {
         }
 
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
-        map.put("status", status.toString());
         map.put("board", boardTemplate);
         return map;
     }
@@ -180,9 +182,7 @@ public class Server {
 
 
     @PostMapping("/game/{gameId}/moves/{stringCommand}")
-    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName,
-                                        @PathVariable String stringCommand,
-                                        @PathVariable int gameId) {
+    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName, @PathVariable String stringCommand, @PathVariable int gameId) {
         Command c = Command.of(stringCommand);
         AppController appController = appControllerMap.get(gameId);
         Player player = appController.getGameController().getBoard().getPlayer(playerName);

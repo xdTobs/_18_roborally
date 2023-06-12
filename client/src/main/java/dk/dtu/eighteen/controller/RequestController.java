@@ -16,9 +16,8 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
-
-import static dk.dtu.eighteen.roborally.controller.Status.GAMEOVER;
 
 //interface ApiResponseCallback {
 //    void onResponse(String response);
@@ -27,7 +26,7 @@ import static dk.dtu.eighteen.roborally.controller.Status.GAMEOVER;
 public class RequestController {
     static int timesPolled = 0;
     ClientController clientController;
-    ScheduledService<String> scheduledService = null;
+    ScheduledService<HttpResponse<String>> scheduledService = null;
 
     Board board = null;
 
@@ -45,10 +44,10 @@ public class RequestController {
         }
         this.scheduledService = new ScheduledService<>() {
             @Override
-            protected Task<String> createTask() {
+            protected Task<HttpResponse<String>> createTask() {
                 return new Task<>() {
                     @Override
-                    protected String call() throws Exception {
+                    protected HttpResponse<String> call() throws Exception {
 
                         timesPolled++;
                         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId())).header("roborally-player-name", playerName).GET().build();
@@ -66,7 +65,7 @@ public class RequestController {
 //                                    .send(req, HttpResponse.BodyHandlers.discarding());
 //                            return response.body().toString();
 //                        }
-                        return response.body().toString();
+                        return response;
                     }
                 };
             }
@@ -82,36 +81,57 @@ public class RequestController {
 
     public void startPolling() {
         scheduledService.setOnSucceeded(event1 -> {
-            String response = scheduledService.getValue();
+            HttpResponse<String> response = scheduledService.getValue();
             // Process the response
-            JSONObject jsonObject = new JSONObject(response);
-            Status status = Status.of(jsonObject.get("status").toString());
-            System.out.println("polling" + clientController.webAppController.playerName);
-            setStatus(status);
-            try {
-                if (status == Status.INTERACTIVE) {
-                    stopPolling();
-                    System.out.println("Running interactive action");
-                    var options = jsonObject.get("options").toString();
-                    System.out.println(options);
-//                    clientController.webAppController.showChoiceDialog();
+            JSONObject jsonObject = new JSONObject(response.body());
+            int responseCode = response.statusCode();
 
-                    return;
+            if (responseCode < 200 || responseCode >= 300) {
+                return;
+            }
+
+            Status gameStatus = Status.of(jsonObject.get("gameStatus").toString());
+            System.out.println("polling" + clientController.webAppController.playerName);
+            clientController.setStatus(gameStatus);
+            if (gameStatus == Status.INTERACTIVE) {
+                stopPolling();
+                System.out.println("Running interactive action");
+                JSONArray options = (JSONArray) jsonObject.get("options");
+                System.out.println(options);
+                List<String> optionsList = new ArrayList<>();
+                for (int i = 0; i < options.length(); i++) {
+                    optionsList.add(options.get(i).toString());
                 }
-                if(status==GAMEOVER) {
-                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
-                    return;
-                }
+                String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
+//                try {
+////                    HttpRequest request = HttpRequest.newBuilder().
+////                            uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
+////                            header("roborally-player-name", clientController.webAppController.playerName).POST().build();
+////                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
+//                } catch (URISyntaxException | IOException | InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+
+                return;
+            }
+
+            if (gameStatus == Status.GAMEOVER) {
+                clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+                return;
+            }
+            if (gameStatus == Status.RUNNING) {
                 String json = jsonObject.get("board").toString();
-                Board board = LoadBoard.loadBoardFromJSONString(json);
-                if (status == Status.RUNNING && (this.board == null || this.board.turn != board.turn)) {
+                Board board = null;
+                try {
+                    board = LoadBoard.loadBoardFromJSONString(json);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (this.board == null || this.board.turn != board.turn) {
                     stopPolling();
                     this.board = board;
                     clientController.createBoardView(board);
                 }
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         });
 
@@ -127,25 +147,6 @@ public class RequestController {
         scheduledService.start();
     }
 
-    public void setStatus(Status status) {
-        String s = "";
-        switch (status) {
-            case NOT_INITIATED_GAME -> clientController.setStatusText("Game not running");
-            case INIT_NEW_GAME -> {
-                s = "Times polled: " + timesPolled + "\n";
-                clientController.setStatusText(s + "New game with ID: " + clientController.getGameId() + "\nWaiting for players to join");
-            }
-            case INIT_LOAD_GAME ->
-                    clientController.setStatusText("Loaded game with ID: " + clientController.getGameId());
-            case RUNNING -> clientController.setStatusText("Running game with ID: " + clientController.getGameId());
-            case INTERACTIVE -> {
-                clientController.setStatusText("Awaiting input from " + clientController.webAppController.playerName + " in game with ID: " + clientController.getGameId());
-            }
-            case QUITTING ->
-                    clientController.setStatusText("Quitting and saving game with ID: " + clientController.getGameId());
-            case INVALID_GAME_ID -> clientController.setStatusText("Invalid game ID");
-        }
-    }
 
     public void postMoves(List<String> cardIds) {
         try {
