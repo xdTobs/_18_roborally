@@ -104,7 +104,6 @@ public class WebAppController {
         response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
 
         this.gameId = Integer.valueOf(response.body());
-        requestController.setStatus(Status.INIT_NEW_GAME);
         isGameRunning = true;
 
         requestController.createScheduledService(this.playerName);
