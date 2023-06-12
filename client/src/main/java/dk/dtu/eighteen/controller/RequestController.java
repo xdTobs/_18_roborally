@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 //interface ApiResponseCallback {
@@ -64,7 +65,7 @@ public class RequestController {
 //                                    .send(req, HttpResponse.BodyHandlers.discarding());
 //                            return response.body().toString();
 //                        }
-                        return response.body().toString();
+                        return response;
                     }
                 };
             }
@@ -97,12 +98,23 @@ public class RequestController {
                 System.out.println("Running interactive action");
                 JSONArray options = (JSONArray) jsonObject.get("options");
                 System.out.println(options);
-//                clientController.webAppController.showChoiceDialog();
-
+                List<String> optionsList = new ArrayList<>();
+                for (int i = 0; i < options.length(); i++) {
+                    optionsList.add(options.get(i).toString());
+                }
+                String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
+//                try {
+////                    HttpRequest request = HttpRequest.newBuilder().
+////                            uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
+////                            header("roborally-player-name", clientController.webAppController.playerName).POST().build();
+////                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
+//                } catch (URISyntaxException | IOException | InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
                 return;
             }
 
-            if(gameStatus== Status.GAMEOVER) {
+            if (gameStatus == Status.GAMEOVER) {
                 clientController.webAppController.gameOver(jsonObject.get("winner").toString());
                 return;
             }
