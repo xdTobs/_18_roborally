@@ -29,9 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SpringBootApplication
 @RestController
 public class Server {
-    private static AtomicInteger counter = new AtomicInteger(0);
-    private static Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
-    private static File saveFolder;
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private static final Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
 
 
     public static void main(String[] args) {
@@ -53,24 +52,25 @@ public class Server {
     @GetMapping("/board")
     @Description("Get the names of available boards")
     public List<String> getBoardNames() {
-        return getResourceFolderFiles("playableBoards");
+        return getResourceFolderFiles();
     }
 
     @GetMapping("/game")
-    public int loadGame(@RequestHeader("roborally-load-name") String savegame, @RequestHeader("roborally-player-name") String playerName) {
+    public int loadGame(@RequestHeader("roborally-save-name") String savegame, @RequestHeader("roborally-player-name") String playerName) {
         Board board;
         try {
-            board = LoadBoard.loadSavedGameFromFile(savegame);
+            board = LoadBoard.loadSavedGameFromFile(savegame + ".json");
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Save game not found", e);
         }
         var players = board.getPlayers();
 
-        if(players.stream().anyMatch(player -> player.getName().equals(playerName))){
+        if (players.stream().anyMatch(player -> player.getName().equals(playerName))) {
             int id = counter.incrementAndGet();
             var appController = new AppController(board, board.getPlayers().size(), Status.INIT_LOAD_GAME);
             appControllerMap.put(id, appController);
             appController.incActionCounter();
+            appController.joinedPlayers.add(board.getPlayer(playerName));
             return id;
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name not found in save game");
@@ -83,7 +83,7 @@ public class Server {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
         int playerCapacity = Integer.parseInt(userMap.get("playerCapacity"));
-        Board board = null;
+        Board board;
         try {
             board = LoadBoard.loadNewGameFromFile(boardName);
             System.out.println(board);
@@ -130,10 +130,18 @@ public class Server {
             return map;
         }
 
+        if (Status.INIT_LOAD_GAME == appController.getStatus()) {
+            var alreadyJoined = appController.joinedPlayers.stream().anyMatch(p -> p.getName().equals(playerName));
+            if (alreadyJoined) {
+                return map;
+            }
+        }
         var playerExistsOnBoard = board.getPlayer(playerName) != null;
-
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             joinGame(gameId, playerName);
+        }
+        if (status == Status.INIT_LOAD_GAME && appController.getActionCounter() < appController.getPlayerCapacity()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Game is not yet ready to start, waiting for other player.");
         }
 
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
@@ -237,12 +245,12 @@ public class Server {
     }
 
 
-    private static List<String> getResourceFolderFiles(String folderName) {
+    private static List<String> getResourceFolderFiles() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folderName);
+        URL url = loader.getResource("playableBoards");
         String path = url.getPath();
         List<File> files = List.of(new File(path).listFiles());
-        return files.stream().map(file -> file.getName()).toList();
+        return files.stream().map(File::getName).toList();
     }
 }
 

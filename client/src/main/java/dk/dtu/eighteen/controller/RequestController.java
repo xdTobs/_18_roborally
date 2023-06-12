@@ -78,49 +78,52 @@ public class RequestController {
             }
 
             Status gameStatus = Status.of(jsonObject.get("gameStatus").toString());
-            System.out.println("polling" + clientController.webAppController.playerName);
-            clientController.setStatus(gameStatus);
-            if (gameStatus == Status.INTERACTIVE) {
-                stopPolling();
-                System.out.println("Running interactive action");
-                JSONArray options = (JSONArray) jsonObject.get("options");
-                System.out.println(options);
-                List<String> optionsList = new ArrayList<>();
-                for (int i = 0; i < options.length(); i++) {
-                    optionsList.add(options.get(i).toString());
+            switch (gameStatus) {
+                case INIT_LOAD_GAME, INIT_NEW_GAME, QUITTING -> {
                 }
-                String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
-                try {
-                    HttpRequest request = HttpRequest.newBuilder().
-                            uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
-                            header("roborally-player-name", clientController.webAppController.playerName).
-                            POST(HttpRequest.BodyPublishers.noBody()).build();
-                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
-                    startPolling();
-                } catch (URISyntaxException | IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                return;
-            }
-
-            if (gameStatus == Status.GAMEOVER) {
-                clientController.webAppController.gameOver(jsonObject.get("winner").toString());
-                return;
-            }
-            if (gameStatus == Status.RUNNING) {
-                String json = jsonObject.get("board").toString();
-                Board board = null;
-                try {
-                    board = LoadBoard.loadBoardFromJSONString(json);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                if (this.board == null || this.board.turn != board.turn) {
+                case INTERACTIVE -> {
                     stopPolling();
-                    this.board = board;
-                    clientController.createBoardView(board);
+                    System.out.println("Running interactive action");
+                    JSONArray options = (JSONArray) jsonObject.get("options");
+                    System.out.println(options);
+                    List<String> optionsList = new ArrayList<>();
+                    for (int i = 0; i < options.length(); i++) {
+                        optionsList.add(options.get(i).toString());
+                    }
+                    String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
+                    try {
+                        HttpRequest request = HttpRequest.newBuilder().
+                                uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
+                                header("roborally-player-name", clientController.webAppController.playerName).
+                                POST(HttpRequest.BodyPublishers.noBody()).build();
+                        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
+                        startPolling();
+                    } catch (URISyntaxException | IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return;
                 }
+                case GAMEOVER -> {
+                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+                    return;
+                }
+                case RUNNING -> {
+                    String json = jsonObject.get("board").toString();
+                    Board board;
+                    try {
+                        board = LoadBoard.loadBoardFromJSONString(json);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (this.board == null || this.board.turn != board.turn) {
+                        stopPolling();
+                        this.board = board;
+                        clientController.createBoardView(board);
+                    }
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + gameStatus);
             }
+            clientController.setStatus(gameStatus);
         });
 
         scheduledService.setOnFailed(event1 -> {
@@ -138,24 +141,29 @@ public class RequestController {
 
     public void postMoves(List<String> cardIds) {
         try {
-            String requestBody = "[" + String.join(",", cardIds.stream().map(c -> c.toString()).toList()) + "]";
+            String requestBody = "[" + String.join(",", cardIds.stream().toList()) + "]";
             // Send the request and get the response
 
             JSONArray jsonArray = new JSONArray(requestBody);
             // Print the response body
 
-            HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves")).header("Content-Type", "application/json").header("roborally-player-name", clientController.webAppController.playerName).POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray))).build();
-            HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves")).
+                    header("Content-Type", "application/json").
+                    header("roborally-player-name", clientController.webAppController.playerName).
+                    POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray))).build();
+
+            HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public int loadGame() throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game")).
-                header("Content-Type", "application/json").
-                header("roborally-player-name", clientController.webAppController.playerName).
-                POST(HttpRequest.BodyPublishers.noBody()).build();
+    public int loadGame(String playerName, String saveName) throws URISyntaxException, IOException, InterruptedException {
+        var uri = new URI("http://localhost:8080/game");
+        HttpRequest request = HttpRequest.newBuilder().uri(uri).
+                header("roborally-player-name", playerName).
+                header("roborally-save-name", saveName).
+                GET().build();
 
         HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() >= 200 && response.statusCode() < 300) {

@@ -1,10 +1,8 @@
 package dk.dtu.eighteen.controller;
 
-import dk.dtu.eighteen.roborally.controller.Status;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +15,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class WebAppController {
     public String playerName = null;
@@ -28,6 +25,8 @@ public class WebAppController {
 
     public WebAppController(ClientController clientController) {
         this.requestController = new RequestController(clientController);
+        nameInputDialog();
+        requestController.createScheduledService(this.playerName);
     }
 
 
@@ -41,18 +40,18 @@ public class WebAppController {
     }
 
     private void nameInputDialog() {
-//        TextInputDialog textInputDialog = new TextInputDialog();
-//        textInputDialog.setTitle("Name Selector");
-//        textInputDialog.setHeaderText("Please enter your name");
-//        textInputDialog.setContentText("Name: ");
-//
-//        var answer = textInputDialog.showAndWait();
-//        if (answer.isPresent()) {
-//            this.playerName = answer.get();
-//        } else {
-//            throw new NullPointerException("No name entered");
-//        }
-        this.playerName = UUID.randomUUID().toString();
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("Name Selector");
+        textInputDialog.setHeaderText("Please enter your name");
+        textInputDialog.setContentText("Name: ");
+
+        var answer = textInputDialog.showAndWait();
+        if (answer.isPresent()) {
+            this.playerName = answer.get();
+        } else {
+            throw new NullPointerException("No name entered");
+        }
+//        this.playerName = UUID.randomUUID().toString();
     }
 
 
@@ -61,10 +60,7 @@ public class WebAppController {
      * prompting the user to select the desired gameboard, number of player and name.
      * It sends the choices to the server, which handles the creation of the game.
      *
-     * @return
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws InterruptedException
+     * @throws IOException if the server is not running
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/board")).GET().build();
@@ -78,7 +74,6 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
-        nameInputDialog();
 
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
@@ -107,13 +102,12 @@ public class WebAppController {
         this.gameId = Integer.valueOf(response.body());
         isGameRunning = true;
 
-        requestController.createScheduledService(this.playerName);
         this.requestController.startPolling();
-
     }
 
 
     public void stopGame() {
+        this.requestController.startPolling();
         System.err.println("stop game not implemented");
         Platform.exit();
     }
@@ -135,8 +129,6 @@ public class WebAppController {
 
         if (!saveName.isEmpty()) {
 //            Creating a new JSON Object to send
-            JSONObject requestObject = new JSONObject();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/game/" + gameId))
                     .header("Content-Type", "application/json")
@@ -144,7 +136,7 @@ public class WebAppController {
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
 
-            HttpResponse response = HttpClient.newBuilder()
+            HttpResponse<String> response = HttpClient.newBuilder()
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -166,11 +158,20 @@ public class WebAppController {
 
     public void loadGame() {
         try {
-            this.gameId = requestController.loadGame();
+            TextInputDialog gameIdInputDialog = new TextInputDialog();
+            gameIdInputDialog.setTitle("Save name");
+            gameIdInputDialog.setHeaderText("Please enter the name of the save you want to load");
+            gameIdInputDialog.setContentText("Save: ");
+
+            var saveOptional = gameIdInputDialog.showAndWait();
+            if (saveOptional.isPresent()) {
+                this.gameId = requestController.loadGame(playerName, saveOptional.get());
+                this.requestController.startPolling();
+            }
+
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Platform.exit();
     }
 
     public void exit() {
@@ -182,7 +183,6 @@ public class WebAppController {
     }
 
     public void joinGame() throws NullPointerException {
-        nameInputDialog();
 
         TextInputDialog gameIdInputDialog = new TextInputDialog();
         gameIdInputDialog.setTitle("Enter game ID");
@@ -195,7 +195,6 @@ public class WebAppController {
         } else {
             throw new NullPointerException("Invalid/no game id entered");
         }
-        requestController.createScheduledService(this.playerName);
         this.requestController.startPolling();
     }
 

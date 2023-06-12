@@ -27,6 +27,10 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Phase;
+import dk.dtu.eighteen.roborally.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -38,6 +42,7 @@ public class AppController implements Observer {
     //    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
 //    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
+    public List<Player> joinedPlayers = new ArrayList<>();
 
 
     public Status getStatus() {
@@ -137,11 +142,9 @@ public class AppController implements Observer {
         gameController.continuePrograms();
         if (gameController.board.getPhase() == Phase.PLAYER_INTERACTION) {
             status = Status.INTERACTIVE;
-        }
-        else if(gameController.board.getPhase() == Phase.GAMEOVER){
+        } else if (gameController.board.getPhase() == Phase.GAMEOVER) {
             status = Status.GAMEOVER;
-        }
-        else {
+        } else {
             gameController.loadProgrammingPhase();
             setStatus(Status.RUNNING);
         }

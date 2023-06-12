@@ -72,7 +72,7 @@ public class Board extends Subject {
     public Player findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
 
-        if(checkpoints.size()==0)
+        if (checkpoints.size() == 0)
             return null;
         for (Player player : players)
             if (player.getCheckpointCounter() == checkpoints.size()) {
@@ -123,10 +123,8 @@ public class Board extends Subject {
     }
 
     private Space getFirstEmptySpace() {
-        for (int i = 0; i < spaces.length; i++) {
-            for (int j = 0; j < spaces[i].length; j++) {
-                Space space = spaces[i][j];
-
+        for (Space[] value : spaces) {
+            for (Space space : value) {
                 if (players.stream().map(Player::getSpace).noneMatch(s -> s == space)) {
                     return space;
                 }
@@ -199,44 +197,13 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * Returns the neighbour of the given space of the board in the given heading.
-     * The neighbour is returned only, if it can be reached from the given space
-     * (no walls or obstacles in either of the involved spaces); otherwise,
-     * null will be returned.
-     *
-     * @param space   the space for which the neighbour should be computed
-     * @param heading the heading of the neighbour
-     * @return the space in the given direction; null if there is no (reachable) neighbour
-     */
-    public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
-        int x = space.x;
-        int y = space.y;
-        switch (heading) {
-            case SOUTH:
-                y = (y + 1) % height;
-                break;
-            case WEST:
-                x = (x + width - 1) % width;
-                break;
-            case NORTH:
-                y = (y + height - 1) % height;
-                break;
-            case EAST:
-                x = (x + 1) % width;
-                break;
-        }
-
-        return getSpace(x, y);
-    }
-
     public String getStatusMessage(String playerName) {
         // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() + ", Player = " + playerName + ", Step: " + getStep();
+        return "Phase: " + getPhase().name() + ", Player = " + playerName;
     }
 
     public List<Checkpoint> getCheckpoints() {
