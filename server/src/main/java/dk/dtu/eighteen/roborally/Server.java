@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static dk.dtu.eighteen.roborally.model.Phase.INITIALISATION;
+
 @SpringBootApplication
 @RestController
 public class Server {
@@ -96,7 +98,8 @@ public class Server {
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             joinGame(gameId, playerName);
         }
-
+        if(appController.getGameController().board.getPhase() == INITIALISATION)
+            appController.getGameController().startProgrammingPhase();
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         var board = appController.getGameController().getBoard();
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
