@@ -1,12 +1,12 @@
 {
-  "width": 4,
-  "height": 4,
+  "phase": "INITIALISATION",
+  "width": 8,
+  "height": 8,
   "spaces": [
     [
       {
         "walls": [],
-        "actions": [
-        ],
+        "actions": [],
         "x": 0,
         "y": 0
       },
@@ -27,6 +27,30 @@
         "actions": [],
         "x": 0,
         "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 0,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 0,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 0,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 0,
+        "y": 7
       }
     ],
     [
@@ -43,8 +67,7 @@
         "y": 1
       },
       {
-        "walls": [
-        ],
+        "walls": [],
         "actions": [],
         "x": 1,
         "y": 2
@@ -54,20 +77,42 @@
         "actions": [],
         "x": 1,
         "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 1,
+        "y": 7
       }
     ],
     [
       {
-        "walls": [
-        ],
+        "walls": [],
         "actions": [],
         "x": 2,
         "y": 0
       },
       {
         "walls": [],
-        "actions": [
-        ],
+        "actions": [],
         "x": 2,
         "y": 1
       },
@@ -82,6 +127,30 @@
         "actions": [],
         "x": 2,
         "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 2,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 2,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 2,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 2,
+        "y": 7
       }
     ],
     [
@@ -108,6 +177,230 @@
         "actions": [],
         "x": 3,
         "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 3,
+        "y": 7
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 4,
+        "y": 7
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 5,
+        "y": 7
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 6,
+        "y": 7
+      }
+    ],
+    [
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 0
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 1
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 2
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 3
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 4
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 5
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 6
+      },
+      {
+        "walls": [],
+        "actions": [],
+        "x": 7,
+        "y": 7
       }
     ]
   ],

@@ -158,6 +158,53 @@ public class LoadBoard {
         }
     }
 
+
+    // The following 3 classes is only used for testing. The LoadBoardTest class cannot find gameboardfiles with the normal filepath.
+
+    /**
+     * This is a class only used for testing. It has the same functionality as loadSavedGameFromFile(),
+     * it uses the loadSaveStateFromFileForTest() instead.
+     * @throws IOException
+     */
+    static public Board loadSavedGameFromFileForTest(String name) throws IOException {
+        return LoadBoard.loadSaveStateFromFileForTest("savedBoards/" + name);
+    }
+
+
+    /**
+     * This is a class only used for testing. It has the same functionality as loadNewGameFromFile(),
+     * it uses the loadSaveStateFromFileForTest() instead.
+     * @throws IOException
+     */
+    static public Board loadNewGameFromFileForTest(String name) throws IOException {
+        return LoadBoard.loadSaveStateFromFileForTest("playableBoards/" + name);
+    }
+
+    /**
+     * This is a class only used for testing. It has the same functionality as loadSaveStateFromFile(),
+     * the filepath is just different.
+     * @throws IOException
+     */
+    private static Board loadSaveStateFromFileForTest(String boardname) throws IOException {
+        if (boardname == null) {
+            boardname = DEFAULTBOARD;
+        }
+
+        String filename = "./src/main/resources/" + boardname;
+        File f = new File(filename).getAbsoluteFile();
+
+        String s = f.getAbsolutePath();
+
+        File file = new File(filename);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception e) {
+            throw new IOException("Could not load board: " + boardname, e);
+        }
+        return loadSaveState(inputStream, boardname);
+    }
+
 }
 
 
