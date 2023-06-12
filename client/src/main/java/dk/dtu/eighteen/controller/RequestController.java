@@ -151,6 +151,19 @@ public class RequestController {
         }
     }
 
+    public int loadGame() throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game")).
+                header("Content-Type", "application/json").
+                header("roborally-player-name", clientController.webAppController.playerName).
+                POST(HttpRequest.BodyPublishers.noBody()).build();
+
+        HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() >= 200 && response.statusCode() < 300) {
+            return Integer.parseInt(response.body());
+        }
+        throw new RuntimeException("Could not find game id.");
+
+    }
 }
 
 

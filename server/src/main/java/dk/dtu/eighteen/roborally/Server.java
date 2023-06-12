@@ -56,8 +56,29 @@ public class Server {
         return getResourceFolderFiles("playableBoards");
     }
 
+    @GetMapping("/game")
+    public int loadGame(@RequestHeader("roborally-load-name") String savegame, @RequestHeader("roborally-player-name") String playerName) {
+        Board board;
+        try {
+            board = LoadBoard.loadSavedGameFromFile(savegame);
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Save game not found", e);
+        }
+        var players = board.getPlayers();
+
+        if(players.stream().anyMatch(player -> player.getName().equals(playerName))){
+            int id = counter.incrementAndGet();
+            var appController = new AppController(board, board.getPlayers().size(), Status.INIT_LOAD_GAME);
+            appControllerMap.put(id, appController);
+            appController.incActionCounter();
+            return id;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name not found in save game");
+        }
+
+    }
+
     @PostMapping("/game")
-    @ResponseStatus(code = HttpStatus.CREATED)
     public int createNewGame(@RequestBody Map<String, String> userMap) {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
