@@ -195,6 +195,14 @@ public class Server {
         return "interactive move submitted, " + c;
     }
 
+    @PostMapping("/game/{gameId}/saveGame")
+    public void saveGame(@PathVariable int gameId,
+                         @PathVariable String saveName) {
+        Board board = appControllerMap.get(gameId).getGameController().getBoard();
+        LoadBoard.saveBoard(board, saveName + ".json");
+    }
+
+
     private static List<String> getResourceFolderFiles(String folderName) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(folderName);
