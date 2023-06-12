@@ -34,6 +34,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +63,8 @@ public class PlayerView extends Pane implements ViewObserver {
     private VBox buttonPanel;
 
     private Button finishButton;
+    private Button executeButton;
+    private Button stepButton;
 
     private VBox playerInteractionPanel;
 
