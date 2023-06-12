@@ -3,7 +3,6 @@ package dk.dtu.eighteen.controller;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Phase;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
@@ -53,18 +52,6 @@ public class RequestController {
                         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId())).header("roborally-player-name", playerName).GET().build();
                         HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
                         System.out.println(response);
-                        // For debugging
-//                        if (timesPolled == 1) {
-//                            var req = HttpRequest.newBuilder()
-//                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
-//                                    .header("roborally-player-name", "debug-name")
-//                                    .GET()
-//                                    .build();
-//                            HttpResponse<Void> res = HttpClient.newBuilder()
-//                                    .build()
-//                                    .send(req, HttpResponse.BodyHandlers.discarding());
-//                            return response.body().toString();
-//                        }
                         return response;
                     }
                 };
@@ -103,15 +90,16 @@ public class RequestController {
                     optionsList.add(options.get(i).toString());
                 }
                 String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
-//                try {
-////                    HttpRequest request = HttpRequest.newBuilder().
-////                            uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
-////                            header("roborally-player-name", clientController.webAppController.playerName).POST().build();
-////                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
-//                } catch (URISyntaxException | IOException | InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-
+                try {
+                    HttpRequest request = HttpRequest.newBuilder().
+                            uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
+                            header("roborally-player-name", clientController.webAppController.playerName).
+                            POST(HttpRequest.BodyPublishers.noBody()).build();
+                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
+                    startPolling();
+                } catch (URISyntaxException | IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 return;
             }
 

@@ -18,7 +18,7 @@ class GameControllerTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        Board board = LoadBoard.loadNewGameFromFileForTest("a-test-board.json");
+        Board board = LoadBoard.loadNewGameFromFile("a-test-board.json");
         gameController = new GameController(board);
         for (int i = 0; i < 6; i++) {
             Player player = new Player(board, null, "Player " + i);

@@ -12,6 +12,7 @@ import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
 import java.io.*;
+import java.net.URL;
 
 /**
  * ...
@@ -23,13 +24,27 @@ public class LoadBoard {
     private static final String BOARDSFOLDER = "playableBoards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
+    public static File saveFolder;
 
     static public Board loadSavedGameFromFile(String name) throws IOException {
-        return LoadBoard.loadSaveStateFromFile("savedBoards/" + name);
+        String filename = getSaveFileAbsolutePath(name);
+        File file = new File(filename);
+        return LoadBoard.loadSaveStateFromFile(file);
+    }
+
+    public static void main(String[] args) {
+        try {
+            var board = LoadBoard.loadNewGameFromFile("DIZZY_HIGHWAY.json");
+            System.out.println(board);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static public Board loadNewGameFromFile(String name) throws IOException {
-        return LoadBoard.loadSaveStateFromFile("playableBoards/" + name);
+//        ClassLoader cl = LoadBoard.class.getClassLoader();
+        var ins = LoadBoard.class.getResourceAsStream("/" + BOARDSFOLDER + "/" + name);
+        return LoadBoard.loadSaveState(ins, name);
     }
 
     static public Board loadBoardFromJSONString(String data) throws IOException {
@@ -37,37 +52,18 @@ public class LoadBoard {
     }
 
 
-    private static Board loadSaveStateFromFile(String boardname) throws IOException {
-        if (boardname == null) {
-            boardname = DEFAULTBOARD;
-        }
-
-        //TODO Generalize
-        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = "./server/src/main/resources/" + boardname;
-        File f = new File(filename).getAbsoluteFile();
-
-        String s = f.getAbsolutePath();
-
-        File file = new File(filename);
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception e) {
-            throw new IOException("Could not load board: " + boardname, e);
-        }
-        return loadSaveState(inputStream, boardname);
+    private static Board loadSaveStateFromFile(File boardfile) throws IOException {
+        InputStream inputStream = new FileInputStream(boardfile);
+        return loadSaveState(inputStream, boardfile.getName());
     }
 
     private static Board loadSaveState(InputStream inputStream, String boardname) throws IOException {
 
         // In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder()
-                .registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
+        GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>());
         Gson gson = simpleBuilder.create();
 
         Board board;
-        // FileReader fileReader = null;
         JsonReader reader = null;
         try {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
@@ -119,7 +115,7 @@ public class LoadBoard {
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
-        String filename = "src/main/resources/savedBoards/" + name;
+        String filename = getSaveFileAbsolutePath(name);
 
         // In simple cases, we can create a Gson object with new:
         //
@@ -128,34 +124,22 @@ public class LoadBoard {
         // But, if you need to configure it, it is better to create it from
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
-        GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).
-                setPrettyPrinting();
+        GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
-        FileWriter fileWriter = null;
-        JsonWriter writer = null;
-        try {
-            fileWriter = new FileWriter(filename);
-            writer = gson.newJsonWriter(fileWriter);
-            gson.toJson(template, template.getClass(), writer);
 
-            writer.close();
-        } catch (IOException e1) {
-            if (writer != null) {
-                try {
-                    writer.close();
-                    fileWriter = null;
-                } catch (IOException e2) {
-                }
-            }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e2) {
-                }
-            }
+        var file = new File(new File(filename).getParent());
+        System.out.println(file);
+        ;
+        try (FileWriter fileWriter = new FileWriter(filename); JsonWriter writer = gson.newJsonWriter(fileWriter)) {
+            gson.toJson(template, template.getClass(), writer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private static String getSaveFileAbsolutePath(String name) {
+        return saveFolder.getAbsolutePath() + "/" + name;
     }
 
 
@@ -164,46 +148,49 @@ public class LoadBoard {
     /**
      * This is a class only used for testing. It has the same functionality as loadSavedGameFromFile(),
      * it uses the loadSaveStateFromFileForTest() instead.
+     *
      * @throws IOException
      */
-    static public Board loadSavedGameFromFileForTest(String name) throws IOException {
-        return LoadBoard.loadSaveStateFromFileForTest("savedBoards/" + name);
-    }
-
-
-    /**
-     * This is a class only used for testing. It has the same functionality as loadNewGameFromFile(),
-     * it uses the loadSaveStateFromFileForTest() instead.
-     * @throws IOException
-     */
-    static public Board loadNewGameFromFileForTest(String name) throws IOException {
-        return LoadBoard.loadSaveStateFromFileForTest("playableBoards/" + name);
-    }
-
-    /**
-     * This is a class only used for testing. It has the same functionality as loadSaveStateFromFile(),
-     * the filepath is just different.
-     * @throws IOException
-     */
-    private static Board loadSaveStateFromFileForTest(String boardname) throws IOException {
-        if (boardname == null) {
-            boardname = DEFAULTBOARD;
-        }
-
-        String filename = "./src/main/resources/" + boardname;
-        File f = new File(filename).getAbsoluteFile();
-
-        String s = f.getAbsolutePath();
-
-        File file = new File(filename);
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception e) {
-            throw new IOException("Could not load board: " + boardname, e);
-        }
-        return loadSaveState(inputStream, boardname);
-    }
+//    static public Board loadSavedGameFromFileForTest(String name) throws IOException {
+//        return LoadBoard.loadSaveStateFromFileForTest("savedBoards/" + name);
+//    }
+//
+//
+//    /**
+//     * This is a class only used for testing. It has the same functionality as loadNewGameFromFile(),
+//     * it uses the loadSaveStateFromFileForTest() instead.
+//     *
+//     * @throws IOException
+//     */
+//    static public Board loadNewGameFromFileForTest(String name) throws IOException {
+//        return LoadBoard.loadSaveStateFromFileForTest("playableBoards/" + name);
+//    }
+//
+//    /**
+//     * This is a class only used for testing. It has the same functionality as loadSaveStateFromFile(),
+//     * the filepath is just different.
+//     *
+//     * @throws IOException
+//     */
+//    private static Board loadSaveStateFromFileForTest(String boardname) throws IOException {
+//        if (boardname == null) {
+//            boardname = DEFAULTBOARD;
+//        }
+//
+//        String filename = "./src/main/resources/" + boardname;
+//        File f = new File(filename).getAbsoluteFile();
+//
+//        String s = f.getAbsolutePath();
+//
+//        File file = new File(filename);
+//        InputStream inputStream = null;
+//        try {
+//            inputStream = new FileInputStream(file);
+//        } catch (Exception e) {
+//            throw new IOException("Could not load board: " + boardname, e);
+//        }
+//        return loadSaveState(inputStream, boardname);
+//    }
 
 }
 

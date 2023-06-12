@@ -4,6 +4,7 @@ import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -187,12 +188,13 @@ class LoadBoardTest {
      * @Author Frederik Rolsted, s224299@dtu.dk
      */
     void savingAndLoadingGame() throws IOException {
-        Board board = LoadBoard.loadNewGameFromFileForTest("DIZZY_HIGHWAY.json");
+        LoadBoard.saveFolder = new File("/home/henrik/Documents/t2/advanced/project/roborally/savedGames");
+        Board board = LoadBoard.loadNewGameFromFile("src/test/resources/playableBoards/DIZZY_HIGHWAY.json");
         board.createAddPlayerToEmptySpace("PURPLE", "player1");
 
         try {
             LoadBoard.saveBoard(board, "savedTestBoard.json");
-            Board board2 = LoadBoard.loadSavedGameFromFileForTest("savedTestBoard.json");
+            Board board2 = LoadBoard.loadSavedGameFromFile("savedTestBoard.json");
             Player playerFromOrigBoard = board.getPlayer(0);
             Player playerFromSavedBoard = board2.getPlayer(0);
 
@@ -211,7 +213,7 @@ class LoadBoardTest {
             Assertions.assertEquals(playerFromOrigBoard.getSpace().x, playerFromSavedBoard.getSpace().x);
             Assertions.assertEquals(playerFromOrigBoard.getSpace().y, playerFromSavedBoard.getSpace().y);
         } finally {
-            File savedBoardFile = new File("src/main/resources/savedBoards/savedTestBoard.json");
+            File savedBoardFile = new File(LoadBoard.saveFolder, "savedTestBoard.json");
             if (savedBoardFile.exists()) {
                 savedBoardFile.delete();
             }

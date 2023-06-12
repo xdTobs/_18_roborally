@@ -31,9 +31,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Server {
     private static AtomicInteger counter = new AtomicInteger(0);
     private static Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
+    private static File saveFolder;
 
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            throw new IllegalArgumentException("Please give your save folder as an argument to the program, with absolute path.");
+        }
+        LoadBoard.saveFolder = new File(args[0]);
+        if (!LoadBoard.saveFolder.exists()) {
+            throw new IllegalArgumentException("You gave a save folder that does not exist.\n" + LoadBoard.saveFolder.getAbsolutePath());
+        }
         SpringApplication.run(Server.class, args);
     }
 
@@ -57,6 +65,7 @@ public class Server {
         Board board = null;
         try {
             board = LoadBoard.loadNewGameFromFile(boardName);
+            System.out.println(board);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
@@ -95,8 +104,8 @@ public class Server {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
             }
         }
-        if(status == Status.GAMEOVER){
-            map.put("winner",board.getCurrentPlayer());
+        if (status == Status.GAMEOVER) {
+            map.put("winner", board.getCurrentPlayer());
             return map;
         }
 
@@ -200,9 +209,8 @@ public class Server {
         return "interactive move submitted, " + c;
     }
 
-    @PostMapping("/game/saveGame")
-    public void saveGame(@PathVariable int gameId,
-                         @PathVariable String saveName) {
+    @PostMapping("/game/{gameId}")
+    public void saveGame(@PathVariable int gameId, @RequestHeader("roborally-save-name") String saveName) {
         Board board = appControllerMap.get(gameId).getGameController().getBoard();
         LoadBoard.saveBoard(board, saveName + ".json");
     }

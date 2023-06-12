@@ -74,6 +74,13 @@ public class GameController {
         //TODO currently only load in step 0, should be easy to make able to load in all steps
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
+        for (Player p : board.getPlayers()) {
+            for (int i = 0; i < Player.NO_REGISTER_CARDS; i++) {
+                CommandCardField field = p.getRegisterCardField(i);
+                field.setCard(null);
+            }
+
+        }
         board.turn++;
     }
 
@@ -251,7 +258,7 @@ public class GameController {
         if (step < 0) {
             return;
         }
-        CommandCard card = player.getCurrentMove().getCardAtIndex(step, player.getPlayableCards());
+        CommandCard card = player.getRegisterCardField(step - 1).getCard();
         if (card.command == Command.AGAIN) {
             again(player, step - 1);
         } else {
