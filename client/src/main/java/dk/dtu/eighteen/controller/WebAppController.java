@@ -129,34 +129,37 @@ public class WebAppController {
         TextInputDialog savedNameInputDialog = new TextInputDialog();
         savedNameInputDialog.setHeaderText("Please enter the name for the savefile");
         savedNameInputDialog.setContentText("Savefile name: ");
-        String saveName = String.valueOf(savedNameInputDialog.showAndWait());
+        String saveName = savedNameInputDialog.showAndWait().orElse("");
 
-        // Creating a new JSON Object to send playerName, boardName and number of players to server
-        JSONObject requestObject = new JSONObject();
-        requestObject.put("saveName", saveName);
-        requestObject.put("gameId", gameId);
+        if (!saveName.isEmpty()) {
+            // Creating a new JSON Object to send
+            JSONObject requestObject = new JSONObject();
+            requestObject.put("saveName", saveName);
+            requestObject.put("gameId", gameId);
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game/" + gameId + "saveGame"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
-                .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/game/" + gameId + "/saveGame"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString()))
+                    .build();
 
-        HttpResponse response = HttpClient.newBuilder()
-                .build()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() == 200) {
-            Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
-            savedAlert.setTitle("Game Saved");
-            savedAlert.setHeaderText(null);
-            savedAlert.setContentText("Game saved successfully");
-            savedAlert.showAndWait();
-        } else {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Save Error");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Failed to save game. Response Code: " + response.statusCode());
-            errorAlert.showAndWait();
+            HttpResponse response = HttpClient.newBuilder()
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
+                savedAlert.setTitle("Game Saved");
+                savedAlert.setHeaderText(null);
+                savedAlert.setContentText("Game saved successfully");
+                savedAlert.showAndWait();
+            } else {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Save Error");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("Failed to save game. Response Code: " + response.statusCode());
+                errorAlert.showAndWait();
+            }
         }
     }
 
