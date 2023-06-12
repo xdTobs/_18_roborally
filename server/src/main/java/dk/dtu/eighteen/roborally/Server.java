@@ -95,6 +95,11 @@ public class Server {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
             }
         }
+        if(status == Status.GAMEOVER){
+            map.put("winner",board.getCurrentPlayer());
+            return map;
+        }
+
         var playerExistsOnBoard = board.getPlayer(playerName) != null;
 
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {

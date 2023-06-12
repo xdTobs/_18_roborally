@@ -3,6 +3,7 @@ package dk.dtu.eighteen.controller;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
+import dk.dtu.eighteen.roborally.model.Phase;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
@@ -50,7 +51,20 @@ public class RequestController {
                         timesPolled++;
                         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId())).header("roborally-player-name", playerName).GET().build();
                         HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-                        return response;
+                        System.out.println(response);
+                        // For debugging
+//                        if (timesPolled == 1) {
+//                            var req = HttpRequest.newBuilder()
+//                                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+//                                    .header("roborally-player-name", "debug-name")
+//                                    .GET()
+//                                    .build();
+//                            HttpResponse<Void> res = HttpClient.newBuilder()
+//                                    .build()
+//                                    .send(req, HttpResponse.BodyHandlers.discarding());
+//                            return response.body().toString();
+//                        }
+                        return response.body().toString();
                     }
                 };
             }
@@ -85,6 +99,11 @@ public class RequestController {
                 System.out.println(options);
 //                clientController.webAppController.showChoiceDialog();
 
+                return;
+            }
+
+            if(gameStatus== Status.GAMEOVER) {
+                clientController.webAppController.gameOver(jsonObject.get("winner").toString());
                 return;
             }
             if (gameStatus == Status.RUNNING) {
