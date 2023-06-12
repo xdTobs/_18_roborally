@@ -174,7 +174,7 @@ public class WebAppController {
     }
 
     public boolean isGameRunning() {
-        return false;
+        return this.isGameRunning;
     }
 
     public void joinGame() throws NullPointerException {
