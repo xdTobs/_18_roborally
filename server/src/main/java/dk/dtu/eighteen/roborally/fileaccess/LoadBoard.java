@@ -159,7 +159,7 @@ public class LoadBoard {
     }
 
 
-    // The following 3 classes is only used for testing. The LoadBaordTest class cannot find gameboardfiles with the normal filepath.
+    // The following 3 classes is only used for testing. The LoadBoardTest class cannot find gameboardfiles with the normal filepath.
 
     /**
      * This is a class only used for testing. It has the same functionality as loadSavedGameFromFile(),
