@@ -18,7 +18,14 @@
       },
       {
         "walls": [],
-        "actions": [],
+        "actions": [
+          {
+            "CLASSNAME": "dk.dtu.eighteen.roborally.controller.Actions.Checkpoint",
+            "INSTANCE": {
+              "checkpointNumber": 1
+            }
+          }
+        ],
         "x": 0,
         "y": 2
       },

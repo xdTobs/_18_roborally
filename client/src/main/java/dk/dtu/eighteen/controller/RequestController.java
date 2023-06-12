@@ -106,10 +106,14 @@ public class RequestController {
                     return;
                 }
                 case GAMEOVER -> {
-                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
-                    return;
-                }
-                case RUNNING -> {
+                    stopPolling();
+                clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+
+                clientController.webAppController.exit();
+
+                return;
+            }
+            case RUNNING -> {
                     String json = jsonObject.get("board").toString();
                     Board board;
                     try {
