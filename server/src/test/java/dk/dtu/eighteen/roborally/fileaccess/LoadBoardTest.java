@@ -187,12 +187,12 @@ class LoadBoardTest {
      * @Author Frederik Rolsted, s224299@dtu.dk
      */
     void savingAndLoadingGame() throws IOException {
-        Board board = LoadBoard.loadNewGameFromFile("DIZZY_HIGHWAY.json");
+        Board board = LoadBoard.loadNewGameFromFileForTest("DIZZY_HIGHWAY.json");
         board.createAddPlayerToEmptySpace("PURPLE", "player1");
 
         try {
             LoadBoard.saveBoard(board, "savedTestBoard.json");
-            Board board2 = LoadBoard.loadSavedGameFromFile("savedTestBoard.json");
+            Board board2 = LoadBoard.loadSavedGameFromFileForTest("savedTestBoard.json");
             Player playerFromOrigBoard = board.getPlayer(0);
             Player playerFromSavedBoard = board2.getPlayer(0);
 
