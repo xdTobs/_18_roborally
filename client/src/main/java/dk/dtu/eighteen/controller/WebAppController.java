@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WebAppController {
@@ -105,10 +106,25 @@ public class WebAppController {
         this.requestController.startPolling();
     }
 
+    public void stopGame() throws IOException, URISyntaxException, InterruptedException {
+            this.requestController.stopPolling();
+            System.err.println("stop game not implemented");
+        List<String> dialogOptions = Arrays.asList("Yes", "No");
+        String answer = showChoiceDialog(dialogOptions, "yes if you want to save the game");
 
-    public void stopGame() {
-        this.requestController.startPolling();
-        System.err.println("stop game not implemented");
+        if (!answer.isEmpty() && answer.equals("Yes")) {
+            saveGame();
+        }
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        HttpResponse response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.statusCode());
         Platform.exit();
     }
 
@@ -128,7 +144,7 @@ public class WebAppController {
         String saveName = savedNameInputDialog.showAndWait().orElse("");
 
         if (!saveName.isEmpty()) {
-//            Creating a new JSON Object to send
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/game/" + gameId))
                     .header("Content-Type", "application/json")

@@ -363,7 +363,7 @@
           {
             "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
             "INSTANCE": {
-              "heading": "EAST"
+              "heading": "SOUTH"
             }
           }
         ],
@@ -376,7 +376,7 @@
           {
             "CLASSNAME": "dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt",
             "INSTANCE": {
-              "heading": "EAST"
+              "heading": "SOUTH"
             }
           }
         ],
