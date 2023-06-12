@@ -165,7 +165,11 @@ public class WebAppController {
     }
 
     public void loadGame() {
-        System.err.println("load game not implemented");
+        try {
+            this.gameId = requestController.loadGame();
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Platform.exit();
     }
 
