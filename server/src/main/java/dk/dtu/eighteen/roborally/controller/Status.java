@@ -1,7 +1,7 @@
 package dk.dtu.eighteen.roborally.controller;
 
 public enum Status {
-    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, INTERACTIVE, QUITTING, INVALID_GAME_ID;
+    NOT_INITIATED_GAME, INIT_NEW_GAME, INIT_LOAD_GAME, RUNNING, INTERACTIVE, QUITTING, INVALID_GAME_ID,GAMEOVER;
 
     public static Status of(String statusString) {
         return switch (statusString.toUpperCase()) {
@@ -11,6 +11,7 @@ public enum Status {
             case "RUNNING" -> RUNNING;
             case "QUITTING" -> QUITTING;
             case "INTERACTIVE" -> INTERACTIVE;
+            case "GAMEOVER" -> GAMEOVER;
             default -> throw new IllegalStateException("Unexpected value: " + statusString.toUpperCase());
         };
 

@@ -126,8 +126,8 @@ public class GameController {
             }
             step++;
             if (board.isGameover()) {
-                board.setPhase(Phase.GAMEOVER);
                 currentPlayer = board.findWinner();
+                board.setPhase(Phase.GAMEOVER);
 
             } else if (step < Player.NO_REGISTER_CARDS) {
                 //makeProgramFieldsVisible(step);
