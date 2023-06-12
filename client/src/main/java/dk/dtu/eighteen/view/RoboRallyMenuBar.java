@@ -26,6 +26,9 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * ...
  *
@@ -94,7 +97,11 @@ public class RoboRallyMenuBar extends MenuBar {
 
         joinGame = new MenuItem("Join Game");
         joinGame.setOnAction(e -> {
-            this.webAppController.joinGame();
+            try {
+                this.webAppController.joinGame();
+            } catch (NullPointerException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         controlMenu.getItems().add(joinGame);
 
@@ -103,7 +110,17 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.getItems().add(stopGame);
 
         saveGame = new MenuItem("Save Game");
-        saveGame.setOnAction(e -> this.webAppController.saveGame());
+        saveGame.setOnAction(e -> {
+            try {
+                this.webAppController.saveGame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            } catch (URISyntaxException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         controlMenu.getItems().add(saveGame);
 
         loadGame = new MenuItem("Load Game");

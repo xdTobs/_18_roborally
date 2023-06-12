@@ -49,6 +49,7 @@ public class Server {
     }
 
     @PostMapping("/game")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public int createNewGame(@RequestBody Map<String, String> userMap) {
         String boardName = userMap.get("boardName");
         String playerName = userMap.get("playerName");
@@ -71,34 +72,40 @@ public class Server {
     @GetMapping("/game/{gameId}")
     public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("status", appController.getStatus().toString());
-
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
         }
-        if (appController.getStatus() == Status.INTERACTIVE) {
-            Player currentPlayer = appController.getGameController().getBoard().getPlayer(playerName);
-            if (currentPlayer.getName().equals(playerName)) {
-                int step = appController.getGameController().getBoard().getStep();
-                Command card = currentPlayer.getRegisterCardField(step).getCard().command;
+        Board board = appController.getGameController().getBoard();
+        Player player = board.getPlayer(playerName);
+        Status status = appController.getStatus();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("gameStatus", status.toString());
+        if (status == Status.INTERACTIVE) {
+            Player playerToInteract = board.getCurrentPlayer();
+            if (playerToInteract.getName().equals(playerName)) {
+                int step = board.getStep();
+                Command card = playerToInteract.getRegisterCardField(step).getCard().command;
                 JsonArray jsonArray = new JsonArray();
                 for (Command opts : card.getOptions()) {
                     jsonArray.add(opts.toString());
                 }
                 map.put("options", jsonArray);
                 return map;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
             }
         }
-        Status status = appController.getStatus();
-        var playerExistsOnBoard = appController.getGameController().getBoard().getPlayer(playerName) != null;
+        if(status == Status.GAMEOVER){
+            map.put("winner",board.getCurrentPlayer());
+            return map;
+        }
+
+        var playerExistsOnBoard = board.getPlayer(playerName) != null;
 
         if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             joinGame(gameId, playerName);
         }
 
-        Player player = appController.getGameController().getBoard().getPlayer(playerName);
-        var board = appController.getGameController().getBoard();
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
         map.put("board", boardTemplate);
         return map;
@@ -138,6 +145,7 @@ public class Server {
         }
         var i = appController.incActionCounter();
         if (i == appController.getPlayerCapacity()) {
+            appController.getGameController().startProgrammingPhase();
             appController.setStatus(Status.RUNNING);
             appController.resetTakenAction();
         }
@@ -167,22 +175,14 @@ public class Server {
         if (appController.incActionCounter() >= appController.getPlayerCapacity()) {
             appController.getGameController().finishProgrammingPhase();
             appController.runActivationPhase();
+            appController.resetTakenAction();
         }
         return "moves submitted: " + String.join(", ", moveNames);
     }
 
-//    private void runGame(AppController appController) {
-//        appController.getGameController().finishProgrammingPhase();
-//        appController.runActivationPhase();
-//        if (appController.getStatus() == Status.RUNNING) {
-//            appController.resetTakenAction();
-//        }
-//    }
 
     @PostMapping("/game/{gameId}/moves/{stringCommand}")
-    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName,
-                                        @PathVariable String stringCommand,
-                                        @PathVariable int gameId) {
+    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName, @PathVariable String stringCommand, @PathVariable int gameId) {
         Command c = Command.of(stringCommand);
         AppController appController = appControllerMap.get(gameId);
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
@@ -199,6 +199,14 @@ public class Server {
         appController.runActivationPhase();
         return "interactive move submitted, " + c;
     }
+
+    @PostMapping("/game/saveGame")
+    public void saveGame(@PathVariable int gameId,
+                         @PathVariable String saveName) {
+        Board board = appControllerMap.get(gameId).getGameController().getBoard();
+        LoadBoard.saveBoard(board, saveName + ".json");
+    }
+
 
     private static List<String> getResourceFolderFiles(String folderName) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();

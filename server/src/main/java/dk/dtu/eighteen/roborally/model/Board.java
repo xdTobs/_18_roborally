@@ -65,12 +65,15 @@ public class Board extends Subject {
 
     public boolean isGameover() {
         // TODO CHANGE THIS
-        return false;
-//        return findWinner() != null;
+
+        return findWinner() != null;
     }
 
     public Player findWinner() {
         List<Checkpoint> checkpoints = this.getCheckpoints();
+
+        if(checkpoints.size()==0)
+            return null;
         for (Player player : players)
             if (player.getCheckpointCounter() == checkpoints.size()) {
                 return player;

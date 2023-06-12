@@ -1,5 +1,6 @@
 package dk.dtu.eighteen.controller;
 
+import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.view.BoardView;
@@ -46,23 +47,26 @@ public class ClientController extends Application {
 
         stage.setScene(primaryScene);
         stage.setTitle("Roborally");
-        stage.setOnCloseRequest(
-                e -> {
-                    e.consume();
-                    webAppController.exit();
-                });
+        stage.setOnCloseRequest(e -> {
+            e.consume();
+            webAppController.exit();
+        });
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
-//        try {
-//            webAppController.newGame();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+    }
+
+    public void setStatus(Status gameStatus) {
+        switch (gameStatus) {
+            case NOT_INITIATED_GAME -> setStatusText("Game not running");
+            case INIT_NEW_GAME -> setStatusText("New game with ID: " + getGameId() + "\nWaiting for players to join");
+            case INIT_LOAD_GAME -> setStatusText("Loaded game with ID: " + getGameId());
+            case RUNNING -> setStatusText("Running game with ID: " + getGameId());
+            case INTERACTIVE ->
+                    setStatusText("Awaiting input from " + webAppController.playerName + " in game with ID: " + getGameId());
+            case QUITTING -> setStatusText("Quitting and saving game with ID: " + getGameId());
+            case INVALID_GAME_ID -> setStatusText("Invalid game ID");
+        }
     }
 
     public void createBoardView(Board board) {
@@ -72,24 +76,6 @@ public class ClientController extends Application {
         BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);
-    }
-
-
-    private ResponseEntity<String> getResponseEntity(String url) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForEntity(url, String.class);
-    }
-
-    private void jsonWriter(String json, Stream stream) {
-        File file = new File("client/src/main/resources/jsonBoard.json");
-        try {
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(json);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void setStatusText(String s) {
