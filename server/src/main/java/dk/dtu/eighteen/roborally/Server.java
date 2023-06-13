@@ -207,7 +207,7 @@ public class Server {
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
-        //TODO move validation
+
 
         for (int i = 0; i < 5; i++) {
             Command card = Command.of(moveNames.get(i));

@@ -22,7 +22,7 @@ public class ConveyorBelt implements IFieldAction {
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        // TODO find out why this give nullpointerexception
+
         Player player = space.getPlayer();
         gameController.moveForward(player);
 

@@ -277,7 +277,6 @@ public class CardFieldView extends GridPane implements ViewObserver {
                         Object object = db.getContent(ROBO_RALLY_CARD);
                         if (object instanceof String) {
                             CommandCardField source = cardFieldFromRepresentation((String) object);
-                            // TODO Somehow actually move the cards.
 
                             if (source != null && board.moveCards(source, cardField)) {
                                 success = true;

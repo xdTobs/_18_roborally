@@ -46,14 +46,6 @@ public class Board extends Subject {
     private int step = 0;
     public int turn;
 
-    //TODO: Add swtich to check which characters is in the boardAsString and make fields according to this.
-    //TODO: Fix test board constructor
-//    public Board(int width, int height, @NotNull String boardName, Space[][] spaces) {
-//        this.boardName = boardName;
-//        this.width = width;
-//        this.height = height;
-//        this.spaces = spaces;
-//    }
 
     public Board(int width, int height, String boardName) {
         this.width = width;

@@ -67,7 +67,6 @@ public class ClientController extends Application {
     public void createBoardView(Board board) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-        // TODO find a way to show the board and make it interactive
         BoardView boardView = new BoardView(webAppController, board);
 
         boardRoot.setCenter(boardView);

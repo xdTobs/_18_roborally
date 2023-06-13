@@ -9,7 +9,6 @@ import java.io.File;
 public class CheckpointView extends SpaceView {
     public CheckpointView(@NotNull Space space, int checkpointNr) {
         super(space);
-        //TODO: add all checkpoint numbers
         if (checkpointNr == 1) {
             String filePath = new File("client/src/main/resources/imgs/Checkpoint1.png").toURI().toString();
             appendStyle("-fx-background-image: url('" + filePath + "');" +

@@ -71,7 +71,7 @@ public class GameController {
     }
 
     public void loadProgrammingPhase() {
-        //TODO currently only load in step 0, should be easy to make able to load in all steps
+
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
         for (Player p : board.getPlayers()) {
@@ -190,7 +190,7 @@ public class GameController {
         uTurn(player);
     }
 
-    // TODO Assignment V2
+
     public void moveForward_2(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
