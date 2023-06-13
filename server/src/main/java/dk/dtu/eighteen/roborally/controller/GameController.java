@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Hansen
- * @author Henrik Zenkert
+ * @author Henrik Zenkert, Tobias Schønau s224327
  */
 public class GameController {
 
@@ -91,12 +90,19 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
+    /***
+     * @author Tobias Schønau
+     */
     public void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION);
     }
 
+    /***
+     * Runs a single command card, for a single player. Is run by continuePrograms function until this function changes game state
+     * @author Tobias Schønau s224327
+     */
     public void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         assert board.getPhase() == Phase.ACTIVATION && currentPlayer != null && board.getPhase() != Phase.GAMEOVER;
