@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Testclass testing the logic of the GameController
  *
  * @author Jakob Hansen, s224312@dtu.dk
  * @author Frederik Rolsted, s224299@dtu.dk
