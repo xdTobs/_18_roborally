@@ -21,9 +21,6 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * ...
  *
@@ -35,8 +32,8 @@ public enum Heading {
 
     /***
      * Convert heading to offset coordinates, giving the coordinates of the space in the direction given
-     * @param heading
-     * @return
+     * @param heading the heading to get coords for
+     * @return the offset coordinates
      */
     public static int[] headingToCoords(Heading heading) {
         int[] nextCoords = new int[2];
@@ -50,8 +47,8 @@ public enum Heading {
     }
 
     /***
-     * Returns next heading in clockwise direction
-     * @return
+     * Returns heading if rotating in a clockwise direction
+     * @return next heading
      */
     public Heading next() {
         return values()[(this.ordinal() + 1) % values().length];

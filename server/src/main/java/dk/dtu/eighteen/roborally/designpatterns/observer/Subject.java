@@ -44,7 +44,7 @@ public abstract class Subject {
     // would be garbage (if not for these references)!
 
     /**
-     * This methods allows an observer to register with the subject
+     * This method allows an observer to register with the subject
      * for update notifications when the subject changes.
      *
      * @param observer the observer who registers
@@ -54,18 +54,8 @@ public abstract class Subject {
         observers.add(observer);
     }
 
-    /**
-     * This methods allows an observer to unregister from the subject
-     * again.
-     *
-     * @param observer the observer who unregisters
-     */
-    final public void detach(Observer observer) {
-        observers.remove(observer);
-    }
-
     public void reloadObserversIfNull() {
-        // This "hack" makes sure that when we load from json file the observers are not null.
+        // This "hack" makes sure that when we load from json file, the observers are not null.
         if (observers == null) {
             this.observers = Collections.newSetFromMap(new WeakHashMap<>());
         }

@@ -21,8 +21,6 @@
  */
 package dk.dtu.eighteen.view;
 
-import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
-import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Heading;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;

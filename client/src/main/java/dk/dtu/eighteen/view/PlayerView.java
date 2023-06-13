@@ -43,21 +43,7 @@ import java.util.List;
  */
 public class PlayerView extends Pane {
 
-    private final VBox top;
-
-    private final Label programLabel;
-    private final GridPane programPane;
-    private final Label cardsLabel;
-    private final GridPane cardsPane;
-
     private final CardFieldView[] programCardViews;
-    private final CardFieldView[] cardViews;
-
-    private final VBox buttonPanel;
-
-    private final Button finishButton;
-
-    private final VBox playerInteractionPanel;
 
 
     public PlayerView(@NotNull WebAppController webAppController, Board board) {
@@ -66,59 +52,59 @@ public class PlayerView extends Pane {
 
         this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
 
-        top = new VBox();
+        VBox top = new VBox();
         this.getChildren().add(top);
 
-        programLabel = new Label("Program");
+        Label programLabel = new Label("Program");
 
-        programPane = new GridPane();
+        GridPane programPane = new GridPane();
         programPane.setVgap(2.0);
         programPane.setHgap(2.0);
         programCardViews = new CardFieldView[Player.NO_REGISTER_CARDS];
         for (int i = 0; i < Player.NO_REGISTER_CARDS; i++) {
             CommandCardField cardField = player.getRegisterCardField(i);
             if (cardField != null) {
-                programCardViews[i] = new CardFieldView(webAppController, board, cardField);
+                programCardViews[i] = new CardFieldView(board, cardField);
                 programPane.add(programCardViews[i], i, 0);
             }
         }
 
-        // XXX  the following buttons should actually not be on the tabs of the individual
+        // XXX the following buttons should actually not be on the tabs of the individual
         //      players, but on the PlayersView (view for all players). This should be
         //      refactored.
 
-        finishButton = new Button("Finish Programming");
+        Button finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> {
             List<String> moveNames = new ArrayList<>();
             for (CardFieldView programCardView : this.programCardViews) {
                 try {
                     String s = programCardView.getCommandCardField().getCard().command.toString();
                     moveNames.add(s);
-                } catch (NullPointerException exeption) {
+                } catch (NullPointerException exception) {
                     moveNames.add("empty");
                 }
             }
             webAppController.finishProgrammingPhase(moveNames);
         });
 
-        buttonPanel = new VBox(finishButton);
+        VBox buttonPanel = new VBox(finishButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
         programPane.add(buttonPanel, Player.NO_REGISTER_CARDS, 0);
 
-        playerInteractionPanel = new VBox();
+        VBox playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
 
-        cardsLabel = new Label("Command Cards");
-        cardsPane = new GridPane();
+        Label cardsLabel = new Label("Command Cards");
+        GridPane cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
         cardsPane.setHgap(2.0);
-        cardViews = new CardFieldView[Player.NO_PLAYABLE_CARDS];
+        CardFieldView[] cardViews = new CardFieldView[Player.NO_PLAYABLE_CARDS];
         for (int i = 0; i < Player.NO_PLAYABLE_CARDS; i++) {
             CommandCardField cardField = player.getPlayableCardField(i);
             if (cardField != null) {
-                cardViews[i] = new CardFieldView(webAppController, board, cardField);
+                cardViews[i] = new CardFieldView(board, cardField);
                 cardsPane.add(cardViews[i], i, 0);
             }
         }

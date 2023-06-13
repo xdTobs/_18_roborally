@@ -7,6 +7,7 @@ import dk.dtu.eighteen.view.RoboRallyMenuBar;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,12 +22,9 @@ public class ClientController extends Application {
     Text statusText = new Text("Status: start up");
     WebAppController webAppController = new WebAppController(this);
     private BorderPane boardRoot;
-    // private MinimalGameController minimalGameController;
-
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) {
         var MIN_APP_WIDTH = 800;
@@ -56,9 +54,8 @@ public class ClientController extends Application {
             case INIT_NEW_GAME -> setStatusText("New game with ID: " + getGameId() + "\nWaiting for players to join");
             case INIT_LOAD_GAME -> setStatusText("Loaded game with ID: " + getGameId());
             case RUNNING -> setStatusText("Running game with ID: " + getGameId());
-            case INTERACTIVE ->
-                setStatusText(
-                        "Awaiting input from " + webAppController.playerName + " in game with ID: " + getGameId());
+            case INTERACTIVE -> setStatusText(
+                    "Awaiting input from " + webAppController.playerName + " in game with ID: " + getGameId());
             case QUITTING -> setStatusText("Quitting and saving game with ID: " + getGameId());
             case INVALID_GAME_ID -> setStatusText("Invalid game ID");
             case GAMEOVER -> setStatusText("GAME OVER");
@@ -79,6 +76,13 @@ public class ClientController extends Application {
 
     public int getGameId() {
         return webAppController.gameId;
+    }
+
+    public void gameOver(String winner) {
+        Alert gameOver = new Alert(Alert.AlertType.INFORMATION);
+        gameOver.setContentText("Press OK to end game");
+        gameOver.setHeaderText("Game has ended, " + winner + " has won");
+        gameOver.showAndWait();
     }
 
 }

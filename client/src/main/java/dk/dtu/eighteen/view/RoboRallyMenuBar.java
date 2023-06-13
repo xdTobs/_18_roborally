@@ -63,28 +63,6 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
-//        ScheduledService<String> scheduledService = new ScheduledService<>() {
-//            @Override
-//            protected Task<String> createTask() {
-//                return new Task<>() {
-//                    @Override
-//                    protected String call() throws Exception {
-//
-//                        HttpRequest request = HttpRequest.newBuilder()
-//                                .uri(new URI("http://localhost:8080/board"))
-//                                .header("roborally-player-name", webAppController.playerName)
-//                                .GET()
-//                                .build();
-//                        HttpResponse<String> response = HttpClient.newBuilder()
-//                                .build()
-//                                .send(request, HttpResponse.BodyHandlers.ofString());
-//                        return response.body().toString();
-//                    }
-//                };
-//            }
-//        };
-//
-//        scheduledService.setPeriod(Duration.seconds(1));
         newGame = new MenuItem("New Game");
         newGame.setOnAction(e -> {
             try {
@@ -110,11 +88,7 @@ public class RoboRallyMenuBar extends MenuBar {
         stopGame.setOnAction(e -> {
             try {
                 this.webAppController.stopGame();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (URISyntaxException ex) {
-                throw new RuntimeException(ex);
-            } catch (InterruptedException ex) {
+            } catch (IOException | URISyntaxException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
         });

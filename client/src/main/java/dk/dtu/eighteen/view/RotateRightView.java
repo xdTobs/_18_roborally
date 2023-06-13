@@ -1,11 +1,11 @@
 package dk.dtu.eighteen.view;
-import dk.dtu.eighteen.roborally.controller.spaces.RotateRight;
+
 import dk.dtu.eighteen.roborally.model.Space;
-import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 
 public class RotateRightView extends SpaceView {
-    public RotateRightView(@NotNull RotateRight rotateright, Space space) {
+    public RotateRightView(Space space) {
         super(space);
         String filePath = new File("client/src/main/resources/imgs/RotateRight.png").toURI().toString();
         appendStyle(

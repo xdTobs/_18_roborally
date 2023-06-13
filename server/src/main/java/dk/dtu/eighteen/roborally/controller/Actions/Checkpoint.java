@@ -6,7 +6,7 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 public class Checkpoint implements IFieldAction {
 
-    private int checkpointNumber;
+    private final int checkpointNumber;
 
     public Checkpoint(int checkpointNumber) {
         this.checkpointNumber = checkpointNumber;
@@ -18,14 +18,12 @@ public class Checkpoint implements IFieldAction {
 
 
     @Override
-    public boolean doAction(GameController gameController, Space space) {
+    public void doAction(GameController gameController, Space space) {
         Player player = space.getPlayer();
 
 
         if (player.getCheckpointCounter() + 1 == checkpointNumber) {
             player.incrementCheckpointCounter();
-            return true;
         }
-        return false;
     }
 }

@@ -36,27 +36,29 @@ public class Player extends Subject {
 
     final public static int NO_REGISTER_CARDS = 5;
     final public static int NO_PLAYABLE_CARDS = 8;
-    private final String[] colors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet",}; // Add more colors if needed
     public Board board;
     public int x;
     public int y;
     private String name;
-    private String color;
+    private final String color;
     private int checkpointCounter;
     private Heading heading = SOUTH;
-    private CommandCardField[] playableCards;
-    private CommandCardField[] registerCards;
+    private final CommandCardField[] playableCards;
+    private final CommandCardField[] registerCards;
 
     /***
      * Constructor for player
-     * @param board
-     * @param color
-     * @param name
+     * @param board board pointer
+     * @param color color of player
+     * @param name name of player
      */
     public Player(@NotNull Board board, String color, @NotNull String name) {
+        // If no player is given, we randomly generate one.
         if (color == null) {
             // The same player name always gives the same color, for easier debugging.
             int n = Math.abs(name.hashCode() % 7);
+            // Add more colors if needed
+            String[] colors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet",};
             color = colors[n];
         }
         this.board = board;
@@ -77,8 +79,8 @@ public class Player extends Subject {
 
     /***
      * Constructor used to convert from player template to player, uses Board to reinstate board pointer
-     * @param template
-     * @param board
+     * @param template player template
+     * @param board board pointer
      */
     public Player(PlayerTemplate template, Board board) {
         this.name = template.name;
@@ -107,8 +109,10 @@ public class Player extends Subject {
     }
 
     /***
-     * functions to interact with checkpoint counter. Can only be incremented and gotten. Can never go down, or up by more than one
-     * @return
+     * Function to interact with checkpoint counter.
+     * Can only be incremented and gotten.
+     * Can never go down or up by more than one
+     * @return checkpoint counter
      */
     public int getCheckpointCounter() {
         return checkpointCounter;
@@ -131,11 +135,6 @@ public class Player extends Subject {
 
     public String getColor() {
         return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-
     }
 
     public Space getSpace() {
@@ -167,7 +166,7 @@ public class Player extends Subject {
 
     /***
      * Overrides toString, for easier prints
-     * @return
+     * @return string representation of player
      */
     @Override
     public String toString() {

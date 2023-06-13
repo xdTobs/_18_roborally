@@ -5,7 +5,6 @@ import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.Board;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
 import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * This class is the controller for making requests to the server.
  *
- * @author Zenkert
+ * @author Henrik Zenkert
  */
 public class RequestController {
     static int timesPolled = 0;
@@ -104,10 +103,16 @@ public class RequestController {
                 }
                 case GAMEOVER -> {
                     stopPolling();
-                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
-
+                    String json = jsonObject.get("board").toString();
+                    Board board;
+                    try {
+                        board = LoadBoard.loadBoardFromJSONString(json);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    clientController.createBoardView(board);
+                    clientController.gameOver(jsonObject.get("winner").toString());
                     clientController.webAppController.exit();
-
                     return;
                 }
                 case RUNNING -> {

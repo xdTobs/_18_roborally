@@ -17,10 +17,6 @@ public class BoardTemplate {
     public List<PlayerTemplate> players = new ArrayList<>();
 
 
-    private BoardTemplate() {
-
-    }
-
     /***
      * Template for saving Board as JSON.
      * Normal Board has circular dependencies. BoardTemplate and all subclasses don't
@@ -45,10 +41,10 @@ public class BoardTemplate {
     }
 
     /***
-     * Creates BoardTemplate suitible for sending to players.
+     * Creates BoardTemplate suitable for sending to players.
      * Only contains cards for the player given in parameter
      * @param board Board being converted to BoardTemplate
-     * @param currentPlayer Player whose cards are going into BoardTemplate
+     * @param currentPlayer Player, whose cards are going into BoardTemplate
      */
     public BoardTemplate(Board board, Player currentPlayer) {
         this(board);

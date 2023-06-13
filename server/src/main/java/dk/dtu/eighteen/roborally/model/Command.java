@@ -26,62 +26,71 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * ...
+ * @author Henrik Zenkert
  *
- * @author Ekkart Kindler, ekki@dtu.dk
  */
 public enum Command {
 
-    // This is a very simplistic way of realizing different commands.
+	MOVE_1("Move 1"),
+	MOVE_2("Move 2"),
+	MOVE_3("Move 3"),
+	RIGHT("Turn Right"),
+	LEFT("Turn Left"),
+	U_TURN("U-Turn"),
+	MOVE_BACK("Move Back"),
+	AGAIN("Again"),
 
-    MOVE_1("Move 1"),
-    MOVE_2("Move 2"),
-    MOVE_3("Move 3"),
-    RIGHT("Turn Right"),
-    LEFT("Turn Left"),
-    U_TURN("U-Turn"),
-    MOVE_BACK("Move Back"),
-    AGAIN("Again"),
+	// XXX Assignment P3
+	OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
-    // XXX Assignment P3
-    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+	final public String displayName;
 
-    final public String displayName;
+	final private List<Command> options;
 
-    final private List<Command> options;
+	/***
+	 * Constructor for Command
+	 * 
+	 * @param displayName Name for command
+	 * @param options     Optional, options for interactive cards
+	 */
+	Command(String displayName, Command... options) {
+		this.displayName = displayName;
+		this.options = Collections.unmodifiableList(Arrays.asList(options));
+	}
 
-    /***
-     * Constructor for Command
-     * @param displayName Name for command
-     * @param options Optional, options for interactive cards
-     */
-    Command(String displayName, Command... options) {
-        this.displayName = displayName;
-        this.options = Collections.unmodifiableList(Arrays.asList(options));
-    }
+	/**
+	 * Used to convert a string received to or from the API into a Command
+	 * 
+	 * @param stringCommand string to convert
+	 * @return command that was given as string
+	 */
+	public static Command of(String stringCommand) {
+		return switch (stringCommand.toUpperCase()) {
+			case "MOVE_1" -> MOVE_1;
+			case "MOVE_2" -> MOVE_2;
+			case "MOVE_3" -> MOVE_3;
+			case "RIGHT" -> RIGHT;
+			case "LEFT" -> LEFT;
+			case "U_TURN" -> U_TURN;
+			case "MOVE_BACK" -> MOVE_BACK;
+			case "AGAIN" -> AGAIN;
+			case "OPTION_LEFT_RIGHT" -> OPTION_LEFT_RIGHT;
+			case "EMPTY" -> null;
+			default -> throw new IllegalStateException("Unexpected value: " + stringCommand.toUpperCase());
+		};
+	}
 
-    public static Command of(String s) {
-        return switch (s.toUpperCase()) {
-            case "MOVE_1" -> MOVE_1;
-            case "MOVE_2" -> MOVE_2;
-            case "MOVE_3" -> MOVE_3;
-            case "RIGHT" -> RIGHT;
-            case "LEFT" -> LEFT;
-            case "U_TURN" -> U_TURN;
-            case "MOVE_BACK" -> MOVE_BACK;
-            case "AGAIN" -> AGAIN;
-            case "OPTION_LEFT_RIGHT" -> OPTION_LEFT_RIGHT;
-            case "EMPTY" -> null;
-            default -> throw new IllegalStateException("Unexpected value: " + s.toUpperCase());
-        };
-    }
+	/**
+	 * Used to see if a command is interactive
+	 * 
+	 * @return true if interactive
+	 */
+	public boolean isInteractive() {
+		return !options.isEmpty();
+	}
 
-    public boolean isInteractive() {
-        return !options.isEmpty();
-    }
-
-    public List<Command> getOptions() {
-        return options;
-    }
+	public List<Command> getOptions() {
+		return options;
+	}
 
 }

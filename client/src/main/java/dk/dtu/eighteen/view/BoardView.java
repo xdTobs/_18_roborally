@@ -46,21 +46,19 @@ import java.util.List;
 public class BoardView extends VBox implements ViewObserver {
 
     private final WebAppController webAppController;
-    private Board board;
+    private final Board board;
 
-    private GridPane mainBoardPane;
-    private SpaceView[][] spaces;
+    private final GridPane mainBoardPane;
 
-    private PlayerView playerView;
+    private final PlayerView playerView;
 
-    private Label statusLabel;
+    private final Label statusLabel;
 
     /**
      * Constructor to build the boardview from a Board, by iterating over spaces in the board
      * and checking which action is associated with the given space.
-     * @param webAppController
-     * @param board
-     * @Author Frederik Rolsted, s224299@dtu.dk
+     *
+     * @author Frederik Rolsted, s224299@dtu.dk
      */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
@@ -74,7 +72,7 @@ public class BoardView extends VBox implements ViewObserver {
         this.getChildren().add(playerView);
         this.getChildren().add(statusLabel);
 
-        spaces = new SpaceView[board.width][board.height];
+        SpaceView[][] spaces = new SpaceView[board.width][board.height];
 
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
@@ -88,11 +86,11 @@ public class BoardView extends VBox implements ViewObserver {
                     if (action instanceof FastConveyorBelt fastconveyorBelt) {
                         spaceView = new FastConveyorBeltView(fastconveyorBelt, space);
                     }
-                    if (action instanceof RotateLeft rotateleft) {
-                        spaceView = new RotateLeftView(rotateleft, space);
+                    if (action instanceof RotateLeft) {
+                        spaceView = new RotateLeftView(space);
                     }
-                    if (action instanceof RotateRight rotateright) {
-                        spaceView = new RotateRightView(rotateright, space);
+                    if (action instanceof RotateRight) {
+                        spaceView = new RotateRightView(space);
                     }
                     if (action instanceof Checkpoint checkpoint) {
                         spaceView = new CheckpointView(space, checkpoint.getCheckpointNumber());

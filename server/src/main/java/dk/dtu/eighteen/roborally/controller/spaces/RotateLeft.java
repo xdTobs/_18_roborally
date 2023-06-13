@@ -7,12 +7,16 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 public class RotateLeft implements IFieldAction {
 
-    public RotateLeft(){}
+    public RotateLeft() {
+    }
+
     @Override
-    public boolean doAction(GameController gameController, Space space) {
-        Player player = gameController.board.getPlayers().stream().filter(p -> p.x == space.x && p.y == space.y).findFirst().orElse(null);
-        player.setHeading(player.getHeading().prev());
-        return true;
+    public void doAction(GameController gameController, Space space) {
+
+        Player player = space.getPlayer();
+        if(player != null){
+            player.setHeading(player.getHeading().prev());
+        }
     }
 
 }

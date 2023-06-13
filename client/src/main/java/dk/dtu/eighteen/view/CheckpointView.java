@@ -1,6 +1,5 @@
 package dk.dtu.eighteen.view;
 
-import dk.dtu.eighteen.roborally.controller.Actions.Checkpoint;
 import dk.dtu.eighteen.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 

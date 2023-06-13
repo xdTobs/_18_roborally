@@ -29,9 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author Henrik Zenkert
  */
 public class GameController {
 
@@ -42,9 +40,6 @@ public class GameController {
     }
 
     /**
-     * This is just some dummy controller operation to make a simple move to see something
-     * happening on the board. This method should eventually be deleted!
-     *
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
@@ -95,7 +90,6 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-
     public void continuePrograms() {
         do {
             executeNextStep();
@@ -137,7 +131,7 @@ public class GameController {
                 board.setPhase(Phase.GAMEOVER);
 
             } else if (step < Player.NO_REGISTER_CARDS) {
-                //makeProgramFieldsVisible(step);
+                // makeProgramFieldsVisible(step);
                 board.setStep(step);
                 board.setCurrentPlayer(board.getPlayer(0));
             } else {
@@ -145,14 +139,15 @@ public class GameController {
             }
         }
 
-
     }
 
     public void executeCommand(@NotNull Player player, Command command) {
         if (command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
+            // their execution.
+            // This should eventually be done in a more elegant way
+            // (this concerns the way cards are modelled as well as the way they are
+            // executed).
 
             switch (command) {
                 case MOVE_1 -> this.moveForward(player);
@@ -169,7 +164,12 @@ public class GameController {
     }
 
     /***
-     * Function for the MOVE_1 card. First finds next space, then attempts to push a potential player on that space. After that we try to move forward to the next space.
+     * Function for the MOVE_1 card.
+     * First finds the next space, then attempts to push a
+     * potential player on that space.
+     * After that, we try to move forward to the next
+     * space.
+     *
      * @param player Player to move
      */
     public void moveForward(@NotNull Player player) {
@@ -190,7 +190,6 @@ public class GameController {
         uTurn(player);
     }
 
-
     public void moveForward_2(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
@@ -203,29 +202,31 @@ public class GameController {
     }
 
     /**
-     * If we are moving south and the next space has a north wall or the current space has a south wall,
-     * we can't move forward. Also if the next space has a player, that hasnt been pushed, we cant move there
+     * If we are moving south and the next space has a north wall or the current
+     * space has a south wall,
+     * we can't move forward.
+     * Also, if the next space has a player that hasn't been
+     * pushed, we cant move there
      *
      * @param player    the player that is moving
      * @param nextSpace the space the player is moving to
      * @return true if the player can't move forward
      */
     public boolean isPlayerIsBlockedByWall(Player player, Space nextSpace) {
-        if (nextSpace == null) return true;
+        if (nextSpace == null)
+            return true;
         Heading playerHeading = player.getHeading();
         Heading oppositePlayerHeading = playerHeading.next().next();
         Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
         Set<Heading> nextSpaceWalls = nextSpace.getWalls();
-        return nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading) || nextSpace.getPlayer()!=null;
+        return nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading)
+                || nextSpace.getPlayer() != null;
 
     }
-
-
 
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
     }
-
 
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
@@ -237,20 +238,28 @@ public class GameController {
     }
 
     /***
-     * Function used to push, e.g. when moving forward. Cannot push into walls or out of bounds. Recursively calls itself if it pushes into another player.
-     * @param space The space from which to push. If the space has no player, nothing happens
+     * Function used to push, e.g., when moving forward.
+     * Cannot push into walls or
+     * out of bounds.
+     * Recursively calls itself if it pushes into another player.
+     *
+     * @param space   The space from which to push.
+     *                If the space has no player,
+     *                nothing happens
      * @param heading The direction which to try to push the player
      */
     public void push(Space space, Heading heading) {
-        if (space == null) return;
+        if (space == null)
+            return;
         Player player = space.getPlayer();
 
-        if (null == player) return;
+        if (null == player)
+            return;
         int x = player.getSpace().x;
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(heading);
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
-        if(nextSpace == null)
+        if (nextSpace == null)
             return;
         Player playerNextSpace = nextSpace.getPlayer();
 
@@ -265,8 +274,9 @@ public class GameController {
     /***
      * Recursive function for the again card
      * Does not do anything if an again card is the first card played
-     * @param player Player who executes the card
-     * @param step which step of the activation phase we are in
+     *
+     * @param player Player, who executes the card
+     * @param step   which step of the activation phase we are in
      */
     public void again(Player player, int step) {
         if (step < 0) {
@@ -281,13 +291,13 @@ public class GameController {
     }
 
     /***
-     * Wrapper function used to call the other again function with current step
-     * @param player Player who executes the card
+     * Wrapper function used to call the other again function with the current step
+     *
+     * @param player Player, who executes the card
      */
     public void again(@NotNull Player player) {
         again(player, board.getStep());
     }
-
 
     public Board getBoard() {
         return this.board;

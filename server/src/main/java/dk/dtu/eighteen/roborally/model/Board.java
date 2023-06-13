@@ -30,9 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ...
+ * This class represents the board of the game.
+ * It contains the spaces of the board, the players, the current player, the current phase and the current step.
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author Tobias Schønau
  */
 public class Board extends Subject {
 
@@ -46,7 +47,6 @@ public class Board extends Subject {
     private int step = 0;
     public int turn;
 
-
     public Board(int width, int height, String boardName) {
         this.width = width;
         this.height = height;
@@ -54,14 +54,14 @@ public class Board extends Subject {
         this.spaces = new Space[width][height];
     }
 
-
     public boolean isGameover() {
         return findWinner() != null;
     }
 
     /***
      * Function for finding winning player, returns null if no winner yet.
-     * Can never have winner if no checkpoints on board
+     * Can never have a winner if no checkpoints on board
+     *
      * @return Winning player, null if no winner yet
      */
     public Player findWinner() {
@@ -83,8 +83,9 @@ public class Board extends Subject {
     }
 
     /***
-     *  Returns the Space object at a specified (x,y) position in the spaces array.
-     *      If the position is out of bounds, it returns null.
+     * Returns the Space object at a specified (x,y) position in the space array.
+     * If the position is out of bounds, it returns null.
+     *
      * @return Space of given space
      */
 
@@ -104,7 +105,7 @@ public class Board extends Subject {
         return players.size();
     }
 
-    //     Adds a new player
+    // Adds a new player
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
@@ -112,10 +113,17 @@ public class Board extends Subject {
         }
     }
 
-
+    /**
+     * Creates a new player and adds it to the board in the first empty square we
+     * can find.
+     *
+     * @param color the color of the player
+     * @param name  the name of the player
+     */
     public void createAddPlayerToEmptySpace(String color, String name) {
         Player player = new Player(this, color, name);
         Space space = getFirstEmptySpace();
+        assert space != null;
         player.setSpace(space);
         players.add(player);
     }
@@ -141,12 +149,15 @@ public class Board extends Subject {
         }
     }
 
-    // Returns the current player
     public Player getCurrentPlayer() {
         return getPlayer(currentPlayerIndex);
     }
 
-    // Set the current player to the specified player.
+    /**
+     * Sets the current player to a specified player.
+     *
+     * @param player the player to be set string containing the status
+     */
     public void setCurrentPlayer(Player player) {
         Player current = getCurrentPlayer();
         if (player != current && players.contains(player)) {
@@ -155,14 +166,23 @@ public class Board extends Subject {
         }
     }
 
-    // Returns the current phase
+    /**
+     * Returns the current phase
+     *
+     * @return the current phase
+     */
     public Phase getPhase() {
         return phase;
     }
 
-    // Changes the current phase to a specified phase.
+    /**
+     * Changes the current phase to a specified phase.
+     *
+     * @param phase phase to set
+     */
     public void setPhase(Phase phase) {
-        if (phase == this.phase || this.phase == Phase.GAMEOVER) return;
+        if (phase == this.phase || this.phase == Phase.GAMEOVER)
+            return;
         this.phase = phase;
 
     }
@@ -177,9 +197,10 @@ public class Board extends Subject {
 
     /***
      * Method for moving cards from one Field to another. Called by dragging cards
+     *
      * @param source Source Field
      * @param target Target Field
-     * @return If move was successful
+     * @return If the move was successful
      */
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
@@ -202,11 +223,6 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage(String playerName) {
-        // this is actually a view aspect, but for making assignment V1 easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
-
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
         return "Phase: " + getPhase().name() + ", Player = " + playerName;
     }
 
@@ -216,7 +232,8 @@ public class Board extends Subject {
         for (Space[] row : spaces) {
             for (Space space : row) {
                 for (IFieldAction actions : space.getActions()) {
-                    if (actions instanceof Checkpoint checkpoint) checkpoints.add(checkpoint);
+                    if (actions instanceof Checkpoint checkpoint)
+                        checkpoints.add(checkpoint);
                 }
             }
         }
@@ -230,9 +247,16 @@ public class Board extends Subject {
 
     @Override
     public String toString() {
-        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width=" + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + '}';
+        return "Board{" + "height=" + height + ", boardName='" + boardName + '\'' + ", players=" + players + ", width="
+                + width + ", currentPlayerIndex=" + currentPlayerIndex + ", phase=" + phase + ", step=" + step + '}';
     }
 
+    /**
+     * Returns the player with the specified name, or null if there is no player
+     *
+     * @param playerName name of player
+     * @return the player with the specified name, or null if there is no player
+     */
     public Player getPlayer(String playerName) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
@@ -241,10 +265,4 @@ public class Board extends Subject {
         }
         return null;
     }
-
-//    public void generateCardsForPlayers() {
-//        for (Player player : players) {
-//            player.generateCards();
-//        }
-//    }
 }

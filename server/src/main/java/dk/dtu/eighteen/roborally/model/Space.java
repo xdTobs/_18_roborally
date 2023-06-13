@@ -21,8 +21,6 @@
  */
 package dk.dtu.eighteen.roborally.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dk.dtu.eighteen.roborally.controller.Actions.IFieldAction;
 import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.SpaceTemplate;
@@ -50,9 +48,8 @@ public class Space extends Subject {
 
     /***
      * Constructor for space from SpaceTemplate
-     * Uses Board to reinstate pointer
-     * @param template
-     * @param board
+     * @param template SpaceTemplate
+     * @param board Board
      */
     public Space(SpaceTemplate template, Board board) {
         this.x = template.x;
@@ -66,7 +63,7 @@ public class Space extends Subject {
     /***
      * Finds first player with x and y coordinates matching current space
      * otherwise returns null
-     * @return
+     * @return Player
      */
     public Player getPlayer() {
         return board.getPlayers().stream().filter(player -> player.x == x && player.y == y).findFirst().orElse(null);
@@ -82,10 +79,6 @@ public class Space extends Subject {
 
     public List<IFieldAction> getActions() {
         return actions;
-    }
-
-    public void addActions(IFieldAction... actions) {
-        this.actions.addAll(Arrays.asList(actions));
     }
 
     @Override

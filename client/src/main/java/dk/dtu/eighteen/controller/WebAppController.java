@@ -1,7 +1,6 @@
 package dk.dtu.eighteen.controller;
 
 import javafx.application.Platform;
-import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
@@ -14,12 +13,14 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * This class is the controller for interaction with a client and player.
+ * @author Henrik Zenkert
+ */
 public class WebAppController {
     public String playerName = null;
     RequestController requestController;
@@ -58,9 +59,9 @@ public class WebAppController {
     }
 
     /**
-     * This method starts a new game by requesting the name of avaliable boards, and
+     * This method starts a new game by requesting the name of available boards, and
      * then
-     * prompting the user to select the desired gameboard, number of player and
+     * prompting the user to select the desired gameboard, number of players and
      * name.
      * It sends the choices to the server, which handles the creation of the game.
      *
@@ -116,7 +117,7 @@ public class WebAppController {
         List<String> dialogOptions = Arrays.asList("Yes", "No");
         String answer = showChoiceDialog(dialogOptions, "yes if you want to save the game");
 
-        if (!answer.isEmpty() && answer.equals("Yes")) {
+        if (answer.equals("Yes")) {
             saveGame();
         }
         HttpRequest request = HttpRequest.newBuilder()
@@ -125,7 +126,7 @@ public class WebAppController {
                 .DELETE()
                 .build();
 
-        HttpResponse response = HttpClient.newBuilder()
+        HttpResponse<String> response = HttpClient.newBuilder()
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.statusCode());
@@ -135,10 +136,7 @@ public class WebAppController {
     /**
      * Sends a request to the server that saves the current game.
      *
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws URISyntaxException
-     * @Author Frederik Rolsted, s224299@dtu.dk
+     * @author Frederik Rolsted, s224299@dtu.dk
      */
     public void saveGame() throws IOException, InterruptedException, URISyntaxException {
 
@@ -223,26 +221,4 @@ public class WebAppController {
         requestController.startPolling();
     }
 
-    public void gameOver(String winner) {
-        Alert gameOver = new Alert(Alert.AlertType.INFORMATION);
-        gameOver.setContentText("Press OK to end game");
-        gameOver.setHeaderText("Game has ended, " + winner + " has won");
-        Optional<ButtonType> button = gameOver.showAndWait();
-
-    }
 }
-//
-// ObjectMapper objectMapper = new ObjectMapper();
-// String requestBody = objectMapper
-// .writerWithDefaultPrettyPrinter()
-// .writeValueAsString(map);
-//
-// HttpRequest request = HttpRequest.newBuilder(uri)
-// .header("Content-Type", "application/json")
-// .POST(BodyPublishers.ofString(requestBody))
-// .build();
-//
-// return HttpClient.newHttpClient()
-// .sendAsync(request, BodyHandlers.ofString())
-// .thenApply(HttpResponse::statusCode)
-// .thenAccept(System.out::println);

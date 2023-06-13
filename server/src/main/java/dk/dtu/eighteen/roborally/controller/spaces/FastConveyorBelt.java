@@ -8,7 +8,7 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 public class FastConveyorBelt implements IFieldAction {
 
-    private Heading heading;
+    private final Heading heading;
 
 
     public FastConveyorBelt(Heading heading) {
@@ -21,14 +21,13 @@ public class FastConveyorBelt implements IFieldAction {
 
 
     @Override
-    public boolean doAction(GameController gameController, Space space) {
+    public void doAction(GameController gameController, Space space) {
         Player player = space.getPlayer();
 
         player.setHeading(heading);
         gameController.moveForward(player);
         gameController.moveForward(player);
 
-        return true;
     }
 
 }

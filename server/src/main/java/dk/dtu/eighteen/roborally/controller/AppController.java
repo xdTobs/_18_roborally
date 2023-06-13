@@ -99,13 +99,9 @@ public class AppController implements Observer {
 
     @Override
     public void update(Subject subject) {
-        // XXX do nothing for now
     }
 
 
-//    public Board getStandardBoard() {
-//        return Board.createBoardFromResource("boards/dizzy_highway.json");
-//    }
 
     public void saveState(String name) {
         LoadBoard.saveBoard(gameController.board, name);
