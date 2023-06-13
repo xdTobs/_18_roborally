@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Henrik Zenkert
+ * @author Henrik Zenkert, s224281@dtu.dk
  *
  */
 public enum Command {

@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Ekkart Kindler, ekki@dtu.dk
  * @author Frederik Rolsted, s224299@dtu.dk
  */
@@ -102,7 +101,6 @@ public class AppController implements Observer {
     }
 
 
-
     public void saveState(String name) {
         LoadBoard.saveBoard(gameController.board, name);
     }
@@ -124,7 +122,8 @@ public class AppController implements Observer {
 
     /***
      * Called by server when activation phase starts or resumes
-     * @author Tobias Schønau s224327, Henrik Zenkert
+     * @author Tobias Schønau s224327
+     * @author Henrik Zenkert, s224281@dtu.dk
      */
     public void runActivationPhase() {
         gameController.board.setPhase(Phase.ACTIVATION);

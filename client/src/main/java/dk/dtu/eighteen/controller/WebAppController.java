@@ -19,7 +19,8 @@ import java.util.List;
 
 /**
  * This class is the controller for interaction with a client and player.
- * @author Henrik Zenkert, s224281
+ *
+ * @author Henrik Zenkert, s224281@dtu.dk
  * @author Frederik Rolsted, s224299
  */
 public class WebAppController {

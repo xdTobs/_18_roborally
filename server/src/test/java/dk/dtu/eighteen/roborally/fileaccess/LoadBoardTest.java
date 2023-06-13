@@ -19,7 +19,11 @@ public class LoadBoardTest {
 
     @Test
     public void savingAndLoadingGame() throws IOException {
-        LoadBoard.saveFolder = new File("/home/henrik/Documents/t2/advanced/project/roborally/savedGames");
+
+        LoadBoard.saveFolder = new File("./savedGames");
+        if (!LoadBoard.saveFolder.exists()) {
+            LoadBoard.saveFolder.mkdir();
+        }
         Board board = LoadBoard.loadNewGameFromFile("DIZZY_HIGHWAY.json");
         board.createAddPlayerToEmptySpace("PURPLE", "player1");
 

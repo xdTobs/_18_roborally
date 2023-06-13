@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * This class is the controller for making requests to the server.
  *
- * @author Henrik Zenkert
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class RequestController {
     static int timesPolled = 0;
