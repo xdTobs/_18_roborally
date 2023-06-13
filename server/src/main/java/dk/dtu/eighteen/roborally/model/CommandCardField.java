@@ -25,7 +25,6 @@ import dk.dtu.eighteen.roborally.designpatterns.observer.Subject;
 import dk.dtu.eighteen.roborally.fileaccess.model.CommandCardFieldTemplate;
 
 /**
- * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

@@ -19,7 +19,8 @@ import java.util.List;
 
 /**
  * This class is the controller for interaction with a client and player.
- * @author Henrik Zenkert
+ * @author Henrik Zenkert, s224281
+ * @author Frederik Rolsted, s224299
  */
 public class WebAppController {
     public String playerName = null;
@@ -129,7 +130,6 @@ public class WebAppController {
         HttpResponse<String> response = HttpClient.newBuilder()
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.statusCode());
         Platform.exit();
     }
 

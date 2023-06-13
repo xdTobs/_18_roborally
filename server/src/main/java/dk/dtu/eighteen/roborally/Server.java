@@ -5,7 +5,6 @@ import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.eighteen.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.eighteen.roborally.model.Board;
 import dk.dtu.eighteen.roborally.model.Command;
 import dk.dtu.eighteen.roborally.model.CommandCard;
@@ -18,10 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.*;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * The server class.
+ * Testclass testing the logic of the GameController
+ *
+ * @author Frederik Rolsted, s224299@dtu.dk
+ * @author Jakob Hansen
  */
 @SpringBootApplication
 @RestController
@@ -48,7 +46,8 @@ public class Server {
         File f = new File("./savedGames");
         if (!f.exists()) {
             if (f.mkdir()) {
-                System.out.println("created a new saved folder in the same folder as the jar file.");
+                System.out.println("created a new folder in the same folder as the jar file for storing save games.");
+                System.out.println("location: " + f.getAbsolutePath());
             }
         }
         LoadBoard.saveFolder = f;
@@ -115,7 +114,6 @@ public class Server {
         Board board;
         try {
             board = LoadBoard.loadNewGameFromFile(boardName);
-            System.out.println(board);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found", e);
         }
@@ -257,8 +255,6 @@ public class Server {
             appController.setStatus(Status.RUNNING);
         }
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
-        System.out.println(playerName);
-        System.out.println(appController.getStatus());
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }

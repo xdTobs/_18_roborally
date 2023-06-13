@@ -28,17 +28,7 @@ public class LoadBoard {
         return LoadBoard.loadSaveStateFromFile(file);
     }
 
-    public static void main(String[] args) {
-        try {
-            var board = LoadBoard.loadNewGameFromFile("DIZZY_HIGHWAY.json");
-            System.out.println(board);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     static public Board loadNewGameFromFile(String name) throws IOException {
-        // ClassLoader cl = LoadBoard.class.getClassLoader();
         var ins = LoadBoard.class.getResourceAsStream("/" + BOARDSFOLDER + "/" + name);
         return LoadBoard.loadSaveState(ins, name);
     }
@@ -54,7 +44,6 @@ public class LoadBoard {
 
     private static Board loadSaveState(InputStream inputStream, String boardname) {
 
-        // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(IFieldAction.class,
                 new Adapter<IFieldAction>());
         Gson gson = simpleBuilder.create();
@@ -105,19 +94,10 @@ public class LoadBoard {
 
         String filename = getSaveFileAbsolutePath(name);
 
-        // In simple cases, we can create a Gson object with new:
-        //
-        // Gson gson = new Gson();
-        //
-        // But, if you need to configure it, it is better to create it from
-        // a builder (here, we want to configure the JSON serialisation with
-        // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder()
                 .registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>()).setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
-        var file = new File(new File(filename).getParent());
-        System.out.println(file);
         try (FileWriter fileWriter = new FileWriter(filename); JsonWriter writer = gson.newJsonWriter(fileWriter)) {
             gson.toJson(template, template.getClass(), writer);
         } catch (IOException e) {

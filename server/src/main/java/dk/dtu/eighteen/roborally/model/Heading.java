@@ -22,7 +22,6 @@
 package dk.dtu.eighteen.roborally.model;
 
 /**
- * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

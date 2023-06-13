@@ -28,9 +28,8 @@ import dk.dtu.eighteen.roborally.fileaccess.model.SpaceTemplate;
 import java.util.*;
 
 /**
- * ...
- *
  * @author Ekkart Kindler, ekki@dtu.dk
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class Space extends Subject {
     public final int x;
