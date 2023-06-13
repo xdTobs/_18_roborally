@@ -15,6 +15,7 @@ import java.io.*;
 
 /**
  * @author Tobias Schønau s224327
+ *  @author Hansen
  */
 public class LoadBoard {
 

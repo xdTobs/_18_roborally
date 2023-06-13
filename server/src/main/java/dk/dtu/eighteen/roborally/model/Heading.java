@@ -22,7 +22,8 @@
 package dk.dtu.eighteen.roborally.model;
 
 /**
- *
+ * ...
+ * @author Hansen
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public enum Heading {

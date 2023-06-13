@@ -29,7 +29,7 @@ import static dk.dtu.eighteen.roborally.model.Heading.SOUTH;
 
 /**
  * ...
- *
+ * @author Hansen
  * @author Ekkart Kindler, ekki@dtu.dk
  * @author Henrik Zenkert, s224281@dtu.dk
  */

@@ -6,8 +6,7 @@ import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
 /**
- *
- * @author Frederik Rolsted, s224299@dtu.dk
+ *  @author Hansen
  */
 public class RotateLeft implements IFieldAction {
 

@@ -5,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
+/**
+ * @Author Frederik Rolsted, s22499@dtu.dk
+ * @Author Jakob Hansen
+ */
 public class CheckpointView extends SpaceView {
     public CheckpointView(@NotNull Space space, int checkpointNr) {
         super(space);

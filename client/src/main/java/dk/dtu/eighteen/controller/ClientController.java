@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 /**
  * This class is the main controller for the client application.
- *
+ * @author Hansen
  * @author Zenkert
  */
 public class ClientController extends Application {

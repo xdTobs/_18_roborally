@@ -33,9 +33,7 @@ import java.io.File;
 import java.util.Set;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @Author Frederik Rolsted, s22499@dtu.dk
  */
 public class SpaceView extends StackPane {
 

@@ -29,8 +29,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Tobias Schønau, s224327
- * @author Henrik Zenkert, s224281
+ * @author Henrik Zenkert,
+ * @Author Tobias Schønau s224327
+ * @Author Frederik Rolsted, s224299@dtu.dk
+ * @Author Jakob Hansen, s224312
  */
 public class GameController {
 

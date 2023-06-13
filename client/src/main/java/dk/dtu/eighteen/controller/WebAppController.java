@@ -136,8 +136,6 @@ public class WebAppController {
 
     /**
      * Sends a request to the server that saves the current game.
-     *
-     * @author Frederik Rolsted, s224299@dtu.dk
      */
     public void saveGame() throws IOException, InterruptedException, URISyntaxException {
 

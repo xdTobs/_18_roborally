@@ -34,6 +34,7 @@ import java.util.List;
  * It contains the spaces of the board, the players, the current player, the current phase and the current step.
  *
  * @author Tobias Schønau
+ *  @author Hansen
  */
 public class Board extends Subject {
 
