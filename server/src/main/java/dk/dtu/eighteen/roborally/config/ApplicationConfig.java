@@ -23,6 +23,10 @@ public class ApplicationConfig implements WebMvcConfigurer {
         converters.add(customGsonHttpMessageConverter());
     }
 
+    /***
+     * Custom converter to override the standard one used by spring boot. Used to keep our registerTypeAdapter used elsewhere
+     * @author Tobias Schønau s224327
+     */
     private GsonHttpMessageConverter customGsonHttpMessageConverter() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(IFieldAction.class, new Adapter<IFieldAction>())
