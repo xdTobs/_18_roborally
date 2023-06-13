@@ -1,6 +1,5 @@
 package dk.dtu.eighteen.roborally;
 
-
 import com.google.gson.JsonArray;
 import dk.dtu.eighteen.roborally.controller.AppController;
 import dk.dtu.eighteen.roborally.controller.Status;
@@ -33,14 +32,15 @@ public class Server {
     private static final AtomicInteger counter = new AtomicInteger(0);
     private static final Map<Integer, AppController> appControllerMap = new ConcurrentHashMap<>();
 
-
     public static void main(String[] args) {
         if (args.length != 1) {
-            throw new IllegalArgumentException("Please give your save folder as an argument to the program, with absolute path.");
+            throw new IllegalArgumentException(
+                    "Please give your save folder as an argument to the program, with absolute path.");
         }
         LoadBoard.saveFolder = new File(args[0]);
         if (!LoadBoard.saveFolder.exists()) {
-            throw new IllegalArgumentException("You gave a save folder that does not exist.\n" + LoadBoard.saveFolder.getAbsolutePath());
+            throw new IllegalArgumentException(
+                    "You gave a save folder that does not exist.\n" + LoadBoard.saveFolder.getAbsolutePath());
         }
         SpringApplication.run(Server.class, args);
     }
@@ -56,8 +56,19 @@ public class Server {
         return getResourceFolderFiles();
     }
 
+    /**
+     * GET /game: Load a game from file.
+     * 
+     * @param savegame
+     * @param playerName
+     * @return Game loaded successfully (status code 200)
+     *         or Save game not found (status code 404)
+     *         or Player name not found in save game (status code 400)
+     */
+
     @GetMapping("/game")
-    public int loadGame(@RequestHeader("roborally-save-name") String savegame, @RequestHeader("roborally-player-name") String playerName) {
+    public int loadGame(@RequestHeader("roborally-save-name") String savegame,
+            @RequestHeader("roborally-player-name") String playerName) {
         Board board;
         try {
             board = LoadBoard.loadSavedGameFromFile(savegame + ".json");
@@ -78,6 +89,13 @@ public class Server {
         }
 
     }
+
+    /**
+     * POST /game: Create a new game from file.
+     * 
+     * @param userMap contains boardName, playerName and playerCapacity
+     * @return Game created successfully (status code 200), and gameId
+     */
 
     @PostMapping("/game")
     public int createNewGame(@RequestBody Map<String, String> userMap) {
@@ -105,8 +123,19 @@ public class Server {
         return id;
     }
 
+    /**
+     * GET /game/{gameId}: Get the game state
+     * 
+     * @param playerName the name of the player
+     * @param gameId     the id of the game
+     * @return Game state retrieved successfully (status code 200), and a map
+     *         containing different things depending on the state of the game or
+     *         Game not found (status code 404)
+     */
+
     @GetMapping("/game/{gameId}")
-    public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName, @PathVariable int gameId) {
+    public Map<String, Object> getGame(@RequestHeader("roborally-player-name") String playerName,
+            @PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
         if (appController == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -116,7 +145,7 @@ public class Server {
         Status status = appController.getStatus();
         HashMap<String, Object> map = new HashMap<>();
         map.put("gameStatus", status.toString());
-        if(status == Status.GAMEOVER)
+        if (status == Status.GAMEOVER)
             map.put("winner", appController.getGameController().board.getCurrentPlayer().getName());
         if (status == Status.INTERACTIVE) {
             Player playerToInteract = board.getCurrentPlayer();
@@ -130,7 +159,8 @@ public class Server {
                 map.put("options", jsonArray);
                 return map;
             } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is not your turn to make interactive move..");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "It is not your turn to make interactive move..");
             }
         }
 
@@ -141,11 +171,13 @@ public class Server {
             }
         }
         var playerExistsOnBoard = board.getPlayer(playerName) != null;
-        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
+        if (status == Status.INIT_LOAD_GAME && playerExistsOnBoard
+                || status == Status.INIT_NEW_GAME && !playerExistsOnBoard) {
             joinGame(gameId, playerName);
         }
         if (status == Status.INIT_LOAD_GAME && appController.getActionCounter() < appController.getPlayerCapacity()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Game is not yet ready to start, waiting for other player.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Game is not yet ready to start, waiting for other player.");
         }
 
         BoardTemplate boardTemplate = new BoardTemplate(board, player);
@@ -153,7 +185,11 @@ public class Server {
         return map;
     }
 
-
+    /**
+     * DELETE /game/{gameId}: Quit the game
+     * 
+     * @param gameId the id of the game
+     */
     @DeleteMapping("/game/{gameId}")
     public void quitGame(@PathVariable int gameId) {
         AppController appController = appControllerMap.get(gameId);
@@ -163,6 +199,13 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "game could not be saved, but has been removed");
         }
     }
+
+    /**
+     * a function for joining a game.
+     * 
+     * @param gameId
+     * @param playerName
+     */
 
     public void joinGame(int gameId, String playerName) {
         AppController appController = appControllerMap.get(gameId);
@@ -183,7 +226,8 @@ public class Server {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player name does not exist");
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request adding a player when game is INIT_NEW_GAME or INIT_LOAD_GAME");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "You can only request adding a player when game is INIT_NEW_GAME or INIT_LOAD_GAME");
         }
         var i = appController.incActionCounter();
         if (i == appController.getPlayerCapacity()) {
@@ -195,7 +239,8 @@ public class Server {
     }
 
     @PostMapping("/game/{gameId}/moves")
-    public String planMoves(@RequestHeader("roborally-player-name") String playerName, @RequestBody List<String> moveNames, @PathVariable int gameId) {
+    public String planMoves(@RequestHeader("roborally-player-name") String playerName,
+            @RequestBody List<String> moveNames, @PathVariable int gameId) {
 
         AppController appController = appControllerMap.get(gameId);
         if (appController.getActionCounter() == appController.getPlayerCapacity()) {
@@ -207,7 +252,6 @@ public class Server {
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
         }
-
 
         for (int i = 0; i < 5; i++) {
             Command card = Command.of(moveNames.get(i));
@@ -223,14 +267,25 @@ public class Server {
         return "moves submitted: " + String.join(", ", moveNames);
     }
 
-
+    /**
+     * POST /game/{gameId}/moves/{stringCommand}: Submit an interactive move
+     * 
+     * @param playerName    the name of the player
+     * @param stringCommand the command to be executed
+     * @param gameId        the id of the game
+     * @return Interactive move submitted successfully (status code 200)
+     *         or You can only request interactive moves when game is in INTERACTIVE
+     *         mode (status code 400)
+     */
     @PostMapping("/game/{gameId}/moves/{stringCommand}")
-    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName, @PathVariable String stringCommand, @PathVariable int gameId) {
+    public String submitInteractiveMove(@RequestHeader("roborally-player-name") String playerName,
+            @PathVariable String stringCommand, @PathVariable int gameId) {
         Command c = Command.of(stringCommand);
         AppController appController = appControllerMap.get(gameId);
         Player player = appController.getGameController().getBoard().getPlayer(playerName);
         if (appController.getStatus() != Status.INTERACTIVE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only request interactive moves when game is in INTERACTIVE mode");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "You can only request interactive moves when game is in INTERACTIVE mode");
         }
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "player not found");
@@ -243,12 +298,17 @@ public class Server {
         return "interactive move submitted, " + c;
     }
 
+    /**
+     * POST /game/{gameId}/save: Save the game
+     * 
+     * @param gameId   the id of the game
+     * @param saveName the name of the save
+     */
     @PostMapping("/game/{gameId}")
     public void saveGame(@PathVariable int gameId, @RequestHeader("roborally-save-name") String saveName) {
         Board board = appControllerMap.get(gameId).getGameController().getBoard();
         LoadBoard.saveBoard(board, saveName + ".json");
     }
-
 
     private static List<String> getResourceFolderFiles() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -258,4 +318,3 @@ public class Server {
         return files.stream().map(File::getName).toList();
     }
 }
-

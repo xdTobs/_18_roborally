@@ -55,6 +55,12 @@ public class BoardView extends VBox implements ViewObserver {
 
     private Label statusLabel;
 
+    /**
+     * Constructor for BoardView
+     * 
+     * @param webAppController
+     * @param board
+     */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
         this.board = board;
@@ -108,6 +114,5 @@ public class BoardView extends VBox implements ViewObserver {
             statusLabel.setText(board.getStatusMessage(webAppController.playerName));
         }
     }
-
 
 }

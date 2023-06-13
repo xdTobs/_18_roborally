@@ -33,7 +33,6 @@ public class WebAppController {
         requestController.createScheduledService(this.playerName);
     }
 
-
     String showChoiceDialog(List<String> options, String type) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
         dialog.setTitle(type + " selector");
@@ -55,20 +54,22 @@ public class WebAppController {
         } else {
             throw new NullPointerException("No name entered");
         }
-        //this.playerName = UUID.randomUUID().toString();
+        // this.playerName = UUID.randomUUID().toString();
     }
 
-
     /**
-     * This method starts a new game by requesting the name of avaliable boards, and then
-     * prompting the user to select the desired gameboard, number of player and name.
+     * This method starts a new game by requesting the name of avaliable boards, and
+     * then
+     * prompting the user to select the desired gameboard, number of player and
+     * name.
      * It sends the choices to the server, which handles the creation of the game.
      *
      * @throws IOException if the server is not running
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/board")).GET().build();
-        HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                HttpResponse.BodyHandlers.ofString());
 
         var body = response.body();
         JSONArray jsonArray = new JSONArray(body);
@@ -78,7 +79,6 @@ public class WebAppController {
             boardNameList.add(s);
         }
 
-
         List<String> numPlayerOptions = new ArrayList<>();
         for (int i = 2; i < 7; i++) {
             numPlayerOptions.add(String.valueOf(i));
@@ -86,20 +86,21 @@ public class WebAppController {
 
         int numberOfPlayers = Integer.parseInt(showChoiceDialog(numPlayerOptions, "number of players"));
         String boardName = showChoiceDialog(boardNameList, "gameboard");
-//        String boardName = "a-test-board.json";
-//        int numberOfPlayers = 2;
+        // String boardName = "a-test-board.json";
+        // int numberOfPlayers = 2;
 
+        // clientController.setStatusText("You picked the board: " + boardName);
 
-//        clientController.setStatusText("You picked the board: " + boardName);
-
-        // Creating a new JSON Object to send playerName, boardName and number of players to server
+        // Creating a new JSON Object to send playerName, boardName and number of
+        // players to server
         JSONObject requestObject = new JSONObject();
         requestObject.put("boardName", boardName);
         requestObject.put("playerName", playerName);
         requestObject.put("playerCapacity", numberOfPlayers);
 
-        request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game")).header("Content-Type", "application/json").
-                POST(HttpRequest.BodyPublishers.ofString(requestObject.toString())).build();
+        request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString())).build();
 
         response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -110,8 +111,8 @@ public class WebAppController {
     }
 
     public void stopGame() throws IOException, URISyntaxException, InterruptedException {
-            this.requestController.stopPolling();
-            System.err.println("stop game not implemented");
+        this.requestController.stopPolling();
+        System.err.println("stop game not implemented");
         List<String> dialogOptions = Arrays.asList("Yes", "No");
         String answer = showChoiceDialog(dialogOptions, "yes if you want to save the game");
 
@@ -228,21 +229,20 @@ public class WebAppController {
         gameOver.setHeaderText("Game has ended, " + winner + " has won");
         Optional<ButtonType> button = gameOver.showAndWait();
 
-
     }
 }
 //
-//ObjectMapper objectMapper = new ObjectMapper();
-//String requestBody = objectMapper
-//        .writerWithDefaultPrettyPrinter()
-//        .writeValueAsString(map);
+// ObjectMapper objectMapper = new ObjectMapper();
+// String requestBody = objectMapper
+// .writerWithDefaultPrettyPrinter()
+// .writeValueAsString(map);
 //
-//HttpRequest request = HttpRequest.newBuilder(uri)
-//        .header("Content-Type", "application/json")
-//        .POST(BodyPublishers.ofString(requestBody))
-//        .build();
+// HttpRequest request = HttpRequest.newBuilder(uri)
+// .header("Content-Type", "application/json")
+// .POST(BodyPublishers.ofString(requestBody))
+// .build();
 //
-//return HttpClient.newHttpClient()
-//        .sendAsync(request, BodyHandlers.ofString())
-//        .thenApply(HttpResponse::statusCode)
-//        .thenAccept(System.out::println);
+// return HttpClient.newHttpClient()
+// .sendAsync(request, BodyHandlers.ofString())
+// .thenApply(HttpResponse::statusCode)
+// .thenAccept(System.out::println);

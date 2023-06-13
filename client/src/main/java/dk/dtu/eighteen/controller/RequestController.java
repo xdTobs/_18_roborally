@@ -35,7 +35,6 @@ public class RequestController {
         this.clientController = roborallyClient;
     }
 
-
     public void createScheduledService(String playerName) {
         if (scheduledService != null) {
             return;
@@ -49,20 +48,17 @@ public class RequestController {
                 return new Task<>() {
                     @Override
                     protected HttpResponse<String> call() throws Exception {
-
-                        timesPolled++;
-                        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId())).header("roborally-player-name", playerName).GET().build();
-                        HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
-                        System.out.println(response);
-                        return response;
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+                                .header("roborally-player-name", playerName).GET().build();
+                        return HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
                     }
                 };
             }
         };
         scheduledService.setPeriod(Duration.seconds(1));
     }
-//
-
+    //
 
     public void stopPolling() {
         scheduledService.cancel();
@@ -94,10 +90,11 @@ public class RequestController {
                     }
                     String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
                     try {
-                        HttpRequest request = HttpRequest.newBuilder().
-                                uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/" + move)).
-                                header("roborally-player-name", clientController.webAppController.playerName).
-                                POST(HttpRequest.BodyPublishers.noBody()).build();
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/"
+                                        + move))
+                                .header("roborally-player-name", clientController.webAppController.playerName)
+                                .POST(HttpRequest.BodyPublishers.noBody()).build();
                         HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
                         startPolling();
                     } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -107,13 +104,13 @@ public class RequestController {
                 }
                 case GAMEOVER -> {
                     stopPolling();
-                clientController.webAppController.gameOver(jsonObject.get("winner").toString());
+                    clientController.webAppController.gameOver(jsonObject.get("winner").toString());
 
-                clientController.webAppController.exit();
+                    clientController.webAppController.exit();
 
-                return;
-            }
-            case RUNNING -> {
+                    return;
+                }
+                case RUNNING -> {
                     String json = jsonObject.get("board").toString();
                     Board board;
                     try {
@@ -144,7 +141,6 @@ public class RequestController {
         scheduledService.start();
     }
 
-
     public void postMoves(List<String> cardIds) {
         try {
             String requestBody = "[" + String.join(",", cardIds.stream().toList()) + "]";
@@ -153,10 +149,11 @@ public class RequestController {
             JSONArray jsonArray = new JSONArray(requestBody);
             // Print the response body
 
-            HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves")).
-                    header("Content-Type", "application/json").
-                    header("roborally-player-name", clientController.webAppController.playerName).
-                    POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray))).build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves"))
+                    .header("Content-Type", "application/json")
+                    .header("roborally-player-name", clientController.webAppController.playerName)
+                    .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray))).build();
 
             HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -164,14 +161,14 @@ public class RequestController {
         }
     }
 
-    public int loadGame(String playerName, String saveName) throws URISyntaxException, IOException, InterruptedException {
+    public int loadGame(String playerName, String saveName)
+            throws URISyntaxException, IOException, InterruptedException {
         var uri = new URI("http://localhost:8080/game");
-        HttpRequest request = HttpRequest.newBuilder().uri(uri).
-                header("roborally-player-name", playerName).
-                header("roborally-save-name", saveName).
-                GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(uri).header("roborally-player-name", playerName)
+                .header("roborally-save-name", saveName).GET().build();
 
-        HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
             return Integer.parseInt(response.body());
         }
@@ -179,5 +176,3 @@ public class RequestController {
 
     }
 }
-
-

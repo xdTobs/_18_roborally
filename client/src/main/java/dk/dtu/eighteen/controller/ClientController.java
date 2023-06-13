@@ -21,7 +21,7 @@ public class ClientController extends Application {
     Text statusText = new Text("Status: start up");
     WebAppController webAppController = new WebAppController(this);
     private BorderPane boardRoot;
-    //    private MinimalGameController minimalGameController;
+    // private MinimalGameController minimalGameController;
 
     public static void main(String[] args) {
         launch(args);
@@ -57,7 +57,8 @@ public class ClientController extends Application {
             case INIT_LOAD_GAME -> setStatusText("Loaded game with ID: " + getGameId());
             case RUNNING -> setStatusText("Running game with ID: " + getGameId());
             case INTERACTIVE ->
-                    setStatusText("Awaiting input from " + webAppController.playerName + " in game with ID: " + getGameId());
+                setStatusText(
+                        "Awaiting input from " + webAppController.playerName + " in game with ID: " + getGameId());
             case QUITTING -> setStatusText("Quitting and saving game with ID: " + getGameId());
             case INVALID_GAME_ID -> setStatusText("Invalid game ID");
             case GAMEOVER -> setStatusText("GAME OVER");
