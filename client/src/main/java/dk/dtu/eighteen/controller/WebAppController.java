@@ -21,6 +21,7 @@ import java.util.List;
  * This class is the controller for interaction with a client and player.
  * @author Henrik Zenkert
  * @Author Frederik Rolsted, s22499@dtu.dk
+ * @Author Jakob Hansen
  */
 public class WebAppController {
     public String playerName = null;

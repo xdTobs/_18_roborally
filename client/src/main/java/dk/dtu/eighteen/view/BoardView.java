@@ -40,6 +40,7 @@ import java.util.List;
 
 /**
  * @Author Frederik Rolsted. s22499@dtu.dk
+ * @Author Jakob Hansen
  */
 public class BoardView extends VBox implements ViewObserver {
 
@@ -55,7 +56,7 @@ public class BoardView extends VBox implements ViewObserver {
     /**
      * Constructor to build the boardview from a Board, by iterating over spaces in the board
      * and checking which action is associated with the given space.
-     */
+    */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
         this.board = board;
