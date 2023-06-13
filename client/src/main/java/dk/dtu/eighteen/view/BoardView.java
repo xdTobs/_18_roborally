@@ -107,6 +107,9 @@ public class BoardView extends VBox implements ViewObserver {
 
     }
 
+//    static  loadResource(String location){
+//
+//    }
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {

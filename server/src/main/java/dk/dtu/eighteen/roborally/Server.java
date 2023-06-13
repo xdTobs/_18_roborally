@@ -45,15 +45,13 @@ public class Server {
      *             folder.
      */
     public static void main(String[] args) {
-        if (args.length != 1) {
-            throw new IllegalArgumentException(
-                    "Please give your save folder as an argument to the program, with absolute path.");
+        File f = new File("./savedGames");
+        if (!f.exists()) {
+            if (f.mkdir()) {
+                System.out.println("created a new saved folder in the same folder as the jar file.");
+            }
         }
-        LoadBoard.saveFolder = new File(args[0]);
-        if (!LoadBoard.saveFolder.exists()) {
-            throw new IllegalArgumentException(
-                    "You gave a save folder that does not exist.\n" + LoadBoard.saveFolder.getAbsolutePath());
-        }
+        LoadBoard.saveFolder = f;
         SpringApplication.run(Server.class, args);
     }
 

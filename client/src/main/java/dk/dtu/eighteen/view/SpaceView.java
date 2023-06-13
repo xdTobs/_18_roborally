@@ -56,9 +56,7 @@ public class SpaceView extends StackPane {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-
-        String filePath = new File("client/src/main/resources/imgs/Empty_Space.png").toURI().toString();
-        this.setStyle("-fx-background-image: url(" + filePath + ");" + "-fx-background-size: 100% 100%;" + "-fx-background-repeat: no-repeat;" + "-fx-background-position: center;");
+        this.setStyle("-fx-background-image: url(imgs/Empty_Space.png);" + "-fx-background-size: 100% 100%;" + "-fx-background-repeat: no-repeat;" + "-fx-background-position: center;");
 
 
         Set<Heading> walls = space.getWalls();

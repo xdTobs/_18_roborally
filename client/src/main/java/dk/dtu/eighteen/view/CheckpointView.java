@@ -9,29 +9,25 @@ public class CheckpointView extends SpaceView {
     public CheckpointView(@NotNull Space space, int checkpointNr) {
         super(space);
         if (checkpointNr == 1) {
-            String filePath = new File("client/src/main/resources/imgs/Checkpoint1.png").toURI().toString();
-            appendStyle("-fx-background-image: url('" + filePath + "');" +
+            appendStyle("-fx-background-image: url(imgs/Checkpoint1.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 2) {
-            String filePath = new File("client/src/main/resources/imgs/Checkpoint2.png").toURI().toString();
-            appendStyle("-fx-background-image: url('" + filePath + "');" +
+            appendStyle("-fx-background-image: url(imgs/Checkpoint2.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 3) {
-            String filePath = new File("client/src/main/resources/imgs/Checkpoint3.png").toURI().toString();
-            appendStyle("-fx-background-image: url('" + filePath + "');" +
+            appendStyle("-fx-background-image: url(imgs/Checkpoint3.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 4) {
-            String filePath = new File("client/src/main/resources/imgs/Checkpoint4.png").toURI().toString();
-            appendStyle("-fx-background-image: url('" + filePath + "');" +
+            appendStyle("-fx-background-image: url(imgs/Checkpoint4.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
