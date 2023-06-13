@@ -3,9 +3,9 @@ package dk.dtu.eighteen.roborally;
 import org.junit.Test;
 
 
-class ServerTest {
+public class ServerTest {
 
     @Test
-    void getBoardNames() {
+    public void getBoardNames() {
     }
 }

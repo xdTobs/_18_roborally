@@ -1,11 +1,8 @@
 package dk.dtu.eighteen.roborally.fileaccess;
 
-import dk.dtu.eighteen.roborally.model.Board;
-import dk.dtu.eighteen.roborally.model.Player;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import org.junit.Test;
+
 import java.io.IOException;
 
 /**
@@ -13,10 +10,10 @@ import java.io.IOException;
  *
  * @Author Frederik Rolsted, s224299@dtu.dk
  */
-class LoadBoardTest {
+public class LoadBoardTest {
 
     @Test
-    void savingAndLoadingGame() throws IOException {
+    public void savingAndLoadingGame() throws IOException {
 //        LoadBoard.saveFolder = new File("/home/henrik/Documents/t2/advanced/project/roborally/savedGames");
 //        Board board = LoadBoard.loadNewGameFromFile("src/test/resources/playableBoards/DIZZY_HIGHWAY.json");
 //        board.createAddPlayerToEmptySpace("PURPLE", "player1");

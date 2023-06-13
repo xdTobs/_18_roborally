@@ -1,7 +1,9 @@
 package dk.dtu.eighteen.roborally.fileaccess.model;
 
 import dk.dtu.eighteen.roborally.model.CommandCardField;
-
+/**
+ * @author Tobias Schønau s224327
+ */
 public class CommandCardFieldTemplate {
 
     public CommandCardTemplate card = null;

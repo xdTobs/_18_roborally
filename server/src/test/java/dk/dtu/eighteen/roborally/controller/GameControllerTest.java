@@ -2,27 +2,28 @@ package dk.dtu.eighteen.roborally.controller;
 
 import dk.dtu.eighteen.roborally.fileaccess.LoadBoard;
 import dk.dtu.eighteen.roborally.model.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 
 import static dk.dtu.eighteen.roborally.model.Phase.ACTIVATION;
 import static dk.dtu.eighteen.roborally.model.Phase.PROGRAMMING;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 
 /**
  * Testclass testing the logic of the GameController
+ *
  * @Author Frederik Rolsted, s224299@dtu.dk
  * @Author Jakob Hansen, s?@dtu.dk
  */
-class GameControllerTest {
+public class GameControllerTest {
     private GameController gameController;
 
-    @BeforeEach
-    void setUp() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         Board board = LoadBoard.loadNewGameFromFile("a-test-board.json");
         gameController = new GameController(board);
         for (int i = 0; i < 6; i++) {
@@ -34,25 +35,26 @@ class GameControllerTest {
         board.setCurrentPlayer(board.getPlayer(0));
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         gameController = null;
     }
 
     @Test
-    void moveCurrentPlayerToSpace() {
+    public void moveCurrentPlayerToSpace() {
         Board board = gameController.board;
         Player player1 = board.getPlayer(0);
         Player player2 = board.getPlayer(1);
 
         gameController.moveCurrentPlayerToSpace(board.getSpace(0, 4));
 
-        assertEquals(player1, board.getSpace(0, 4).getPlayer(), "Player " + player1.getName() + " should beSpace (0,4)!");
-        assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
-        assertEquals(player2, board.getCurrentPlayer(), "Current player should be " + player2.getName() + "!");
+        assertEquals(player1, board.getSpace(0, 4).getPlayer());
+        assertNull(board.getSpace(0, 0).getPlayer());
+        assertEquals(player2, board.getCurrentPlayer());
     }
+
     @Test
-    void testStartProgrammingPhase() {
+    public void testStartProgrammingPhase() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         board.setPhase(ACTIVATION);
@@ -61,7 +63,7 @@ class GameControllerTest {
     }
 
     @Test
-    void loadProgrammingPhase() {
+    public void loadProgrammingPhase() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         board.setPhase(ACTIVATION);
@@ -69,8 +71,9 @@ class GameControllerTest {
         assertEquals(Phase.PROGRAMMING, board.getPhase());
         assertEquals(0, board.getStep());
     }
+
     @Test
-    void generateRandomCommandCardTest() {
+    public void generateRandomCommandCardTest() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         CommandCard card = gamecontroller.generateRandomCommandCard();
@@ -78,7 +81,7 @@ class GameControllerTest {
     }
 
     @Test
-    void finishProgrammingPhase(){
+    public void finishProgrammingPhase() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         board.setPhase(PROGRAMMING);
@@ -86,56 +89,61 @@ class GameControllerTest {
         assertEquals(Phase.ACTIVATION, board.getPhase());
         assertEquals("Player 0", board.getCurrentPlayer().getName());
     }
+
     @Test
-    void moveForward() {
+    public void moveForward() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
         player.setHeading(Heading.SOUTH);
-        assertEquals(0,player.x);
-        assertEquals(0,player.y);
+        assertEquals(0, player.x);
+        assertEquals(0, player.y);
         gamecontroller.moveForward(player);
         assertEquals(0, player.x);
         assertEquals(1, player.y);
     }
+
     @Test
-    void moveForward_2() {
+    public void moveForward_2() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
         player.setHeading(Heading.SOUTH);
-        assertEquals(0,player.x);
-        assertEquals(0,player.y);
+        assertEquals(0, player.x);
+        assertEquals(0, player.y);
         gamecontroller.moveForward_2(player);
         assertEquals(0, player.x);
         assertEquals(2, player.y);
     }
+
     @Test
-    void moveForward_3() {
+    public void moveForward_3() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
         player.setHeading(Heading.SOUTH);
-        assertEquals(0,player.x);
-        assertEquals(0,player.y);
+        assertEquals(0, player.x);
+        assertEquals(0, player.y);
         gamecontroller.moveForward_3(player);
         assertEquals(0, player.x);
         assertEquals(3, player.y);
     }
+
     @Test
-    void moveBackwards() {
+    public void moveBackwards() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
         player.setHeading(Heading.NORTH);
-        assertEquals(0,player.x);
-        assertEquals(0,player.y);
+        assertEquals(0, player.x);
+        assertEquals(0, player.y);
         gamecontroller.moveBackwards(player);
         assertEquals(0, player.x);
         assertEquals(1, player.y);
     }
+
     @Test
-    void turnLeft() {
+    public void turnLeft() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
@@ -144,8 +152,9 @@ class GameControllerTest {
         gamecontroller.turnLeft(player);
         assertEquals(Heading.WEST, player.getHeading());
     }
+
     @Test
-    void turnRight() {
+    public void turnRight() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
@@ -154,8 +163,9 @@ class GameControllerTest {
         gamecontroller.turnRight(player);
         assertEquals(Heading.EAST, player.getHeading());
     }
+
     @Test
-    void uTurn() {
+    public void uTurn() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getCurrentPlayer();
@@ -167,39 +177,39 @@ class GameControllerTest {
     }
 
     @Test
-    void push() {
+    public void push() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player1 = board.getPlayer(0);
         Player player2 = board.getPlayer(1);
         player1.setHeading(Heading.SOUTH);
-        assertEquals(0,player1.x);
-        assertEquals(0,player1.y);
+        assertEquals(0, player1.x);
+        assertEquals(0, player1.y);
         player2.setHeading(Heading.WEST);
         gamecontroller.moveForward(player2);
-        assertEquals(0,player2.x);
-        assertEquals(1,player2.y);
+        assertEquals(0, player2.x);
+        assertEquals(1, player2.y);
         gamecontroller.moveForward(player1);
-        assertEquals(0,player1.x);
-        assertEquals(1,player1.y);
-        assertEquals(0,player2.x);
-        assertEquals(2,player2.y);
+        assertEquals(0, player1.x);
+        assertEquals(1, player1.y);
+        assertEquals(0, player2.x);
+        assertEquals(2, player2.y);
     }
 
     @Test
-    void generateRandomCommandCard(){
+    public void generateRandomCommandCard() {
         Board board = gameController.board;
         GameController gamecontroller = new GameController(board);
         Player player = board.getPlayer(0);
         CommandCardField field = player.getPlayableCardField(0);
-        assertEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCardField(0)));
+        assertEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}", String.valueOf(player.getPlayableCardField(0)));
         field.setCard(gamecontroller.generateRandomCommandCard());
-        assertNotEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}",String.valueOf(player.getPlayableCardField(0)));
+        assertNotEquals("player={Player{, x=0, y=0, name='Player 0'}card=null, visible=true}", String.valueOf(player.getPlayableCardField(0)));
     }
 
 
     @Test
-    void currentSpaceHasBlockingWallTest() {
+    public void currentSpaceHasBlockingWallTest() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
 
@@ -209,13 +219,13 @@ class GameControllerTest {
 
         gameController.moveForward(current);
 
-        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
-        assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
-        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
+        assertEquals(current, board.getSpace(0, 0).getPlayer());
+        assertEquals(Heading.SOUTH, current.getHeading());
+        assertNull(board.getSpace(0, 1).getPlayer());
     }
 
     @Test
-    void nextSpaceHasBlockinWallTest() {
+    public void nextSpaceHasBlockinWallTest() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
 
@@ -224,8 +234,8 @@ class GameControllerTest {
 
         gameController.moveForward(current);
 
-        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
-        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
+        assertEquals(current, board.getSpace(0, 0).getPlayer());
+        assertNull(board.getSpace(0, 1).getPlayer());
     }
 //
 //    @Test
