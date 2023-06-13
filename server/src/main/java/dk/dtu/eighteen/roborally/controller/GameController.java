@@ -32,6 +32,7 @@ import java.util.Set;
  * @author Henrik Zenkert,
  * @Author Tobias Schønau s224327
  * @Author Frederik Rolsted, s224299@dtu.dk
+ * @Author Jakob Hansen, s224312
  */
 public class GameController {
 
