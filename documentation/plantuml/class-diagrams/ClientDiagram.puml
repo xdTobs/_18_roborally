@@ -12,8 +12,6 @@ CardFieldView "1..*" --> "1" PlayerView
 
 class ClientController {
 ~ Text statusText
-+ {static} void main(String[])
-+ void start(Stage)
 + void createBoardView(Board)
 + int getGameId()
 }
