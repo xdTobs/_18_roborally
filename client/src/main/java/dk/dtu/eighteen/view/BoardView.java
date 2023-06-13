@@ -39,9 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @Author Frederik Rolsted. s22499@dtu.dk
  */
 public class BoardView extends VBox implements ViewObserver {
 
@@ -57,8 +55,6 @@ public class BoardView extends VBox implements ViewObserver {
     /**
      * Constructor to build the boardview from a Board, by iterating over spaces in the board
      * and checking which action is associated with the given space.
-     *
-     * @author Frederik Rolsted, s224299@dtu.dk
      */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
