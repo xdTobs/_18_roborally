@@ -2,7 +2,9 @@ package dk.dtu.eighteen.roborally.fileaccess.model;
 
 import dk.dtu.eighteen.roborally.model.Heading;
 import dk.dtu.eighteen.roborally.model.Player;
-
+/**
+ * @author Tobias Schønau s224327
+ */
 public class PlayerTemplate {
 
     public int x, y;

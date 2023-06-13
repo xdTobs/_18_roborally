@@ -7,7 +7,9 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 import java.util.List;
 import java.util.Set;
-
+/**
+ * @author Tobias Schønau s224327
+ */
 public class SpaceTemplate {
     public Set<Heading> walls;
     public List<IFieldAction> actions;
