@@ -55,6 +55,12 @@ public class BoardView extends VBox implements ViewObserver {
 
     private Label statusLabel;
 
+    /**
+     * Constructor to build the boardview from a Board
+     * @param webAppController
+     * @param board
+     * @Author Frederik Rolsted, s224299@dtu.dk
+     */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
         this.board = board;
