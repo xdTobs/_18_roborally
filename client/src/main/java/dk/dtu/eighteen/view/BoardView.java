@@ -40,6 +40,7 @@ import java.util.List;
 
 /**
  * @author Jakob Hansen, s224312@dtu.dk
+ * @Author Frederik Rolsted, s224299@dtu.dk
  */
 public class BoardView extends VBox implements ViewObserver {
 
