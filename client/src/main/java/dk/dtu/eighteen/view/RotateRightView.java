@@ -4,6 +4,9 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 import java.io.File;
 
+/**
+ *  @author Hansen
+ */
 public class RotateRightView extends SpaceView {
     public RotateRightView(Space space) {
         super(space);

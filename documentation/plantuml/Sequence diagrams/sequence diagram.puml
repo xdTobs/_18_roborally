@@ -12,7 +12,7 @@ activate GameController
 loop Programming Phase
     GameController -> GameBoard: Get Board
     GameBoard -> GameController: Board Data
-    GameController -> Client: Draw Cards
+    GameController -> Client: Board Data
     Client -> GameController: Selected Cards
     GameController -> GameController: Store Selected Cards
 end
@@ -21,7 +21,7 @@ end
 
 activate GameBoard
 loop Activation Phase
-    loop Execute Commands
+    loop Cards Left To Execute
         GameController -> GameBoard: Execute Step
         GameBoard -> GameController: Updated Board State
     end

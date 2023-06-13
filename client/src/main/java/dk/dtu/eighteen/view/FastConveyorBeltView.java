@@ -8,6 +8,9 @@ import java.io.File;
 
 import static dk.dtu.eighteen.roborally.model.Heading.*;
 
+/**
+ *  @author Hansen
+ */
 public class FastConveyorBeltView extends SpaceView {
     public FastConveyorBeltView(@NotNull FastConveyorBelt fastconveyorBelt, Space space) {
         super(space);

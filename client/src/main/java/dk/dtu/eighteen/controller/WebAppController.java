@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * This class is the controller for interaction with a client and player.
  * @author Henrik Zenkert
+ *  @author Hansen
  */
 public class WebAppController {
     public String playerName = null;

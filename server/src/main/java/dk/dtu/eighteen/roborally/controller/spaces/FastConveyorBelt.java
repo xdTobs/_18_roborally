@@ -6,6 +6,9 @@ import dk.dtu.eighteen.roborally.model.Heading;
 import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
+/**
+ *  @author Hansen
+ */
 public class FastConveyorBelt implements IFieldAction {
 
     private final Heading heading;

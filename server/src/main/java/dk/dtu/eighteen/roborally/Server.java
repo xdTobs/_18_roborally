@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The server class.
+ *  @author Hansen
  */
 @SpringBootApplication
 @RestController

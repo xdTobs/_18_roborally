@@ -59,6 +59,7 @@ public class BoardView extends VBox implements ViewObserver {
      * and checking which action is associated with the given space.
      *
      * @author Frederik Rolsted, s224299@dtu.dk
+     *  @author Hansen
      */
     public BoardView(WebAppController webAppController, @NotNull Board board) {
         this.webAppController = webAppController;
