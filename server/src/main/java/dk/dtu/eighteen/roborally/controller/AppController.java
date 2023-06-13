@@ -33,9 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class AppController implements Observer {
 

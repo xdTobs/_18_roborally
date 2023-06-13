@@ -80,9 +80,7 @@ public class RequestController {
                 }
                 case INTERACTIVE -> {
                     stopPolling();
-                    System.out.println("Running interactive action");
                     JSONArray options = (JSONArray) jsonObject.get("options");
-                    System.out.println(options);
                     List<String> optionsList = new ArrayList<>();
                     for (int i = 0; i < options.length(); i++) {
                         optionsList.add(options.get(i).toString());

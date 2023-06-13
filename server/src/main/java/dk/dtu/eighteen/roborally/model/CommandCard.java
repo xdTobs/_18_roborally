@@ -26,8 +26,7 @@ import dk.dtu.eighteen.roborally.fileaccess.model.CommandCardTemplate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
- *
+ * @author Frederik Rolsted, s224299@dtu.dk
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class CommandCard extends Subject {
