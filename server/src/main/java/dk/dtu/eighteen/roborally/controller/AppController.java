@@ -39,8 +39,6 @@ import java.util.List;
  */
 public class AppController implements Observer {
 
-    //    final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
-//    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     private final int playerCapacity;
     public List<Player> joinedPlayers = new ArrayList<>();
 
@@ -53,7 +51,6 @@ public class AppController implements Observer {
         this.status = status;
     }
 
-    //    List<User> users = new ArrayList<>(10);
     private Status status;
 
     public int getActionCounter() {
@@ -70,6 +67,7 @@ public class AppController implements Observer {
         this.gameController = new GameController(board);
         board.setCurrentPlayer(board.getPlayer(0));
     }
+
 
     public int incActionCounter() {
         return ++actionCounter;
@@ -91,7 +89,6 @@ public class AppController implements Observer {
      */
     public boolean saveGame(int gameId) {
         if (gameController != null) {
-            // here we save the game (without asking the user).
             saveState(String.valueOf(gameId));
             gameController = null;
             return true;
@@ -114,14 +111,7 @@ public class AppController implements Observer {
         LoadBoard.saveBoard(gameController.board, name);
     }
 
-//    public void loadSaveState(String name) {
-//        Board board = LoadBoard.loadSaveState(name);
-//        gameController = new GameController(board);
-//        gameController.loadProgrammingPhase();
-//    }
 
-
-    //TODO used to pass to Server, maybe not the best way
     public GameController getGameController() {
         return gameController;
     }

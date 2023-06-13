@@ -168,7 +168,10 @@ public class GameController {
         }
     }
 
-    // TODO Assignment V2
+    /***
+     * Function for the MOVE_1 card. First finds next space, then attempts to push a potential player on that space. After that we try to move forward to the next space.
+     * @param player Player to move
+     */
     public void moveForward(@NotNull Player player) {
         int x = player.getSpace().x;
         int y = player.getSpace().y;
@@ -201,7 +204,7 @@ public class GameController {
 
     /**
      * If we are moving south and the next space has a north wall or the current space has a south wall,
-     * we can't move forward.
+     * we can't move forward. Also if the next space has a player, that hasnt been pushed, we cant move there
      *
      * @param player    the player that is moving
      * @param nextSpace the space the player is moving to
@@ -218,12 +221,12 @@ public class GameController {
     }
 
 
-    // TODO Assignment V2
+
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
     }
 
-    // TODO Assignment V2
+
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }
@@ -233,8 +236,11 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
     }
 
-    //    public void push(Player player, Heading heading) {
-    // TODO edge check.
+    /***
+     * Function used to push, e.g. when moving forward. Cannot push into walls or out of bounds. Recursively calls itself if it pushes into another player.
+     * @param space The space from which to push. If the space has no player, nothing happens
+     * @param heading The direction which to try to push the player
+     */
     public void push(Space space, Heading heading) {
         if (space == null) return;
         Player player = space.getPlayer();
