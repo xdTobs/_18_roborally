@@ -4,12 +4,10 @@ import dk.dtu.eighteen.roborally.controller.spaces.FastConveyorBelt;
 import dk.dtu.eighteen.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 import static dk.dtu.eighteen.roborally.model.Heading.*;
 
 /**
- *  @author Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class FastConveyorBeltView extends SpaceView {
     public FastConveyorBeltView(@NotNull FastConveyorBelt fastconveyorBelt, Space space) {

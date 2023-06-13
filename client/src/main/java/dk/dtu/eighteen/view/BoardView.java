@@ -39,8 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * @Author Frederik Rolsted. s22499@dtu.dk
- * @Author Jakob Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class BoardView extends VBox implements ViewObserver {
 

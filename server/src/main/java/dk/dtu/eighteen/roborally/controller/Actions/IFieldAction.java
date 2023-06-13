@@ -8,7 +8,7 @@ import dk.dtu.eighteen.roborally.model.Space;
  * Rotator etc. Walls are not included in IFieldAction, but is instead a
  * seperate property on the field.
  *
- *  @author Henrik Zenkert, s224281@dtu.dk
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public interface IFieldAction {
     /**

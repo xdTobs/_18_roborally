@@ -14,8 +14,8 @@ import dk.dtu.eighteen.roborally.model.Space;
 import java.io.*;
 
 /**
- * @author Tobias Schønau s224327
- *  @author Hansen
+ * @author Tobias Schønau, s224327@dtu.dk
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class LoadBoard {
 

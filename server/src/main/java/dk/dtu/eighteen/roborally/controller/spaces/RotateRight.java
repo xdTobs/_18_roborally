@@ -7,7 +7,7 @@ import dk.dtu.eighteen.roborally.model.Space;
 
 /**
  *
- * @author Jakob Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class RotateRight implements IFieldAction {
 

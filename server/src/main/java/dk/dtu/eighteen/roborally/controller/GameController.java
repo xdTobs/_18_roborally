@@ -29,10 +29,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Henrik Zenkert,
- * @Author Tobias Schønau s224327
- * @Author Frederik Rolsted, s224299@dtu.dk
- * @Author Jakob Hansen, s224312
+ * @author Henrik Zenkert,   s224281@dtu.dk
+ * @author Tobias Schønau,   s224327@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
+ * @author Jakob Hansen,     s224312@dtu.dk
  */
 public class GameController {
 
@@ -94,7 +94,7 @@ public class GameController {
     }
 
     /***
-     * @author Tobias Schønau
+     * @author Tobias Schønau, s224327@dtu.dk
      */
     public void continuePrograms() {
         do {
@@ -104,7 +104,7 @@ public class GameController {
 
     /***
      * Runs a single command card, for a single player. Is run by continuePrograms function until this function changes game state
-     * @author Tobias Schønau s224327
+     * @author Tobias Schønau, s224327@dtu.dk
      */
     public void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
@@ -137,9 +137,8 @@ public class GameController {
             }
             step++;
             if (board.isGameover()) {
-                currentPlayer = board.findWinner();
+                board.findWinner();
                 board.setPhase(Phase.GAMEOVER);
-
             } else if (step < Player.NO_REGISTER_CARDS) {
                 // makeProgramFieldsVisible(step);
                 board.setStep(step);

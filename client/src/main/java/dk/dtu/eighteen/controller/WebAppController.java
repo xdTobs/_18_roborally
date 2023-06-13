@@ -21,7 +21,7 @@ import java.util.List;
  * This class is the controller for interaction with a client and player.
  *
  * @author Henrik Zenkert, s224281@dtu.dk
- * @author Frederik Rolsted, s224299
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class WebAppController {
     public String playerName = null;
@@ -128,7 +128,7 @@ public class WebAppController {
                 .DELETE()
                 .build();
 
-        HttpResponse<String> response = HttpClient.newBuilder()
+        HttpClient.newBuilder()
                 .build()
                 .send(request, HttpResponse.BodyHandlers.ofString());
         Platform.exit();

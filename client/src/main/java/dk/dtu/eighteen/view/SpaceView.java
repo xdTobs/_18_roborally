@@ -29,11 +29,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.Set;
 
 /**
- * @Author Frederik Rolsted, s22499@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class SpaceView extends StackPane {
 

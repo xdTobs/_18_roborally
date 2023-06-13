@@ -33,8 +33,8 @@ import java.util.List;
  * This class represents the board of the game.
  * It contains the spaces of the board, the players, the current player, the current phase and the current step.
  *
- * @author Tobias Schønau
- *  @author Hansen
+ * @author Tobias Schønau, s224327@dtu.dk
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class Board extends Subject {
 

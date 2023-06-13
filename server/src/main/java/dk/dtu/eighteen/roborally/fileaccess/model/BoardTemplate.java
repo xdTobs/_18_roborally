@@ -8,7 +8,7 @@ import dk.dtu.eighteen.roborally.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * @author Tobias Schønau s224327
+ * @author Tobias Schønau, s224327@dtu.dk
  */
 public class BoardTemplate {
     public Phase phase;

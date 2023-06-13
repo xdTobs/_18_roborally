@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 /**
- * @author Tobias Schønau s224327
+ * @author Tobias Schønau, s224327@dtu.dk
  */
 @EnableWebMvc
 @Configuration
@@ -25,7 +25,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 
     /***
      * Custom converter to override the standard one used by spring boot. Used to keep our registerTypeAdapter used elsewhere
-     * @author Tobias Schønau s224327
+     * @author Tobias Schønau, s224327@dtu.dk
      */
     private GsonHttpMessageConverter customGsonHttpMessageConverter() {
         Gson gson = new GsonBuilder()

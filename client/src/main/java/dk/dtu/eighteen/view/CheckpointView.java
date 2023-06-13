@@ -3,11 +3,8 @@ package dk.dtu.eighteen.view;
 import dk.dtu.eighteen.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 /**
- * @Author Frederik Rolsted, s22499@dtu.dk
- * @Author Jakob Hansen
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class CheckpointView extends SpaceView {
     public CheckpointView(@NotNull Space space, int checkpointNr) {

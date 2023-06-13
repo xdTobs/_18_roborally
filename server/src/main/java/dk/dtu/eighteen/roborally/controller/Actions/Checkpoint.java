@@ -5,8 +5,7 @@ import dk.dtu.eighteen.roborally.model.Player;
 import dk.dtu.eighteen.roborally.model.Space;
 
 /**
- *
- * @author Jakob Hansen
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class Checkpoint implements IFieldAction {
 

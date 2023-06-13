@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- * @Author Frederik Rolsted, s22499@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class RoboRallyMenuBar extends MenuBar {
 

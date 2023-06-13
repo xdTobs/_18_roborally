@@ -5,7 +5,7 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 /**
- * @author Tobias Schønau s224327
+ * @author Tobias Schønau, s224327@dtu.dk
  */
 public class Adapter<E> implements JsonSerializer<E>, JsonDeserializer<E> {
 

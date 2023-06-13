@@ -24,7 +24,6 @@ import java.util.List;
  * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class RequestController {
-    static int timesPolled = 0;
     ClientController clientController;
     ScheduledService<HttpResponse<String>> scheduledService = null;
 

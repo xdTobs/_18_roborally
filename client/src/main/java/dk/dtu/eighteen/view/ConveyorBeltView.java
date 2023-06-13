@@ -4,10 +4,8 @@ import dk.dtu.eighteen.roborally.controller.spaces.ConveyorBelt;
 import dk.dtu.eighteen.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 /**
- * @Author Frederik Rolsted, s22499@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class ConveyorBeltView extends SpaceView {
     public ConveyorBeltView(@NotNull ConveyorBelt conveyorBelt, Space space) {

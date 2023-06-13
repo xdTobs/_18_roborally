@@ -15,8 +15,7 @@ import javafx.stage.Stage;
 
 /**
  * This class is the main controller for the client application.
- * @author Hansen
- * @author Zenkert
+ * @author Henrik Zenkert, s224281@dtu.dk
  */
 public class ClientController extends Application {
     Text statusText = new Text("Status: start up");

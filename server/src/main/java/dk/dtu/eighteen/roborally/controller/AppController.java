@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class AppController implements Observer {
@@ -122,7 +122,7 @@ public class AppController implements Observer {
 
     /***
      * Called by server when activation phase starts or resumes
-     * @author Tobias Schønau s224327
+     * @author Tobias Schønau, s224327@dtu.dk
      * @author Henrik Zenkert, s224281@dtu.dk
      */
     public void runActivationPhase() {

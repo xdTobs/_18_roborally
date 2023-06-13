@@ -2,10 +2,8 @@ package dk.dtu.eighteen.view;
 
 import dk.dtu.eighteen.roborally.model.Space;
 
-import java.io.File;
-
 /**
- *  @author Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class RotateRightView extends SpaceView {
     public RotateRightView(Space space) {

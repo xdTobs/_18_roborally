@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  * Testclass testing the logic of the GameController
  *
  * @author Frederik Rolsted, s224299@dtu.dk
- * @author Jakob Hansen
+ * @author Jakob Hansen, s224312@dtu.dk
  */
 public class GameControllerTest {
     private GameController gameController;

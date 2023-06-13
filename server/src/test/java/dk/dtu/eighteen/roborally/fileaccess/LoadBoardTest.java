@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * This tests all the LoadBoard class.
  *
- * @Author Frederik Rolsted, s224299@dtu.dk
+ * @author Frederik Rolsted, s224299@dtu.dk
  */
 public class LoadBoardTest {
 

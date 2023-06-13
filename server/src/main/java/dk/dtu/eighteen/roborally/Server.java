@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Testclass testing the logic of the GameController
  *
+ * @author Jakob Hansen, s224312@dtu.dk
  * @author Frederik Rolsted, s224299@dtu.dk
- * @author Jakob Hansen
  */
 @SpringBootApplication
 @RestController
@@ -68,8 +68,8 @@ public class Server {
     /**
      * GET /game: Load a game from file.
      *
-     * @param savegame
-     * @param playerName
+     * @param savegame   The name of the save game to load
+     * @param playerName The name of the player to load the game for
      * @return Game loaded successfully (status code 200)
      * or Save game not found (status code 404)
      * or Player name not found in save game (status code 400)
@@ -211,8 +211,8 @@ public class Server {
     /**
      * a function for joining a game.
      *
-     * @param gameId
-     * @param playerName
+     * @param gameId     the id of the game
+     * @param playerName the name of the player
      */
 
     public void joinGame(int gameId, String playerName) {
@@ -329,6 +329,7 @@ public class Server {
         } catch (Exception e) {
             filenames.add("DIZZY_HIGHWAY.json");
             System.err.println("Error: " + e.getMessage());
+            System.out.println("Using default board, dizzy highway.json");
         }
         return filenames;
     }
