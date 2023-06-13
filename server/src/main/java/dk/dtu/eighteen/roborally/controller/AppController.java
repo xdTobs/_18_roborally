@@ -122,7 +122,10 @@ public class AppController implements Observer {
         actionCounter = 0;
     }
 
-
+    /***
+     * Called by server when activation phase starts or resumes
+     * @author Tobias Schønau s224327, Henrik Zenkert
+     */
     public void runActivationPhase() {
         gameController.board.setPhase(Phase.ACTIVATION);
         gameController.continuePrograms();
