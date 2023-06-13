@@ -11,6 +11,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
+/**
+ * @author Tobias Schønau s224327
+ */
 @EnableWebMvc
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
