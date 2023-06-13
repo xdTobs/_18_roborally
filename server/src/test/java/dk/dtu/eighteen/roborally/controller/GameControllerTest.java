@@ -12,6 +12,12 @@ import static dk.dtu.eighteen.roborally.model.Phase.ACTIVATION;
 import static dk.dtu.eighteen.roborally.model.Phase.PROGRAMMING;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * Testclass testing the logic of the GameController
+ * @Author Frederik Rolsted, s224299@dtu.dk
+ * @Author Jakob Hansen, s?@dtu.dk
+ */
 class GameControllerTest {
     private GameController gameController;
 
@@ -192,51 +198,35 @@ class GameControllerTest {
     }
 
 
+    @Test
+    void currentSpaceHasBlockingWallTest() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
 
+        current.setHeading(Heading.SOUTH);
+        Space space = board.getSpace(0, 0);
+        space.addWalls(Heading.SOUTH);
 
+        gameController.moveForward(current);
 
+        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
+        assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
+        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
+    }
 
-//
-//    @Test
-//    void moveForward() {
-//        Board board = gameController.board;
-//        Player current = board.getCurrentPlayer();
-//
-//        gameController.moveForward(current);
-//
-//        assertEquals(current, board.getSpace(0, 1).getPlayer(), "Player " + current.getName() + " should beSpace (0,1)!");
-//        assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
-//        assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
-//    }
-//
-//    @Test
-//    void currentSpaceHasBlockinWallTest() {
-//        Board board = gameController.board;
-//        Player current = board.getCurrentPlayer();
-//
-//        Space space = board.getSpace(0, 0);
-//        space.addWalls(Heading.SOUTH);
-//
-//        gameController.moveForward(current);
-//
-//        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
-//        assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
-//        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
-//    }
-//
-//    @Test
-//    void nextSpaceHasBlockinWallTest() {
-//        Board board = gameController.board;
-//        Player current = board.getCurrentPlayer();
-//
-//        Space space = board.getSpace(0, 1);
-//        space.addWalls(Heading.NORTH);
-//
-//        gameController.moveForward(current);
-//
-//        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
-//        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
-//    }
+    @Test
+    void nextSpaceHasBlockinWallTest() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+
+        Space space = board.getSpace(0, 1);
+        space.addWalls(Heading.NORTH);
+
+        gameController.moveForward(current);
+
+        assertEquals(current, board.getSpace(0, 0).getPlayer(), "Player " + current.getName() + " should beSpace (0,0)!");
+        assertNull(board.getSpace(0, 1).getPlayer(), "Space (0,1) should be empty!");
+    }
 //
 //    @Test
 //    void blockingWallFastFwdTest() {
