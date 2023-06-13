@@ -213,7 +213,7 @@ public class GameController {
         Heading oppositePlayerHeading = playerHeading.next().next();
         Set<Heading> currentSpaceWalls = player.getSpace().getWalls();
         Set<Heading> nextSpaceWalls = nextSpace.getWalls();
-        return nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading);
+        return nextSpaceWalls.contains(oppositePlayerHeading) || currentSpaceWalls.contains(playerHeading) || nextSpace.getPlayer()!=null;
 
     }
 
@@ -244,6 +244,8 @@ public class GameController {
         int y = player.getSpace().y;
         int[] nextCoords = Heading.headingToCoords(heading);
         Space nextSpace = board.getSpace(x + nextCoords[0], y + nextCoords[1]);
+        if(nextSpace == null)
+            return;
         Player playerNextSpace = nextSpace.getPlayer();
 
         if (!isPlayerIsBlockedByWall(player, nextSpace)) {
@@ -254,6 +256,12 @@ public class GameController {
         }
     }
 
+    /***
+     * Recursive function for the again card
+     * Does not do anything if an again card is the first card played
+     * @param player Player who executes the card
+     * @param step which step of the activation phase we are in
+     */
     public void again(Player player, int step) {
         if (step < 0) {
             return;
@@ -266,6 +274,10 @@ public class GameController {
         }
     }
 
+    /***
+     * Wrapper function used to call the other again function with current step
+     * @param player Player who executes the card
+     */
     public void again(@NotNull Player player) {
         again(player, board.getStep());
     }
@@ -273,10 +285,6 @@ public class GameController {
 
     public Board getBoard() {
         return this.board;
-    }
-
-    public void endProgramming(int playerNo, int x, int y) {
-        moveCurrentPlayerToSpace(board.getSpace(x, y));
     }
 
     @Override
