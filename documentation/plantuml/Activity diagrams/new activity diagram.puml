@@ -1,0 +1,26 @@
+@startuml
+:Start Game;
+repeat
+:**Start Programming Phase**
+-Get Board
+-Draw Cards;
+:**Start Activity Phase**;
+repeat
+:Current player plays card;
+
+if(Is Game Over?) then (NO)
+else (YES)
+:End Game;
+stop
+
+endif
+if(Have all players played the same number of cards?)then (YES)
+:Activate Board;
+else (NO)
+endif
+:Current player = next player;
+
+repeat while (Have all players played all their cards?) is (NO)
+-> YES;
+repeat while
+@enduml

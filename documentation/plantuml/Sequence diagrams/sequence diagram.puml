@@ -1,0 +1,45 @@
+@startuml
+title Game Loop - Programming and Activation Phases
+
+participant Client
+participant GameController
+participant GameBoard
+
+Client -> GameController: Start Game
+Client -> GameController: Start Programming Phase
+activate GameController
+
+loop Programming Phase
+    GameController -> GameBoard: Get Board
+    GameBoard -> GameController: Board Data
+    GameController -> Client: Draw Cards
+    Client -> GameController: Selected Cards
+    GameController -> GameController: Store Selected Cards
+end
+
+
+
+activate GameBoard
+loop Activation Phase
+    loop Execute Commands
+        GameController -> GameBoard: Execute Step
+        GameBoard -> GameController: Updated Board State
+    end
+
+    alt Is Game Over?
+        GameController -> GameController: End Game
+        GameController -> Client: End Game
+        deactivate GameBoard
+    else Not Game Over
+        GameController -> Client: Prompt Next Programming Phase
+        Client -> GameController: Selected Cards
+        GameController -> GameController: Store Selected Cards
+        activate GameBoard
+        GameController -> Client: Start Programming Phase
+    end
+end
+
+GameController -> GameController: Finalize Game Results
+GameController -> Client: Finalize Game Results
+deactivate GameController
+@enduml

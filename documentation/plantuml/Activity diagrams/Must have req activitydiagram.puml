@@ -6,16 +6,11 @@ start
 
 repeat
 
-if (Upgrade shop full?) then (Yes)
-:Replace upgrade cards;
-else (No)
-:Fill missing cards;
-endif
-
 :**Play programming phase**
+- Get board
 - Draw programming cards
-- Place programming cards
-- Discard remaining cards;
+- Place programming cards;
+
 
 repeat
 repeat
