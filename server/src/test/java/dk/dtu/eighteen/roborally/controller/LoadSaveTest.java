@@ -1,16 +1,17 @@
 package dk.dtu.eighteen.roborally.controller;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 public class LoadSaveTest {
 
     @Test
-    void saveBoardTest() {
+    public void saveBoardTest() {
         //TOOO
     }
 
     @Test
-    void loadBoardTest() {
+    public void loadBoardTest() {
         //TOOO
     }
 }
