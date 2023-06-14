@@ -16,19 +16,19 @@ public class CheckpointView extends SpaceView {
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 2) {
-            appendStyle("-fx-background-image: url(imgs/Checkpoint2.png);" +
+            appendStyle("-fx-background-image: url(imgs/checkpoint2.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 3) {
-            appendStyle("-fx-background-image: url(imgs/Checkpoint3.png);" +
+            appendStyle("-fx-background-image: url(imgs/checkpoint3.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
         }
         if (checkpointNr == 4) {
-            appendStyle("-fx-background-image: url(imgs/Checkpoint4.png);" +
+            appendStyle("-fx-background-image: url(imgs/checkpoint4.png);" +
                     "-fx-background-size: 100% 100%;" +
                     "-fx-background-repeat: no-repeat;" +
                     "-fx-background-position: center;");
