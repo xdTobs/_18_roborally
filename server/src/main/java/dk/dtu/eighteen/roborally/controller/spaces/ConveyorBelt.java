@@ -25,8 +25,10 @@ public class ConveyorBelt implements IFieldAction {
 
     @Override
     public void doAction(GameController gameController, Space space) {
-
         Player player = space.getPlayer();
+
+        player.setHeading(heading);
+
         gameController.moveForward(player);
 
     }
