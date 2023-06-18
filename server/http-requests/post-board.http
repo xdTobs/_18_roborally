@@ -1,0 +1,9 @@
+
+POST {{location}}/game
+Content-Type: application/json
+
+{
+  "numberOfPlayersWhenGameIsFull": 2,
+  "boardName": "a-test-board.json",
+  "playerName": "player-1"
+}

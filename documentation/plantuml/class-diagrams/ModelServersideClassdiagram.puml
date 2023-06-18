@@ -1,0 +1,88 @@
+@startuml
+
+Player "1..*" --> "1" Board
+Space "1..*" --* "1" Board
+CommandCardField --> Player
+CommandCard --> CommandCardField
+
+
+
+class Player {
++ {static} int NO_REGISTER_CARDS
++ {static} int NO_PLAYABLE_CARDS
++ Board board
++ int x
++ int y
+- String name
+- String color
+- int checkpointCounter
+- Heading heading
+- CommandCardField[] playableCards
+- CommandCardField[] registerCards
++ void incrementCheckpointCounter()
+}
+
+
+class Board {
++ int height
++ String boardName
+- Space[][] spaces
+- List<Player> players
++ int width
+- int currentPlayerIndex
+- Phase phase
+- int step
++ int turn
++ boolean isGameover()
++ Player findWinner()
++ void addPlayer(Player)
++ void createAddPlayerToEmptySpace(String,String)
+- Space getFirstEmptySpace()
++ boolean moveCards(CommandCardField,CommandCardField)
+
+}
+
+class Space {
++ int x
++ int y
++ Board board
+- Set<Heading> walls
+- List<IFieldAction> actions
++ void addWalls(Heading)
+}
+
+class CommandCardField {
++ Player player
+- boolean visible
++ boolean isVisible()
+}
+
+class CommandCard {
++ Command command
+}
+
+enum Phase {
++  INITIALISATION
++  PROGRAMMING
++  ACTIVATION
++  PLAYER_INTERACTION
++  GAMEOVER
+}
+
+enum Command {
++  MOVE_1
++  MOVE_2
++  MOVE_3
++  RIGHT
++  LEFT
++  U_TURN
++  MOVE_BACK
++  AGAIN
++  OPTION_LEFT_RIGHT
++ String displayName
+- List<Command> options
++ {static} Command of(String)
++ boolean isInteractive()
+}
+
+@enduml

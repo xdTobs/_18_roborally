@@ -1,0 +1,243 @@
+openapi: 3.0.0
+info:
+  title: RoboRally API
+  description: REST API for managing Roborally games
+  version: 1.1.0
+servers:
+  - url: http://localhost:8080
+    description: dev server
+paths:
+  /board:
+    get:
+      summary: Get the names of available boards
+      description: Retrieves a list of available board names.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /game:
+    get:
+      summary: Load a saved game
+      description: |
+        Loads a saved game from the specified savegame file. The request headers
+        must contain the `roborally-save-name` and `roborally-player-name` values.
+      parameters:
+        - name: roborally-save-name
+          in: header
+          description: The name of the savegame file (without the extension)
+          required: true
+          schema:
+            type: string
+        - name: roborally-player-name
+          in: header
+          description: The name of the player joining the game
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: The game ID
+        '400':
+          description: Bad request
+    post:
+      summary: Create a new game
+      description: |
+        Creates a new game using the specified board. The request body must contain
+        the `boardName`, `playerName`, and `playerCapacity` values.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                boardName:
+                  type: string
+                playerName:
+                  type: string
+                playerCapacity:
+                  type: integer
+              required:
+                - boardName
+                - playerName
+                - playerCapacity
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: The game ID
+        '400':
+          description: Bad request
+  /game/{gameId}:
+    parameters:
+      - name: gameId
+        in: path
+        description: The ID of the game
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get game information
+      description: |
+        Retrieves information about the specified game. The request headers must
+        contain the `roborally-player-name` value. The response includes the game
+        status and board information.
+      parameters:
+        - name: roborally-player-name
+          in: header
+          description: The name of the player retrieving the game information
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gameStatus:
+                    type: string
+                  winner:
+                    type: string
+                  board:
+                    $ref: '#/components/schemas/Game'
+        '400':
+          description: Bad request
+        '404':
+          description: Game not found
+    delete:
+      summary: Quit the game
+      description: |
+        Quits the specified game and removes it from the server. The game must be
+        identified using the game ID.
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+    post:
+      summary: Save the game
+      description: |
+        Saves the specified game using the provided save name. The game must be
+        identified using the game ID. The request headers must contain the
+        `roborally-save-name` value.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roborally-save-name:
+                  type: string
+              required:
+                - roborally-save-name
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+  /game/{gameId}/moves:
+    parameters:
+      - name: gameId
+        in: path
+        description: The ID of the game
+        required: true
+        schema:
+          type: integer
+      - name: roborally-player-name
+        in: header
+        description: The name of the player submitting the moves
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Plan robot moves
+      description: |
+        Submits the planned moves for the player in the specified game. The request
+        headers must contain the `roborally-player-name` value. The request body
+        must contain a list of move names, one for each register card.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/MovePlan"
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request
+  /game/{gameId}/moves/{command}:
+    parameters:
+      - name: gameId
+        in: path
+        description: The ID of the game
+        required: true
+        schema:
+          type: integer
+      - name: roborally-player-name
+        in: header
+        description: The name of the player submitting the interactive move
+        required: true
+        schema:
+          type: string
+      - name: command
+        in: path
+        description: The interactive move to make
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Submit interactive move
+      description: |
+        Submits an interactive move for the player in the specified game. The request
+        headers must contain the `roborally-player-name` value. The `command`
+        path parameter specifies the interactive move command.
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        playerNames:
+          type: array
+          items:
+            type: Board
+        status:
+          type: Status
+    InitBoardData:
+      type: object
+      properties:
+        playerCapacity:
+          type: integer
+        boardName:
+          type: string
+        playerName:
+          type: string
+    MovePlan:
+      type: array
+      items:
+        type: string

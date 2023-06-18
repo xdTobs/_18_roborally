@@ -1,0 +1,24 @@
+@startuml
+:New Game Selected;
+start
+:Enter Players Name;
+:Select Fixed player count;
+:Select Gameboard;
+:**Game created**
+-Game ID
+-Fixed player count
+-Players joined;
+:Waiting for players;
+repeat
+if(Players request to join) then(yes)
+:Add player to players joined;
+else (No)
+endif
+
+repeat while (Fixed player count = Players joined) is (No)
+-> Yes;
+:Start Game;
+
+
+
+@enduml

@@ -1,8 +1,0 @@
-{
-  "boardName": "Example Board",
-  "width": 3,
-  "height": 3,
-  "board": [["we", "e", "e"],
-            ["e", "c", "e"],
-            ["e", "c", "e"]]
-}

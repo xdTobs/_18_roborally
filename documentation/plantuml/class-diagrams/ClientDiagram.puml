@@ -1,0 +1,86 @@
+@startuml
+DifferentTypesofSpacesView --|> SpaceView
+RequestController --> WebAppController
+ClientController --> RequestController
+WebAppController --> ClientController
+WebAppController --> BoardView
+SpaceView "1..*" --* "1" BoardView
+WebAppController --> CardFieldView
+PlayerView "1..*" --> "1*" PlayersView
+CardFieldView "1..*" --> "1" PlayerView
+
+
+class ClientController {
+~ Text statusText
++ void createBoardView(Board)
++ int getGameId()
+}
+
+class RequestController {
+~ {static} int timesPolled
+~ ScheduledService<HttpResponse<String>> scheduledService
+~ Board board
++ void createScheduledService(String)
++ void stopPolling()
++ void startPolling()
++ void postMoves(List<String>)
++ int loadGame(String,String)
+}
+
+class WebAppController {
++ String playerName
+~ Integer gameId
+- boolean isGameRunning
++ void newGame()
++ void stopGame()
++ void saveGame()
++ void loadGame()
++ void exit()
++ boolean isGameRunning()
++ void joinGame()
++ void finishProgrammingPhase(List<String>)
++ void gameOver(String)
+}
+
+class BoardView {
+- Board board
+- SpaceView[][] spaces
+- PlayerView playerView
++ void updateView(Subject)
+}
+
+class CardFieldView {
++ {static} int CARDFIELD_WIDTH
++ {static} int CARDFIELD_HEIGHT
+- Board board
+- CommandCardField commandCardField
+- String cardFieldRepresentation(CommandCardField)
+- CommandCardField cardFieldFromRepresentation(String)
++ void updateView(Subject)
++ CommandCardField getCommandCardField()
+}
+
+class DifferentTypesofSpacesView {
+}
+
+class PlayersView {
+- Board board
+- PlayerView[] playerViews
++ void updateView(Subject)
+}
+
+class PlayerView {
+- CardFieldView[] programCardViews
+- CardFieldView[] cardViews
+- Button finishButton
+}
+
+class SpaceView {
++ {static} int SPACE_HEIGHT
++ {static} int SPACE_WIDTH
++ Space space
+~ void appendStyle(String)
+- void drawPlayer()
+}
+
+@enduml
