@@ -70,7 +70,7 @@ public class WebAppController {
      * @throws IOException if the server is not running
      */
     public void newGame() throws IOException, URISyntaxException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/board")).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://35.227.42.50:80/board")).GET().build();
         HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
                 HttpResponse.BodyHandlers.ofString());
 
@@ -101,7 +101,7 @@ public class WebAppController {
         requestObject.put("playerName", playerName);
         requestObject.put("playerCapacity", numberOfPlayers);
 
-        request = HttpRequest.newBuilder().uri(new URI("http://localhost:8080/game"))
+        request = HttpRequest.newBuilder().uri(new URI("http://35.227.42.50:80/game"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestObject.toString())).build();
 
@@ -123,7 +123,7 @@ public class WebAppController {
             saveGame();
         }
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/game/" + gameId))
+                .uri(new URI("http://35.227.42.50:80/game/" + gameId))
                 .header("Content-Type", "application/json")
                 .DELETE()
                 .build();
@@ -147,7 +147,7 @@ public class WebAppController {
         if (!saveName.isEmpty()) {
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/game/" + gameId))
+                    .uri(new URI("http://35.227.42.50:80/game/" + gameId))
                     .header("Content-Type", "application/json")
                     .header("roborally-save-name", saveName)
                     .POST(HttpRequest.BodyPublishers.noBody())

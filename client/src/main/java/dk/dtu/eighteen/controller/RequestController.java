@@ -47,7 +47,7 @@ public class RequestController {
                     @Override
                     protected HttpResponse<String> call() throws Exception {
                         HttpRequest request = HttpRequest.newBuilder()
-                                .uri(new URI("http://localhost:8080/game/" + clientController.getGameId()))
+                                .uri(new URI("http://35.227.42.50:80/game/" + clientController.getGameId()))
                                 .header("roborally-player-name", playerName).GET().build();
                         return HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
                     }
@@ -87,7 +87,7 @@ public class RequestController {
                     String move = clientController.webAppController.showChoiceDialog(optionsList, "Interactive move");
                     try {
                         HttpRequest request = HttpRequest.newBuilder()
-                                .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves/"
+                                .uri(new URI("http://35.227.42.50:80/game/" + clientController.getGameId() + "/moves/"
                                         + move))
                                 .header("roborally-player-name", clientController.webAppController.playerName)
                                 .POST(HttpRequest.BodyPublishers.noBody()).build();
@@ -152,7 +152,7 @@ public class RequestController {
             // Print the response body
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/game/" + clientController.getGameId() + "/moves"))
+                    .uri(new URI("http://35.227.42.50:80/game/" + clientController.getGameId() + "/moves"))
                     .header("Content-Type", "application/json")
                     .header("roborally-player-name", clientController.webAppController.playerName)
                     .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(jsonArray))).build();
@@ -165,7 +165,7 @@ public class RequestController {
 
     public int loadGame(String playerName, String saveName)
             throws URISyntaxException, IOException, InterruptedException {
-        var uri = new URI("http://localhost:8080/game");
+        var uri = new URI("http://35.227.42.50:80/game");
         HttpRequest request = HttpRequest.newBuilder().uri(uri).header("roborally-player-name", playerName)
                 .header("roborally-save-name", saveName).GET().build();
 

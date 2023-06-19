@@ -85,7 +85,9 @@ public class Server {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Save game not found", e);
         }
         var players = board.getPlayers();
-
+        List<String> names = new ArrayList<>();
+        names.add("Frederik");
+        names.add("Henrik");
         if (players.stream().anyMatch(player -> player.getName().equals(playerName))) {
             int id = counter.incrementAndGet();
             var appController = new AppController(board, board.getPlayers().size(), Status.INIT_LOAD_GAME);
